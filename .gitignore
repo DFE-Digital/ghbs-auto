@@ -1,0 +1,52 @@
+# Ignore secrets
+/.secrets.yml
+
+# Ignore screenshots and downloads
+/screenshots/
+/downloads/
+
+# Ignore Ruby-specific files
+*.gem
+*.rbc
+.bundle/
+vendor/
+.rvmrc
+.rbenv-version
+.ruby-version
+.ruby-gemset
+.yardoc/
+.yardtmp/
+doc/
+
+# Ignore log and temp files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Byebug and Pry history
+.byebug_history
+.pry_history
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Ignore coverage and test artefacts
+coverage/
+test/tmp/
+tmp/
+
+# Ignore cucumber artefacts (if any plugins generate them)
+rerun.txt
+reports/
+html-report/
+
+# IDE/editor settings
+.idea/
+.vscode/
+*.code-workspace
+
+# Direnv / environment managers
+.envrc
+.direnv/
