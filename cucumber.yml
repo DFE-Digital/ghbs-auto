@@ -1,0 +1,4 @@
+default: --format pretty --tags ~@wip
+chrome: BROWSER=chrome HEADLESS=true --format pretty
+
+
