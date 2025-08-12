@@ -1,9 +1,14 @@
 require_relative '../../pages/fabs_home_page_methods'
 
-def fabs_homepage
-  @home_page ||= FabsHomePage.new(@driver, SECRETS)
+def fabs_home_page
+  @fabs_home_page ||= FabsHomePageMethods.new
 end
 
-Given('I search for {string} in to the main search on the fabs homepage') do |search_term|
-  fabs_homepage.run_main_search(search_term)
+Given('we open and validate the fabs homepage') do
+  fabs_home_page.open_fabs_homepage
+  fabs_home_page.validate_homepage_loaded
+end
+
+Given('I search for {string} in the main search on the fabs homepage') do |term|
+  fabs_home_page.search_for(term)
 end

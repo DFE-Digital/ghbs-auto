@@ -1,35 +1,25 @@
-require 'selenium-webdriver'
+require_relative '../../helpers/screenshot_helper'
+World(ScreenshotHelper)
 
 Before do
-  browser = browser_type
-  headless = setting("headless", default: false).to_s == "true"
-
-  options = case browser
-            when 'firefox'
-              Selenium::WebDriver::Firefox::Options.new.tap { |o| o.headless! if headless }
-            when 'safari'
-              Selenium::WebDriver::Safari::Options.new
-            when 'edge'
-              Selenium::WebDriver::Edge::Options.new.tap { |o| o.add_argument('--headless') if headless }
-            else
-              Selenium::WebDriver::Chrome::Options.new.tap { |o| o.add_argument('--headless') if headless }
-            end
-
-  width, height = resolution
-  self.driver = Selenium::WebDriver.for browser.to_sym, options: options
-  driver.manage.window.resize_to(width, height)
-
-  puts "🖥️  Starting browser: #{browser}, resolution: #{width}x#{height}"
+  # Enriched logging
+  resolved_browser = SETTINGS["browser"] || "chrome"
+  window_width = SETTINGS["window_width"] || 1920
+  window_height = SETTINGS["window_height"] || 1080
+  max_wait_time = SETTINGS["max_wait_time"] || 1080
+  puts "###############################"
+  puts "     Run Config / Settings     "
+  puts "###############################"
+  puts " Env profile:   #{ENV['TEST_ENV'] || 'default'}"
+  puts " Browser:       #{resolved_browser}"
+  puts " Resolution:    #{window_width},#{window_height}"
+  puts " max wait time: #{max_wait_time}s"
+  puts "###############################"
 end
 
 
 After do |scenario|
-  if scenario.failed? && setting("screenshots_on_failure", default: true)
-    Dir.mkdir('screenshots') unless Dir.exist?('screenshots')
-    timestamp = Time.now.strftime('%Y%m%d-%H%M%S')
-    filename = "screenshots/#{scenario.name.gsub(/\s+/, '_')}_#{timestamp}.png"
-    driver.save_screenshot(filename)
-    puts "📸 Screenshot saved: #{filename}"
+  if scenario.failed?
+    capture_screenshot(scenario)
   end
-  driver.quit
 end

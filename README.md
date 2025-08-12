@@ -1,57 +1,53 @@
-# GHBS Ruby Selenium Cucumber Automation Framework
+# GHBS Ruby Selenium Cucumber Capybara Automation Framework
 
-An automation framework built using Ruby, Cucumber (BDD), and Selenium WebDriver. 
+An automation framework built using Ruby, Cucumber (BDD), Capybara, and Selenium WebDriver.
 
-This project is one of the potential POC's for automating UI tests for the
-"Get Help Buying for Schools" (GHBS) FABS platform.
+This project is a refined proof-of-concept for automating UI tests for the 
+"Get Help Buying for Schools" (GHBS) platform.
 
 ---
 
 ## Features
 
 - Ruby with Cucumber and Selenium WebDriver
-- Simple BDD-style step definitions
-- Explicit wait utilities for stability (with custom error logging)
-- Cross-browser support
+- Built-in Capybara wait handling
+- Cross-browser support (Chrome, Firefox, Edge, Safari, Headless)
+- Centralised secrets and config handling via YAML
+- Page Object Model with abstraction layers: Comps (elements), Pages (logic), Steps (signposts)
 - Screenshot capture on failure
+- Clear project structure with support for CI/ENV flexibility
 
 ---
 
 ## Project Structure
 
 ```bash
-├── components/                 # returns web elements as objects (POM style!)
-│   ├── fabs_home_page_comps.rb        
-│   └── fabs_search_page_comps.rb      
+├── components/                # Element definitions (POM style)
+│   ├── fabs_home_page_comps.rb
+│   └── fabs_search_page_comps.rb
 │
-├── features/                  # Cucumber feature files and step definitions
-│   ├── fabs_search.feature            
-│   ├── step_definitions/      # Step definitions, call only method modules (no logic)
-│   │   ├── driver_setup_steps.rb
+├── features/                  # Feature files and step definitions
+│   ├── fabs_search.feature
+│   ├── step_definitions/
 │   │   ├── fabs_home_page_steps.rb
 │   │   └── fabs_search_page_steps.rb
-│   └── support/               # Hooks, env setup etc
+│   └── support/
 │       ├── env.rb
 │       └── hooks.rb
 │
-├── helpers/                   # Helper modules (waits, random, screenshots, file utils)
-│   ├── browser_helper.rb
-│   ├── date_helpers.rb
+├── helpers/                   # Support modules (env loader, screenshot utils etc)
 │   ├── env_helpers.rb
-│   ├── file_helpers.rb
-│   └── wait_helpers.rb
+│   └── screenshot_helper.rb
 │
-├── pages/                     # Core auto logic thats supported by comps, helpers, secrets etc
-│   ├── fabs_home_page_methods.rb
-│   └── fabs_search_page_methods.rb
+├── pages/                     # Core method logic per page
+│   └── fabs_home_page_methods.rb
 │
-├── screenshots/               # Location for auto-generated screenshots on failure
+├── screenshots/               # Test failure screenshots
 │
 ├── .gitignore
-├── .secrets.yml               # If you dont generate this yourself you can request this from the tech lead / auto lead on the GHBS project.
-├── .secrets.yml.example
-├── config.yml                 # Custom Ruby config you control (loaded via helpers)
-├── cucumber.yml               # Optional Cucumber CLI profiles (like aliases/macros)
+├── .secrets.yml.example       # Template for secrets
+├── config.yml                 # Configurable settings per test environment
+├── cucumber.yml               # Optional CLI / local profiles for Cucumber
 ├── Gemfile
 └── Gemfile.lock
 ```
@@ -62,24 +58,13 @@ This project is one of the potential POC's for automating UI tests for the
 
 ### 1. Install Ruby
 
-If you don’t already have Ruby installed:
-
 ```bash
-brew install ruby   # macOS (with Homebrew)
+brew install ruby   # macOS
 # OR
 sudo apt install ruby-full   # Ubuntu/Debian
 ```
 
-Ensure you're using the correct version (check `.ruby-version` file):
-
-```bash
-ruby -v
-```
-
-You can also install Ruby version managers like RVM or rbenv for easier Ruby version control:
-
-- [https://rvm.io/](https://rvm.io/)
-- [https://github.com/rbenv/rbenv](https://github.com/rbenv/rbenv)
+You can manage Ruby versions more easily with [RVM](https://rvm.io/) or [rbenv](https://github.com/rbenv/rbenv).
 
 ### 2. Install Bundler
 
@@ -87,7 +72,7 @@ You can also install Ruby version managers like RVM or rbenv for easier Ruby ver
 gem install bundler
 ```
 
-### 3. Install Project Dependencies
+### 3. Install Dependencies
 
 ```bash
 bundle install
@@ -95,97 +80,133 @@ bundle install
 
 ### 4. Configure Secrets and Settings
 
-Duplicate the secrets template:
-
 ```bash
 cp .secrets.yml.example .secrets.yml
 ```
 
-Then update the `base_url`, login credentials, etc. per environment.
+Update `.secrets.yml` with your URLs and test data, note if you don't have this please contact either 
+the Lead Dev or Test on the GHBS project for a copy of this file.
 
-The `config.yml` file manages settings per `TEST_ENV` (e.g., default, local, staging). Make sure your desired profile is configured correctly.
+Then configure `config.yml` to specify runtime settings (e.g., browser, view size, wait time).
 
-Note: You can create as many custom profiles to help you work as you like.
+---
 
-### 5. Run Tests
+## Running Tests
 
-#### Basic Run
-
-```bash
-TEST_ENV=local bundle exec cucumber
-```
-
-#### With Chrome browser and specific tag:
+### Run with default config
 
 ```bash
-TEST_ENV=local bundle exec cucumber -p chrome --tags @wip
+TEST_ENV=default bundle exec cucumber
 ```
 
-Available profiles defined in `cucumber.yml` (e.g., `chrome`, `firefox`, `headless`).
+## Running Tests
+
+### Run with default config
+
+```bash
+TEST_ENV=default bundle exec cucumber
+```
+
+### Run with tag and custom profile
+
+```bash
+TEST_ENV=local bundle exec cucumber --tags @wip
+```
+
+### Tag Combinations
+
+#### Run scenarios tagged with `@wip` **AND** `@search`
+```bash
+TEST_ENV=local bundle exec cucumber --tags @wip --tags @search
+```
+
+#### Run scenarios tagged with `@wip` **OR** `@search`
+```bash
+TEST_ENV=local bundle exec cucumber --tags "@wip or @search"
+```
+
+#### Run scenarios tagged with `@wip` but **NOT** `@skip`
+```bash
+TEST_ENV=local bundle exec cucumber --tags "@wip and not @skip"
+```
+
+#### Run `@homepage` or `@search`, but **exclude** `@slow`
+```bash
+TEST_ENV=local bundle exec cucumber --tags "(@homepage or @search) and not @slow"
+```
+
+> `TEST_ENV` determines which section of `config.yml` and `.secrets.yml` to use.
 
 ---
 
 ## How It Works
 
-- **Step Definitions**: Glue between Gherkin and Ruby. Steps delegate to page method files.
-- **Pages**: Contain domain actions like `run_main_search`, which orchestrate interactions via comps.
-- **Comps**: Encapsulate low-level element finding and wait logic.
-- **Helpers**: Provide shared utilities (waits, config loading, browser methods, etc.).
-- **Hooks**: Setup and teardown logic (e.g., browser config, screenshots).
+- **Step Definitions**: Simple glue code, call page methods only.
+- **Pages**: Encapsulate test logic for that page (e.g., search, validation).
+- **Comps**: Return web elements only. No `.click`, `.set`, etc.
+- **Helpers**: Abstract loading logic, screenshots, configs etc
+- **Hooks**: Initial setup and teardown (e.g., screenshots, browser selection).
 
 ---
 
-## Screenshots on Failure
+## Screenshot Handling
 
-Screenshots for failed tests are saved to the `screenshots/` directory. Filenames include the scenario name and timestamp.
+Screenshots are automatically captured on step failure and saved under `screenshots/`.
 
 ---
 
-## Configuration
+## Configuration Files
 
 ### `.secrets.yml`
 
-Environment-specific credentials and URLs etc.
+- Stores environment-specific URLs and secrets
 
 ### `config.yml`
 
-Global runtime config like browser type, headless mode, viewport size.
+- Controls browser, viewport size, and wait time
+
+Example:
+
+```yaml
+default:
+  browser: firefox
+  width: 1920
+  height: 1080
+  max_wait_time: 5
+
+ci:
+  browser: headless_chrome
+  width: 1366
+  height: 768
+  max_wait_time: 10
+```
 
 ---
 
-## Example Feature
+## Sample Feature
 
 ```gherkin
 Feature: GHBS - FABS homepage navigation
+
   Background:
     Given we open and validate the fabs homepage
 
-  Scenario: FB-1234: Search for Laptop
-    Given I search for "laptop" in to the main search on the fabs homepage
+  Scenario: Search for Laptop
+    Given I search for "laptop" in the main search on the fabs homepage
     Then I am shown the resulting buying options
 ```
 
 ---
 
-## Example Step Definition
+## Sample Step Definition
 
 ```ruby
-Given('I search for {string} in to the main search on the fabs homepage') do |search_term|
-  fabs_homepage.run_main_search(search_term)
+Given('I search for {string} in the main search on the fabs homepage') do |term|
+  fabs_home_page.search_for(term)
 end
 ```
 
 ---
-
-## Maintenance Tips
-
-- Update URLs or credentials in `.secrets.yml`
-- Add new environment profiles in `config.yml`
-- Screenshots can be deleted manually or excluded via `.gitignore`
-- Use `wait_helpers.rb` for all element interaction waits
-
----
-
 ## Author Notes
 
 If you need any support with this please contact the current auto engineer within the GHBS team.
