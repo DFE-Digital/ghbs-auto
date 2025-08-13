@@ -1,1 +1,1 @@
-Welcome to the root of the GHBS auto project. This is where we will be howting the main repo code. However for now, this is a placeholder readme while I work on branches containing the potential prototypes.
+Welcome to the root of the GHBS auto project. This is where we will be hosting the main repo code. However for now, this is a placeholder readme while I work on branches containing the potential prototypes.
