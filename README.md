@@ -1,9 +1,11 @@
-# GHBS Ruby Selenium Cucumber Capybara Automation Framework
+# GHBS Automation
 
-An automation framework built using Ruby, Cucumber (BDD), Capybara, and Selenium WebDriver.
+This project is designed to provide test coverage across multiple areas of the 
+GHBS programme, including CMS, Energy, and GHBS Fabs.
 
-This project is a refined proof-of-concept for automating UI tests for the 
-"Get Help Buying for Schools" (GHBS) platform.
+The goal is to run the tests nightly, delivering regular feedback to the development 
+team on the health of the development and staging environments which will include validation of the 
+latest / upcoming features.
 
 ---
 
@@ -45,7 +47,7 @@ This project is a refined proof-of-concept for automating UI tests for the
 ├── screenshots/               # Test failure screenshots
 │
 ├── .gitignore
-├── .secrets.yml.example       # Template for secrets
+├── .secrets.yml.example       # Template for secrets (you will need to generate or request the secrets file from the GHBS dev team)
 ├── config.yml                 # Configurable settings per test environment
 ├── cucumber.yml               # Optional CLI / local profiles for Cucumber
 ├── Gemfile
@@ -143,7 +145,7 @@ TEST_ENV=local bundle exec cucumber --tags "(@homepage or @search) and not @slow
 
 - **Step Definitions**: Simple glue code, call page methods only.
 - **Pages**: Encapsulate test logic for that page (e.g., search, validation).
-- **Comps**: Return web elements only. No `.click`, `.set`, etc.
+- **Comps**: Return web elements only. No `.click`, `.set`, etc in this layer.
 - **Helpers**: Abstract loading logic, screenshots, configs etc
 - **Hooks**: Initial setup and teardown (e.g., screenshots, browser selection).
 
