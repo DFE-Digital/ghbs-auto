@@ -3,6 +3,7 @@ require 'selenium-webdriver'
 require 'yaml'
 
 require_relative '../../helpers/env_helpers'
+require_relative '../../helpers/url_nav_helpers'
 
 SECRETS = EnvHelpers.load_secrets.freeze
 SETTINGS = EnvHelpers.load_settings.freeze
