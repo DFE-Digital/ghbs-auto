@@ -1,4 +1,3 @@
-# pages/fabs_nav_methods.rb
 require_relative './fabs_base_page'
 require_relative '../helpers/url_nav_helpers'
 

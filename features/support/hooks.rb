@@ -19,7 +19,11 @@ end
 
 
 After do |scenario|
-  if scenario.failed?
-    capture_screenshot(scenario)
+  next unless scenario.failed?
+  begin
+    path = capture_screenshot(scenario)
+    attach_to_allure(path)
+  rescue => e
+    warn "Screenshot/Allure attach failed: #{e.class}: #{e.message}"
   end
 end

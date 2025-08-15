@@ -1,19 +1,38 @@
 require 'capybara/cucumber'
 require 'selenium-webdriver'
 require 'yaml'
+require 'allure-cucumber'
 
+########################################
+# Allure Reporting Configuration
+########################################
+AllureCucumber.configure do |config|
+  config.results_directory = 'reports/allure-results'
+  config.clean_results_directory = true
+end
+
+########################################
+# Helper Modules & Config Files
+########################################
 require_relative '../../helpers/env_helpers'
 require_relative '../../helpers/url_nav_helpers'
 
-SECRETS = EnvHelpers.load_secrets.freeze
+SECRETS  = EnvHelpers.load_secrets.freeze
 SETTINGS = EnvHelpers.load_settings.freeze
 
 World(EnvHelpers)
 
-browser = SETTINGS["browser"] || "chrome"
-window_width = SETTINGS["window_width"] || 1920
-window_height = SETTINGS["window_height"] || 1080
+########################################
+# Browser & Window Settings (loaded based on run config)
+########################################
+browser        = SETTINGS["browser"]        || "chrome"
+window_width   = SETTINGS["window_width"]   || 1920
+window_height  = SETTINGS["window_height"]  || 1080
+max_wait_time  = SETTINGS["max_wait_time"]  || 5
 
+########################################
+# Capybara Driver Registration
+########################################
 Capybara.register_driver :custom_selenium do |app|
   options =
     case browser
@@ -45,5 +64,8 @@ Capybara.register_driver :custom_selenium do |app|
   )
 end
 
+########################################
+# Capybara Defaults
+########################################
 Capybara.default_driver = :custom_selenium
-Capybara.default_max_wait_time = SETTINGS["max_wait_time"] || 5
+Capybara.default_max_wait_time = max_wait_time
