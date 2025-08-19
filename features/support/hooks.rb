@@ -1,30 +1,9 @@
 require_relative '../../helpers/screenshot_helper'
 World(ScreenshotHelper)
 
-# print-once guard (per Ruby process / worker)
-$printed_run_banner ||= false
-
-def print_run_banner
-  puts "###############################"
-  puts "     Run Config / Settings     "
-  puts "###############################"
-  puts " Env profile:   #{RUN_ENV}"
-  puts " Browser:       #{BROWSER}"
-  puts " Resolution:    #{WINDOW_WIDTH},#{WINDOW_HEIGHT}"
-  puts " Max wait time: #{MAX_WAIT}s"
-  puts "###############################"
-end
-
-
 Before do
-  unless $printed_run_banner
-    print_run_banner
-    $printed_run_banner = true
-  end
-
   # Start individual scenario timer
   @scenario_started_at = Time.now
-
 end
 
 

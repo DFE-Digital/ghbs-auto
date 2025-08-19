@@ -7,7 +7,7 @@ allure_pretty: >
   --format AllureCucumber::CucumberFormatter --out reports/allure-results
   --publish-quiet
 
-# Dots in console + summary file + Allure (fast CI style)
+# Dots in console + Allure (fast CI style)
 allure_progress: >
   --format progress
   --format AllureCucumber::CucumberFormatter --out reports/allure-results

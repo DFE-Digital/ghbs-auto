@@ -162,9 +162,16 @@ Allure produces rich, clickable HTML reports with scenario details, steps, logs,
 
 ### Run + Generate HTML (local)
 
+Note: you can change between 
+
+- allure_pretty (step-by-step in console + Allure) or 
+- allure_progress (Dots in console + Allure (fast CI style)) 
+
+depending on the kind of report you want.
+
 ```bash
 # Run tests and always generate the report (even if failures occur)
-TEST_ENV=local bundle exec cucumber -p allure --tags @wip || true                                                                                                                       ✔ │ took 11s │ 3.2.2 Ruby │ at 16:46:25 
+TEST_ENV=local bundle exec cucumber -p allure_pretty --tags @wip || true                                                                                                                        ✔ │ took 7s │ 3.2.2 Ruby │ at 14:59:47 
 allure generate reports/allure-results --clean -o reports/allure-report
 ```
 

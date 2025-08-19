@@ -22,6 +22,35 @@ WINDOW_WIDTH = SETTINGS['window_width']   || 1920
 WINDOW_HEIGHT= SETTINGS['window_height']  || 1080
 MAX_WAIT     = SETTINGS['max_wait_time']  || 5
 
+
+########################################
+# Run Config / Settings (run before any cucumber is initiated )
+########################################
+def print_run_banner
+  puts "###############################"
+  puts "     Run Config / Settings     "
+  puts "###############################"
+  puts " Env profile:   #{RUN_ENV}"
+  puts " Browser:       #{BROWSER}"
+  puts " Resolution:    #{WINDOW_WIDTH},#{WINDOW_HEIGHT}"
+  puts " Max wait time: #{MAX_WAIT}s"
+  puts "###############################"
+end
+
+# print only once (single run or first parallel worker)
+if ENV['TEST_ENV_NUMBER'].to_s.empty?
+  #  ENV['TEST_ENV_NUMBER'] is set by parallel runners, most commonly the parallel_tests gem (parallel_cucumber).
+  #   When you run bundle exec parallel_cucumber ... -n 4, it spawns 4 workers and sets:
+  #   - worker 1: TEST_ENV_NUMBER="" (empty string)
+  #   - worker 2: TEST_ENV_NUMBER="2"
+  #   - worker 3: TEST_ENV_NUMBER="3", etc.
+  #  If you’re not using a parallel runner, it’s unset (nil).
+  #  Hence the above check is to ensure that we only this once!
+  print_run_banner
+end
+
+
+
 ########################################
 # Allure Reporting Configuration
 ########################################
