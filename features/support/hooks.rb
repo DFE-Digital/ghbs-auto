@@ -1,7 +1,10 @@
 require_relative '../../helpers/screenshot_helper'
 World(ScreenshotHelper)
 
-Before do
+# print-once guard (per Ruby process / worker)
+$printed_run_banner ||= false
+
+def print_run_banner
   puts "###############################"
   puts "     Run Config / Settings     "
   puts "###############################"
@@ -12,12 +15,38 @@ Before do
   puts "###############################"
 end
 
+
+Before do
+  unless $printed_run_banner
+    print_run_banner
+    $printed_run_banner = true
+  end
+end
+
+
 After do |scenario|
   next unless scenario.failed?
+
   begin
     path = capture_screenshot(scenario)
     attach_to_allure(path) if respond_to?(:attach_to_allure)
+
+    if defined?(Allure)
+      def allure_attach(name, content, mime)
+        Allure.add_attachment(
+          name: name,
+          source: content,   # pass a plain String or a File/IO
+          type:  mime,       # use MIME strings (works across versions)
+          test_case: true
+        )
+      end
+
+      allure_attach("Current URL", page.current_url.to_s, "text/plain")
+      allure_attach("Page HTML", page.html.to_s, "text/html")
+
+    end
   rescue => e
     warn "Screenshot/Allure attach failed: #{e.class}: #{e.message}"
   end
 end
+

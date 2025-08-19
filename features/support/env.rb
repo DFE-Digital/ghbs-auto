@@ -64,6 +64,7 @@ Capybara.register_driver :custom_selenium do |app|
     else # chrome
       opts = Selenium::WebDriver::Chrome::Options.new
       opts.add_argument("--window-size=#{WINDOW_WIDTH},#{WINDOW_HEIGHT}")
+      opts.add_option('goog:loggingPrefs', { browser: 'ALL' })
       opts
     end
 
