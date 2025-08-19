@@ -12,7 +12,7 @@ local:
   browser: chrome
   window_width: 1920
   window_height: 1080
-  max_wait_time: 5
+  max_wait_time: 3
 
 ci:
   browser: headless_chrome

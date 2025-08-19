@@ -21,10 +21,19 @@ Before do
     print_run_banner
     $printed_run_banner = true
   end
+
+  # Start individual scenario timer
+  @scenario_started_at = Time.now
+
 end
 
 
 After do |scenario|
+
+  status = scenario.failed? ? "FAILED" : "PASSED"
+  total_run_time = Time.now - (@scenario_started_at || Time.now)
+  puts "RUN TIME: #{status} in #{format('%0.2f', total_run_time)}s"
+
   next unless scenario.failed?
 
   begin
