@@ -1,8 +1,10 @@
-source 'https://rubygems.org'
+# frozen_string_literal: true
 
-gem 'cucumber'
-gem 'capybara'
-gem 'selenium-webdriver'
-gem 'rspec'
-gem 'allure-cucumber', '~> 2.27'
+source "https://rubygems.org"
+
+gem "allure-cucumber", "~> 2.27"
+gem "capybara"
+gem "cucumber"
+gem "rspec"
 gem "rubocop-govuk", require: false
+gem "selenium-webdriver"

@@ -1,6 +1,8 @@
-require_relative '../../../pages/fabs_home_page_methods'
-require_relative '../../../pages/fabs_nav_methods'
-require_relative '../../../pages/fabs_search_page_methods'
+# frozen_string_literal: true
+
+require_relative "../../../pages/fabs_home_page_methods"
+require_relative "../../../pages/fabs_nav_methods"
+require_relative "../../../pages/fabs_search_page_methods"
 
 module Pages
   def home_page_methods
@@ -14,8 +16,6 @@ module Pages
   def search_methods
     @search_methods ||= FabsSearchMethods.new
   end
-
-
 end
 
 World(Pages)

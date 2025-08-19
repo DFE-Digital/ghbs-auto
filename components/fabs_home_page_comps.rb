@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FabsHomePageComps
   include Capybara::DSL
 
@@ -20,5 +22,4 @@ class FabsHomePageComps
   def link_all_buying_options
     find(:xpath, "//a[text()='Browse a list of all DfE-approved buying options']")
   end
-
 end

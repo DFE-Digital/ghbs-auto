@@ -1,4 +1,6 @@
-require 'helpers/screenshot_helper'
+# frozen_string_literal: true
+
+require "helpers/screenshot_helper"
 World(ScreenshotHelper)
 
 Before do
@@ -6,12 +8,10 @@ Before do
   @scenario_started_at = Time.now
 end
 
-
 After do |scenario|
-
   status = scenario.failed? ? "FAILED" : "PASSED"
   total_run_time = Time.now - (@scenario_started_at || Time.now)
-  puts "RUN TIME: #{status} in #{format('%0.2f', total_run_time)}s"
+  puts "RUN TIME: #{status} in #{sprintf('%0.2f', total_run_time)}s"
 
   next unless scenario.failed?
 
@@ -23,8 +23,8 @@ After do |scenario|
       def allure_attach(name, content, mime)
         Allure.add_attachment(
           name: name,
-          source: content,   # pass a plain String or a File/IO
-          type:  mime,       # use MIME strings (works across versions)
+          source: content, # pass a plain String or a File/IO
+          type: mime, # use MIME strings (works across versions)
           test_case: true
         )
       end
@@ -33,8 +33,7 @@ After do |scenario|
       allure_attach("Page HTML", page.html.to_s, "text/html")
 
     end
-  rescue => e
+  rescue StandardError => e
     warn "Screenshot/Allure attach failed: #{e.class}: #{e.message}"
   end
 end
-
