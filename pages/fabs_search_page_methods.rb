@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "./fabs_base_page"
+require "pages/fabs_base_page"
 
 class FabsSearchMethods < FabsBasePage
   def confirm_returned_buying_options

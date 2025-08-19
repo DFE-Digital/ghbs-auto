@@ -2,7 +2,7 @@
 
 require "capybara/dsl"
 require "rspec/expectations"
-require_relative "../features/support/shared_fabs_comps"
+require "features/support/shared_fabs_comps"
 
 class FabsBasePage
   include Capybara::DSL

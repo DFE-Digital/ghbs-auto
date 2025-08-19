@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative "../../../pages/fabs_home_page_methods"
-require_relative "../../../pages/fabs_nav_methods"
-require_relative "../../../pages/fabs_search_page_methods"
+require "pages/fabs_home_page_methods"
+require "pages/fabs_nav_methods"
+require "pages/fabs_search_page_methods"
 
 module Pages
   def home_page_methods

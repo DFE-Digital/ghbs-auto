@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative "./fabs_base_page"
-require_relative "../helpers/url_nav_helpers"
+require "pages/fabs_base_page"
+require "helpers/url_nav_helpers"
 
 class FabsNavMethods < FabsBasePage
   include UrlHelpers
