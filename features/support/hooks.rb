@@ -1,4 +1,4 @@
-require_relative '../../helpers/screenshot_helper'
+require 'helpers/screenshot_helper'
 World(ScreenshotHelper)
 
 Before do

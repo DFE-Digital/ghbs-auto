@@ -1,4 +1,6 @@
-require_relative './fabs_base_page'
+require 'pages/fabs_base_page'
+require 'components/fabs_home_page_comps'
+require 'components/fabs_search_page_comps'
 
 class FabsHomePageMethods < FabsBasePage
   def open_fabs_homepage
