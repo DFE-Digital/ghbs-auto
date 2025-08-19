@@ -35,7 +35,9 @@ latest / upcoming features.
 │   │   └── fabs_search_page_steps.rb
 │   └── support/
 │       ├── env.rb
-│       └── hooks.rb
+│       ├── hooks.rb
+│       └── world/            # World helpers (expose page objects to steps)
+│           └── pages.rb
 │
 ├── helpers/                   # Support modules (env loader, screenshot utils etc)
 │   ├── env_helpers.rb
@@ -45,6 +47,10 @@ latest / upcoming features.
 │   └── fabs_home_page_methods.rb
 │
 ├── screenshots/               # Test failure screenshots
+│
+├── reports/
+│   ├── allure-results/        # Allure raw results (JSON + attachments)
+│   └── allure-report/         # Generated Allure HTML (output)
 │
 ├── .gitignore
 ├── .secrets.yml.example       # Template for secrets (you will need to generate or request the secrets file from the GHBS dev team)
@@ -90,6 +96,12 @@ Update `.secrets.yml` with your URLs and test data, note if you don't have this 
 the Lead Dev or Test on the GHBS project for a copy of this file.
 
 Then configure `config.yml` to specify runtime settings (e.g., browser, view size, wait time).
+
+### 5 Install the Allure CLI (for HTML reports)
+
+```bash
+brew install allure
+```
 
 ---
 
@@ -141,7 +153,49 @@ TEST_ENV=local bundle exec cucumber --tags "(@homepage or @search) and not @slow
 
 ---
 
-## How It Works
+## Test Reporting with Allure
+
+Allure produces rich, clickable HTML reports with scenario details, steps, logs, and screenshots on failure.
+
+- **Configure** (in env.rb)
+- **Cucumber profile** (in cucumber.yml)
+
+### Run + Generate HTML (local)
+
+Note: you can change between 
+
+- allure_pretty (step-by-step in console + Allure) or 
+- allure_progress (Dots in console + Allure (fast CI style)) 
+
+depending on the kind of report you want.
+
+```bash
+# Run tests and always generate the report (even if failures occur)
+TEST_ENV=local bundle exec cucumber -p allure_pretty --tags @wip || true                                                                                                                        ✔ │ took 7s │ 3.2.2 Ruby │ at 14:59:47 
+allure generate reports/allure-results --clean -o reports/allure-report
+```
+
+### Open the report (command line)
+
+```bash
+# Open the report:
+allure open reports/allure-report
+
+# Or generate & view instantly:
+allure serve reports/allure-results
+```
+
+### Open the report (file)
+
+The raw html report is located within root/reports/
+
+```bash
+root/reports/allure-report/allure-report/index.html
+```
+
+---
+
+## Automation Framework Blueprint
 
 - **Step Definitions**: Simple glue code, call page methods only.
 - **Pages**: Encapsulate test logic for that page (e.g., search, validation).
@@ -153,7 +207,13 @@ TEST_ENV=local bundle exec cucumber --tags "(@homepage or @search) and not @slow
 
 ## Screenshot Handling
 
-Screenshots are automatically captured on step failure and saved under `screenshots/`.
+Screenshots are automatically captured on step failure and saved under `screenshots/` for easy human reference.
+
+However if you are running the allure reports they are also located in the below: 
+
+```bash
+root/reports/allure-report/allure-report/data/attachments/
+```
 
 ---
 

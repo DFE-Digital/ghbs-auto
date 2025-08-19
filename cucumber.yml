@@ -1,2 +1,14 @@
 default: --format pretty --tags "@wip"
 chrome: BROWSER=chrome HEADLESS=true --format pretty
+
+# Step-by-step in console + Allure
+allure_pretty: >
+  --format pretty
+  --format AllureCucumber::CucumberFormatter --out reports/allure-results
+  --publish-quiet
+
+# Dots in console + Allure (fast CI style)
+allure_progress: >
+  --format progress
+  --format AllureCucumber::CucumberFormatter --out reports/allure-results
+  --publish-quiet
