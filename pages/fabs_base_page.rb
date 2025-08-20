@@ -1,6 +1,8 @@
-require 'capybara/dsl'
-require 'rspec/expectations'
-require_relative '../features/support/shared_fabs_comps'
+# frozen_string_literal: true
+
+require "capybara/dsl"
+require "rspec/expectations"
+require "features/support/shared_fabs_comps"
 
 class FabsBasePage
   include Capybara::DSL

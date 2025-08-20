@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FabsFooterNavComps
   include Capybara::DSL
 
@@ -9,6 +11,4 @@ class FabsFooterNavComps
   def link_terms_and_conditions
     find(:xpath, "//a[text()='Terms and conditions']")
   end
-
-
 end
