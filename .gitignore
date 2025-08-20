@@ -1,5 +1,6 @@
 # Ignore secrets
 config/.secrets.yml
+.secrets.yml
 
 # Ignore screenshots and downloads
 /screenshots/

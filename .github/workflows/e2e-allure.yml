@@ -1,0 +1,164 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [ "main", "ES-650-CI-intergration" ]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint codebase
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          # If you have .ruby-version in the repo, this will use it automatically.
+          bundler-cache: true
+
+      - name: Lint Ruby code for consistent style
+        run: bundle exec rubocop -f github
+
+  spelling:
+    name: Check spelling and typos
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Spell Check Repo
+        uses: crate-ci/typos@v1.34.0
+
+  e2e:
+    name: E2E (Allure)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: [lint, spelling]
+    env:
+      TEST_ENV: ci   # The profile is defined by config, in this case ci info is located in the /config/config.yml file
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Set up Node (for Allure CLI)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up Java (needed by Allure CLI)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline
+
+      # Browser dependencies for headless modes
+      - name: Install browser libs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-liberation libgtk-3-0 libnss3 libasound2
+
+      # Browsers: Chrome + Firefox + Edge on Ubuntu
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Set up Firefox
+        uses: browser-actions/setup-firefox@v1
+
+      - name: Set up Microsoft Edge (Linux)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget gnupg software-properties-common
+          wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+          sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
+          sudo apt-get update
+          sudo apt-get install -y microsoft-edge-stable
+          microsoft-edge --version || true
+
+      - name: Show versions
+        run: |
+          ruby -v
+          bundle -v
+          node -v
+          java -version
+          google-chrome --version || true
+          firefox --version || true
+
+      - name: Prepare folders
+        run: |
+          mkdir -p reports screenshots
+
+      - name: Generate config/.secrets.yml
+        shell: bash
+        env:
+          STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
+        run: |
+          cat > config/.secrets.yml <<YAML
+          ci:
+            staging_fabs_homepage_url: "${STAGING_FABS_HOMEPAGE_URL}"
+          YAML
+
+      - name: Verify required secrets
+        shell: bash
+        run: |
+          if [ -z "${{ secrets.STAGING_FABS_HOMEPAGE_URL }}" ]; then
+            echo "Missing required secret: STAGING_FABS_HOMEPAGE_URL"
+            exit 1
+          fi
+
+      - name: Bundle install (explicit)
+        run: bundle install --without development || true
+
+      - name: Run Cucumber with Allure (profile chooses browser)
+        shell: bash
+        env:
+          STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
+        run: |
+          TEST_ENV=ci bundle exec cucumber -p allure_pretty --tags @wip || true
+
+      - name: Generate Allure report
+        run: |
+          allure generate reports/allure-results --clean -o reports/allure-report
+
+      - name: Upload raw Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: reports/allure-results
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload Allure HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: reports/allure-report
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Allure E2E summary" >> $GITHUB_STEP_SUMMARY
+          echo "- Cucumber profile: \`allure_pretty\`" >> $GITHUB_STEP_SUMMARY
+          echo "- TEST_ENV: \`${TEST_ENV}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Artifacts: **allure-report** (HTML), **allure-results** (raw)" >> $GITHUB_STEP_SUMMARY
