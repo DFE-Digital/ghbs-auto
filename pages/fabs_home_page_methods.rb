@@ -1,8 +1,12 @@
-require_relative './fabs_base_page'
+# frozen_string_literal: true
+
+require "pages/fabs_base_page"
+require "components/fabs_home_page_comps"
+require "components/fabs_search_page_comps"
 
 class FabsHomePageMethods < FabsBasePage
   def open_fabs_homepage
-    visit SECRETS['staging_fabs_homepage_url']
+    visit SECRETS["staging_fabs_homepage_url"]
   end
 
   def validate_homepage_loaded
@@ -20,4 +24,3 @@ class FabsHomePageMethods < FabsBasePage
       .to include("Search Get help buying for schools")
   end
 end
-
