@@ -44,8 +44,7 @@ jobs:
       - name: Install Allure CLI
         run: npm install -g allure-commandline
 
-      # ---- Ubuntu 24.04 browser libraries (updated) ----
-      - name: Install browser libs
+      - name: Install browser libs (Ubuntu 24.04)
         run: |
           sudo apt-get update
           sudo apt-get install -y \
