@@ -30,7 +30,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Marker
-        run: echo "CI–E2E–Allure v2 :: $GITHUB_SHA :: $(date -u)"
+        run: |
+          echo "CI-E2E-Allure v2 :: $(date -u)"
+          echo "Branch: $GITHUB_REF_NAME"
+          echo "SHA:    $GITHUB_SHA"
+          echo "Actor:  $GITHUB_ACTOR"
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
