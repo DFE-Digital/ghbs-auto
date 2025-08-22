@@ -1,13 +1,17 @@
-name: CI – E2E Allure
+name: CI - E2E Allure
 
 permissions:
   contents: read
 
+defaults:
+  run:
+    shell: bash
+
 on:
-  pull_request:
+  pull_request: {}
   push:
     branches: [ main, ES-650-CI-intergration ]
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 concurrency:
   group: ci-e2e-${{ github.ref }}
@@ -61,7 +65,7 @@ jobs:
           # 24.04 uses libasound2t64; 22.04 uses libasound2
           sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2
 
-      # ---- Browser: Chrome (add FF/Edge later if needed) ----
+      # ---- Browser: Chrome (may add FF/Edge later if needed) ----
       - name: Set up Chrome
         uses: browser-actions/setup-chrome@v1
 
@@ -77,7 +81,6 @@ jobs:
         run: mkdir -p reports screenshots
 
       - name: Generate config/.secrets.yml
-        shell: bash
         env:
           STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
         run: |
@@ -97,7 +100,6 @@ jobs:
         run: bundle install --without development
 
       - name: Run Cucumber with Allure (profile chooses browser)
-        shell: bash
         env:
           STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
         run: |
