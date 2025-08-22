@@ -25,12 +25,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Marker
+        run: echo "CI–E2E–Allure v2 :: $GITHUB_SHA :: $(date -u)"
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
 
-      - name: Set up Node (for Allure CLI)
+      - name: Set up Node (needed for Allure CLI)
         uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -44,19 +47,21 @@ jobs:
       - name: Install Allure CLI
         run: npm install -g allure-commandline
 
-      - name: Install browser libs (Ubuntu 24.04)
+      - name: Install browser libs (Noble-safe)
         run: |
+          set -euxo pipefail
           sudo apt-get update
           sudo apt-get install -y \
             fonts-liberation \
             libgtk-3-0 \
             libnss3 \
-            libasound2t64 \
             libgbm1 \
             libxkbcommon0 \
             libatk-bridge2.0-0
+          # 24.04 uses libasound2t64; 22.04 uses libasound2
+          sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2
 
-      # ---- Browsers: Chrome ----
+      # ---- Browser: Chrome (add FF/Edge later if needed) ----
       - name: Set up Chrome
         uses: browser-actions/setup-chrome@v1
 
@@ -69,8 +74,7 @@ jobs:
           google-chrome --version || true
 
       - name: Prepare folders (leave config/ alone)
-        run: |
-          mkdir -p reports screenshots
+        run: mkdir -p reports screenshots
 
       - name: Generate config/.secrets.yml
         shell: bash
@@ -83,15 +87,14 @@ jobs:
           YAML
 
       - name: Verify required secrets
-        shell: bash
         run: |
           if [ -z "${{ secrets.STAGING_FABS_HOMEPAGE_URL }}" ]; then
             echo "Missing required secret: STAGING_FABS_HOMEPAGE_URL"
             exit 1
           fi
 
-      - name: Bundle install (explicit)
-        run: bundle install --without development || true
+      - name: Bundle install
+        run: bundle install --without development
 
       - name: Run Cucumber with Allure (profile chooses browser)
         shell: bash
@@ -129,3 +132,37 @@ jobs:
           echo " - Profile: \`allure_pretty\`" >> $GITHUB_STEP_SUMMARY
           echo " - TEST_ENV: \`${TEST_ENV}\`" >> $GITHUB_STEP_SUMMARY
           echo " - Artifacts: **allure-report** (HTML), **allure-results** (raw)" >> $GITHUB_STEP_SUMMARY
+
+  publish:
+    needs: e2e
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Download Allure HTML artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: ./_site
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Publish summary with link
+        run: |
+          echo "### Allure report published" >> $GITHUB_STEP_SUMMARY
+          echo "- URL: ${{ steps.deploy.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
