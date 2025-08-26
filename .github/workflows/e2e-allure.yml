@@ -11,7 +11,9 @@ on:
   pull_request: {}
   push:
     branches: [ main, ES-650-CI-intergration ]
-  workflow_dispatch: {}
+  workflow_dispatch:
+  schedule:
+    - cron: '0 2 * * *'   # runs at 02:00 UTC daily
 
 concurrency:
   group: ci-e2e-${{ github.ref }}
