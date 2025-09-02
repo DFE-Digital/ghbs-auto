@@ -1,4 +1,4 @@
-@smoke
+@regression @smoke
 Feature: GHBS - FABS page load checker
   Background:
     Given we open and validate the fabs homepage

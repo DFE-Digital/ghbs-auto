@@ -7,10 +7,10 @@ defaults:
   run:
     shell: bash
 
-# 🔧 Global config (change as you need to switch between tags)
+# Global config (change as you need to switch between tags)
 env:
   CUCUMBER_PROFILE: allure_pretty    # change per profile
-  CUCUMBER_TAGS: "@wip"              # set tags here
+  CUCUMBER_TAGS: "@regression"       # set tags here
 
 
 on:
