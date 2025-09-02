@@ -1,0 +1,185 @@
+name: CI - E2E Allure
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+# 🔧 Global config (change as you need to switch between tags)
+env:
+  CUCUMBER_PROFILE: allure_pretty    # change per profile
+  CUCUMBER_TAGS: "@wip"              # set tags here
+
+
+on:
+  pull_request: {}
+  push:
+    branches: [ main, ES-650-CI-intergration ]
+  workflow_dispatch: {}
+  schedule:
+    - cron: '0 2 * * *'              # Set your time here
+
+concurrency:
+  group: ci-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    name: E2E (Allure) v3
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      TEST_ENV: ci   # the cucumber profile decides browser etc. (generally set this to "ci" for remote running)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Marker
+        run: |
+          echo "CI-E2E-Allure v2 :: $(date -u)"
+          echo "Branch: $GITHUB_REF_NAME"
+          echo "SHA:    $GITHUB_SHA"
+          echo "Actor:  $GITHUB_ACTOR"
+          echo "Tags:   $CUCUMBER_TAGS"
+          echo "Profile:$CUCUMBER_PROFILE"
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Set up Node (needed for Allure CLI)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up Java (needed by Allure CLI)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Install Allure CLI
+        run: npm install -g allure-commandline
+
+      - name: Install browser libs (Noble-safe)
+        run: |
+          set -euxo pipefail
+          sudo apt-get update
+          sudo apt-get install -y \
+            fonts-liberation \
+            libgtk-3-0 \
+            libnss3 \
+            libgbm1 \
+            libxkbcommon0 \
+            libatk-bridge2.0-0
+          # 24.04 uses libasound2t64; 22.04 uses libasound2
+          sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2
+
+      # ---- Browser: Chrome (may add FF/Edge later if needed) ----
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+
+      - name: Show versions
+        run: |
+          ruby -v
+          bundle -v
+          node -v
+          java -version
+          google-chrome --version || true
+
+      - name: Prepare folders (leave config/ alone)
+        run: mkdir -p reports screenshots
+
+      - name: Generate config/.secrets.yml
+        env:
+          STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
+        run: |
+          cat > config/.secrets.yml <<YAML
+          ci:
+            staging_fabs_homepage_url: "${STAGING_FABS_HOMEPAGE_URL}"
+          YAML
+
+      - name: Verify required secrets
+        run: |
+          if [ -z "${{ secrets.STAGING_FABS_HOMEPAGE_URL }}" ]; then
+            echo "Missing required secret: STAGING_FABS_HOMEPAGE_URL"
+            exit 1
+          fi
+
+      - name: Bundle install
+        run: bundle install --without development
+
+      - name: Run Cucumber with Allure (profile chooses browser)
+        env:
+          STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
+        run: |
+          TEST_ENV=ci bundle exec cucumber -p "$CUCUMBER_PROFILE" --tags "$CUCUMBER_TAGS" || true
+
+      - name: Generate Allure report
+        run: |
+          allure generate reports/allure-results --clean -o reports/allure-report
+
+      - name: Upload raw Allure results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: reports/allure-results
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload Allure HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: reports/allure-report
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "### Allure E2E summary" >> $GITHUB_STEP_SUMMARY
+          echo " - Profile: \`allure_pretty\`" >> $GITHUB_STEP_SUMMARY
+          echo " - Tags: \`$CUCUMBER_TAGS\`" >> $GITHUB_STEP_SUMMARY
+          echo " - TEST_ENV: \`${TEST_ENV}\`" >> $GITHUB_STEP_SUMMARY
+          echo " - Artifacts: **allure-report** (HTML), **allure-results** (raw)" >> $GITHUB_STEP_SUMMARY
+
+  publish:
+    needs: e2e
+    if: always()
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Download Allure HTML artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: ./_site
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Publish summary with link
+        run: |
+          echo "### Allure report published" >> $GITHUB_STEP_SUMMARY
+          echo "- URL: ${{ steps.deploy.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
