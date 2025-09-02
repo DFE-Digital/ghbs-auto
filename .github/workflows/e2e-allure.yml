@@ -7,13 +7,19 @@ defaults:
   run:
     shell: bash
 
+# 🔧 Global config (change as you need to switch between tags)
+env:
+  CUCUMBER_PROFILE: allure_pretty    # change per profile
+  CUCUMBER_TAGS: "@wip"              # set tags here
+
+
 on:
   pull_request: {}
   push:
     branches: [ main, ES-650-CI-intergration ]
-  workflow_dispatch:
+  workflow_dispatch: {}
   schedule:
-    - cron: '0 2 * * *'   # runs at 02:00 UTC daily
+    - cron: '0 2 * * *'              # Set your time here
 
 concurrency:
   group: ci-e2e-${{ github.ref }}
@@ -21,11 +27,11 @@ concurrency:
 
 jobs:
   e2e:
-    name: E2E (Allure) v2
+    name: E2E (Allure) v3
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      TEST_ENV: ci   # <<< the cucumber profile decides browser etc. (ci for remote running)
+      TEST_ENV: ci   # the cucumber profile decides browser etc. (generally set this to "ci" for remote running)
 
     steps:
       - name: Checkout code
@@ -37,6 +43,8 @@ jobs:
           echo "Branch: $GITHUB_REF_NAME"
           echo "SHA:    $GITHUB_SHA"
           echo "Actor:  $GITHUB_ACTOR"
+          echo "Tags:   $CUCUMBER_TAGS"
+          echo "Profile:$CUCUMBER_PROFILE"
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
@@ -109,7 +117,7 @@ jobs:
         env:
           STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
         run: |
-          TEST_ENV=ci bundle exec cucumber -p allure_pretty --tags @wip || true
+          TEST_ENV=ci bundle exec cucumber -p "$CUCUMBER_PROFILE" --tags "$CUCUMBER_TAGS" || true
 
       - name: Generate Allure report
         run: |
@@ -138,6 +146,7 @@ jobs:
         run: |
           echo "### Allure E2E summary" >> $GITHUB_STEP_SUMMARY
           echo " - Profile: \`allure_pretty\`" >> $GITHUB_STEP_SUMMARY
+          echo " - Tags: \`$CUCUMBER_TAGS\`" >> $GITHUB_STEP_SUMMARY
           echo " - TEST_ENV: \`${TEST_ENV}\`" >> $GITHUB_STEP_SUMMARY
           echo " - Artifacts: **allure-report** (HTML), **allure-results** (raw)" >> $GITHUB_STEP_SUMMARY
 
