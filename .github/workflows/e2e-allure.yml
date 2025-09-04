@@ -31,7 +31,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      TEST_ENV: ci   # the cucumber profile decides browser etc. (generally set this to "ci" for remote running)
+      TEST_ENV: ci
+    outputs:
+      has_report: ${{ steps.check_report.outputs.exists }}
 
     steps:
       - name: Checkout code
@@ -137,14 +139,14 @@ jobs:
       - name: Bundle install
         run: bundle install --without development
 
-      # ---- Running of tests  ----
+      # ---- Running of the tests  ----
       - name: Run Cucumber with Allure (profile chooses browser)
         env:
           STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
         run: |
           TEST_ENV=ci bundle exec cucumber -p "$CUCUMBER_PROFILE" --tags "$CUCUMBER_TAGS" || true
 
-      # ---- Restoring history after the tests ----
+      # ---- Restore history before generating report ----
       - name: Download previous Allure history (same branch)
         uses: dawidd6/action-download-artifact@v3
         with:
@@ -161,7 +163,6 @@ jobs:
           if [ -d history ]; then
             mkdir -p reports/allure-results/history
             cp -R history/* reports/allure-results/history/ || true
-            echo "Load history:"
             ls -la reports/allure-results/history || true
           else
             echo "No previous history found; using this run as baseline."
@@ -181,11 +182,22 @@ jobs:
             echo "No history-trend.json to patch"
           fi
 
-      # ---- Allure Reporting on tests ----
+      # ---- Generate Allure Report ----
       - name: Generate Allure report
         run: |
           allure generate reports/allure-results --clean -o reports/allure-report
 
+      # ---- Robust gate: set job output if report exists ----
+      - name: Check report exists (set job output)
+        id: check_report
+        run: |
+          if [ -d reports/allure-report ] && [ "$(ls -A reports/allure-report | wc -l)" -gt 0 ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ---- Upload artifacts ----
       - name: Upload Allure history for next run
         if: always()
         uses: actions/upload-artifact@v4
@@ -205,12 +217,12 @@ jobs:
           retention-days: 14
 
       - name: Upload Allure HTML report
-        if: always()
+        if: always() && steps.check_report.outputs.exists == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: allure-report
           path: reports/allure-report
-          if-no-files-found: warn
+          if-no-files-found: error
           retention-days: 14
 
       - name: Summary
@@ -224,7 +236,7 @@ jobs:
 
   publish:
     needs: e2e
-    if: always()
+    if: ${{ needs.e2e.outputs.has_report == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       pages: write
