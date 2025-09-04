@@ -2,6 +2,7 @@ name: CI - E2E Allure
 
 permissions:
   contents: read
+  actions: read
 
 defaults:
   run:
@@ -12,7 +13,6 @@ env:
   CUCUMBER_PROFILE: allure_pretty    # change per profile
   CUCUMBER_TAGS: "@regression"       # set tags here
 
-
 on:
   pull_request: {}
   push:
@@ -22,12 +22,12 @@ on:
     - cron: '0 2 * * *'              # Set your time here
 
 concurrency:
-  group: ci-e2e-${{ github.ref }}
+  group: e2e-allure-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
   e2e:
-    name: E2E (Allure) v3
+    name: E2E (Allure) v5
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
@@ -39,7 +39,7 @@ jobs:
 
       - name: Marker
         run: |
-          echo "CI-E2E-Allure v2 :: $(date -u)"
+          echo "CI-E2E-Allure :: $(date -u)"
           echo "Branch: $GITHUB_REF_NAME"
           echo "SHA:    $GITHUB_SHA"
           echo "Actor:  $GITHUB_ACTOR"
@@ -94,6 +94,30 @@ jobs:
       - name: Prepare folders (leave config/ alone)
         run: mkdir -p reports screenshots
 
+      - name: Write Allure executor.json (dynamic build info)
+        run: |
+          mkdir -p reports/allure-results
+          cat > reports/allure-results/executor.json <<EOF
+          {
+            "name": "GitHub Actions",
+            "type": "github",
+            "buildName": "CI - E2E Allure #${GITHUB_RUN_NUMBER}",
+            "buildUrl": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}",
+            "reportName": "Allure Report",
+            "buildOrder": ${GITHUB_RUN_NUMBER}
+          }
+          EOF
+
+      - name: Write Allure environment.properties (helpful in report)
+        run: |
+          {
+            echo "profile=$CUCUMBER_PROFILE";
+            echo "tags=$CUCUMBER_TAGS";
+            echo "test_env=$TEST_ENV";
+            echo "branch=${GITHUB_REF_NAME}";
+            echo "sha=${GITHUB_SHA}";
+          } > reports/allure-results/environment.properties
+
       - name: Generate config/.secrets.yml
         env:
           STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
@@ -113,15 +137,63 @@ jobs:
       - name: Bundle install
         run: bundle install --without development
 
+      # ---- Running of tests  ----
       - name: Run Cucumber with Allure (profile chooses browser)
         env:
           STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
         run: |
           TEST_ENV=ci bundle exec cucumber -p "$CUCUMBER_PROFILE" --tags "$CUCUMBER_TAGS" || true
 
+      # ---- Restoring history after the tests ----
+      - name: Download previous Allure history (same branch)
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          name: allure-history
+          path: history
+          branch: ${{ github.ref_name }}
+          workflow_conclusion: completed
+          workflow: .github/workflows/e2e-allure.yml
+          if_no_artifact_found: ignore
+        continue-on-error: true
+
+      - name: Load Allure results with previous history (if any)
+        run: |
+          if [ -d history ]; then
+            mkdir -p reports/allure-results/history
+            cp -R history/* reports/allure-results/history/ || true
+            echo "Load history:"
+            ls -la reports/allure-results/history || true
+          else
+            echo "No previous history found; using this run as baseline."
+          fi
+
+      - name: Patch seed history for trend / append history data
+        run: |
+          set -euo pipefail
+          f="reports/allure-results/history/history-trend.json"
+          if [ -f "$f" ]; then
+            tmp="$(mktemp)"
+            jq --arg rn "Allure Report" --argjson bo ${GITHUB_RUN_NUMBER:-1} \
+               'map(.reportName = ($rn) | .buildOrder = (.buildOrder // ($bo-1)))' \
+               "$f" > "$tmp" && mv "$tmp" "$f"
+            echo "Patched $f to include reportName/buildOrder"
+          else
+            echo "No history-trend.json to patch"
+          fi
+
+      # ---- Allure Reporting on tests ----
       - name: Generate Allure report
         run: |
           allure generate reports/allure-results --clean -o reports/allure-report
+
+      - name: Upload Allure history for next run
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-history
+          path: reports/allure-report/history
+          if-no-files-found: warn
+          retention-days: 60
 
       - name: Upload raw Allure results
         if: always()
