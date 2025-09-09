@@ -11,7 +11,8 @@ defaults:
 # Global config (change as you need to switch between tags)
 env:
   CUCUMBER_PROFILE: allure_pretty    # change per profile
-  CUCUMBER_TAGS: "@regression"       # set tags here
+  CUCUMBER_TAGS: "@regression"       # set tags
+  RETENTION_DAYS: 60                 # Set how long to retain reports and trends
 
 on:
   pull_request: {}
@@ -205,7 +206,7 @@ jobs:
           name: allure-history
           path: reports/allure-report/history
           if-no-files-found: warn
-          retention-days: 60
+          retention-days: ${{ env.RETENTION_DAYS }}
 
       - name: Upload raw Allure results
         if: always()
@@ -214,7 +215,7 @@ jobs:
           name: allure-results
           path: reports/allure-results
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: ${{ env.RETENTION_DAYS }}
 
       - name: Upload Allure HTML report
         if: always() && steps.check_report.outputs.exists == 'true'
@@ -223,7 +224,7 @@ jobs:
           name: allure-report
           path: reports/allure-report
           if-no-files-found: error
-          retention-days: 14
+          retention-days: ${{ env.RETENTION_DAYS }}
 
       - name: Summary
         if: always()
@@ -253,16 +254,18 @@ jobs:
           name: allure-report
           path: ./_site
 
-      # Bring in the current site so older runs remain visible
-      - name: Checkout existing Pages site (gh-pages)
-        uses: actions/checkout@v4
-        continue-on-error: true    # This is to cover us as the first deploy may not have gh-pages yet
+        # Bring in last published site so older runs remain visible
+      - name: Download previous site bundle
+        uses: dawidd6/action-download-artifact@v3
         with:
-          ref: gh-pages
-          path: ./_prev
-          fetch-depth: 1
+          name: site-bundle
+          path: _prev
+          workflow: .github/workflows/e2e-allure.yml
+          workflow_conclusion: completed
+          if_no_artifact_found: ignore
 
-      # Stage per-run report and a branch "latest" redirect, preserving old runs
+
+        # Stage per-run report and a branch "latest" redirect, preserving old runs
       - name: Stage per-run report and latest redirect
         run: |
           set -euo pipefail
@@ -272,7 +275,10 @@ jobs:
           # start with what's already live
           mkdir -p publish
           if [ -d _prev ]; then cp -a _prev/. publish/; fi
-  
+          
+          # prevent Jekyll processing
+          touch publish/.nojekyll
+          
           # copy this run
           mkdir -p "publish/runs/$BRANCH/$RUN" "publish/runs/$BRANCH/latest"
           cp -a _site/. "publish/runs/$BRANCH/$RUN/"
@@ -318,6 +324,14 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deploy
         uses: actions/deploy-pages@v4
+
+      - name: Archive site for next publish
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-bundle
+          path: ./publish
+          retention-days: ${{ env.RETENTION_DAYS }}
 
       - name: Publish summary with link
         run: |
