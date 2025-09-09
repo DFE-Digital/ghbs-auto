@@ -234,93 +234,94 @@ jobs:
           echo " - TEST_ENV: \`${TEST_ENV}\`" >> $GITHUB_STEP_SUMMARY
           echo " - Artifacts: **allure-report** (HTML), **allure-results** (raw)" >> $GITHUB_STEP_SUMMARY
 
-publish:
-  needs: e2e
-  if: ${{ needs.e2e.outputs.has_report == 'true' }}
-  runs-on: ubuntu-latest
-  permissions:
-    contents: read          # Allows us to check out existing gh-pages to preserve older runs
-    pages: write
-    id-token: write
-  environment:
-    name: github-pages
-    url: ${{ steps.deploy.outputs.page_url }}
-  steps:
-    - name: Download Allure HTML artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: allure-report
-        path: ./_site
 
-    # Bring in the current site so older runs remain visible
-    - name: Checkout existing Pages site (gh-pages)
-      uses: actions/checkout@v4
-      continue-on-error: true    # This is to cover us as the first deploy may not have gh-pages yet
-      with:
-        ref: gh-pages
-        path: ./_prev
-        fetch-depth: 1
+  publish:
+    needs: e2e
+    if: ${{ needs.e2e.outputs.has_report == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read          # Allows us to check out existing gh-pages to preserve older runs
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Download Allure HTML artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: ./_site
 
-    # Stage per-run report and a branch "latest" redirect, preserving old runs
-    - name: Stage per-run report and latest redirect
-      run: |
-        set -euo pipefail
-        BRANCH="${{ github.ref_name }}"
-        RUN="${{ github.run_number }}"
+      # Bring in the current site so older runs remain visible
+      - name: Checkout existing Pages site (gh-pages)
+        uses: actions/checkout@v4
+        continue-on-error: true    # This is to cover us as the first deploy may not have gh-pages yet
+        with:
+          ref: gh-pages
+          path: ./_prev
+          fetch-depth: 1
 
-        # start with what's already live
-        mkdir -p publish
-        if [ -d _prev ]; then cp -a _prev/. publish/; fi
+      # Stage per-run report and a branch "latest" redirect, preserving old runs
+      - name: Stage per-run report and latest redirect
+        run: |
+          set -euo pipefail
+          BRANCH="${{ github.ref_name }}"
+          RUN="${{ github.run_number }}"
+  
+          # start with what's already live
+          mkdir -p publish
+          if [ -d _prev ]; then cp -a _prev/. publish/; fi
+  
+          # copy this run
+          mkdir -p "publish/runs/$BRANCH/$RUN" "publish/runs/$BRANCH/latest"
+          cp -a _site/. "publish/runs/$BRANCH/$RUN/"
+  
+          # redirect runs/<branch>/latest -> runs/<branch>/<run>/
+          cat > "publish/runs/$BRANCH/latest/index.html" <<EOF
+          <!doctype html>
+          <meta charset="utf-8">
+          <meta http-equiv="refresh" content="0; url=../$RUN/">
+          <title>Redirecting to latest run…</title>
+          <h1>Redirecting to latest run…</h1>
+          <p>If you're not redirected, <a href="../$RUN/">open run $RUN</a>.</p>
+          EOF
 
-        # copy this run
-        mkdir -p "publish/runs/$BRANCH/$RUN" "publish/runs/$BRANCH/latest"
-        cp -a _site/. "publish/runs/$BRANCH/$RUN/"
+      # Simple home page listing branches → latest (keeps it browsable)
+      - name: Build home index.html (branches → latest)
+        run: |
+          set -euo pipefail
+          mkdir -p publish/runs
+          cat > publish/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>E2E Allure Reports</title>
+          <h1>E2E Allure Reports</h1>
+          <p>Select a branch to view its latest report:</p>
+          <ul>
+          HTML
+          if [ -d publish/runs ]; then
+            for b in $(ls -1 publish/runs); do
+              echo "  <li><a href=\"runs/$b/latest/\">$b — latest</a></li>" >> publish/index.html
+            done
+          fi
+          echo "</ul>" >> publish/index.html
 
-        # redirect runs/<branch>/latest -> runs/<branch>/<run>/
-        cat > "publish/runs/$BRANCH/latest/index.html" <<EOF
-        <!doctype html>
-        <meta charset="utf-8">
-        <meta http-equiv="refresh" content="0; url=../$RUN/">
-        <title>Redirecting to latest run…</title>
-        <h1>Redirecting to latest run…</h1>
-        <p>If you're not redirected, <a href="../$RUN/">open run $RUN</a>.</p>
-        EOF
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
 
-    # Simple home page listing branches → latest (keeps it browsable)
-    - name: Build home index.html (branches → latest)
-      run: |
-        set -euo pipefail
-        mkdir -p publish/runs
-        cat > publish/index.html <<'HTML'
-        <!doctype html>
-        <meta charset="utf-8">
-        <title>E2E Allure Reports</title>
-        <h1>E2E Allure Reports</h1>
-        <p>Select a branch to view its latest report:</p>
-        <ul>
-        HTML
-        if [ -d publish/runs ]; then
-          for b in $(ls -1 publish/runs); do
-            echo "  <li><a href=\"runs/$b/latest/\">$b — latest</a></li>" >> publish/index.html
-          done
-        fi
-        echo "</ul>" >> publish/index.html
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./publish
 
-    - name: Setup Pages
-      uses: actions/configure-pages@v5
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
 
-    - name: Upload Pages artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./publish
-
-    - name: Deploy to GitHub Pages
-      id: deploy
-      uses: actions/deploy-pages@v4
-
-    - name: Publish summary with link
-      run: |
-        echo "### Allure report published" >> $GITHUB_STEP_SUMMARY
-        echo "- Latest for \`${{ github.ref_name }}\`: ${{ steps.deploy.outputs.page_url }}runs/${{ github.ref_name }}/latest/" >> $GITHUB_STEP_SUMMARY
-        echo "- This run: ${{ steps.deploy.outputs.page_url }}runs/${{ github.ref_name }}/${{ github.run_number }}/" >> $GITHUB_STEP_SUMMARY
+      - name: Publish summary with link
+        run: |
+          echo "### Allure report published" >> $GITHUB_STEP_SUMMARY
+          echo "- Latest for \`${{ github.ref_name }}\`: ${{ steps.deploy.outputs.page_url }}runs/${{ github.ref_name }}/latest/" >> $GITHUB_STEP_SUMMARY
+          echo "- This run: ${{ steps.deploy.outputs.page_url }}runs/${{ github.ref_name }}/${{ github.run_number }}/" >> $GITHUB_STEP_SUMMARY
 
