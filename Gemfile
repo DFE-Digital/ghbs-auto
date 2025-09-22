@@ -8,3 +8,8 @@ gem "cucumber"
 gem "rspec"
 gem "rubocop-govuk", require: false
 gem "selenium-webdriver"
+
+# Accessibility
+gem "axe-core-capybara", "~> 4.10"
+gem "axe-core-cucumber", "~> 4.10"
+gem "axe-core-rspec", "~> 4.10"
