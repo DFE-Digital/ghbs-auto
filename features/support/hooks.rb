@@ -6,6 +6,9 @@ World(ScreenshotHelper)
 Before do
   # Start individual scenario timer
   @scenario_started_at = Time.now
+
+  # Reset of flags before each scenario
+  ENV["AXE"] = "false"
 end
 
 After do |scenario|
