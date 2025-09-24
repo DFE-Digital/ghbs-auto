@@ -177,7 +177,7 @@ allure generate reports/allure-results --clean -o reports/allure-report
 
 ### Open the report (command line)
 
-```bash
+```
 # Open the report:
 allure open reports/allure-report
 
@@ -192,6 +192,84 @@ The raw html report is located within root/reports/
 ```bash
 root/reports/allure-report/allure-report/index.html
 ```
+
+## Accessibility (Selenium Axe)
+
+### Toggle and Hooks:
+
+Before each scenario is run we reset the `ENV["AXE"]` flag in the hooks.rb.
+
+When we create our scenario, we can use the following step (often in the Background) 
+to enable the checks on the page.
+
+```
+Background:
+Given we enable the selenium axe checks on each page
+```
+
+From there we simply need to use the `axe_check!` helper located in `features/support/a11y_assertions.rb`. 
+
+Example below:
+```
+# Rich Example
+axe_check!(scope: nil, exclude: nil, rules: %w[wcag2a wcag2aa],
+           label: nil, log: true, strip_query: true)
+           
+# Using Defaults example 
+axe_check! 
+
+# Real life use example using our above flag check
+axe_check! if FlagsGlobalConfig.axe_enabled?
+
+```
+Breakdown: 
+
+- scope – CSS to limit scan (defaults to main,[role="main"] → body)
+- exclude – CSS to ignore (e.g. .cookie-banner, cross-origin iframes)
+- rules – axe tags (not rule IDs), e.g. wcag2a, wcag2aa
+- label – extra context in the log line (e.g. "Footer > Terms")
+- strip_query – log /path instead of /path?query=… (default: true)
+
+Example console output
+```
+[AXE PASS]
+  Page Title : Search – GHBS
+  Path       : /search
+  Scope      : main
+  Rules      : wcag2a,wcag2aa
+  Duration   : 0.19s
+```
+
+Additional examples calling from methods after the page is in the desired state:
+```
+axe_check!    # smart default scope
+axe_check!(scope: ".modal", label: "Checkout modal")
+axe_check!(exclude: %w[.cookie-banner iframe.ads])
+axe_check!(rules: %w[wcag2a wcag2aa], label: "Footer > T&C")
+```
+
+### Alternative Gherkin Use:
+
+So there is an out the box implementation within `axe-core-cucumber` for you 
+to use a pre-defined gherkin step. 
+
+```
+Then the page should be axe clean according to: wcag2a, wcag2aa
+```
+
+Although realistically I find this a little clunky, hence why I 
+implemented the above axe_check! call to be used within methods.
+
+### Notes & gotchas
+
+- **iFrames:** Axe can’t scan cross-origin iframes—exclude them or 
+test at the source app.
+- **Hidden UI:** Open menus/modals before calling axe_check!.
+- **Stability:** Logging hides the host and (by default) query strings to avoid secrets and reduce noise.
+- **Performance:** Keep checks focused (use scope) on hot paths first; broaden once clean.
+- **Terminology:** We use Accessibility (a11y) throughout this repo—a11y is shorthand 
+for accessibility, the practice of making products usable by everyone (including people with disabilities), 
+derived from a + 11 + y in “accessibility” and widely used in web/QA. 
 
 ---
 
