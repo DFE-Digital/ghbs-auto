@@ -61,6 +61,8 @@ module A11yAssertions
     raise e
   end
 
+private
+
   # NOTE: This returns a safe, relative path (no host). If BASE_URL is set, strip it.
   def _axe_path(strip_query)
     raw = begin
