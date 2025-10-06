@@ -6,7 +6,6 @@ require "pages/fabs_search_page_methods"
 require "pages/shared_global_methods"
 
 module Pages
-
   ##### FABS PAGES #####
   def home_page_methods
     @home_page_methods ||= FabsHomePageMethods.new

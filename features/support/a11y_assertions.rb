@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "rspec/expectations"
 require "axe-rspec"
 
@@ -34,7 +35,7 @@ module A11yAssertions
 
     selector =
       scope ||
-      (page.has_css?('main, [role="main"]', wait: 0) ? 'main, [role="main"]' : 'body')
+      (page.has_css?('main, [role="main"]', wait: 0) ? 'main, [role="main"]' : "body")
 
     exclude_css = exclude.is_a?(Array) ? exclude.compact.join(", ") : exclude
     rule_syms   = Array(rules).compact.map(&:to_sym)
@@ -114,12 +115,12 @@ private
 
     lines = []
     lines << header
-    lines << "  Page Title : #{title.empty? ? "-" : title}"
-    lines << "  Path       : #{path.to_s.empty? ? "-" : path}"
+    lines << "  Page Title : #{title.empty? ? '-' : title}"
+    lines << "  Path       : #{path.to_s.empty? ? '-' : path}"
     lines << "  Scope      : #{scope}"                     if scope
     lines << "  Rules      : #{Array(rules).join(',')}"    if rules && !Array(rules).empty?
     lines << "  Exclude    : #{exclude}"                   if exclude && !exclude.to_s.empty?
-    lines << "  Duration   : #{format('%.2fs', elapsed)}"  if elapsed
+    lines << "  Duration   : #{sprintf('%.2fs', elapsed)}" if elapsed
     lines << "  Label      : #{label}"                     if label && !label.to_s.strip.empty?
     lines << "  Reason     : #{reason}"                    if reason
 
