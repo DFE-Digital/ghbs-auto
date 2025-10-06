@@ -13,6 +13,7 @@ env:
   CUCUMBER_PROFILE: allure_pretty    # change per profile
   CUCUMBER_TAGS: "@regression"       # set tags
   RETENTION_DAYS: 60                 # Set how long to retain reports and trends
+  PUBLISH_BRANCHES: '["main","ES-650-CI-intergration"]'
 
 on:
   pull_request: {}
@@ -238,7 +239,7 @@ jobs:
 
   publish:
     needs: e2e
-    if: ${{ needs.e2e.outputs.has_report == 'true' }}
+    if: ${{ needs.e2e.outputs.has_report == 'true' && contains(fromJson(env.PUBLISH_BRANCHES), github.ref_name) }}
     runs-on: ubuntu-latest
     permissions:
       contents: read          # Allows us to check out existing gh-pages to preserve older runs
