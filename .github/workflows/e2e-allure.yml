@@ -149,7 +149,7 @@ jobs:
 
       # ---- Restore history before generating report ----
       - name: Download previous Allure history (same branch)
-        uses: dawidd6/action-download-artifact@v3
+        uses: dawidd6/action-download-artifact@v6
         with:
           name: allure-history
           path: history
