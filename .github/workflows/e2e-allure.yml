@@ -239,7 +239,8 @@ jobs:
 
   publish:
     needs: e2e
-    if: ${{ needs.e2e.outputs.has_report == 'true' && contains(fromJson(env.PUBLISH_BRANCHES), github.ref_name) }}
+    if: ${{ needs.e2e.outputs.has_report == 'true' &&
+      contains(fromJson('["main","ES-650-CI-intergration"]'), github.ref_name) }}
     runs-on: ubuntu-latest
     permissions:
       contents: read          # Allows us to check out existing gh-pages to preserve older runs
