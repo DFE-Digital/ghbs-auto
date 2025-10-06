@@ -28,6 +28,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  init:
+    name: Init
+    runs-on: ubuntu-latest
+    outputs:
+      publish_branches: ${{ steps.expose.outputs.publish_branches }}
+    steps:
+      - id: expose
+        run: |
+          # Pass the JSON string through safely (quotes preserved)
+          printf 'publish_branches=%s\n' '${{ env.PUBLISH_BRANCHES }}' >> "$GITHUB_OUTPUT"
   e2e:
     name: E2E (Allure) v5
     runs-on: ubuntu-latest
@@ -238,9 +248,9 @@ jobs:
 
 
   publish:
-    needs: e2e
+    needs: [init, e2e]
     if: ${{ needs.e2e.outputs.has_report == 'true' &&
-      contains(fromJson('["main","ES-650-CI-intergration"]'), github.ref_name) }}
+      contains(fromJson(needs.init.outputs.publish_branches), github.ref_name) }}
     runs-on: ubuntu-latest
     permissions:
       contents: read          # Allows us to check out existing gh-pages to preserve older runs
