@@ -4,6 +4,7 @@ require "pages/fabs_home_page_methods"
 require "pages/fabs_nav_methods"
 require "pages/fabs_search_page_methods"
 require "pages/shared_global_methods"
+require "pages/energy_start_page_methods"
 
 module Pages
   ##### FABS PAGES #####
@@ -17,6 +18,11 @@ module Pages
 
   def search_methods
     @search_methods ||= FabsSearchMethods.new
+  end
+
+  ##### ENERGY PAGES #####
+  def energy_start_page_methods
+    @energy_start_page_methods ||= EnergyStartPageMethods.new
   end
 
   ##### SHARED PAGES #####
