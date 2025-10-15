@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "pages/energy_base_page"
-require "components/energy_start_page_comps"
+require "pages/energy/energy_base_page"
+require "components/energy/energy_start_page_comps"
 
 class EnergyStartPageMethods < EnergyBasePage
   def open_energy_start_page

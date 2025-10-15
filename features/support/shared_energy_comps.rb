@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "components/energy_start_page_comps"
+require "components/energy/energy_start_page_comps"
 
 module SharedEnergyComps
   # Pre Flow Pages
