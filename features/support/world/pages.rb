@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "pages/fabs_home_page_methods"
-require "pages/fabs_nav_methods"
-require "pages/fabs_search_page_methods"
+require "pages/fabs/fabs_home_page_methods"
+require "pages/fabs/fabs_nav_methods"
+require "pages/fabs/fabs_search_page_methods"
 require "pages/shared_global_methods"
 require "pages/energy_start_page_methods"
 

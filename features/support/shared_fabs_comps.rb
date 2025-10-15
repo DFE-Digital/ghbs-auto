@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require "components/fabs_404_page_comps"
-require "components/fabs_500_page_comps"
-require "components/fabs_top_nav_comps"
-require "components/fabs_footer_nav_comps"
-require "components/fabs_accessibility_statement_page_comps"
-require "components/fabs_terms_and_conditions_page_comps"
-require "components/fabs_home_page_comps"
-require "components/fabs_buying_category_page_comps"
-require "components/fabs_buying_option_page_comps"
-require "components/fabs_search_page_comps"
-require "components/fabs_all_buying_options_page_comps"
+require "components/fabs/fabs_404_page_comps"
+require "components/fabs/fabs_500_page_comps"
+require "components/fabs/fabs_top_nav_comps"
+require "components/fabs/fabs_footer_nav_comps"
+require "components/fabs/fabs_accessibility_statement_page_comps"
+require "components/fabs/fabs_terms_and_conditions_page_comps"
+require "components/fabs/fabs_home_page_comps"
+require "components/fabs/fabs_buying_category_page_comps"
+require "components/fabs/fabs_buying_option_page_comps"
+require "components/fabs/fabs_search_page_comps"
+require "components/fabs/fabs_all_buying_options_page_comps"
 
 module SharedFabsComps
   # Error Pages
