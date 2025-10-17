@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-class EnergyStartPageComps
+class EnergyBeforeYouStartPageComps
   include Capybara::DSL
 
   def text_page_heading
     find(:xpath, "//h1")
   end
 
-  def button_start_now
-    find(:xpath, "//a[text()='Start now']")
+  def button_continue
+    find(:xpath, "//button[text()='Continue']")
   end
 end
