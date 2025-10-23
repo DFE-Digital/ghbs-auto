@@ -12,4 +12,14 @@ end
 
 When(/^the (.*) option is selected and completed$/) do |switching_method|
   energy_are_you_authorised_page_methods.continue_to_what_are_switching_page
+  case switching_method
+  when "gas onlu"
+    # TODO: gas flow
+  when "electricity only"
+    # TODO: electricity flow
+  when "both"
+    # TODO: gas flow then electricity
+  else
+    # TODO: error state
+  end
 end

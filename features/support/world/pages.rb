@@ -8,6 +8,7 @@ require "pages/energy/energy_start_page_methods"
 require "pages/energy/energy_signin_flow_methods"
 require "pages/energy/energy_school_selection_methods"
 require "pages/energy/energy_are_you_authorised_page_methods"
+require "pages/cms/cms_signin_flow_methods"
 
 module Pages
   ##### FABS PAGES #####
@@ -38,6 +39,11 @@ module Pages
 
   def energy_are_you_authorised_page_methods
     @energy_are_you_authorised_page_methods ||= EnergyAreYouAuthorisedPageMethods.new
+  end
+
+  ##### CMS PAGES #####
+  def cms_signin_flow_methods
+    @cms_signin_flow_methods ||= CmsSignInFlowMethods.new
   end
 
   ##### SHARED PAGES #####
