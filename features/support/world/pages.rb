@@ -7,6 +7,7 @@ require "pages/shared_global_methods"
 require "pages/energy/energy_start_page_methods"
 require "pages/energy/energy_signin_flow_methods"
 require "pages/energy/energy_school_selection_methods"
+require "pages/energy/energy_are_you_authorised_page_methods"
 
 module Pages
   ##### FABS PAGES #####
@@ -33,6 +34,10 @@ module Pages
 
   def energy_school_selection_methods
     @energy_school_selection_methods ||= EnergySchoolSelectionPageMethods.new
+  end
+
+  def energy_are_you_authorised_page_methods
+    @energy_are_you_authorised_page_methods ||= EnergyAreYouAuthorisedPageMethods.new
   end
 
   ##### SHARED PAGES #####

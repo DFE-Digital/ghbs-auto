@@ -7,7 +7,7 @@ Feature: GHBS - Energy - Onboarding Flow
 Scenario Outline: Energy Onboarding Flow - Gas + Direct Debit Only
   Given we are logged in to the Energy Onboarding Flow as a <SchoolUser> School user
   And we select <SchoolName> from the bullet list and start the onboarding journey
-#  When the <Switching> option is selected and completed
+  When the <Switching> option is selected and completed
 #  And the Site Contact screen is completed
 #  And the VAT flow is completed with a <VatFlow> percent option selected
 #  And the Billing section is completed with the <BillingOption> option selected

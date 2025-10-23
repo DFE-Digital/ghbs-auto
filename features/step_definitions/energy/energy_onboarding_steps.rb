@@ -9,3 +9,7 @@ And(/^we select (.*) from the bullet list and start the onboarding journey$/) do
   energy_school_selection_methods.select_school(school_name)
   energy_school_selection_methods.continue_to_are_you_authorised_page
 end
+
+When(/^the (.*) option is selected and completed$/) do |switching_method|
+  energy_are_you_authorised_page_methods.continue_to_what_are_switching_page
+end
