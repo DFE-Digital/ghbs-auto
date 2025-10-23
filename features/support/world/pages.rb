@@ -6,6 +6,7 @@ require "pages/fabs/fabs_search_page_methods"
 require "pages/shared_global_methods"
 require "pages/energy/energy_start_page_methods"
 require "pages/energy/energy_signin_flow_methods"
+require "pages/energy/energy_school_selection_methods"
 
 module Pages
   ##### FABS PAGES #####
@@ -28,6 +29,10 @@ module Pages
 
   def energy_signin_flow_methods
     @energy_signin_flow_methods ||= EnergySignInFlowMethods.new
+  end
+
+  def energy_school_selection_methods
+    @energy_school_selection_methods ||= EnergySchoolSelectionPageMethods.new
   end
 
   ##### SHARED PAGES #####
