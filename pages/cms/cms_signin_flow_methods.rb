@@ -19,37 +19,15 @@ class CmsSignInFlowMethods < CmsBasePage
 
   def continue_and_complete_dfe_signin
     cms_login_page_comps.button_signin.click
-    expect(page).to have_current_path(%r{/signin/username}, url: true, wait: 10)
-    expect(dfe_signin_access_the_service_page_comps_2.text_page_heading.text).to include("Access the DfE Sign-in service")
 
-    user = "mat"
-    credentials = case user
-                  when "mat"
-                    { email: SECRETS["school_energy_mat_username"],
-                      password: SECRETS["school_energy_mat_password"] }
-                  when "sat"
-                    { email: SECRETS["school_energy_sat_username"],
-                      password: SECRETS["school_energy_sat_password"] }
-                  else
-                    raise ArgumentError, "Unknown user type: '#{user}'"
-                  end
+    # Navigates user through the DfE sign-in flow to the "My Cases" page
+    shared_global_methods.complete_dfe_signin_as("MAT")
 
-    # this method assumes we are already on the first page of the DfE Sign-In flow
-    expect(page).to have_current_path(%r{/signin/username}, url: true, wait: 10)
-    dfe_signin_access_the_service_page_comps_2.input_username.set(credentials[:email])
-
-    # Move to the stand-alone password screen
-    dfe_signin_enter_your_password_page_comps_2.button_next.click
-    expect(page).to have_current_path(%r{/signin/password}, url: true, wait: 10)
-    expect(dfe_signin_enter_your_password_page_comps_2.text_page_heading.text).to include("Enter your password")
-
-    # Complete the login process
-    dfe_signin_enter_your_password_page_comps_2.input_password.set(credentials[:password])
-    dfe_signin_access_the_service_page_comps_2.button_sign_in.click
+    # Complete the login process > my cases
     expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 10)
-    expect(dfe_signin_enter_your_password_page_comps_2.text_page_heading.text).to include("My cases")
+    expect(dfe_signin_enter_your_password_page_comps.text_page_heading.text).to include("My cases")
 
-    puts "[INFO] Successfully signed in as #{user.capitalize} user"
+    puts "[INFO] Successfully signed in as MAT user"
   end
 
 end
