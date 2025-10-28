@@ -4,5 +4,5 @@ Feature: GHBS - Util - Data management
 
   @close-case-cec
   Scenario: Data Reset Util - Close or Resolve specific case via CEC screens
-    Given we find case <000123> via the cms find a case screen
+    Given we find and open case "000144" via the cms find a case screen
     Then we complete the actions to either Close or Resolve the case

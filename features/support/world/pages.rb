@@ -9,6 +9,8 @@ require "pages/energy/energy_signin_flow_methods"
 require "pages/energy/energy_school_selection_methods"
 require "pages/energy/energy_are_you_authorised_page_methods"
 require "pages/cms/cms_signin_flow_methods"
+require "pages/cms/cms_find_a_case_methods"
+require "pages/cms/cms_top_nav_methods"
 
 module Pages
   ##### FABS PAGES #####
@@ -44,6 +46,14 @@ module Pages
   ##### CMS PAGES #####
   def cms_signin_flow_methods
     @cms_signin_flow_methods ||= CmsSignInFlowMethods.new
+  end
+
+  def cms_top_nav_methods
+    @cms_top_nav_methods ||= CmsTopNavMethods.new
+  end
+
+  def cms_find_a_case_methods
+    @cms_find_a_case_methods ||= CmsFindACaseMethods.new
   end
 
   ##### SHARED PAGES #####
