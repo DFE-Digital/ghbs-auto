@@ -6,7 +6,6 @@ require "components/cms/cms_search_results_page_comps"
 require "components/cms/cms_individual_case_view_page_steps"
 
 class CmsFindACaseMethods < CmsBasePage
-
   def search_for_case(term)
     # Search the term
     cms_find_a_case_page_comps.input_search_case_info.set(term)
@@ -25,5 +24,4 @@ class CmsFindACaseMethods < CmsBasePage
     expect(page).to have_current_path(%r{/onboarding_cases/}, url: true, wait: 10)
     expect(cms_individual_case_view_page_steps.text_page_heading_case_number.text).to include(term)
   end
-
 end

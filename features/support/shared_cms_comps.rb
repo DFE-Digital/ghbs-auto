@@ -21,5 +21,4 @@ module SharedCmsComps
 
   # Navigation
   def cms_top_nav_comps = @cms_top_nav_comps ||= CmsTopNavComps.new
-
 end

@@ -7,7 +7,6 @@ require "components/cms/cms_mycases_page_comps"
 require "components/cms/cms_find_a_case_page_comps"
 
 class CmsTopNavMethods < CmsBasePage
-
   def nav_to_notifications_screen
     cms_top_nav_comps.link_notifications.click
     expect(page).to have_current_path(%r{/cec/notifications}, url: true, wait: 10)
@@ -29,5 +28,4 @@ class CmsTopNavMethods < CmsBasePage
   def click_sign_out_button
     # TODO: add the sign out flow
   end
-
 end

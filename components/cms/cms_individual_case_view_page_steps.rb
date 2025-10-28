@@ -10,5 +10,4 @@ class CmsIndividualCasePageComps
   def text_page_heading_case_number
     find(:xpath, "//p[@id='case-ref']/strong")
   end
-
 end

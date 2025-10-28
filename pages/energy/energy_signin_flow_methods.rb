@@ -6,7 +6,6 @@ require "components/energy/energy_start_page_comps"
 require "components/energy/energy_before_you_start_page_comps"
 
 class EnergySignInFlowMethods < EnergyBasePage
-
   def continue_to_before_you_start_page
     # Navigates user from the "start" page to the "before you start" page
     energy_start_page_comps.button_start_now.click
@@ -31,5 +30,4 @@ class EnergySignInFlowMethods < EnergyBasePage
 
     puts "[INFO] Successfully signed in as #{user.capitalize} user"
   end
-
 end

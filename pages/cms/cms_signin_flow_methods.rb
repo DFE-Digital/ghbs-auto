@@ -7,7 +7,6 @@ require "components/dfe_signin/dfe_signin_access_the_service_page_comps"
 require "components/dfe_signin/dfe_signin_enter_your_password_page_comps"
 
 class CmsSignInFlowMethods < CmsBasePage
-
   def open_cms_cec_homepage
     visit SECRETS["dev_cec_cms_homepage_url"]
   end
@@ -29,5 +28,4 @@ class CmsSignInFlowMethods < CmsBasePage
 
     puts "[INFO] Successfully signed in as MAT user"
   end
-
 end

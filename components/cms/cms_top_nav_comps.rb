@@ -18,5 +18,4 @@ class CmsTopNavComps
   def link_sign_out
     find(:xpath, "//a[text()='Sign out']")
   end
-
 end

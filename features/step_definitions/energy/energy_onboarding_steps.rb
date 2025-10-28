@@ -19,7 +19,5 @@ When(/^the (.*) option is selected and completed$/) do |switching_method|
     # TODO: electricity flow
   when "both"
     # TODO: gas flow then electricity
-  else
-    # TODO: error state
   end
 end

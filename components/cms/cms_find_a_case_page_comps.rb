@@ -14,5 +14,4 @@ class CmsFindACasePageComps
   def button_search
     find(:xpath, "//input[@role='button' and @value='Search']")
   end
-
 end

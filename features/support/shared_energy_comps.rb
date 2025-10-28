@@ -17,5 +17,4 @@ module SharedEnergyComps
 
   # Gas / Electricity Pages
   def energy_what_are_you_switching_comps = @energy_what_are_you_switching_comps ||= EnergyWhatAreYouSwitchingPageComps.new
-
 end
