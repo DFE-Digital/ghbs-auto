@@ -3,7 +3,7 @@
 require "pages/cms/cms_base_page"
 require "components/cms/cms_find_a_case_page_comps"
 require "components/cms/cms_search_results_page_comps"
-require "components/cms/cms_individual_case_view_page_steps"
+require "components/cms/cms_individual_case_view_page_comps"
 
 class CmsFindACaseMethods < CmsBasePage
   def search_for_case(term)
@@ -22,6 +22,6 @@ class CmsFindACaseMethods < CmsBasePage
 
     # confirm the page load
     expect(page).to have_current_path(%r{/onboarding_cases/}, url: true, wait: 10)
-    expect(cms_individual_case_view_page_steps.text_page_heading_case_number.text).to include(term)
+    expect(cms_individual_case_view_page_comps.text_page_heading_case_number.text).to include(term)
   end
 end

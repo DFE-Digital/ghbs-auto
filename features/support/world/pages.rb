@@ -11,6 +11,7 @@ require "pages/energy/energy_are_you_authorised_page_methods"
 require "pages/cms/cms_signin_flow_methods"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
+require "pages/cms/cms_case_actions_methods"
 
 module Pages
   ##### FABS PAGES #####
@@ -54,6 +55,10 @@ module Pages
 
   def cms_find_a_case_methods
     @cms_find_a_case_methods ||= CmsFindACaseMethods.new
+  end
+
+  def cms_case_actions_methods
+    @cms_case_actions_methods ||= CmsCaseActionsMethods.new
   end
 
   ##### SHARED PAGES #####

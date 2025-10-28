@@ -6,7 +6,9 @@ require "components/cms/cms_top_nav_comps"
 require "components/cms/cms_find_a_case_page_comps"
 require "components/cms/cms_notifications_page_comps"
 require "components/cms/cms_search_results_page_comps"
-require "components/cms/cms_individual_case_view_page_steps"
+require "components/cms/cms_individual_case_view_page_comps"
+require "components/cms/cms_individual_case_resolve_case_page_comps"
+require "components/cms/cms_individual_case_actions_comps"
 
 module SharedCmsComps
   # Pre Flow pages
@@ -17,7 +19,12 @@ module SharedCmsComps
   def cms_find_a_case_page_comps = @cms_find_a_case_page_comps ||= CmsFindACasePageComps.new
   def cms_notifications_page_comps = @cms_notifications_page_comps ||= CmsNotificationsPageComps.new
   def cms_search_results_page_comps = @cms_search_results_page_comps ||= CmsSearchResultsPageComps.new
-  def cms_individual_case_view_page_steps = @cms_individual_case_view_page_steps ||= CmsIndividualCasePageComps.new
+
+
+  # Individual Case Actions
+  def cms_individual_case_view_page_comps = @cms_individual_case_view_page_comps ||= CmsIndividualCasePageComps.new
+  def cms_individual_case_resolve_case_page_comps = @cms_individual_case_resolve_case_page_comps ||= CmsIndividualCaseResolveCasePageComps.new
+  def cms_individual_case_actions_comps = @cms_individual_case_actions_comps ||= CmsIndividualCaseActionsComps.new
 
   # Navigation
   def cms_top_nav_comps = @cms_top_nav_comps ||= CmsTopNavComps.new
