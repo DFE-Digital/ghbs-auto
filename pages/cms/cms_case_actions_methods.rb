@@ -6,7 +6,6 @@ require "components/cms/cms_individual_case_resolve_case_page_comps"
 require "components/cms/cms_individual_case_view_page_comps"
 class CmsCaseActionsMethods < CmsBasePage
   def complete_resolve_case_flow
-
     case_status = cms_individual_case_view_page_comps.text_case_status_badge.text.strip.squeeze(" ")
 
     if case_status == "On Hold"

@@ -2,8 +2,8 @@
 
 require "pages/shared_global_methods"
 require "pages/energy/energy_base_page"
-require "components/energy/energy_which_school_buying_for_comps"
-require "components/energy/energy_are_you_authorised_comps"
+require "components/energy/journey_start/energy_which_school_buying_for_comps"
+require "components/energy/journey_start/energy_are_you_authorised_comps"
 
 class EnergySchoolSelectionPageMethods < EnergyBasePage
   def select_school(school_name)

@@ -20,7 +20,6 @@ module SharedCmsComps
   def cms_notifications_page_comps = @cms_notifications_page_comps ||= CmsNotificationsPageComps.new
   def cms_search_results_page_comps = @cms_search_results_page_comps ||= CmsSearchResultsPageComps.new
 
-
   # Individual Case Actions
   def cms_individual_case_view_page_comps = @cms_individual_case_view_page_comps ||= CmsIndividualCasePageComps.new
   def cms_individual_case_resolve_case_page_comps = @cms_individual_case_resolve_case_page_comps ||= CmsIndividualCaseResolveCasePageComps.new

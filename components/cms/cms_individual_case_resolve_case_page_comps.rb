@@ -14,5 +14,4 @@ class CmsIndividualCaseResolveCasePageComps
   def button_save_and_close_case
     find(:xpath, "//input[@value='Save and close case']")
   end
-
 end
