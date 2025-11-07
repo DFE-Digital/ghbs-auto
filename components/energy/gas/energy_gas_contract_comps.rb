@@ -9,31 +9,31 @@ class EnergyGasContractComps
 
   # Who currently supplies your gas?
   def radio_supplier_british_gas
-    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-british-gas-field']")
+    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-british-gas-field']/following-sibling::label")
   end
 
   def radio_supplier_edf_energy
-    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-edf-energy-field']")
+    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-edf-energy-field']/following-sibling::label")
   end
 
   def radio_supplier_eon_next
-    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-eon-next-field']")
+    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-eon-next-field']/following-sibling::label")
   end
 
   def radio_supplier_scottish_power
-    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-scottish-power-field']")
+    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-scottish-power-field']/following-sibling::label")
   end
 
   def radio_supplier_ovo_energy
-    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-ovo-energy-field']")
+    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-ovo-energy-field']/following-sibling::label")
   end
 
   def radio_supplier_octopus_energy
-    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-octopus-energy-field']")
+    find(:xpath, "//input[@id='gas-supplier-form-gas-current-supplier-octopus-energy-field']/following-sibling::label")
   end
 
   def radio_supplier_other
-    find(:xpath, "//input[@id='gas-current-supplier-other-radio']")
+    find(:xpath, "//input[@id='gas-current-supplier-other-radio']/following-sibling::label")
   end
 
   def input_other

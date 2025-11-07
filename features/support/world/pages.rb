@@ -4,10 +4,12 @@ require "pages/fabs/fabs_home_page_methods"
 require "pages/fabs/fabs_nav_methods"
 require "pages/fabs/fabs_search_page_methods"
 require "pages/shared_global_methods"
-require "pages/energy/energy_start_page_methods"
-require "pages/energy/energy_signin_flow_methods"
-require "pages/energy/energy_school_selection_methods"
-require "pages/energy/energy_are_you_authorised_page_methods"
+require "pages/energy/pre_login/energy_start_page_methods"
+require "pages/energy/pre_login/energy_signin_flow_methods"
+require "pages/energy/journey_start/energy_school_selection_methods"
+require "pages/energy/journey_start/energy_are_you_authorised_page_methods"
+require "pages/energy/journey_start/energy_switching_selection_methods"
+require "pages/energy/gas/energy_gas_contract_methods"
 require "pages/cms/cms_signin_flow_methods"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
@@ -27,7 +29,7 @@ module Pages
     @search_methods ||= FabsSearchMethods.new
   end
 
-  ##### ENERGY PAGES #####
+  ##### ENERGY PAGES: Pre Login #####
   def energy_start_page_methods
     @energy_start_page_methods ||= EnergyStartPageMethods.new
   end
@@ -36,6 +38,7 @@ module Pages
     @energy_signin_flow_methods ||= EnergySignInFlowMethods.new
   end
 
+  ##### ENERGY PAGES: Journey Start #####
   def energy_school_selection_methods
     @energy_school_selection_methods ||= EnergySchoolSelectionPageMethods.new
   end
@@ -43,6 +46,21 @@ module Pages
   def energy_are_you_authorised_page_methods
     @energy_are_you_authorised_page_methods ||= EnergyAreYouAuthorisedPageMethods.new
   end
+
+  def energy_switching_selection_methods
+    @energy_switching_selection_methods ||= EnergySwitchingSelectionMethods.new
+  end
+
+  ##### ENERGY PAGES: Gas #####
+  def energy_gas_contract_methods
+    @energy_gas_contract_methods ||= EnergyGasContractMethods.new
+  end
+
+  ##### ENERGY PAGES: Site Access #####
+  ##### ENERGY PAGES: VAT #####
+  ##### ENERGY PAGES: Billing #####
+  ##### ENERGY PAGES: Task List #####
+  ##### ENERGY PAGES: Completion #####
 
   ##### CMS PAGES #####
   def cms_signin_flow_methods

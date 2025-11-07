@@ -12,9 +12,17 @@ end
 
 When(/^the (.*) option is selected and completed$/) do |switching_method|
   energy_are_you_authorised_page_methods.continue_to_what_are_switching_page
+
+  # Are you switching electricity, gas or both?
+  energy_switching_selection_methods.choose_switch(switching_method)
+  energy_switching_selection_methods.continue_to_your_chosen_selection_path
+
   case switching_method
-  when "gas onlu"
-    # TODO: gas flow
+  when "gas only"
+    # Gas contract
+    energy_gas_contract_methods.who_currently_supplies_your_gas("Other")
+    energy_gas_contract_methods.when_does_the_contract_end
+    energy_gas_contract_methods.continue_to_your_chosen_selection_path
   when "electricity only"
     # TODO: electricity flow
   when "both"
