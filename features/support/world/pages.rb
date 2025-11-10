@@ -10,6 +10,9 @@ require "pages/energy/journey_start/energy_school_selection_methods"
 require "pages/energy/journey_start/energy_are_you_authorised_page_methods"
 require "pages/energy/journey_start/energy_switching_selection_methods"
 require "pages/energy/gas/energy_gas_contract_methods"
+require "pages/energy/gas/energy_gas_single_or_multi_methods"
+require "pages/energy/gas/energy_gas_meter_details_methods"
+require "pages/energy/gas/energy_gas_mprn_summary_methods"
 require "pages/cms/cms_signin_flow_methods"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
@@ -54,6 +57,18 @@ module Pages
   ##### ENERGY PAGES: Gas #####
   def energy_gas_contract_methods
     @energy_gas_contract_methods ||= EnergyGasContractMethods.new
+  end
+
+  def energy_gas_single_or_multi_methods
+    @energy_gas_single_or_multi_methods ||= EnergyGasSingleOrMultiMethods.new
+  end
+
+  def energy_gas_meter_details_methods
+    @energy_gas_meter_details_methods ||= EnergyGasMeterDetailsMethods.new
+  end
+
+  def energy_gas_mprn_summary_methods
+    @energy_gas_mprn_summary_methods ||= EnergyGasMprnSummaryMethods.new
   end
 
   ##### ENERGY PAGES: Site Access #####

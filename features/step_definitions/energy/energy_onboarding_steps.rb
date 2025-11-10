@@ -23,6 +23,13 @@ When(/^the (.*) option is selected and completed$/) do |switching_method|
     energy_gas_contract_methods.who_currently_supplies_your_gas("Other")
     energy_gas_contract_methods.when_does_the_contract_end
     energy_gas_contract_methods.continue_to_your_chosen_selection_path
+    # Is this a single or multi meter site?
+    energy_gas_single_or_multi_methods.single_or_multi_option("single")
+    energy_gas_single_or_multi_methods.continue_to_gas_meter_details
+    # Gas meter details
+    energy_gas_meter_details_methods.complete_and_submit_form
+    # MPRN summary
+    energy_gas_mprn_summary_methods.continue_to_gas_bill_consolidated
   when "electricity only"
     # TODO: electricity flow
   when "both"

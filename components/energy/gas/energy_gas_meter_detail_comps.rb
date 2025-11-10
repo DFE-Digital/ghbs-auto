@@ -7,6 +7,10 @@ class EnergyGasMeterDetailComps
     find(:xpath, "//h1")
   end
 
+  def error_summary_present?(wait: 0.5)
+    page.has_xpath?("//h2[@class='govuk-error-summary__title']", wait: wait)
+  end
+
   # Add the Meter Point Reference Number (MPRN)
   def input_mprn
     find(:xpath, "//input[@id='energy-gas-meter-mprn-field']")

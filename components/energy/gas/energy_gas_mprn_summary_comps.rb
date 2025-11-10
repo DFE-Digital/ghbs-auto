@@ -23,7 +23,7 @@ class EnergyGasMPRNSummaryComps
 
   # Form completion
   def button_save_and_continue
-    find(:xpath, "//input[@type='submit' and @value='Save and continue']")
+    find(:xpath, "//a[@id='save_and_continue']")
   end
 
   def link_go_to_task_list

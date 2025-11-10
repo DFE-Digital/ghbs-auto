@@ -9,11 +9,11 @@ class EnergyGasSingleOrMultiMeterComps
 
   # Is this a single or multi meter site?
   def radio_single
-    find(:xpath, "//input[@id='gas-single-multi-gas-single-multi-single-field']")
+    find(:xpath, "//input[@id='gas-single-multi-gas-single-multi-single-field']/following-sibling::label")
   end
 
   def radio_multi
-    find(:xpath, "//input[@id='gas-single-multi-gas-single-multi-multi-field']")
+    find(:xpath, "//input[@id='gas-single-multi-gas-single-multi-multi-field']/following-sibling::label")
   end
 
   # Form completion
