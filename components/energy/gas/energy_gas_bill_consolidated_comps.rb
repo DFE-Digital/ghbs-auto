@@ -9,11 +9,11 @@ class EnergyGasBillConsolidatedComps
 
   # Do you want your MPRNs consolidated on one bill?
   def radio_bill_yes
-    find(:xpath, "//input[@id='gas-bill-consolidation-form-gas-bill-consolidation-true-field']")
+    find(:xpath, "//input[@id='gas-bill-consolidation-form-gas-bill-consolidation-true-field']/following-sibling::label")
   end
 
   def radio_bill_no
-    find(:xpath, "//input[@id='gas-bill-consolidation-form-gas-bill-consolidation-field']")
+    find(:xpath, "//input[@id='gas-bill-consolidation-form-gas-bill-consolidation-field']/following-sibling::label")
   end
 
   # Form completion

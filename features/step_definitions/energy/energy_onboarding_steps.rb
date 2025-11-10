@@ -30,6 +30,19 @@ When(/^the (.*) option is selected and completed$/) do |switching_method|
     energy_gas_meter_details_methods.complete_and_submit_form
     # MPRN summary
     energy_gas_mprn_summary_methods.continue_to_gas_bill_consolidated
+    # Do you want your MPRNs consolidated on one bill?
+    energy_gas_mprn_consolidated_methods.bills_consolidated_yes
+    energy_gas_mprn_consolidated_methods.continue_to_next_screen_based_on_flow
+    # Who manages site access and maintenance?
+    energy_site_access_methods.complete_with_unique_data
+    energy_site_access_methods.continue_to_which_vat_rate_page
+    # Which VAT rate are you charged?
+    energy_which_vat_rate_methods.complete_with_20_percentage_vat
+    energy_which_vat_rate_methods.continue_to_next_page_based_on_choice
+    # Billing preferences
+    # Billing address
+    # Check your answers
+    # Agree to the Energy for Schools letter of authority
   when "electricity only"
     # TODO: electricity flow
   when "both"

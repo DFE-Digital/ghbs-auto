@@ -13,6 +13,9 @@ require "pages/energy/gas/energy_gas_contract_methods"
 require "pages/energy/gas/energy_gas_single_or_multi_methods"
 require "pages/energy/gas/energy_gas_meter_details_methods"
 require "pages/energy/gas/energy_gas_mprn_summary_methods"
+require "pages/energy/gas/energy_gas_mprn_consolidated_methods"
+require "pages/energy/site_access/energy_site_access_methods"
+require "pages/energy/vat/energy_which_vat_rate_methods"
 require "pages/cms/cms_signin_flow_methods"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
@@ -71,8 +74,20 @@ module Pages
     @energy_gas_mprn_summary_methods ||= EnergyGasMprnSummaryMethods.new
   end
 
+  def energy_gas_mprn_consolidated_methods
+    @energy_gas_mprn_consolidated_methods ||= EnergyGasMprnConsolidatedMethods.new
+  end
+
   ##### ENERGY PAGES: Site Access #####
+  def energy_site_access_methods
+    @energy_site_access_methods ||= EnergySiteAccessMethods.new
+  end
+
   ##### ENERGY PAGES: VAT #####
+  def energy_which_vat_rate_methods
+    @energy_which_vat_rate_methods ||= EnergyWhichVatRateMethods.new
+  end
+
   ##### ENERGY PAGES: Billing #####
   ##### ENERGY PAGES: Task List #####
   ##### ENERGY PAGES: Completion #####

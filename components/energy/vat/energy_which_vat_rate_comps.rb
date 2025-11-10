@@ -9,11 +9,11 @@ class EnergyWhichVatRateComps
 
   # Which VAT rate are you charged?
   def radio_20_percent
-    find(:xpath, "//input[@id='vat-rate-charge-vat-rate-20-field']")
+    find(:xpath, "//input[@id='vat-rate-charge-vat-rate-20-field']/following-sibling::label")
   end
 
   def radio_5_percent
-    find(:xpath, "//input[@id='vat-rate-charge-vat-rate-5-field']")
+    find(:xpath, "//input[@id='vat-rate-charge-vat-rate-5-field']/following-sibling::label")
   end
 
   def input_total_consumption_percent
