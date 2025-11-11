@@ -5,7 +5,6 @@ require "pages/energy/energy_base_page"
 require "components/energy/gas/energy_gas_contract_comps"
 
 class EnergyGasContractMethods < EnergyBasePage
-
   def who_currently_supplies_your_gas(supplier)
     # Confirm we are on the page as we couldn't do this on the prev screen
     expect(page).to have_current_path(%r{/gas-contract}, url: true, wait: 10)
@@ -31,7 +30,6 @@ class EnergyGasContractMethods < EnergyBasePage
       # if the option is incorrectly typed in, fall back to british gas
       energy_gas_contract_comps.radio_supplier_british_gas.click
     end
-
   end
 
   def when_does_the_contract_end
@@ -53,5 +51,4 @@ class EnergyGasContractMethods < EnergyBasePage
     # Dependent on their choice they could be sent to Is this a single or multi meter site or Electricity contract
     energy_gas_contract_comps.button_save_and_continue.click
   end
-
 end

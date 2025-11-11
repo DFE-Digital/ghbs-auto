@@ -40,7 +40,13 @@ When(/^the (.*) option is selected and completed$/) do |switching_method|
     energy_which_vat_rate_methods.complete_with_20_percentage_vat
     energy_which_vat_rate_methods.continue_to_next_page_based_on_choice
     # Billing preferences
+    energy_billing_pref_methods.how_bills_paid("direct debit")
+    energy_billing_pref_methods.payment_terms("14")
+    energy_billing_pref_methods.how_to_invoice("paper")
+    energy_billing_pref_methods.continue_to_billing_address_page
     # Billing address
+    energy_billing_address_methods.choose_address_in_position("1")
+    energy_billing_address_methods.continue_to_check_your_answers
     # Check your answers
     # Agree to the Energy for Schools letter of authority
   when "electricity only"

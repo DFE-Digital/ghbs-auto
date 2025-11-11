@@ -4,6 +4,7 @@ require "date"
 require "pages/energy/energy_base_page"
 require "helpers/unique_content_helpers"
 require "components/energy/site_access/energy_site_access_comps"
+require "components/energy/vat/energy_which_vat_rate_comps"
 
 class EnergySiteAccessMethods < EnergyBasePage
   include UniqueContentHelpers
@@ -23,7 +24,6 @@ class EnergySiteAccessMethods < EnergyBasePage
   def continue_to_which_vat_rate_page
     energy_site_access_comps.button_save_and_continue.click
     expect(page).to have_current_path(%r{/vat-rate}, url: true, wait: 10)
-    expect(energy_what_are_you_switching_comps.text_page_heading.text).to include("Which VAT rate are you charged?")
+    expect(energy_which_vat_rate_comps.text_page_heading.text).to include("Which VAT rate are you charged?")
   end
-
 end

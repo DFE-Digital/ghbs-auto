@@ -6,7 +6,7 @@ module UniqueContentHelpers
   def generate_random_number(digits, preserve_leading_zeros: false)
     if preserve_leading_zeros
       # Generate as string, keep leading zeros
-      "%0#{digits}d" % rand(0...(10**digits))
+      sprintf("%0#{digits}d", rand(0...(10**digits)))
     else
       # Generate as integer (no leading zeros)
       rand(10**(digits - 1)..(10**digits - 1))
@@ -21,7 +21,7 @@ module UniqueContentHelpers
     if preserve_leading_zeros
       # Pad with zeros up to the same length as the larger bound
       max_length = max.to_s.length
-      "%0#{max_length}d" % number
+      sprintf("%0#{max_length}d", number)
     else
       number
     end

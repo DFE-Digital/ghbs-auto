@@ -5,7 +5,7 @@ require "pages/energy/energy_base_page"
 require "components/energy/journey_start/energy_which_school_buying_for_comps"
 require "components/energy/journey_start/energy_are_you_authorised_comps"
 
-class EnergySchoolSelectionPageMethods < EnergyBasePage
+class EnergySchoolSelectionMethods < EnergyBasePage
   def select_school(school_name)
     expect(page).to have_current_path(%r{/which-school-buying-for}, url: true, wait: 10)
     energy_which_school_buying_for_comps.radio_select_desired_school(school_name).click

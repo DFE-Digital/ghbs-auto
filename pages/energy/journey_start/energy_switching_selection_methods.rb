@@ -16,7 +16,6 @@ class EnergySwitchingSelectionMethods < EnergyBasePage
     when "both"
       energy_what_are_you_switching_comps.radio_both_electric_and_gas.click
     end
-
   end
 
   def continue_to_your_chosen_selection_path

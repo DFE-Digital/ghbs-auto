@@ -4,6 +4,7 @@ require "date"
 require "pages/energy/energy_base_page"
 require "helpers/unique_content_helpers"
 require "components/energy/vat/energy_which_vat_rate_comps"
+require "components/energy/billing/energy_billing_pref_comps"
 
 class EnergyWhichVatRateMethods < EnergyBasePage
   include UniqueContentHelpers
@@ -24,5 +25,4 @@ class EnergyWhichVatRateMethods < EnergyBasePage
     # Depending on their choice, 20% would take them to Billing and 5% would take them too more VAT screens
     energy_which_vat_rate_comps.button_save_and_continue.click
   end
-
 end

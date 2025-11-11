@@ -9,33 +9,33 @@ class EnergyBillingPrefComps
 
   # How will the bills be paid?
   def radio_bacs
-    find(:xpath, "//input[@id='billing-preferences-billing-payment-method-bacs-field']")
+    find(:xpath, "//input[@id='billing-preferences-billing-payment-method-bacs-field']/following-sibling::label")
   end
 
   def radio_direct_debit
-    find(:xpath, "//input[@id='billing-preferences-billing-payment-method-direct-debit-field']")
+    find(:xpath, "//input[@id='billing-preferences-billing-payment-method-direct-debit-field']/following-sibling::label")
   end
 
   # Payment terms
   def radio_payment_14_days
-    find(:xpath, "//input[@id='billing-preferences-billing-payment-terms-days14-field']")
+    find(:xpath, "//input[@id='billing-preferences-billing-payment-terms-days14-field']/following-sibling::label")
   end
 
   def radio_payment_21_days
-    find(:xpath, "//input[@id='billing-preferences-billing-payment-terms-days21-field']")
+    find(:xpath, "//input[@id='billing-preferences-billing-payment-terms-days21-field']/following-sibling::label")
   end
 
   def radio_payment_28_days
-    find(:xpath, "//input[@id='billing-preferences-billing-payment-terms-days28-field']")
+    find(:xpath, "//input[@id='billing-preferences-billing-payment-terms-days28-field']/following-sibling::label")
   end
 
   def radio_payment_30_days
-    find(:xpath, "//input[@id='billing-preferences-billing-payment-terms-days30-field']")
+    find(:xpath, "//input[@id='billing-preferences-billing-payment-terms-days30-field']/following-sibling::label")
   end
 
   # How do you want to be invoiced?
   def radio_invoice_email
-    find(:xpath, "//input[@id='billing-preferences-billing-invoicing-method-email-field']")
+    find(:xpath, "//input[@id='billing-preferences-billing-invoicing-method-email-field']/following-sibling::label")
   end
 
   def input_invoice_email_address
@@ -43,7 +43,7 @@ class EnergyBillingPrefComps
   end
 
   def radio_invoice_paper
-    find(:xpath, "//input[@id='billing-preferences-billing-invoicing-method-paper-field']")
+    find(:xpath, "//input[@id='billing-preferences-billing-invoicing-method-paper-field']/following-sibling::label")
   end
 
   # Form completion

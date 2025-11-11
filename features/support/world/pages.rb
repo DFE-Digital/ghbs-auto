@@ -16,6 +16,8 @@ require "pages/energy/gas/energy_gas_mprn_summary_methods"
 require "pages/energy/gas/energy_gas_mprn_consolidated_methods"
 require "pages/energy/site_access/energy_site_access_methods"
 require "pages/energy/vat/energy_which_vat_rate_methods"
+require "pages/energy/billing/energy_billing_pref_methods"
+require "pages/energy/billing/energy_billing_address_methods"
 require "pages/cms/cms_signin_flow_methods"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
@@ -46,7 +48,7 @@ module Pages
 
   ##### ENERGY PAGES: Journey Start #####
   def energy_school_selection_methods
-    @energy_school_selection_methods ||= EnergySchoolSelectionPageMethods.new
+    @energy_school_selection_methods ||= EnergySchoolSelectionMethods.new
   end
 
   def energy_are_you_authorised_page_methods
@@ -89,6 +91,14 @@ module Pages
   end
 
   ##### ENERGY PAGES: Billing #####
+  def energy_billing_pref_methods
+    @energy_billing_pref_methods ||= EnergyBillingPrefMethods.new
+  end
+
+  def energy_billing_address_methods
+    @energy_billing_address_methods ||= EnergyBillingAddressMethods.new
+  end
+
   ##### ENERGY PAGES: Task List #####
   ##### ENERGY PAGES: Completion #####
 

@@ -4,6 +4,7 @@ require "pages/shared_global_methods"
 require "pages/energy/energy_base_page"
 require "components/energy/pre_login/energy_start_comps"
 require "components/energy/pre_login/energy_before_you_start_comps"
+require "components/energy/journey_start/energy_which_school_buying_for_comps"
 
 class EnergySignInFlowMethods < EnergyBasePage
   def continue_to_before_you_start_page
@@ -26,7 +27,7 @@ class EnergySignInFlowMethods < EnergyBasePage
 
     # Complete the login process
     expect(page).to have_current_path(%r{/which-school-buying-for}, url: true, wait: 10)
-    expect(dfe_signin_enter_your_password_page_comps.text_page_heading.text).to include("Which school are you buying for?")
+    expect(energy_which_school_buying_for_comps.text_page_heading.text).to include("Which school are you buying for?")
 
     puts "[INFO] Successfully signed in as #{user.capitalize} user"
   end

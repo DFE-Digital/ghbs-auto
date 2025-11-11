@@ -9,11 +9,11 @@ class EnergyBillingAddressComps
 
   # Billing address
   def radio_address_option_1
-    find(:xpath, "//h2[text()='Billing address']/parent::legend/following-sibling::div/div[1]/input")
+    find(:xpath, "//h1[text()='Billing address']/parent::legend/following-sibling::div/div[1]/input/following-sibling::label")
   end
 
   def radio_address_option_2
-    find(:xpath, "//h2[text()='Billing address']/parent::legend/following-sibling::div/div[2]/input")
+    find(:xpath, "//h1[text()='Billing address']/parent::legend/following-sibling::div/div[2]/input/following-sibling::label")
   end
 
   # Form completion
