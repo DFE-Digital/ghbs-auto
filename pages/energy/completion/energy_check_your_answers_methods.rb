@@ -2,6 +2,7 @@
 
 require "pages/energy/energy_base_page"
 require "components/energy/completion/energy_check_your_answers_comps"
+require "components/energy/completion/energy_loa_comps"
 require "helpers/validation_helpers"
 class EnergyCheckYourAnswersMethods < EnergyBasePage
   include ValidationHelpers
@@ -62,6 +63,6 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
   def continue_to_loa_page
     energy_check_your_answers_comps.button_continue.click
     expect(page).to have_current_path(%r{/letter-of-authority}, url: true, wait: 10)
-    expect(energy_gas_bill_consolidated_comps.text_page_heading.text).to include("Agree to the Energy for Schools letter of authority")
+    expect(energy_loa_comps.text_page_heading.text).to include("Agree to the Energy for Schools letter of authority")
   end
 end

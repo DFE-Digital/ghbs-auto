@@ -66,5 +66,14 @@ end
 And(/^the CYA screen info is validated$/) do
   # Check your answers
   energy_check_your_answers_methods.validate_all_sections
+  energy_check_your_answers_methods.continue_to_loa_page
   # Agree to the Energy for Schools letter of authority
+end
+
+Then(/^we complete the form and confirm our newly created case number$/) do
+  # Letter Of Agreement
+  energy_loa_methods.complete_loa
+  energy_loa_methods.continue_to_information_submitted
+  # Information submitted on 13 November 2025
+  energy_info_submitted_methods.validate_information_date_is_today
 end

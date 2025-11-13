@@ -12,7 +12,7 @@ Scenario Outline: Energy Onboarding Flow - Gas + Direct Debit Only
   And the VAT flow is completed with a <VatFlow> percent option selected
   And the Billing section is completed with the <BillingOption> option selected
   And the CYA screen info is validated
-#  Then we complete the form and confirm our newly created case number
+  Then we complete the form and confirm our newly created case number
 
 Examples:
 | SchoolUser | SchoolName       | Switching | VatFlow | BillingOption |

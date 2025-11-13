@@ -58,7 +58,8 @@ class CaseState
     :billing_how_paid,
     :billing_payment_terms,
     :billing_how_receive,
-    :billing_address
+    :billing_address,
+    :case_number
 
   def initialize
     # Initialise all fields to empty strings.

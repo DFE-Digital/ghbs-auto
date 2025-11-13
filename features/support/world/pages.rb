@@ -19,6 +19,8 @@ require "pages/energy/vat/energy_which_vat_rate_methods"
 require "pages/energy/billing/energy_billing_pref_methods"
 require "pages/energy/billing/energy_billing_address_methods"
 require "pages/energy/completion/energy_check_your_answers_methods"
+require "pages/energy/completion/energy_loa_methods"
+require "pages/energy/completion/energy_info_submitted_methods"
 require "pages/cms/cms_signin_flow_methods"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
@@ -105,6 +107,14 @@ module Pages
 
   def energy_check_your_answers_methods
     @energy_check_your_answers_methods ||= EnergyCheckYourAnswersMethods.new(self)
+  end
+
+  def energy_loa_methods
+    @energy_loa_methods ||= EnergyLoaMethods.new(self)
+  end
+
+  def energy_info_submitted_methods
+    @energy_info_submitted_methods ||= EnergyInfoSubmittedMethods.new(self)
   end
 
   ##### CMS PAGES #####
