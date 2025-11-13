@@ -10,4 +10,13 @@ class SharedGlobalMethodsBasePage
   include RSpec::Matchers
   include SharedDfeSignInComps
   include A11yAssertions
+
+  def case_state
+    # Use the World’s case_state if available; if not make it.
+    if @world.respond_to?(:case_state)
+      @world.case_state
+    else
+      @case_state ||= CaseState.new
+    end
+  end
 end

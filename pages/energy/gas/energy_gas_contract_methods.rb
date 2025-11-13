@@ -30,6 +30,9 @@ class EnergyGasContractMethods < EnergyBasePage
       # if the option is incorrectly typed in, fall back to british gas
       energy_gas_contract_comps.radio_supplier_british_gas.click
     end
+
+    # Add to case state
+    case_state.gas_current_supplier = supplier
   end
 
   def when_does_the_contract_end
@@ -45,6 +48,9 @@ class EnergyGasContractMethods < EnergyBasePage
     energy_gas_contract_comps.input_contract_end_day.set(day)
     energy_gas_contract_comps.input_contract_end_month.set(month)
     energy_gas_contract_comps.input_contract_end_year.set(year)
+
+    # Add to case state
+    case_state.gas_current_contract_end_date = "#{day}-#{month}-#{year}"
   end
 
   def continue_to_your_chosen_selection_path

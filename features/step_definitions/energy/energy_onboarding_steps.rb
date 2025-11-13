@@ -33,25 +33,34 @@ When(/^the (.*) option is selected and completed$/) do |switching_method|
     # Do you want your MPRNs consolidated on one bill?
     energy_gas_mprn_consolidated_methods.bills_consolidated_yes
     energy_gas_mprn_consolidated_methods.continue_to_next_screen_based_on_flow
-    # Who manages site access and maintenance?
-    energy_site_access_methods.complete_with_unique_data
-    energy_site_access_methods.continue_to_which_vat_rate_page
-    # Which VAT rate are you charged?
-    energy_which_vat_rate_methods.complete_with_20_percentage_vat
-    energy_which_vat_rate_methods.continue_to_next_page_based_on_choice
-    # Billing preferences
-    energy_billing_pref_methods.how_bills_paid("direct debit")
-    energy_billing_pref_methods.payment_terms("14")
-    energy_billing_pref_methods.how_to_invoice("paper")
-    energy_billing_pref_methods.continue_to_billing_address_page
-    # Billing address
-    energy_billing_address_methods.choose_address_in_position("1")
-    energy_billing_address_methods.continue_to_check_your_answers
-    # Check your answers
-    # Agree to the Energy for Schools letter of authority
   when "electricity only"
     # TODO: electricity flow
   when "both"
     # TODO: gas flow then electricity
   end
+end
+
+And(/^the Site Contact screen is completed$/) do
+  # Who manages site access and maintenance?
+  energy_site_access_methods.complete_with_unique_data
+  energy_site_access_methods.continue_to_which_vat_rate_page
+end
+
+And(/^the VAT flow is completed with a (.*) percent option selected$/) do |vat_percentage|
+  # Which VAT rate are you charged?
+  energy_which_vat_rate_methods.percentage_choice(vat_percentage)
+  energy_which_vat_rate_methods.continue_to_next_page_based_on_choice
+end
+
+And(/^the Billing section is completed with the (.*) option selected$/) do |billing_option|
+  # Billing preferences
+  energy_billing_pref_methods.how_bills_paid(billing_option)
+  energy_billing_pref_methods.payment_terms("14")
+  energy_billing_pref_methods.how_to_invoice("paper")
+  energy_billing_pref_methods.continue_to_billing_address_page
+  # Billing address
+  energy_billing_address_methods.choose_address_in_position("1")
+  energy_billing_address_methods.continue_to_check_your_answers
+  # Check your answers
+  # Agree to the Energy for Schools letter of authority
 end

@@ -18,6 +18,9 @@ class EnergyGasSingleOrMultiMethods < EnergyBasePage
       # if the option is incorrectly typed in, fall back to single
       energy_gas_contract_comps.radio_supplier_british_gas.click
     end
+
+    # Add to case state
+    case_state.gas_single_or_multi_meter = choice
   end
 
   def continue_to_gas_meter_details

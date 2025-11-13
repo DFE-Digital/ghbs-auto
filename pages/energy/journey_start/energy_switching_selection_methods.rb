@@ -16,6 +16,9 @@ class EnergySwitchingSelectionMethods < EnergyBasePage
     when "both"
       energy_what_are_you_switching_comps.radio_both_electric_and_gas.click
     end
+
+    # Add to case state
+    case_state.energy_choice = choice
   end
 
   def continue_to_your_chosen_selection_path

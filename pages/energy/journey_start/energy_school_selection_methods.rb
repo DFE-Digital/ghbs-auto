@@ -9,6 +9,9 @@ class EnergySchoolSelectionMethods < EnergyBasePage
   def select_school(school_name)
     expect(page).to have_current_path(%r{/which-school-buying-for}, url: true, wait: 10)
     energy_which_school_buying_for_comps.radio_select_desired_school(school_name).click
+
+    # Add to case state
+    case_state.school_name = school_name
   end
 
   def continue_to_are_you_authorised_page

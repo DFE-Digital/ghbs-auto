@@ -9,10 +9,14 @@ Before do
 
   # Reset of flags before each scenario
   ENV["AXE"] = "false"
+
+  # ensure clean state per scenario
+  @case_state = CaseState.new
 end
 
 After do |scenario|
   status = scenario.failed? ? "FAILED" : "PASSED"
+  puts "[CASE_STATE] #{case_state.to_h}"
   total_run_time = Time.now - (@scenario_started_at || Time.now)
   puts "RUN TIME: #{status} in #{sprintf('%0.2f', total_run_time)}s"
 

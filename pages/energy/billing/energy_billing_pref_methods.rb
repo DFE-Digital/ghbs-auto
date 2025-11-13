@@ -17,6 +17,9 @@ class EnergyBillingPrefMethods < EnergyBasePage
     else
       raise ArgumentError, "Unknown bill type: #{bill_type.inspect}, expected bacs or direct debit"
     end
+
+    # Add to case state
+    case_state.billing_how_paid = bill_type
   end
 
   def payment_terms(option)
@@ -33,6 +36,9 @@ class EnergyBillingPrefMethods < EnergyBasePage
     else
       raise ArgumentError, "Unknown payment term: #{option.inspect}, expected 14,21,28 or 30"
     end
+
+    # Add to case state
+    case_state.billing_payment_terms = option
   end
 
   def how_to_invoice(type)
@@ -46,6 +52,9 @@ class EnergyBillingPrefMethods < EnergyBasePage
     else
       raise ArgumentError, "Unknown invoice type: #{type.inspect}, expected email or paper"
     end
+
+    # Add to case state
+    case_state.billing_payment_terms = type
   end
 
   def continue_to_billing_address_page

@@ -22,6 +22,10 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
                     raise ArgumentError, "Unknown user type: '#{user}'"
                   end
 
+    # Add to case state
+    case_state.user_email = credentials[:email]
+    case_state.user_type = user
+
     # NOTE: this method assumes we are already on the first page of the DfE Sign-In flow
     expect(page).to have_current_path(%r{/signin/username}, url: true, wait: 10)
     dfe_signin_access_the_service_page_comps.input_username.set(credentials[:email])
