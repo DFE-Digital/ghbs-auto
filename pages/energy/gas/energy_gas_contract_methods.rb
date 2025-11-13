@@ -10,6 +10,8 @@ class EnergyGasContractMethods < EnergyBasePage
     expect(page).to have_current_path(%r{/gas-contract}, url: true, wait: 10)
     expect(dfe_signin_enter_your_password_page_comps.text_page_heading.text).to include("Gas contract")
 
+    other_option_custom_name = "A custom auto supplier"
+
     case supplier
     when "British Gas"
       energy_gas_contract_comps.radio_supplier_british_gas.click
@@ -25,23 +27,27 @@ class EnergyGasContractMethods < EnergyBasePage
       energy_gas_contract_comps.radio_supplier_octopus_energy.click
     when "Other"
       energy_gas_contract_comps.radio_supplier_other.click
-      energy_gas_contract_comps.input_other.set("A custom auto supplier")
+      energy_gas_contract_comps.input_other.set(other_option_custom_name)
     else
       # if the option is incorrectly typed in, fall back to british gas
       energy_gas_contract_comps.radio_supplier_british_gas.click
     end
 
     # Add to case state
-    case_state.gas_current_supplier = supplier
+    case_state.gas_current_supplier = if supplier == "Other"
+                                        other_option_custom_name
+                                      else
+                                        supplier
+                                      end
   end
 
   def when_does_the_contract_end
     # get today's date + 60 days
     future_date = Date.today + 60
 
-    # extract individual parts
-    day   = future_date.day.to_s
-    month = future_date.month.to_s
+    # extract individual parts with leading zeros
+    day   = sprintf("%02d", future_date.day)
+    month = sprintf("%02d", future_date.month)
     year  = future_date.year.to_s
 
     # set each field on the page

@@ -24,7 +24,7 @@ When(/^the (.*) option is selected and completed$/) do |switching_method|
     energy_gas_contract_methods.when_does_the_contract_end
     energy_gas_contract_methods.continue_to_your_chosen_selection_path
     # Is this a single or multi meter site?
-    energy_gas_single_or_multi_methods.single_or_multi_option("single")
+    energy_gas_single_or_multi_methods.single_or_multi_option("Single meter")
     energy_gas_single_or_multi_methods.continue_to_gas_meter_details
     # Gas meter details
     energy_gas_meter_details_methods.complete_and_submit_form
@@ -61,6 +61,10 @@ And(/^the Billing section is completed with the (.*) option selected$/) do |bill
   # Billing address
   energy_billing_address_methods.choose_address_in_position("1")
   energy_billing_address_methods.continue_to_check_your_answers
+end
+
+And(/^the CYA screen info is validated$/) do
   # Check your answers
+  energy_check_your_answers_methods.validate_all_sections
   # Agree to the Energy for Schools letter of authority
 end

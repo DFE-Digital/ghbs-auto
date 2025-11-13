@@ -12,8 +12,8 @@ class EnergySiteAccessMethods < EnergyBasePage
   def complete_with_unique_data
     site_contact_first_name = "AutoTestFN-#{Time.now.strftime('%S-%M-%H-%m-%d-%Y')}"
     site_contact_last_name = "AutoTestLN"
-    site_contact_phone = SECRETS["test_user_2"]
-    site_contact_email = generate_random_number(11, preserve_leading_zeros: true)
+    site_contact_phone = generate_random_number(11, preserve_leading_zeros: true)
+    site_contact_email = SECRETS["test_user_2"]
 
     # Validate were on the correct page as there are multiple routes in to this screen (hence why this val isn't a page back!)
     expect(page).to have_current_path(%r{/site-contact}, url: true, wait: 10)
@@ -22,8 +22,8 @@ class EnergySiteAccessMethods < EnergyBasePage
     # Auto populate unique data
     energy_site_access_comps.input_first_name.set(site_contact_first_name)
     energy_site_access_comps.input_last_name.set(site_contact_last_name)
-    energy_site_access_comps.input_email.set(site_contact_phone)
-    energy_site_access_comps.input_phone.set(site_contact_email)
+    energy_site_access_comps.input_email.set(site_contact_email)
+    energy_site_access_comps.input_phone.set(site_contact_phone)
 
     # Add to case state
     case_state.site_contact_first_name = site_contact_first_name

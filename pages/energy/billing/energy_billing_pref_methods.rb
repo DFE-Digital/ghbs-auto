@@ -10,9 +10,9 @@ class EnergyBillingPrefMethods < EnergyBasePage
     expect(energy_billing_pref_comps.text_page_heading.text).to include("Billing preferences")
     # How will the bills be paid?
     case bill_type
-    when "bacs"
+    when "BACS"
       energy_billing_pref_comps.radio_bacs.click
-    when "direct debit"
+    when "Direct debit"
       energy_billing_pref_comps.radio_direct_debit.click
     else
       raise ArgumentError, "Unknown bill type: #{bill_type.inspect}, expected bacs or direct debit"
@@ -38,7 +38,7 @@ class EnergyBillingPrefMethods < EnergyBasePage
     end
 
     # Add to case state
-    case_state.billing_payment_terms = option
+    case_state.billing_payment_terms = "#{option} days"
   end
 
   def how_to_invoice(type)
@@ -54,7 +54,7 @@ class EnergyBillingPrefMethods < EnergyBasePage
     end
 
     # Add to case state
-    case_state.billing_payment_terms = type
+    case_state.billing_how_receive = type
   end
 
   def continue_to_billing_address_page

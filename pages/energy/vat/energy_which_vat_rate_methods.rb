@@ -36,7 +36,7 @@ class EnergyWhichVatRateMethods < EnergyBasePage
     energy_which_vat_rate_comps.input_vat_reg_number.set(vat_reg_number)
 
     # Add to case state
-    case_state.vat_rate = "5"
+    case_state.vat_rate = "5%"
     case_state.vat_qualifying_percentage = total_consumption_percent
     case_state.vat_reg_number = vat_reg_number
   end
@@ -45,6 +45,6 @@ class EnergyWhichVatRateMethods < EnergyBasePage
     # Depending on their choice, 20% would take them to Billing and 5% would take them too more VAT screens
     energy_which_vat_rate_comps.button_save_and_continue.click
     # Add to case state
-    case_state.vat_rate = "20"
+    case_state.vat_rate = "20%"
   end
 end

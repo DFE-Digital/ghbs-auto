@@ -18,6 +18,7 @@ require "pages/energy/site_access/energy_site_access_methods"
 require "pages/energy/vat/energy_which_vat_rate_methods"
 require "pages/energy/billing/energy_billing_pref_methods"
 require "pages/energy/billing/energy_billing_address_methods"
+require "pages/energy/completion/energy_check_your_answers_methods"
 require "pages/cms/cms_signin_flow_methods"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
@@ -101,6 +102,10 @@ module Pages
 
   ##### ENERGY PAGES: Task List #####
   ##### ENERGY PAGES: Completion #####
+
+  def energy_check_your_answers_methods
+    @energy_check_your_answers_methods ||= EnergyCheckYourAnswersMethods.new(self)
+  end
 
   ##### CMS PAGES #####
   def cms_signin_flow_methods

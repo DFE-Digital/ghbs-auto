@@ -57,7 +57,7 @@ class CaseState
     :vat_certificate_confirmation,
     :billing_how_paid,
     :billing_payment_terms,
-    :billing_how_recieve,
+    :billing_how_receive,
     :billing_address
 
   def initialize

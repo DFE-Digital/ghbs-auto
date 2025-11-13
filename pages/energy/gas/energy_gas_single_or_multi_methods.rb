@@ -10,9 +10,9 @@ class EnergyGasSingleOrMultiMethods < EnergyBasePage
     expect(page).to have_current_path(%r{/gas-multi-single}, url: true, wait: 10)
     expect(energy_what_are_you_switching_comps.text_page_heading.text).to include("Is this a single or multi meter site?")
     case choice
-    when "single"
+    when "Single meter"
       energy_gas_single_or_multi_meter_comps.radio_single.click
-    when "multi"
+    when "Multi meter"
       energy_gas_single_or_multi_meter_comps.radio_multi.click
     else
       # if the option is incorrectly typed in, fall back to single
