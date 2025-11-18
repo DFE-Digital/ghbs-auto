@@ -25,26 +25,59 @@ latest / upcoming features.
 
 ```bash
 ├── components/                # Element definitions (POM style)
-│   ├── fabs_home_page_comps.rb
-│   └── fabs_search_page_comps.rb
+│   └──  cms
+│   │   └── cms_login_page_comps.rb
+│   │   └── ...
+│   └── dfe_signin
+│   │   └── dfe_signin_access_the_service_page_comps.rb
+│   │   └── ...
+│   └── energy
+│   │   └── billing 
+│   │   │   └── energy_billing_address_comps.rb
+│   │   │   └── ...
+│   └── fabs
+│   │   └── ...
 │
 ├── features/                  # Feature files and step definitions
 │   ├── fabs_search.feature
+│   ├── fabs_axe.feature
+│   ├── utils_data_management.feature
+│   ├── ...
 │   ├── step_definitions/
 │   │   ├── fabs_home_page_steps.rb
 │   │   └── fabs_search_page_steps.rb
 │   └── support/
 │       ├── env.rb
 │       ├── hooks.rb
+│       ├── a11y_assertions.rb
+│       ├── flags_global_config.rb
+│       ├── shared_cms_comps.rb
+│       ├── ...
 │       └── world/            # World helpers (expose page objects to steps)
 │           └── pages.rb
 │
 ├── helpers/                   # Support modules (env loader, screenshot utils etc)
 │   ├── env_helpers.rb
 │   └── screenshot_helper.rb
+│   └── unique_content_helpers.rb
+│   └── url_nav_helpers.rb
+│   └── validation_helpers.rb
 │
 ├── pages/                     # Core method logic per page
-│   └── fabs_home_page_methods.rb
+│   └── 
+│   └──  cms
+│   │   └── cms_find_a_case_methods.rb
+│   │   └── ...
+│   └── shared
+│   │   └── shared_global_methods.rb
+│   │   └── ...
+│   └── energy
+│   │   └── billing 
+│   │   │   └── energy_billing_address_methods.rb
+│   │   │   └── ...
+│   └── fabs
+│   │   └── fabs_home_page_methods.rb
+│   └──  base_page.rb
 │
 ├── screenshots/               # Test failure screenshots
 │
@@ -150,6 +183,16 @@ TEST_ENV=local bundle exec cucumber --tags "(@homepage or @search) and not @slow
 ```
 
 > `TEST_ENV` determines which section of `config.yml` and `.secrets.yml` to use.
+
+### Local Dev Common Runs 
+##### running your current wip
+```bash
+TEST_ENV=local bundle exec cucumber -p allure_pretty --tags "@wip" allure generate reports/allure-results --clean -o reports/allure-report
+```
+##### rubuop for code maintenance
+```bash
+bundle exec rubocop
+```
 
 ---
 
