@@ -57,7 +57,7 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
     validate_values_match(case_state.billing_how_paid, energy_check_your_answers_comps.text_billing_how_will_you_pay.text)
     validate_values_match(case_state.billing_payment_terms, energy_check_your_answers_comps.text_billing_payment_terms.text)
     validate_values_match(case_state.billing_how_receive, energy_check_your_answers_comps.text_billing_how_would_you_like_to_receive.text)
-    validate_value_contains(energy_check_your_answers_comps.text_billing_address.text, case_state.billing_address )
+    validate_value_contains(energy_check_your_answers_comps.text_billing_address.text, case_state.billing_address)
   end
 
   def continue_to_loa_page

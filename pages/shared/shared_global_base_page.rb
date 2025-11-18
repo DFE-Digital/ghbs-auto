@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "./base_page"
+require_relative "../base_page"
 require "capybara/dsl"
 require "rspec/expectations"
 require "features/support/a11y_assertions"

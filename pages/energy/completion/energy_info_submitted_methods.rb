@@ -3,7 +3,6 @@
 require "pages/energy/energy_base_page"
 require "components/energy/completion/energy_info_submitted_comps"
 class EnergyInfoSubmittedMethods < EnergyBasePage
-
   def validate_information_date_is_today
     # validate the page has loaded
     expect(page).to have_current_path(%r{/information-submitted}, url: true, wait: 10)
@@ -26,5 +25,4 @@ class EnergyInfoSubmittedMethods < EnergyBasePage
     # Add to case state
     case_state.case_number = energy_info_submitted_comps.text_case_number.text
   end
-
 end

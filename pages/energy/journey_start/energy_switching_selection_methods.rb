@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "pages/shared_global_methods"
+require "pages/shared/shared_global_methods"
 require "pages/energy/energy_base_page"
 require "components/energy/journey_start/energy_what_are_you_switching_comps"
 

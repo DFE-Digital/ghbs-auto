@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "pages/shared_global_methods"
+require "pages/shared/shared_global_methods"
 require "pages/cms/cms_base_page"
 require "components/cms/cms_login_page_comps"
 require "components/dfe_signin/dfe_signin_access_the_service_page_comps"

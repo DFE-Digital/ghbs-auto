@@ -4,7 +4,6 @@ require "pages/energy/energy_base_page"
 require "components/energy/completion/energy_loa_comps"
 require "components/energy/completion/energy_info_submitted_comps"
 class EnergyLoaMethods < EnergyBasePage
-
   def complete_loa
     energy_loa_comps.checkbox_1.click
     energy_loa_comps.checkbox_2.click

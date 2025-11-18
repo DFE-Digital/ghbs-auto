@@ -6,7 +6,7 @@ require "rspec/expectations"
 require "features/support/shared_cms_comps"
 require "features/support/a11y_assertions"
 require "features/support/shared_signin_comps"
-require "pages/shared_global_methods"
+require "pages/shared/shared_global_methods"
 require "features/support/shared_energy_comps"
 
 class CmsBasePage < BasePage

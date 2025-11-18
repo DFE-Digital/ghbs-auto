@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "shared_global_base_page"
+require "pages/shared/shared_global_base_page"
 require "components/dfe_signin/dfe_signin_access_the_service_page_comps"
 require "components/dfe_signin/dfe_signin_enter_your_password_page_comps"
 

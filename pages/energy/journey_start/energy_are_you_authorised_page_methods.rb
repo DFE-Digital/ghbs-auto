@@ -4,7 +4,6 @@ require "uri"
 require "components/energy/journey_start/energy_are_you_authorised_comps"
 require "components/energy/journey_start/energy_what_are_you_switching_comps"
 
-
 class EnergyAreYouAuthorisedPageMethods < EnergyBasePage
   def continue_to_what_are_switching_page
     # Ok so there is a small chance we could land on a page here which is for an in flight case, ie /task-list
@@ -44,7 +43,6 @@ class EnergyAreYouAuthorisedPageMethods < EnergyBasePage
     energy_are_you_authorised_comps.button_continue.click
     expect(page).to have_current_path(%r{/which-energy-supply}, url: true, wait: 10)
     expect(energy_what_are_you_switching_comps.text_page_heading.text).to include("Are you switching electricity, gas or both?")
-
   end
 
 private

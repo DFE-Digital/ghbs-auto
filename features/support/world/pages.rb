@@ -3,7 +3,7 @@
 require "pages/fabs/fabs_home_page_methods"
 require "pages/fabs/fabs_nav_methods"
 require "pages/fabs/fabs_search_page_methods"
-require "pages/shared_global_methods"
+require "pages/shared/shared_global_methods"
 require "pages/energy/pre_login/energy_start_page_methods"
 require "pages/energy/pre_login/energy_signin_flow_methods"
 require "pages/energy/journey_start/energy_school_selection_methods"
@@ -27,7 +27,6 @@ require "pages/cms/cms_top_nav_methods"
 require "pages/cms/cms_case_actions_methods"
 
 module Pages
-
   def resolved_world
     respond_to?(:world) ? world : self
   end
