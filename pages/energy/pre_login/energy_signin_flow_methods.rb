@@ -23,7 +23,7 @@ class EnergySignInFlowMethods < EnergyBasePage
 
   def continue_compelte_dfe_signin_flow(user)
     # Navigates user through the DfE sign-in flow to the "Which school are you buying for?" page
-    shared_global_methods.complete_dfe_signin_as(user)
+    world.shared_global_methods.complete_dfe_signin_as(user)
 
     # Complete the login process
     expect(page).to have_current_path(%r{/which-school-buying-for}, url: true, wait: 10)

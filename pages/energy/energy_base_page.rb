@@ -6,7 +6,6 @@ require "rspec/expectations"
 require "features/support/shared_energy_comps"
 require "features/support/a11y_assertions"
 require "features/support/shared_signin_comps"
-require "pages/shared/shared_global_methods"
 
 class EnergyBasePage < BasePage
   include Capybara::DSL
@@ -14,10 +13,6 @@ class EnergyBasePage < BasePage
   include SharedEnergyComps
   include SharedDfeSignInComps
   include A11yAssertions
-
-  def shared_global_methods
-    @shared_global_methods ||= SharedGlobalMethods.new(world)
-  end
 
   def case_state
     # use the World’s case_state if available; fallback helps in unit tests
