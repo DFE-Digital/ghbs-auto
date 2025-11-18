@@ -9,7 +9,7 @@ class EnergyStartPageMethods < EnergyBasePage
   end
 
   def validate_start_page_loaded
-    expect(energy_start_comps.text_page_heading.text)
-      .to include("Join Energy for Schools")
+    expect(page).to have_current_path(%r{/start}, url: true, wait: 10)
+    expect(energy_start_comps.text_page_heading.text).to include("Join Energy for Schools")
   end
 end

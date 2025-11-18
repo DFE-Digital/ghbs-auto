@@ -4,8 +4,10 @@ require "pages/cms/cms_base_page"
 require "components/cms/cms_find_a_case_page_comps"
 require "components/cms/cms_search_results_page_comps"
 require "components/cms/cms_individual_case_view_page_comps"
+require "helpers/validation_helpers"
 
 class CmsFindACaseMethods < CmsBasePage
+  include ValidationHelpers
   def search_for_case(term)
     # Search the term
     cms_find_a_case_page_comps.input_search_case_info.set(term)
@@ -13,7 +15,7 @@ class CmsFindACaseMethods < CmsBasePage
 
     # confirm the page load
     expect(page).to have_current_path(%r{/cases/find-a-case}, url: true, wait: 10)
-    expect(cms_notifications_page_comps.text_page_heading.text).to include("Search results")
+    wait_for_heading_includes(cms_notifications_page_comps.text_page_heading, "Search results", timeout: 2)
   end
 
   def open_returned_result_with_case_number(term)

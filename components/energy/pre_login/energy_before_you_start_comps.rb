@@ -4,7 +4,7 @@ class EnergyBeforeYouStartComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "//h1")
+    find(:xpath, "//h1/following-sibling::h2")
   end
 
   # Form completion

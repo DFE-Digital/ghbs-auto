@@ -16,7 +16,12 @@ end
 
 After do |scenario|
   status = scenario.failed? ? "FAILED" : "PASSED"
-  puts "[CASE_STATE] #{case_state.to_h}" # only turn on for local debug
+
+  # Manage debugging options for local dev
+  if SECRETS["local_debug"] == true
+    puts "[CASE_STATE] #{case_state.to_h}"
+  end
+
   total_run_time = Time.now - (@scenario_started_at || Time.now)
   puts "RUN TIME: #{status} in #{sprintf('%0.2f', total_run_time)}s"
 

@@ -11,7 +11,7 @@ class EnergySignInFlowMethods < EnergyBasePage
     # Navigates user from the "start" page to the "before you start" page
     energy_start_comps.button_start_now.click
     expect(page).to have_current_path(%r{/before-you-start}, url: true, wait: 10)
-    expect(energy_before_you_start_comps.text_page_heading.text).to include("Energy for Schools")
+    expect(energy_before_you_start_comps.text_page_heading.text).to include("Before you start")
   end
 
   def continue_to_access_dfe_signin_page
