@@ -4,7 +4,7 @@ Feature: GHBS - Energy - Onboarding Flow
     Given we open and validate the start of the energy onboarding flow
 
 @smoke
-Scenario Outline: Energy Onboarding Flow - Gas + Direct Debit Only
+Scenario Outline: ES-890 - Energy Onboarding Flow - Gas + Direct Debit Only
   Given we are logged in to the Energy Onboarding Flow as a <SchoolUser> School user
   And we select <SchoolName> from the bullet list and start the onboarding journey
   When the <Switching> option is selected and completed
