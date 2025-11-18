@@ -15,5 +15,4 @@ class CmsBasePage < BasePage
   include SharedDfeSignInComps
   include A11yAssertions
   include SharedEnergyComps
-
 end
