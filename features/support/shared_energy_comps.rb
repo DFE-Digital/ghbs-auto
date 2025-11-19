@@ -11,6 +11,12 @@ require "components/energy/gas/energy_gas_meter_detail_comps"
 require "components/energy/gas/energy_gas_mprn_summary_comps"
 require "components/energy/gas/energy_gas_remove_mprn_comps"
 require "components/energy/gas/energy_gas_single_or_multi_meter_comps"
+require "components/energy/electricity/energy_electric_bill_consolidated_comps"
+require "components/energy/electricity/energy_electric_contract_comps"
+require "components/energy/electricity/energy_electric_meter_detail_comps"
+require "components/energy/electricity/energy_electric_mpan_summary_comps"
+require "components/energy/electricity/energy_electric_remove_mpan_comps"
+require "components/energy/electricity/energy_electric_single_or_multi_meter_comps"
 require "components/energy/site_access/energy_site_access_comps"
 require "components/energy/vat/energy_are_these_correct_vat_details_comps"
 require "components/energy/vat/energy_vat_certificate_comps"
@@ -33,13 +39,21 @@ module SharedEnergyComps
   def energy_are_you_authorised_comps = @energy_are_you_authorised_comps ||= EnergyAreYouAuthorisedComps.new
   def energy_what_are_you_switching_comps = @energy_what_are_you_switching_comps ||= EnergyWhatAreYouSwitchingComps.new
 
-  # Gas / Electricity Pages
+  # Gas specific pages
   def energy_gas_bill_consolidated_comps = @energy_gas_bill_consolidated_comps ||= EnergyGasBillConsolidatedComps.new
   def energy_gas_contract_comps = @energy_gas_contract_comps ||= EnergyGasContractComps.new
   def energy_gas_meter_detail_comps = @energy_gas_meter_detail_comps ||= EnergyGasMeterDetailComps.new
   def energy_gas_mprn_summary_comps = @energy_gas_mprn_summary_comps ||= EnergyGasMPRNSummaryComps.new
   def energy_gas_remove_mprn_comps = @energy_gas_remove_mprn_comps ||= EnergyGasRemoveMprnComps.new
   def energy_gas_single_or_multi_meter_comps = @energy_gas_single_or_multi_meter_comps ||= EnergyGasSingleOrMultiMeterComps.new
+
+  # Electric specific pages
+  def energy_electric_bill_consolidated_comps = @energy_electric_bill_consolidated_comps ||= EnergyElectricBillConsolidatedComps.new
+  def energy_electric_contract_comps = @energy_electric_contract_comps ||= EnergyElectricContractComps.new
+  def energy_electric_meter_detail_comps = @energy_electric_meter_detail_comps ||= EnergyElectricMeterDetailComps.new
+  def energy_electric_mpan_summary_comps = @energy_electric_mpan_summary_comps ||= EnergyElectricMpanSummaryComps.new
+  def energy_electric_remove_mpan_comps = @energy_electric_remove_mpan_comps ||= EnergyElectricRemoveMpanComps.new
+  def energy_electric_single_or_multi_meter_comps = @energy_electric_single_or_multi_meter_comps ||= EnergyElectricSingleOrMultiMeterComps.new
 
   # Site Access
   def energy_site_access_comps = @energy_site_access_comps ||= EnergySiteAccessComps.new
