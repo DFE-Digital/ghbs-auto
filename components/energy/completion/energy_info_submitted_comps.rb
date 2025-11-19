@@ -12,7 +12,7 @@ class EnergyInfoSubmittedComps
     find(:xpath, "//div[contains(.,'Case reference number')]/strong")
   end
 
-  def link_survay
+  def link_survey
     find(:xpath, "//a[contains(.,'What did you think of this service?')]")
   end
 end

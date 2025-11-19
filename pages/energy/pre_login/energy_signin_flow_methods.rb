@@ -21,7 +21,7 @@ class EnergySignInFlowMethods < EnergyBasePage
     expect(dfe_signin_enter_your_password_page_comps.text_page_heading.text).to include("Access the DfE Sign-in service")
   end
 
-  def continue_compelte_dfe_signin_flow(user)
+  def continue_complete_dfe_signin_flow(user)
     # Navigates user through the DfE sign-in flow to the "Which school are you buying for?" page
     world.shared_global_methods.complete_dfe_signin_as(user)
 
