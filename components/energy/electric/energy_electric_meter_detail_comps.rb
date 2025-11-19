@@ -41,7 +41,7 @@ class EnergyElectricMeterDetailComps
     find(:xpath, "//input[@id='energy-electricity-meter-is-half-hourly-field']/following-sibling::label")
   end
 
-  # Estimated annual electricity usage, in kilowatt hours (kWh)
+  # Estimated annual electric usage, in kilowatt hours (kWh)
   def input_kwh
     find(:xpath, "//input[@id='energy-electricity-meter-electricity-usage-field']")
   end

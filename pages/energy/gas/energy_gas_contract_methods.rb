@@ -8,7 +8,7 @@ class EnergyGasContractMethods < EnergyBasePage
   def who_currently_supplies_your_gas(supplier)
     # Confirm we are on the page as we couldn't do this on the prev screen
     expect(page).to have_current_path(%r{/gas-contract}, url: true, wait: 10)
-    expect(dfe_signin_enter_your_password_page_comps.text_page_heading.text).to include("Gas contract")
+    expect(energy_gas_contract_comps.text_page_heading.text).to include("Gas contract")
 
     other_option_custom_name = "A custom auto supplier"
 

@@ -26,4 +26,9 @@ module UniqueContentHelpers
       number
     end
   end
+
+  def generate_random_alpha_string(length)
+    chars = ('A'..'Z').to_a + ('a'..'z').to_a
+    Array.new(length) { chars.sample }.join
+  end
 end

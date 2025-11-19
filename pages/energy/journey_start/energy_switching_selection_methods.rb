@@ -11,7 +11,7 @@ class EnergySwitchingSelectionMethods < EnergyBasePage
     case choice
     when "gas only"
       energy_what_are_you_switching_comps.radio_gas_only.click
-    when "electricity only"
+    when "electric only"
       energy_what_are_you_switching_comps.radio_electric_only.click
     when "both"
       energy_what_are_you_switching_comps.radio_both_electric_and_gas.click

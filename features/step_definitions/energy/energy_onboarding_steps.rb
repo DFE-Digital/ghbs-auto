@@ -13,7 +13,7 @@ end
 When(/^the (.*) option is selected and completed$/) do |switching_method|
   energy_are_you_authorised_page_methods.continue_to_what_are_switching_page
 
-  # Are you switching electricity, gas or both?
+  # Are you switching electric, gas or both?
   energy_switching_selection_methods.choose_switch(switching_method)
   energy_switching_selection_methods.continue_to_your_chosen_selection_path
 
@@ -33,10 +33,20 @@ When(/^the (.*) option is selected and completed$/) do |switching_method|
     # Do you want your MPRNs consolidated on one bill?
     energy_gas_mprn_consolidated_methods.bills_consolidated_yes
     energy_gas_mprn_consolidated_methods.continue_to_next_screen_based_on_flow
-  when "electricity only"
-    # TODO: electricity flow
+  when "electric only"
+    # Electric contract
+    energy_electric_contract_methods.who_currently_supplies_your_electricity("Other")
+    energy_electric_contract_methods.when_does_the_contract_end
+    energy_electric_contract_methods.continue_to_your_chosen_selection_path
+    # Is this a single or multi meter site?
+    energy_electric_single_or_multi_methods.single_or_multi_option("Single meter")
+    energy_electric_single_or_multi_methods.continue_to_electricity_meter_details
+    # Gas meter details
+    energy_electric_meter_details_methods.complete_and_submit_form("yes")
   when "both"
-    # TODO: gas flow then electricity
+    # TODO: gas flow then electric
+  else
+    raise ArgumentError, "Was expecting 'gas only', 'electric only' or 'both' to be chosen but got '#{switching_method}'"
   end
 end
 
@@ -77,3 +87,4 @@ Then(/^we complete the form and confirm our newly created case number$/) do
   # Information submitted on 13 November 2025
   energy_info_submitted_methods.validate_information_date_is_today
 end
+

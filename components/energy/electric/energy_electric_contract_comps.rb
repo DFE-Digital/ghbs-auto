@@ -7,7 +7,7 @@ class EnergyElectricContractComps
     find(:xpath, "//h1")
   end
 
-  # Who currently supplies your electricity?
+  # Who currently supplies your electric?
   def radio_supplier_british_gas
     find(:xpath, "//input[@id='electric-supplier-form-electric-current-supplier-british-gas-field']/following-sibling::label")
   end

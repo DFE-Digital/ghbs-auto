@@ -14,6 +14,9 @@ require "pages/energy/gas/energy_gas_single_or_multi_methods"
 require "pages/energy/gas/energy_gas_meter_details_methods"
 require "pages/energy/gas/energy_gas_mprn_summary_methods"
 require "pages/energy/gas/energy_gas_mprn_consolidated_methods"
+require "pages/energy/electric/energy_electric_contract_methods"
+require "pages/energy/electric/energy_electric_single_or_multi_methods"
+require "pages/energy/electric/energy_electric_meter_details_methods"
 require "pages/energy/site_access/energy_site_access_methods"
 require "pages/energy/vat/energy_which_vat_rate_methods"
 require "pages/energy/billing/energy_billing_pref_methods"
@@ -85,6 +88,19 @@ module Pages
 
   def energy_gas_mprn_consolidated_methods
     @energy_gas_mprn_consolidated_methods ||= EnergyGasMprnConsolidatedMethods.new(resolved_world)
+  end
+
+  ##### ENERGY PAGES: Electric #####
+  def energy_electric_contract_methods
+    @energy_electric_contract_methods ||= EnergyElectricContractMethods.new(resolved_world)
+  end
+
+  def energy_electric_single_or_multi_methods
+    @energy_electric_single_or_multi_methods ||= EnergyElectricSingleOrMultiMethods.new(resolved_world)
+  end
+
+  def energy_electric_meter_details_methods
+    @energy_electric_meter_details_methods ||= EnergyElectricMeterDetailsMethods.new(resolved_world)
   end
 
   ##### ENERGY PAGES: Site Access #####

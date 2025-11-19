@@ -39,7 +39,7 @@ class EnergyAreYouAuthorisedPageMethods < EnergyBasePage
       puts "[INFO] Unknown path '#{path}', skipping optional logic"
     end
 
-    # Navigates user from the "Are you authorised to switch energy suppliers for these schools?" page to the "Are you switching electricity, gas or both?" page
+    # Navigates user from the "Are you authorised to switch energy suppliers for these schools?" page to the "Are you switching electric, gas or both?" page
     energy_are_you_authorised_comps.button_continue.click
     expect(page).to have_current_path(%r{/which-energy-supply}, url: true, wait: 10)
     expect(energy_what_are_you_switching_comps.text_page_heading.text).to include("Are you switching electricity, gas or both?")
