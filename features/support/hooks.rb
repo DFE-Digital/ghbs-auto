@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "helpers/screenshot_helper"
+require "pp"
 World(ScreenshotHelper)
 
 Before do
@@ -19,7 +20,8 @@ After do |scenario|
 
   # Manage debugging options for local dev
   if SECRETS["local_debug"] == true
-    puts "[CASE_STATE] #{case_state.to_h}"
+    puts "[CASE_STATE]"
+    pp case_state.to_h
   end
 
   total_run_time = Time.now - (@scenario_started_at || Time.now)

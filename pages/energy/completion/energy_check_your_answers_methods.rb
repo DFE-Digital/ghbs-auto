@@ -8,31 +8,56 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
   include ValidationHelpers
 
   def validate_all_sections
-    validate_current_contract_details
-    validate_gas_meters_and_usage
-    validate_site_contact_details
-    validate_vat_declaration
-    validate_billing_preferences
+
+    if case_state.energy_choice == "electric only"
+      validate_current_electric_contract_details
+      validate_electric_meters_and_usage
+      validate_site_contact_details
+      validate_vat_declaration
+      validate_billing_preferences
+    end
+
+    if case_state.energy_choice == "gas only"
+      validate_current_gas_contract_details
+      validate_gas_meters_and_usage
+      validate_site_contact_details
+      validate_vat_declaration
+      validate_billing_preferences
+    end
+
+    if case_state.energy_choice == "both"
+      # TODO: add the logic for the 'both' case
+    end
+
   end
 
-  def validate_current_contract_details
+  def validate_current_gas_contract_details
     validate_values_match(case_state.gas_current_supplier, energy_check_your_answers_comps.text_current_gas_supplier.text)
-    validate_values_match(case_state.gas_current_contract_end_date, energy_check_your_answers_comps.text_when_does_your_contract_end.text)
+    validate_values_match(case_state.gas_current_contract_end_date, energy_check_your_answers_comps.text_when_does_your_gas_contract_end.text)
+  end
+
+  def validate_current_electric_contract_details
+    validate_values_match(case_state.electric_current_supplier, energy_check_your_answers_comps.text_current_electric_supplier.text)
+    validate_values_match(case_state.electric_current_contract_end_date, energy_check_your_answers_comps.text_when_does_your_electric_contract_end.text)
   end
 
   def validate_gas_meters_and_usage
     validate_values_match(case_state.gas_single_or_multi_meter, energy_check_your_answers_comps.text_gas_single_or_multi_meter.text)
     validate_values_match(case_state.gas_mprn_number_1, energy_check_your_answers_comps.text_gas_meter_point_reference_number_1.text)
     validate_values_match(case_state.gas_mprn_usage_1, energy_check_your_answers_comps.text_gas_estimated_annual_gas_usage_1.text)
+  end
 
-    #  :gas_mprn_number_2,
-    #  :gas_mprn_usage_2,
-    #  :gas_mprn_number_3,
-    #  :gas_mprn_usage_3,
-    #  :gas_mprn_number_4,
-    #  :gas_mprn_usage_4,
-    #  :gas_mprn_number_5,
-    #  :gas_mprn_usage_5,
+  def validate_electric_meters_and_usage
+    validate_values_match(case_state.electric_single_or_multi_meter, energy_check_your_answers_comps.text_electric_single_or_multi_meter.text)
+
+    validate_values_match(case_state.electric_mpan_number_1, energy_check_your_answers_comps.text_electric_mpan_number_1.text)
+    validate_values_match(case_state.electric_mpan_half_hourly_meter_1, energy_check_your_answers_comps.text_electric_is_this_half_hour_1.text)
+    validate_values_match(case_state.electric_mpan_usage_kwh_1, energy_check_your_answers_comps.text_electric_estimated_annual_usage_kwh_1.text)
+
+    validate_values_match(case_state.electric_mpan_half_hourly_meter_kva_1, energy_check_your_answers_comps.text_electric_supply_capacity_1.text)
+    validate_values_match(case_state.electric_mpan_half_hourly_meter_data_aggregator_1, energy_check_your_answers_comps.text_electric_data_aggregator_1.text)
+    validate_values_match(case_state.electric_mpan_half_hourly_meter_data_collector_1, energy_check_your_answers_comps.text_electric_data_collector_1.text)
+    validate_values_match(case_state.electric_mpan_half_hourly_meter_meter_operator_1, energy_check_your_answers_comps.text_electric_meter_operator_1.text)
   end
 
   def validate_site_contact_details
