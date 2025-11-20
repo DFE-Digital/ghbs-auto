@@ -17,7 +17,7 @@ class EnergyAreYouAuthorisedPageMethods < EnergyBasePage
       expect(page).to have_current_path(%r{/authorisation}, url: true, wait: 10)
       expect(energy_are_you_authorised_comps.text_page_heading.text).to include("Are you authorised to switch energy suppliers for these schools?")
 
-    elsif path.include?("/task-list")
+    elsif path.include?("/task-list") || path.include?("/which-energy-supply")
       puts "[INFO] On /task-list — handle reset flow"
       # Open the CEC CMS Find a case screen
       world.cms_signin_flow_methods.open_cms_cec_find_a_case_screen
