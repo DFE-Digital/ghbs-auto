@@ -13,7 +13,6 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
     max_attempts = 10
     attempt = 0
     unique_mpan_number = nil
-    electric_usage = nil
 
     while attempt < 10
       attempt += 1
@@ -71,10 +70,7 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
       raise "AUTO ERROR: Could not generate a unique MPAN number after #{max_attempts} attempts"
     end
 
-    # Based on it getting this far, we should infact be on the next page which could be one of many depending on the flow choice
-    # For exmaple it could be /site-contact or MPAN Summart etc
-
-
+    # Based on it getting this far, we should in fact be on the next page which could be one of many depending on the flow choice, For example it could be /site-contact or MPAN Summary etc.
     # Add to case state
     _add_next_available_case_state_electric_data_slot(unique_mpan_number, electric_usage_kwh, electric_usage_kva, data_aggregator, data_collector, meter_operator)
   end

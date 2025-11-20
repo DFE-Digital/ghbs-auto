@@ -8,7 +8,6 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
   include ValidationHelpers
 
   def validate_all_sections
-
     if case_state.energy_choice == "electric only"
       validate_current_electric_contract_details
       validate_electric_meters_and_usage
@@ -28,7 +27,6 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
     if case_state.energy_choice == "both"
       # TODO: add the logic for the 'both' case
     end
-
   end
 
   def validate_current_gas_contract_details

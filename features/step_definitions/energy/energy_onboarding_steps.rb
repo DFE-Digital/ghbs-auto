@@ -87,4 +87,3 @@ Then(/^we complete the form and confirm our newly created case number$/) do
   # Information submitted on 13 November 2025
   energy_info_submitted_methods.validate_information_date_is_today
 end
-
