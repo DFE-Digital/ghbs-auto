@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-class DfESignInEnterYourPasswordPageComps
+class DfeSigninEnterYourPasswordPageComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "//h1")
+    find(:xpath, "//div[@id='loginHeader']/div")
   end
 
   def input_password
-    find(:xpath, "//input[@id = 'password']")
+    find(:xpath, "//input[@name = 'passwd']")
   end
 
-  def button_next
-    find(:xpath, "//button[text()='Next']")
+  def button_sign_in
+    find(:xpath, "//input[@id='idSIButton9']")
   end
 end

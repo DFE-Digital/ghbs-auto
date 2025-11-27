@@ -5,6 +5,7 @@ require "pages/energy/energy_base_page"
 require "helpers/unique_content_helpers"
 require "components/energy/gas/energy_gas_meter_detail_comps"
 require "components/energy/gas/energy_gas_mprn_summary_comps"
+require "components/energy/electric/energy_electric_single_or_multi_meter_comps"
 
 class EnergyGasMeterDetailsMethods < EnergyBasePage
   include UniqueContentHelpers
@@ -40,9 +41,16 @@ class EnergyGasMeterDetailsMethods < EnergyBasePage
       raise "AUTO ERROR: Could not generate a unique MPRN number after #{max_attempts} attempts"
     end
 
-    # Based on it getting this far, we should infact be on the next page
-    expect(page).to have_current_path(%r{/gas-meter-summary}, url: true, wait: 10)
-    expect(energy_gas_mprn_summary_comps.text_page_heading.text).to include("MPRN summary")
+    # Based on it getting this far, we should in fact be on the next page, however this page may vary based on the route chosen
+    if case_state.energy_choice == "gas only"
+      expect(page).to have_current_path(%r{/gas-meter-summary}, url: true, wait: 10)
+      expect(energy_gas_mprn_summary_comps.text_page_heading.text).to include("MPRN summary")
+    end
+
+    if case_state.energy_choice == "both"
+      expect(page).to have_current_path(%r{/electricity-multi-single}, url: true, wait: 10)
+      expect(energy_electric_single_or_multi_meter_comps.text_page_heading.text).to include("Is this a single or multi meter site?")
+    end
 
     # Add to case state
     _add_next_available_mprn(unique_number, gas_usage)

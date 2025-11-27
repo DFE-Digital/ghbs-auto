@@ -4,6 +4,7 @@ require "date"
 require "pages/energy/energy_base_page"
 require "components/energy/gas/energy_gas_single_or_multi_meter_comps"
 require "components/energy/gas/energy_gas_meter_detail_comps"
+require "components/energy/electric/energy_electric_single_or_multi_meter_comps"
 
 class EnergyGasSingleOrMultiMethods < EnergyBasePage
   def single_or_multi_option(choice)

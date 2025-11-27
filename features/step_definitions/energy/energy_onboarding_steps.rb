@@ -23,7 +23,7 @@ When(/^the (.*) option is selected and completed$/) do |switching_method|
     energy_gas_contract_methods.who_currently_supplies_your_gas("Other")
     energy_gas_contract_methods.when_does_the_contract_end
     energy_gas_contract_methods.continue_to_your_chosen_selection_path
-    # Is this a single or multi meter site?
+    # Is this a single or multi meter site? - gas
     energy_gas_single_or_multi_methods.single_or_multi_option("Single meter")
     energy_gas_single_or_multi_methods.continue_to_gas_meter_details
     # Gas meter details
@@ -38,13 +38,30 @@ When(/^the (.*) option is selected and completed$/) do |switching_method|
     energy_electric_contract_methods.who_currently_supplies_your_electricity("Other")
     energy_electric_contract_methods.when_does_the_contract_end
     energy_electric_contract_methods.continue_to_your_chosen_selection_path
-    # Is this a single or multi meter site?
+    # Is this a single or multi meter site? - electric
     energy_electric_single_or_multi_methods.single_or_multi_option("Single meter")
     energy_electric_single_or_multi_methods.continue_to_electricity_meter_details
-    # Gas meter details
+    # Electric meter details
     energy_electric_meter_details_methods.complete_and_submit_form("yes")
   when "both"
-    # TODO: gas flow then electric
+    # Gas contract
+    energy_gas_contract_methods.who_currently_supplies_your_gas("Other")
+    energy_gas_contract_methods.when_does_the_contract_end
+    energy_gas_contract_methods.continue_to_your_chosen_selection_path
+    # Electric contract
+    energy_electric_contract_methods.who_currently_supplies_your_electricity("Other")
+    energy_electric_contract_methods.when_does_the_contract_end
+    energy_electric_contract_methods.continue_to_your_chosen_selection_path
+    # Is this a single or multi meter site? - gas
+    energy_gas_single_or_multi_methods.single_or_multi_option("Single meter")
+    energy_gas_single_or_multi_methods.continue_to_gas_meter_details
+    # Single Gas meter details
+    energy_gas_meter_details_methods.complete_and_submit_form
+    # Is this a single or multi meter site? - electric
+    energy_electric_single_or_multi_methods.single_or_multi_option("Single meter")
+    energy_electric_single_or_multi_methods.continue_to_electricity_meter_details
+    # Single Electric meter details
+    energy_electric_meter_details_methods.complete_and_submit_form("yes")
   else
     raise ArgumentError, "Was expecting 'gas only', 'electric only' or 'both' to be chosen but got '#{switching_method}'"
   end

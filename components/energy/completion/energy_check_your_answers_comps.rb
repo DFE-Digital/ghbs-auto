@@ -34,7 +34,7 @@ class EnergyCheckYourAnswersComps
   end
 
   def text_gas_single_or_multi_meter
-    find(:xpath, "//dt[text()='Is this a single meter or multi meter site?']/following-sibling::dd")
+    find(:xpath, "//h3[text()='Gas meters and usage']/parent::div/following-sibling::div//dt[text()='Is this a single meter or multi meter site?']/following-sibling::dd")
   end
 
   def text_gas_meter_point_reference_number_1
@@ -47,7 +47,7 @@ class EnergyCheckYourAnswersComps
 
   # Electricity meters and usage
   def text_electric_single_or_multi_meter
-    find(:xpath, "//dt[text()='Is this a single meter or multi meter site?']/following-sibling::dd")
+    find(:xpath, "//h3[text()='Electricity meters and usage']/parent::div/following-sibling::div//dt[text()='Is this a single meter or multi meter site?']/following-sibling::dd")
   end
 
   def text_electric_mpan_number_1

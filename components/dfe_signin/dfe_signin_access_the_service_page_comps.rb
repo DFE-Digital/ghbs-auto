@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class DfESignInAccessTheServicePageComps
+class DfeSigninAccessTheServicePageComps
   include Capybara::DSL
 
   def text_page_heading
@@ -11,7 +11,7 @@ class DfESignInAccessTheServicePageComps
     find(:xpath, "//input[@id = 'username']")
   end
 
-  def button_sign_in
-    find(:xpath, "//button[@id = 'button-sign-in']")
+  def button_next
+    find(:xpath, "//button[@id = 'button-next']")
   end
 end

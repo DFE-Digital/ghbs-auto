@@ -25,7 +25,16 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
     end
 
     if case_state.energy_choice == "both"
-      # TODO: add the logic for the 'both' case
+      validate_current_electric_contract_details
+      validate_electric_meters_and_usage
+      validate_site_contact_details
+      validate_vat_declaration
+      validate_billing_preferences
+      validate_current_gas_contract_details
+      validate_gas_meters_and_usage
+      validate_site_contact_details
+      validate_vat_declaration
+      validate_billing_preferences
     end
   end
 
