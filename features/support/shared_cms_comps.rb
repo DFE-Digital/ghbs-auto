@@ -9,6 +9,8 @@ require "components/cms/cms_search_results_page_comps"
 require "components/cms/cms_individual_case_view_page_comps"
 require "components/cms/cms_individual_case_resolve_case_page_comps"
 require "components/cms/cms_individual_case_actions_comps"
+require "components/cms/create_a_case/cms_create_a_new_case_comps"
+require "components/cms/create_a_case/cms_create_a_new_case_check_answers_comps"
 
 module SharedCmsComps
   # Pre Flow pages
@@ -27,4 +29,9 @@ module SharedCmsComps
 
   # Navigation
   def cms_top_nav_comps = @cms_top_nav_comps ||= CmsTopNavComps.new
+
+  # Individual Case Actions
+  def cms_create_a_new_case_comps = @cms_create_a_new_case_comps ||= CmsCreateANewCaseComps.new
+  def cms_create_a_new_case_check_answers_comps = @cms_create_a_new_case_check_answers_comps ||= CmsCreateANewCaseCheckAnswersComps.new
+
 end

@@ -23,6 +23,12 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
                   when "sat"
                     { email: SECRETS["school_energy_sat_username"],
                       password: SECRETS["school_energy_sat_password"] }
+                  when "proc ops"
+                    { email: SECRETS["proc_ops_cms_username"],
+                      password: SECRETS["proc_ops_cms_password"] }
+                  when "cec"
+                    { email: SECRETS["cec_cms_username"],
+                      password: SECRETS["cec_cms_password"] }
                   else
                     raise ArgumentError, "Unknown user type: '#{user}'"
                   end
