@@ -11,6 +11,10 @@ class CmsCreateANewCaseComps
     find(:xpath, "//input[@name='case_request[organisation_name]']")
   end
 
+  def dropdown_select_org_based_on_ukprn(ukprn)
+    find(:xpath, "//ul[@id='school-urn-autocomplete__listbox']/li[contains(.,'#{ukprn}')]")
+  end
+
   def input_contact_first_name
     find(:xpath, "//input[@name='case_request[first_name]']")
   end
@@ -102,5 +106,4 @@ class CmsCreateANewCaseComps
   def button_save_and_continue
     find(:xpath, "//input[@value='Save and continue']")
   end
-
 end

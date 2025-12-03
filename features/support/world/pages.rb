@@ -28,6 +28,7 @@ require "pages/cms/cms_signin_flow_methods"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
 require "pages/cms/cms_case_actions_methods"
+require "pages/cms/cms_create_a_new_case_methods"
 
 module Pages
   def resolved_world
@@ -150,6 +151,10 @@ module Pages
 
   def cms_case_actions_methods
     @cms_case_actions_methods ||= CmsCaseActionsMethods.new(resolved_world)
+  end
+
+  def cms_create_a_new_case_methods
+    @cms_create_a_new_case_methods ||= CmsCreateANewCaseMethods.new(resolved_world)
   end
 
   ##### SHARED PAGES #####

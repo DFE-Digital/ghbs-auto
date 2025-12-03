@@ -9,6 +9,7 @@ require "components/energy/pre_login/energy_start_comps"
 require "components/energy/pre_login/energy_before_you_start_comps"
 require "components/energy/journey_start/energy_which_school_buying_for_comps"
 require "helpers/validation_helpers"
+require "components/cms/cms_mycases_page_comps"
 
 class CmsSignInFlowMethods < CmsBasePage
   include ValidationHelpers
@@ -33,7 +34,7 @@ class CmsSignInFlowMethods < CmsBasePage
     cms_login_page_comps.button_signin.click
 
     # Navigates user through the DfE sign-in flow to the "My Cases" page
-    shared_global_methods.complete_dfe_signin_as("cec")
+    world.shared_global_methods.complete_dfe_signin_as("cec")
 
     # Complete the login process > my cases
     expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 10)
@@ -44,13 +45,12 @@ class CmsSignInFlowMethods < CmsBasePage
 
   def continue_and_complete_dfe_signin_as_proc_ops_admin
     cms_login_page_comps.button_signin.click
-
     # Navigates user through the DfE sign-in flow to the "My Cases" page
-    shared_global_methods.complete_dfe_signin_as("proc ops")
+    world.shared_global_methods.complete_dfe_signin_as("proc ops")
 
     # Complete the login process > my cases
     expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 10)
-    expect(dfe_signin_enter_your_password_page_comps.text_page_heading.text).to include("My cases")
+    expect(cms_mycases_page_comps.text_page_heading.text).to include("My cases")
 
     puts "[INFO] Successfully signed in as Proc Ops Admin user"
   end

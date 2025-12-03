@@ -66,5 +66,4 @@ class CmsCreateANewCaseCheckAnswersComps
   def button_create_case
     find(:xpath, "//button[contains(.,'Create case')]")
   end
-
 end

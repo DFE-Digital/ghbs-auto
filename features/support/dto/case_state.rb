@@ -28,6 +28,7 @@ class CaseState
   # All stored values are strings (to simplify serialization/logging).
   attr_accessor \
     :user_email,
+    # Energy onboarding case
     :user_type,
     :school_name,
     :energy_choice,
@@ -97,7 +98,28 @@ class CaseState
     :billing_payment_terms,
     :billing_how_receive,
     :billing_address,
-    :case_number
+    # Generic / Shared case info
+    :case_number,
+    :case_organisation_name,
+    :case_contact_first_name,
+    :case_contact_last_name,
+    :case_contact_email,
+    :case_contact_phone_number,
+    :case_contact_extension_number,
+    :case_case_origin,
+    :case_request_type,
+    :case_description_of_query,
+    :case_procurement_value,
+    :case_case_source,
+    :case_level,
+    # Evaluation case info
+    :case_evaluator_1,
+    :case_evaluator_2,
+    :case_evaluator_3,
+    :case_evaluation_due_date,
+    :case_uploaded_file_name_1,
+    :case_uploaded_file_name_2,
+    :case_evaluation_email_sent
 
   def initialize
     # Initialise all fields to empty strings.
