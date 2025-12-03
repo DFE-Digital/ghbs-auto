@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require "pages/cms/cms_base_page"
-require "components/cms/cms_find_a_case_page_comps"
-require "components/cms/cms_search_results_page_comps"
-require "components/cms/cms_individual_case_view_page_comps"
+require "components/cms/find_a_case/cms_find_a_case_page_comps"
+require "components/cms/find_a_case/cms_search_results_page_comps"
+require "components/cms/case/cms_individual_case_view_page_comps"
 require "helpers/validation_helpers"
 
 class CmsFindACaseMethods < CmsBasePage

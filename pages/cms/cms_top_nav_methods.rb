@@ -4,7 +4,7 @@ require "pages/cms/cms_base_page"
 require "components/cms/cms_top_nav_comps"
 require "components/cms/cms_notifications_page_comps"
 require "components/cms/cms_mycases_page_comps"
-require "components/cms/cms_find_a_case_page_comps"
+require "components/cms/find_a_case/cms_find_a_case_page_comps"
 
 class CmsTopNavMethods < CmsBasePage
   def nav_to_notifications_screen

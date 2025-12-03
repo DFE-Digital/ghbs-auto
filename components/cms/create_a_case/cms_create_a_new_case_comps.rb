@@ -79,8 +79,8 @@ class CmsCreateANewCaseComps
     find(:xpath, "//input[@id='case-request-request-type-true-field']/following-sibling::label")
   end
 
-  def dropdown_request_type_procurement
-    find(:xpath, "//select[@id='select_request_details_category_id']/optgroup/option[text()='Books']")
+  def dropdown_request_type_procurement(option)
+    find(:xpath, "//select[@id='select_request_details_category_id']/optgroup/option[text()='#{option}']")
   end
 
   def radio_request_type_non_procurement
@@ -99,8 +99,8 @@ class CmsCreateANewCaseComps
     find(:xpath, "//input[@id='case-request-procurement-amount-field']")
   end
 
-  def dropdown_case_source
-    find(:xpath, "//select[@id='case-request-source-field']/option[text()='Schools Commercial Team (SCT)']")
+  def dropdown_case_source(source)
+    find(:xpath, "//select[@id='case-request-source-field']/option[text()='#{source}']")
   end
 
   def button_save_and_continue

@@ -108,6 +108,7 @@ class CaseState
     :case_contact_extension_number,
     :case_case_origin,
     :case_request_type,
+    :case_procurement_sub_category,
     :case_description_of_query,
     :case_procurement_value,
     :case_case_source,

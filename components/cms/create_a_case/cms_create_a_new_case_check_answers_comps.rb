@@ -47,7 +47,7 @@ class CmsCreateANewCaseCheckAnswersComps
     find(:xpath, "//dt[contains(.,'Case source')]/following-sibling::dd[1]")
   end
 
-  def text_type
+  def text_request_type
     find(:xpath, "//dt[contains(.,'Type')]/following-sibling::dd[1]")
   end
 
