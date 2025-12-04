@@ -3,7 +3,7 @@
 require "pages/cms/cms_base_page"
 require "components/cms/create_a_case/cms_create_a_new_case_comps"
 require "components/cms/create_a_case/cms_create_a_new_case_check_answers_comps"
-require "components/cms/case/cms_individual_case_view_page_comps"
+require "components/cms/case/cms_single_case_view_page_comps"
 require "components/cms/cms_mycases_page_comps"
 require "helpers/unique_content_helpers"
 require "helpers/validation_helpers"
@@ -130,6 +130,10 @@ class CmsCreateANewCaseMethods < CmsBasePage
 
     # Validate page move
     expect(page).to have_current_path(%r{/support/cases}, url: true, wait: 10)
-    expect(cms_individual_case_view_page_comps.text_page_heading.text).to include(case_state.case_organisation_name)
+    expect(cms_single_case_view_page_comps.text_page_heading.text).to include(case_state.case_organisation_name)
+  end
+
+  def change_case_level_to(case_level)
+    # Open Case Details tab
   end
 end

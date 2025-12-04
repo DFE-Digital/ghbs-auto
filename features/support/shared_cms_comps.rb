@@ -6,11 +6,15 @@ require "components/cms/cms_top_nav_comps"
 require "components/cms/find_a_case/cms_find_a_case_page_comps"
 require "components/cms/cms_notifications_page_comps"
 require "components/cms/find_a_case/cms_search_results_page_comps"
-require "components/cms/case/cms_individual_case_view_page_comps"
-require "components/cms/case/cms_individual_case_resolve_case_page_comps"
-require "components/cms/case/cms_individual_case_actions_comps"
+require "components/cms/case/cms_single_case_view_page_comps"
+require "components/cms/case/cms_single_case_resolve_case_page_comps"
+require "components/cms/case/cms_single_case_actions_comps"
 require "components/cms/create_a_case/cms_create_a_new_case_comps"
 require "components/cms/create_a_case/cms_create_a_new_case_check_answers_comps"
+require "components/cms/case/cms_single_case_nav_comps"
+require "components/cms/case/cms_single_case_case_details_case_summary_check_answers_comps"
+require "components/cms/case/cms_single_case_case_details_case_summary_comps"
+require "components/cms/case/cms_single_case_case_details_comps"
 
 module SharedCmsComps
   # Pre Flow pages
@@ -22,15 +26,21 @@ module SharedCmsComps
   def cms_notifications_page_comps = @cms_notifications_page_comps ||= CmsNotificationsPageComps.new
   def cms_search_results_page_comps = @cms_search_results_page_comps ||= CmsSearchResultsPageComps.new
 
-  # Individual Case Actions
-  def cms_individual_case_view_page_comps = @cms_individual_case_view_page_comps ||= CmsIndividualCasePageComps.new
-  def cms_individual_case_resolve_case_page_comps = @cms_individual_case_resolve_case_page_comps ||= CmsIndividualCaseResolveCasePageComps.new
-  def cms_individual_case_actions_comps = @cms_individual_case_actions_comps ||= CmsIndividualCaseActionsComps.new
+  # Single Case Actions
+  def cms_single_case_view_page_comps = @cms_single_case_view_page_comps ||= CmsSingleCaseViewPageComps.new
+  def cms_single_case_resolve_case_page_comps = @cms_single_case_resolve_case_page_comps ||= CmsSingleCaseResolveCasePageComps.new
+  def cms_single_case_actions_comps = @cms_single_case_actions_comps ||= CmsSingleCaseActionsComps.new
+  def cms_single_case_nav_comps = @cms_single_case_nav_comps ||= CmsSingleCaseNavComps.new
+
+  # Single Case Actions - Case Details
+  def cms_single_case_case_details_comps = @cms_single_case_case_details_comps ||= CmsSingleCaseCaseDetailsComps.new
+  def cms_single_case_case_details_case_summary_comps = @cms_single_case_case_details_case_summary_comps ||= CmsSingleCaseCaseDetailsCaseSummaryComps.new
+  def cms_single_case_case_details_case_summary_check_answers_comps = @cms_single_case_case_details_case_summary_check_answers_comps ||= CmsSingleCaseCaseDetailsCaseSummaryCheckAnswersComps.new
 
   # Navigation
   def cms_top_nav_comps = @cms_top_nav_comps ||= CmsTopNavComps.new
 
-  # Individual Case Actions
+  # Create Case Actions
   def cms_create_a_new_case_comps = @cms_create_a_new_case_comps ||= CmsCreateANewCaseComps.new
   def cms_create_a_new_case_check_answers_comps = @cms_create_a_new_case_check_answers_comps ||= CmsCreateANewCaseCheckAnswersComps.new
 end

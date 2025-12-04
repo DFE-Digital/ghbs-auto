@@ -3,7 +3,7 @@
 require "pages/cms/cms_base_page"
 require "components/cms/find_a_case/cms_find_a_case_page_comps"
 require "components/cms/find_a_case/cms_search_results_page_comps"
-require "components/cms/case/cms_individual_case_view_page_comps"
+require "components/cms/case/cms_single_case_view_page_comps"
 require "helpers/validation_helpers"
 
 class CmsFindACaseMethods < CmsBasePage
@@ -24,7 +24,7 @@ class CmsFindACaseMethods < CmsBasePage
 
     # confirm the page load
     expect(page).to have_current_path(%r{/onboarding_cases/}, url: true, wait: 10)
-    expect(cms_individual_case_view_page_comps.text_page_heading_case_number.text).to include(term)
+    expect(cms_single_case_view_page_comps.text_page_heading_case_number.text).to include(term)
   end
 
   def open_first_active_status_result_with_case_number_for_current_user
@@ -47,7 +47,7 @@ class CmsFindACaseMethods < CmsBasePage
     link.click
 
     expect(page).to have_current_path(%r{/onboarding_cases/}, url: true, wait: 10)
-    expect(cms_individual_case_view_page_comps.text_page_heading_case_number.text)
+    expect(cms_single_case_view_page_comps.text_page_heading_case_number.text)
       .to include(case_number)
 
     puts "[INFO] Opened #{status} case #{case_number}"

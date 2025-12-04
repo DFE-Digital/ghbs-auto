@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CmsIndividualCaseActionsComps
+class CmsSingleCaseActionsComps
   include Capybara::DSL
 
   def text_section_heading
