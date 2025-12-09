@@ -4,11 +4,15 @@ class CmsSingleCaseCaseDetailsComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "//h2")
+    find(:xpath, "//div[@id='case-details']/h2")
   end
 
   def link_change_case_summary
     find(:xpath, "//h3[contains(.,'Case summary')]/a[text()='change']")
+  end
+
+  def text_case_summary_case_level
+    find(:xpath, "//dt[contains(.,'Case level')]/following-sibling::dd[1]")
   end
 
   def link_change_procurement_details

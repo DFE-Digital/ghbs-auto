@@ -4,6 +4,10 @@ require "pages/cms/cms_base_page"
 require "components/cms/create_a_case/cms_create_a_new_case_comps"
 require "components/cms/create_a_case/cms_create_a_new_case_check_answers_comps"
 require "components/cms/case/cms_single_case_view_page_comps"
+require "components/cms/case/cms_single_case_nav_comps"
+require "components/cms/case/cms_single_case_case_details_comps"
+require "components/cms/case/cms_single_case_case_details_case_summary_comps"
+require "components/cms/case/cms_single_case_case_details_case_summary_check_answers_comps"
 require "components/cms/cms_mycases_page_comps"
 require "helpers/unique_content_helpers"
 require "helpers/validation_helpers"
@@ -95,7 +99,7 @@ class CmsCreateANewCaseMethods < CmsBasePage
 
   def complete_and_validate_check_your_answers_page
     # Validate Organisation details
-    validate_values_match(case_state.case_organisation_name, cms_create_a_new_case_check_answers_comps.text_organisation_name.text)
+    validate_values_match(case_state.case_organisation_name.upcase, cms_create_a_new_case_check_answers_comps.text_organisation_name.text.upcase)
     # TODO: These 3 below, will be checked by directly calling the db to validate the data. However at this point in time the auto pack lacks this access.
     # Organisation postcode
     # Organisation URN
@@ -130,10 +134,79 @@ class CmsCreateANewCaseMethods < CmsBasePage
 
     # Validate page move
     expect(page).to have_current_path(%r{/support/cases}, url: true, wait: 10)
-    expect(cms_single_case_view_page_comps.text_page_heading.text).to include(case_state.case_organisation_name)
+    expect(cms_single_case_view_page_comps.text_page_heading.text.upcase).to include(case_state.case_organisation_name.upcase)
   end
 
   def change_case_level_to(case_level)
-    # Open Case Details tab
+    # Open Case Details tab and select to "Change" Case Summary
+    cms_single_case_nav_comps.link_case_details.click
+    expect(cms_single_case_case_details_comps.text_page_heading.text).to include("Case details")
+    # wait_for_heading_includes(cms_single_case_case_details_comps.text_page_heading, "Case details", timeout: 5)
+    cms_single_case_case_details_comps.link_change_case_summary.click
+    expect(cms_single_case_case_details_case_summary_comps.text_page_heading.text).to include("Update case summary")
+
+    # Set case to be level X
+
+    case case_level.delete('"')
+    when "1"
+      cms_single_case_case_details_case_summary_comps.radio_case_level_1.click
+    when "2"
+      cms_single_case_case_details_case_summary_comps.radio_case_level_2.click
+    when "3"
+      cms_single_case_case_details_case_summary_comps.radio_case_level_3.click
+    when "4"
+      cms_single_case_case_details_case_summary_comps.radio_case_level_4.click
+    when "5"
+      cms_single_case_case_details_case_summary_comps.radio_case_level_5.click
+    when "6"
+      cms_single_case_case_details_case_summary_comps.radio_case_level_6.click
+    else
+      raise ArgumentError, "Case level '#{case_level}' hasn't been implemented yet."
+    end
+
+    cms_single_case_case_details_case_summary_comps.button_continue.click
+    expect(cms_single_case_case_details_case_summary_check_answers_comps.text_page_heading.text).to include("Check your answers before updating case summary")
+
+    case case_level.delete('"')
+    when "1"
+      expect(cms_single_case_case_details_case_summary_check_answers_comps.text_case_level.text).to include("1 - General guidance")
+    when "2"
+      expect(cms_single_case_case_details_case_summary_check_answers_comps.text_case_level.text).to include("2 - Specific advice")
+    when "3"
+      expect(cms_single_case_case_details_case_summary_check_answers_comps.text_case_level.text).to include("3 - Support with buying")
+    when "4"
+      expect(cms_single_case_case_details_case_summary_check_answers_comps.text_case_level.text).to include("4 - DfE buying through a framework")
+    when "5"
+      expect(cms_single_case_case_details_case_summary_check_answers_comps.text_case_level.text).to include("5 - DfE buying by getting quotes or bids")
+    when "6"
+      expect(cms_single_case_case_details_case_summary_check_answers_comps.text_case_level.text).to include("6 - DfE Energy for Schools support case")
+    else
+      raise ArgumentError, "Case level '#{case_level}' hasn't been implemented yet."
+    end
+
+    cms_single_case_case_details_case_summary_check_answers_comps.button_save.click
+    expect(cms_single_case_case_details_comps.text_page_heading.text).to include("Case details")
+
+    # Final validation that we have successfully created the level X case.
+    expect(cms_single_case_case_details_comps.text_page_heading.text).to include("Case details")
+
+    case case_level.delete('"')
+    when "1"
+      expect(cms_single_case_case_details_comps.text_case_summary_case_level.text).to include("1 - General guidance")
+    when "2"
+      expect(cms_single_case_case_details_comps.text_case_summary_case_level.text).to include("2 - Specific advice")
+    when "3"
+      expect(cms_single_case_case_details_comps.text_case_summary_case_level.text).to include("3 - Support with buying")
+    when "4"
+      expect(cms_single_case_case_details_comps.text_case_summary_case_level.text).to include("4 - DfE buying through a framework")
+    when "5"
+      expect(cms_single_case_case_details_comps.text_case_summary_case_level.text).to include("5 - DfE buying by getting quotes or bids")
+    when "6"
+      expect(cms_single_case_case_details_comps.text_case_summary_case_level.text).to include("6 - DfE Energy for Schools support case")
+    else
+      raise ArgumentError, "Case level '#{case_level}' hasn't been implemented yet."
+    end
+
+    puts("[INFO] Case has been successfully set to level #{case_level}")
   end
 end

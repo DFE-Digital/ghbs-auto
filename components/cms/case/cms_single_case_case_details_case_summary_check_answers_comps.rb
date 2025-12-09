@@ -4,7 +4,7 @@ class CmsSingleCaseCaseDetailsCaseSummaryCheckAnswersComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "//h2")
+    find(:xpath, "//main[@id='main-content']/h2")
   end
 
   def text_sub_category

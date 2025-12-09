@@ -65,6 +65,6 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
 
     # dfe_signin_enter_code_comps.button_verify.click
 
-    puts "[INFO] Successfully signed in as #{user.capitalize} user"
+    # puts "[INFO] Successfully signed in as #{user.capitalize} user"
   end
 end
