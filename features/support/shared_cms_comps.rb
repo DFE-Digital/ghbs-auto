@@ -15,6 +15,7 @@ require "components/cms/case/cms_single_case_nav_comps"
 require "components/cms/case/cms_single_case_case_details_case_summary_check_answers_comps"
 require "components/cms/case/cms_single_case_case_details_case_summary_comps"
 require "components/cms/case/cms_single_case_case_details_comps"
+require "components/cms/case/cms_single_case_messages_comps"
 
 module SharedCmsComps
   # Pre Flow pages
@@ -36,6 +37,7 @@ module SharedCmsComps
   def cms_single_case_case_details_comps = @cms_single_case_case_details_comps ||= CmsSingleCaseCaseDetailsComps.new
   def cms_single_case_case_details_case_summary_comps = @cms_single_case_case_details_case_summary_comps ||= CmsSingleCaseCaseDetailsCaseSummaryComps.new
   def cms_single_case_case_details_case_summary_check_answers_comps = @cms_single_case_case_details_case_summary_check_answers_comps ||= CmsSingleCaseCaseDetailsCaseSummaryCheckAnswersComps.new
+  def cms_single_case_messages_comps = @cms_single_case_messages_comps ||= CmsSingleCaseMessagesComps.new
 
   # Navigation
   def cms_top_nav_comps = @cms_top_nav_comps ||= CmsTopNavComps.new

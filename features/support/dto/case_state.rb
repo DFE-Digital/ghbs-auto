@@ -120,7 +120,9 @@ class CaseState
     :case_evaluation_due_date,
     :case_uploaded_file_name_1,
     :case_uploaded_file_name_2,
-    :case_evaluation_email_sent
+    :case_evaluation_email_sent,
+    # Generic info
+    :search_term
 
   def initialize
     # Initialise all fields to empty strings.

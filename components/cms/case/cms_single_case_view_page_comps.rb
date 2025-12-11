@@ -18,4 +18,8 @@ class CmsSingleCaseViewPageComps
   def text_case_status_badge
     find(:xpath, "//div[@id='case_status_badge']/strong")
   end
+
+  def text_first_case_status_badge
+    find(:xpath, "//tr[1]/td/div[@id='case_status_badge']/strong")
+  end
 end

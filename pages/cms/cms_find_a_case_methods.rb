@@ -11,6 +11,7 @@ class CmsFindACaseMethods < CmsBasePage
   def search_for_case(term)
     # Search the term
     cms_find_a_case_page_comps.input_search_case_info.set(term)
+    case_state.search_term = term
     cms_find_a_case_page_comps.button_search.click
 
     # confirm the page load
@@ -51,5 +52,11 @@ class CmsFindACaseMethods < CmsBasePage
       .to include(case_number)
 
     puts "[INFO] Opened #{status} case #{case_number}"
+  end
+
+  def set_filter_by_status(option)
+    # cms_search_results_page_comps.button_clear_filter.click - currently this takes the user back to the search screen instead of clearing. TBC defect.
+    cms_search_results_page_comps.dropdown_filer_by_status(option).click
+    cms_search_results_page_comps.button_apply_filter.click
   end
 end
