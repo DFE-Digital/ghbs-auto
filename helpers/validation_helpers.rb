@@ -12,17 +12,9 @@ module ValidationHelpers
   end
 
   def wait_for_heading_includes(element, expected, timeout: 10)
-    start = Time.now
-
-    loop do
-      text = element.text
-      return true if text.include?(expected)
-
-      if Time.now - start > timeout
-        raise "Timed out after #{timeout}s waiting for heading to include #{expected.inspect}. Last text was: #{text.inspect}"
-      end
-
-      sleep 0.1
-    end
+    expect(element).to have_text(expected, wait: timeout)
+    true
+  rescue Capybara::ExpectationNotMet
+    raise "Timed out after #{timeout}s waiting for heading to include #{expected.inspect}"
   end
 end

@@ -27,7 +27,8 @@ require "pages/energy/completion/energy_info_submitted_methods"
 require "pages/cms/cms_signin_flow_methods"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
-require "pages/cms/cms_case_actions_methods"
+require "pages/cms/case/cms_case_actions_methods"
+require "pages/cms/case/cms_case_evaluation_flow_methods"
 require "pages/cms/cms_create_a_new_case_methods"
 
 module Pages
@@ -155,6 +156,10 @@ module Pages
 
   def cms_create_a_new_case_methods
     @cms_create_a_new_case_methods ||= CmsCreateANewCaseMethods.new(resolved_world)
+  end
+
+  def cms_case_evaluation_flow_methods
+    @cms_case_evaluation_flow_methods ||= CmsCaseEvaluationFlowMethods.new(resolved_world)
   end
 
   ##### SHARED PAGES #####

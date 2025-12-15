@@ -1,4 +1,4 @@
-@energy
+@cms
 Feature: GHBS - CMS - Case - Tasklist Flows
   Background:
     Given we open and login to the proc ops CMS screens as an admin in the dev environment

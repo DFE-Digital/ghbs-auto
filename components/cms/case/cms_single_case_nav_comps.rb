@@ -7,6 +7,10 @@ class CmsSingleCaseNavComps
     find(:xpath, "//h1")
   end
 
+  def link_task_list
+    find(:xpath, "//a[text()='Task list']")
+  end
+
   def link_school_details
     find(:xpath, "//a[text()='School details']")
   end

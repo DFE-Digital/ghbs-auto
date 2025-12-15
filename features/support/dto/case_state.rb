@@ -114,9 +114,8 @@ class CaseState
     :case_case_source,
     :case_level,
     # Evaluation case info
-    :case_evaluator_1,
-    :case_evaluator_2,
-    :case_evaluator_3,
+    :case_evaluator_1_email,
+    :case_evaluator_2_email,
     :case_evaluation_due_date,
     :case_uploaded_file_name_1,
     :case_uploaded_file_name_2,
