@@ -4,7 +4,7 @@ class CmsEvalEmailEvaluatorsComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "h1")
+    find(:xpath, "//h1")
   end
 
   def text_sharing_with_email_list(email_address)

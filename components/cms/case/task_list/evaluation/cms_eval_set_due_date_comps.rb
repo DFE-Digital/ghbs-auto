@@ -4,7 +4,7 @@ class CmsEvalSetDueDateComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "h1")
+    find(:xpath, "//h1")
   end
 
   def input_day

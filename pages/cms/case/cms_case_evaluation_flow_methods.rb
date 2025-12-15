@@ -5,6 +5,7 @@ require "components/cms/case/cms_single_case_nav_comps"
 require "components/cms/case/task_list/evaluation/cms_eval_task_list_comps"
 require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_evaluators_comps"
 require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_evaluator_details_comps"
+require "components/cms/case/task_list/evaluation/cms_eval_set_due_date_comps"
 require "helpers/validation_helpers"
 
 class CmsCaseEvaluationFlowMethods < CmsBasePage
@@ -17,6 +18,7 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     expect(cms_eval_task_list_comps.text_evaluation_heading.text).to include("Complete evaluation")
 
     complete_add_evaluators
+    complete_set_due_date
   end
 
   def complete_add_evaluators
@@ -47,10 +49,37 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
     expect(cms_eval_task_list_comps.text_section_heading.text).to include("Procurement task list")
     expect(cms_eval_task_list_comps.text_evaluation_heading.text).to include("Complete evaluation")
+    expect(cms_eval_task_list_comps.text_add_evaluators_status.text).to include("Complete")
   end
 
   def complete_set_due_date
-    # TODO
+    # Open the "Set due date" page
+    cms_eval_task_list_comps.link_set_due_date.click
+
+    # Complete the "Set due date" process
+    wait_for_heading_includes(cms_eval_set_due_date_comps.text_page_heading, "Set due date", timeout: 5)
+
+    # get today's date + 60 days
+    future_date = Date.today + 60
+
+    # extract individual parts with leading zeros
+    day   = sprintf("%02d", future_date.day)
+    month = sprintf("%02d", future_date.month)
+    year  = future_date.year.to_s
+
+    # set each field on the page
+    cms_eval_set_due_date_comps.input_day.set(day)
+    cms_eval_set_due_date_comps.input_month.set(month)
+    cms_eval_set_due_date_comps.input_year.set(year)
+
+    # Add to case state
+    case_state.case_evaluation_due_date = "#{day}-#{month}-#{year}"
+
+    # Return to the main menu
+    cms_eval_set_due_date_comps.button_continue.click
+    expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
+    expect(cms_eval_task_list_comps.text_section_heading.text).to include("Procurement task list")
+    expect(cms_eval_task_list_comps.text_set_due_date_status.text).to include("Complete")
   end
 
   def complete_upload_documents
