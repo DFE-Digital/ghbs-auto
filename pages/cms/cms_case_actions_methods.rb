@@ -94,7 +94,6 @@ private
       cms_single_case_actions_comps.link_reopen_case.click
       expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
       expect(cms_single_case_view_page_comps.text_flash_notice_content.text).to include("Case reopened successfully")
-
     rescue StandardError => e
       puts "Attempt ##{attempts} failed: #{e.message}"
       retry if attempts < max_attempts

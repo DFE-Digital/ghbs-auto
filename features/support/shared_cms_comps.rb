@@ -16,6 +16,17 @@ require "components/cms/case/cms_single_case_case_details_case_summary_check_ans
 require "components/cms/case/cms_single_case_case_details_case_summary_comps"
 require "components/cms/case/cms_single_case_case_details_comps"
 require "components/cms/case/cms_single_case_messages_comps"
+require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_evaluator_details_comps"
+require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_evaluators_comps"
+require "components/cms/case/task_list/evaluation/school_view/cms_eval_school_approved_comps"
+require "components/cms/case/task_list/evaluation/school_view/cms_eval_school_download_docs_comps"
+require "components/cms/case/task_list/evaluation/school_view/cms_eval_school_task_list_comps"
+require "components/cms/case/task_list/evaluation/school_view/cms_eval_school_upload_eval_scoring_comps"
+require "components/cms/case/task_list/evaluation/cms_eval_email_evaluators_comps"
+require "components/cms/case/task_list/evaluation/cms_eval_review_evaluations_comps"
+require "components/cms/case/task_list/evaluation/cms_eval_set_due_date_comps"
+require "components/cms/case/task_list/evaluation/cms_eval_task_list_comps"
+require "components/cms/case/task_list/evaluation/cms_eval_upload_documents_comps"
 
 module SharedCmsComps
   # Pre Flow pages
@@ -38,6 +49,20 @@ module SharedCmsComps
   def cms_single_case_case_details_case_summary_comps = @cms_single_case_case_details_case_summary_comps ||= CmsSingleCaseCaseDetailsCaseSummaryComps.new
   def cms_single_case_case_details_case_summary_check_answers_comps = @cms_single_case_case_details_case_summary_check_answers_comps ||= CmsSingleCaseCaseDetailsCaseSummaryCheckAnswersComps.new
   def cms_single_case_messages_comps = @cms_single_case_messages_comps ||= CmsSingleCaseMessagesComps.new
+
+  # Single Case Actions - Evaluation
+
+  def cms_eval_add_evaluator_details_comps = @cms_eval_add_evaluator_details_comps ||= CmsEvalAddEvaluatorDetailsComps.new
+  def cms_eval_add_evaluators_comps = @cms_eval_add_evaluators_comps ||= CmsEvalAddEvaluatorsComps.new
+  def cms_eval_school_approved_comps = @cms_eval_school_approved_comps ||= CmsEvalSchoolApprovedComps.new
+  def cms_eval_school_download_docs_comps = @cms_eval_school_download_docs_comps ||= CmsEvalSchoolDownloadDocsComps.new
+  def cms_eval_school_task_list_comps = @cms_eval_school_task_list_comps ||= CmsEvalSchoolTaskListComps.new
+  def cms_eval_school_upload_eval_scoring_comps = @cms_eval_school_upload_eval_scoring_comps ||= CmsEvalSchoolUploadEvalScoringComps.new
+  def cms_eval_email_evaluators_comps = @cms_eval_email_evaluators_comps ||= CmsEvalEmailEvaluatorsComps.new
+  def cms_eval_review_evaluations_comps = @cms_eval_review_evaluations_comps ||= CmsEvalReviewEvaluationsComps.new
+  def cms_eval_set_due_date_comps = @cms_eval_set_due_date_comps ||= CmsEvalSetDueDateComps.new
+  def cms_eval_task_list_comps = @cms_eval_task_list_comps ||= CmsEvalTaskListComps.new
+  def cms_eval_upload_documents_comps = @cms_eval_upload_documents_comps ||= CmsEvalUploadDocumentsComps.new
 
   # Navigation
   def cms_top_nav_comps = @cms_top_nav_comps ||= CmsTopNavComps.new
