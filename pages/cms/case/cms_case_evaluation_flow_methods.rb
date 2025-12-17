@@ -6,10 +6,13 @@ require "components/cms/case/task_list/evaluation/cms_eval_task_list_comps"
 require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_evaluators_comps"
 require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_evaluator_details_comps"
 require "components/cms/case/task_list/evaluation/cms_eval_set_due_date_comps"
+require "components/cms/case/task_list/evaluation/cms_eval_upload_documents_comps"
 require "helpers/validation_helpers"
+require "helpers/upload_file_helpers"
 
 class CmsCaseEvaluationFlowMethods < CmsBasePage
   include ValidationHelpers
+  include UploadFileHelpers
   def complete_initial_eval_setup_proc_ops_side
     # At this point we assume the user has already set the case to a level 4 and has the "Task list" tab available to them
     cms_single_case_nav_comps.link_task_list.click
@@ -19,6 +22,7 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
 
     complete_add_evaluators
     complete_set_due_date
+    complete_upload_documents
   end
 
   def complete_add_evaluators
@@ -83,7 +87,26 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   end
 
   def complete_upload_documents
-    # TODO
+    # Open the "Upload documents" page
+    cms_eval_task_list_comps.link_upload_documents.click
+
+    # Upload the document
+    wait_for_heading_includes(cms_eval_upload_documents_comps.text_page_heading, "Upload documents", timeout: 5)
+
+    # Upload the test file via Dropzone
+    upload_file_via_dropzone("resources/test_data/evaluation_doc.txt", input_selector: 'input[type="file"].dz-hidden-input')
+
+    # Validate the document is uploaded
+    wait_for_heading_includes(cms_eval_upload_documents_comps.text_uploaded_file_name("evaluation_doc.txt"), "evaluation_doc.txt", timeout: 10)
+
+    # Confirm all docs are uploaded
+    cms_eval_upload_documents_comps.radio_yes.click
+
+    # Return to the main menu
+    cms_eval_upload_documents_comps.button_continue.click
+    expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
+    expect(cms_eval_task_list_comps.text_section_heading.text).to include("Procurement task list")
+    expect(cms_eval_task_list_comps.text_set_due_date_status.text).to include("Complete")
   end
 
   def complete_email_evaluators

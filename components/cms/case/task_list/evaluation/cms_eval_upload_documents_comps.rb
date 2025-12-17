@@ -15,6 +15,14 @@ class CmsEvalUploadDocumentsComps
     find(:xpath, "//span[@data-case-files-target='btnDisplayFileDialog']")
   end
 
+  def hidden_file_upload
+    find(:xpath, "//input[@id='document-uploader-files-field' and @type='file']", visible: :all)
+  end
+
+  def text_uploaded_file_name(file_name)
+    find(:xpath, "//h3[text()='File uploaded']/parent::div/parent::div/following-sibling::div//span[text()='#{file_name}']")
+  end
+
   def radio_no
     find(:xpath, "//label[@for='document_uploader_has_uploaded_documents_false']")
   end
