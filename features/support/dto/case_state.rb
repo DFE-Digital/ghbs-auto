@@ -117,7 +117,7 @@ class CaseState
     :case_evaluator_1_email,
     :case_evaluation_due_date,
     :case_uploaded_file_name_1,
-    :case_uploaded_file_name_2,
+    :case_eval_case_specific_link,
     :case_evaluation_email_sent,
     # Generic info
     :search_term

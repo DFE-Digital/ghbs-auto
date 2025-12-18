@@ -30,6 +30,8 @@ require "pages/cms/cms_top_nav_methods"
 require "pages/cms/case/cms_case_actions_methods"
 require "pages/cms/case/cms_case_evaluation_flow_methods"
 require "pages/cms/cms_create_a_new_case_methods"
+require "pages/cms/case/cms_case_evaluation_school_user_flow_methods"
+
 
 module Pages
   def resolved_world
@@ -160,6 +162,10 @@ module Pages
 
   def cms_case_evaluation_flow_methods
     @cms_case_evaluation_flow_methods ||= CmsCaseEvaluationFlowMethods.new(resolved_world)
+  end
+
+  def cms_case_evaluation_school_user_flow_methods
+    @cms_case_evaluation_school_user_flow_methods ||= CmsCaseEvaluationSchoolUserFlowMethods.new(resolved_world)
   end
 
   ##### SHARED PAGES #####

@@ -7,6 +7,7 @@ require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_eva
 require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_evaluator_details_comps"
 require "components/cms/case/task_list/evaluation/cms_eval_set_due_date_comps"
 require "components/cms/case/task_list/evaluation/cms_eval_upload_documents_comps"
+require "components/cms/case/task_list/evaluation/cms_eval_email_evaluators_comps"
 require "helpers/validation_helpers"
 require "helpers/upload_file_helpers"
 
@@ -23,6 +24,7 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     complete_add_evaluators
     complete_set_due_date
     complete_upload_documents
+    complete_email_evaluators
   end
 
   def complete_add_evaluators
@@ -89,28 +91,48 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   def complete_upload_documents
     # Open the "Upload documents" page
     cms_eval_task_list_comps.link_upload_documents.click
-
-    # Upload the document
     wait_for_heading_includes(cms_eval_upload_documents_comps.text_page_heading, "Upload documents", timeout: 5)
 
     # Upload the test file via Dropzone
     upload_file_via_dropzone("resources/test_data/evaluation_doc.txt", input_selector: 'input[type="file"].dz-hidden-input')
+    case_state.case_uploaded_file_name_1 = "evaluation_doc.txt"
 
     # Validate the document is uploaded
-    wait_for_heading_includes(cms_eval_upload_documents_comps.text_uploaded_file_name("evaluation_doc.txt"), "evaluation_doc.txt", timeout: 10)
+    wait_for_heading_includes(cms_eval_upload_documents_comps.text_uploaded_file_name("evaluation_doc.txt"), "evaluation_doc.txt", timeout: 5)
 
     # Confirm all docs are uploaded
     cms_eval_upload_documents_comps.radio_yes.click
 
     # Return to the main menu
     cms_eval_upload_documents_comps.button_continue.click
-    expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
+    expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 5)
     expect(cms_eval_task_list_comps.text_section_heading.text).to include("Procurement task list")
-    expect(cms_eval_task_list_comps.text_set_due_date_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_upload_documents_status.text).to include("Complete")
   end
 
   def complete_email_evaluators
-    # TODO
+    # Open the "Upload documents" page
+    cms_eval_task_list_comps.link_email_evaluators.click
+    wait_for_heading_includes(cms_eval_email_evaluators_comps.text_page_heading, "Email evaluators", timeout: 5)
+
+    # Validate evaluators email addresses are visible in the "sharing with" section
+    cms_eval_email_evaluators_comps.text_sharing_with_email_list(case_state.case_evaluator_1_email)
+
+    # Validate uploaded attachments are referenced in the "Documents" section
+    cms_eval_email_evaluators_comps.text_docs_uploaded_list(case_state.case_uploaded_file_name_1)
+
+    # Retrieve the "unique-case-specific-link" from the email template
+    # https://dev.get-help-buying-for-schools.service.gov.uk/evaluation/verify/evaluator/link/42c3bc0b-c711-478f-88dd-014b835c472e
+    case_state.case_eval_case_specific_link = cms_eval_email_evaluators_comps.unique_case_specific_link_href
+
+    # Ensure the "GHBS Participation Agreement Inc FOI.pdf" is attached
+    cms_eval_email_evaluators_comps.link_attachments_added("GHBS Participation Agreement Inc FOI.pdf")
+
+    # Send the email. / Return to the main menu
+    cms_eval_email_evaluators_comps.button_send_email_and_continue.click
+    expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
+    expect(cms_eval_task_list_comps.text_section_heading.text).to include("Procurement task list")
+    expect(cms_eval_task_list_comps.text_email_evaluators_status.text).to include("Complete")
   end
 
   def complete_review_evaluations

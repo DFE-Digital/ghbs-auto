@@ -15,8 +15,11 @@ class CmsEvalEmailEvaluatorsComps
     find(:xpath, "//h2[text()='Documents']/following-sibling::dl//dd[contains(.,'#{uploaded_doc}')]")
   end
 
-  def link_unique_case_specific_link
-    find(:xpath, "//a[contains(.,'unique case-specific link')]")
+  def unique_case_specific_link_href
+    within_frame("email-evaluators-html-content-field_ifr") do
+      link = find(:xpath, "//a[contains(.,'unique case-specific link')]", visible: :all, wait: 5)
+      link[:href]
+    end
   end
 
   def link_attachments_added(attached_files)
