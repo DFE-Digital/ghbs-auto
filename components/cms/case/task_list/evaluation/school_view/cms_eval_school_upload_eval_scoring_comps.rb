@@ -4,7 +4,7 @@ class CmsEvalSchoolUploadEvalScoringComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "h1")
+    find(:xpath, "//h1")
   end
 
   def text_case_number_and_school_name
@@ -13,6 +13,10 @@ class CmsEvalSchoolUploadEvalScoringComps
 
   def button_choose_file
     find(:xpath, "//span[@data-case-files-target='btnDisplayFileDialog']")
+  end
+
+  def text_uploaded_file_name(file_name)
+    find(:xpath, "//h3[text()='File uploaded']/parent::div/parent::div/following-sibling::div//span[text()='#{file_name}']")
   end
 
   def radio_uploaded_docs_yes

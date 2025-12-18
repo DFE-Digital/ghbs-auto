@@ -116,7 +116,8 @@ class CaseState
     # Evaluation case info
     :case_evaluator_1_email,
     :case_evaluation_due_date,
-    :case_uploaded_file_name_1,
+    :case_proc_ops_eval_uploaded_file_name_1,
+    :case_school_eval_uploaded_file_name_1,
     :case_eval_case_specific_link,
     :case_evaluation_email_sent,
     # Generic info

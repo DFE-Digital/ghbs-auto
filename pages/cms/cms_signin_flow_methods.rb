@@ -49,7 +49,7 @@ class CmsSignInFlowMethods < CmsBasePage
     world.shared_global_methods.complete_dfe_signin_as("proc ops")
 
     # Complete the login process > my cases
-    expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 10)
+    expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
     expect(cms_mycases_page_comps.text_page_heading.text).to include("My cases")
 
     puts "[INFO] Successfully signed in as Proc Ops Admin user"

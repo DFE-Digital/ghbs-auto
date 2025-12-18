@@ -4,7 +4,7 @@ class CmsEvalSchoolDownloadDocsComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "h1")
+    find(:xpath, "//h1")
   end
 
   def text_case_number_and_school_name
@@ -15,8 +15,12 @@ class CmsEvalSchoolDownloadDocsComps
     find(:xpath, "//dl/div/dd/a[text()='#{document_name}']")
   end
 
+  def text_uploaded_file_name(file_name)
+    find(:xpath, "//h3[text()='File uploaded']/parent::div/parent::div/following-sibling::div//span[text()='#{file_name}']")
+  end
+
   def radio_downloaded_docs_yes
-    find(:xpath, "//a[text()='//label[@for='document_download_has_downloaded_documents_true']']")
+    find(:xpath, "//label[@for='document_download_has_downloaded_documents_true']")
   end
 
   def radio_downloaded_docs_no

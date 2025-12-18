@@ -4,7 +4,7 @@ class CmsEvalSchoolTaskListComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "h1")
+    find(:xpath, "//h1")
   end
 
   def text_case_number_and_school_name
@@ -31,7 +31,11 @@ class CmsEvalSchoolTaskListComps
     find(:xpath, "//a[text()='Evaluation approved by DfE']")
   end
 
-  def text_evaluation_approved_by_dfe_status
+  def text_evaluation_approved_by_dfe_status_pre_clickable
+    find(:xpath, "//div[text()='Evaluation approved by DfE']/following-sibling::div/strong")
+  end
+
+  def text_evaluation_approved_by_dfe_status_post_clickable
     find(:xpath, "//a[text()='Evaluation approved by DfE']/parent::div/following-sibling::div/strong")
   end
 end

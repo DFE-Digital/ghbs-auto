@@ -7,4 +7,5 @@ end
 And(/^login and complete the school facing evaluation flow as the school user$/) do
   cms_case_evaluation_school_user_flow_methods.open_current_case_evaluation_for_school_user
   cms_case_evaluation_school_user_flow_methods.complete_download_documents
+  cms_case_evaluation_school_user_flow_methods.complete_upload_evaluation_scoring_docs
 end
