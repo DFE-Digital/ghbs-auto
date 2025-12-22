@@ -135,6 +135,6 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   end
 
   def complete_review_evaluations
-    # TODO
+    # TODO - Dont forget to harden the checks for statuses in other sections as well.
   end
 end
