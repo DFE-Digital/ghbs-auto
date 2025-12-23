@@ -8,6 +8,7 @@ require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_eva
 require "components/cms/case/task_list/evaluation/cms_eval_set_due_date_comps"
 require "components/cms/case/task_list/evaluation/cms_eval_upload_documents_comps"
 require "components/cms/case/task_list/evaluation/cms_eval_email_evaluators_comps"
+require "components/cms/case/task_list/evaluation/cms_eval_review_evaluations_comps"
 require "helpers/validation_helpers"
 require "helpers/upload_file_helpers"
 
@@ -169,6 +170,44 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   end
 
   def complete_review_evaluations
-    # TODO
+    # Re-open our case and nav to task list
+    world.cms_top_nav_methods.nav_to_find_a_case_screen
+    world.cms_find_a_case_methods.search_for_case(case_state.case_number)
+    world.cms_find_a_case_methods.open_returned_result_with_case_number(case_state.case_number)
+    cms_single_case_nav_comps.link_task_list.click
+    expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
+    expect(cms_eval_task_list_comps.text_section_heading.text).to include("Procurement task list")
+    expect(cms_eval_task_list_comps.text_evaluation_heading.text).to include("Complete evaluation")
+
+    # Evaluation State Check
+    expect(cms_eval_task_list_comps.text_add_evaluators_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_set_due_date_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_upload_documents_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_email_evaluators_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_review_evaluators_status.text).to include("To do")
+
+    # Open Review evaluations
+    cms_eval_task_list_comps.link_review_evaluators.click
+    expect(page).to have_current_path(%r{/review_evaluation/edit}, url: true, wait: 10)
+    expect(cms_eval_review_evaluations_comps.text_page_heading.text).to include("Review evaluations")
+
+    # Ensure the file the school uploaded is there against our evaluator
+    cms_eval_review_evaluations_comps.text_evaluator_email_address(case_state.case_evaluator_1_email)
+    cms_eval_review_evaluations_comps.dropdown_evaluators_files(case_state.case_evaluator_1_email).click
+    expect(cms_eval_review_evaluations_comps.individual_evaluators_files_list(case_state.case_evaluator_1_email).text).to include(case_state.case_school_eval_uploaded_file_name_1)
+
+    # Check the box to say the file is there and complete the screen.
+    cms_eval_review_evaluations_comps.checkbox_completed_eval(case_state.case_evaluator_1_email).click
+    cms_eval_review_evaluations_comps.button_continue.click
+    expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
+    expect(cms_eval_task_list_comps.text_section_heading.text).to include("Procurement task list")
+    expect(cms_eval_task_list_comps.text_evaluation_heading.text).to include("Complete evaluation")
+
+    # Evaluation State Check
+    expect(cms_eval_task_list_comps.text_add_evaluators_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_set_due_date_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_upload_documents_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_email_evaluators_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_review_evaluators_status.text).to include("Complete")
   end
 end

@@ -13,3 +13,7 @@ end
 Then(/^we confirm the notification to the proc ops user has been sent$/) do
   cms_notifications_methods.validate_notification_from_evaluation_has_arrived
 end
+
+And(/^the ProcOps user will be able to validate school users evaluation$/) do
+  cms_case_evaluation_flow_methods.complete_review_evaluations
+end

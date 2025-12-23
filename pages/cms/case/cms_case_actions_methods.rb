@@ -151,7 +151,6 @@ private
       world.cms_find_a_case_methods.set_filter_by_status(status_type)
       rolling_count_of_cases += 1
       puts "[Info] #{rolling_count_of_cases} / #{starting_count_of_new_cases} with a status of '#{status_type}' have been processed"
-      sleep(20) # Artificial wait to stop Azure blocking the request for too much use. TBC investigation from dev team.
     end
 
     puts "[Info] All '#{status_type}' records processed. No more found."

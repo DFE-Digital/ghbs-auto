@@ -12,7 +12,7 @@ class CmsEvalReviewEvaluationsComps
   end
 
   def checkbox_completed_eval(email_address)
-    find(:xpath, "//label[text()='#{email_address}']/parent::div/input")
+    find(:xpath, "//label[text()='#{email_address}']/parent::div/input/following-sibling::label")
   end
 
   def dropdown_evaluators_files(email_address)
