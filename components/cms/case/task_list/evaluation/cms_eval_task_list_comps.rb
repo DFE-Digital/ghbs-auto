@@ -44,12 +44,20 @@ class CmsEvalTaskListComps
     find(:xpath, "//a[text()='Email evaluators']/parent::div/following-sibling::div/strong")
   end
 
+  def text_inactive_email_evaluators_status
+    find(:xpath, "//div[text()='Email evaluators']/following-sibling::div/strong")
+  end
+
   def link_review_evaluators
     find(:xpath, "//a[text()='Review evaluations']")
   end
 
   def text_review_evaluators_status
     find(:xpath, "//a[text()='Review evaluations']/parent::div/following-sibling::div/strong")
+  end
+
+  def text_inactive_review_evaluators_status
+    find(:xpath, "//div[text()='Review evaluations']/following-sibling::div/strong")
   end
 
   # Share contract and handover document

@@ -28,6 +28,13 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   end
 
   def complete_add_evaluators
+    # Evaluation State Check
+    expect(cms_eval_task_list_comps.text_add_evaluators_status.text).to include("To do")
+    expect(cms_eval_task_list_comps.text_set_due_date_status.text).to include("To do")
+    expect(cms_eval_task_list_comps.text_upload_documents_status.text).to include("To do")
+    expect(cms_eval_task_list_comps.text_inactive_email_evaluators_status.text).to include("Cannot start")
+    expect(cms_eval_task_list_comps.text_inactive_review_evaluators_status.text).to include("Cannot start")
+
     # Open the "Add evaluators" page
     cms_eval_task_list_comps.link_add_evaluators.click
     wait_for_heading_includes(cms_eval_add_evaluators_comps.text_page_heading, "Evaluators", timeout: 5)
@@ -59,6 +66,13 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   end
 
   def complete_set_due_date
+    # Evaluation State Check
+    expect(cms_eval_task_list_comps.text_add_evaluators_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_set_due_date_status.text).to include("To do")
+    expect(cms_eval_task_list_comps.text_upload_documents_status.text).to include("To do")
+    expect(cms_eval_task_list_comps.text_inactive_email_evaluators_status.text).to include("Cannot start")
+    expect(cms_eval_task_list_comps.text_inactive_review_evaluators_status.text).to include("Cannot start")
+
     # Open the "Set due date" page
     cms_eval_task_list_comps.link_set_due_date.click
 
@@ -89,6 +103,13 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   end
 
   def complete_upload_documents
+    # Evaluation State Check
+    expect(cms_eval_task_list_comps.text_add_evaluators_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_set_due_date_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_upload_documents_status.text).to include("To do")
+    expect(cms_eval_task_list_comps.text_inactive_email_evaluators_status.text).to include("Cannot start")
+    expect(cms_eval_task_list_comps.text_inactive_review_evaluators_status.text).to include("Cannot start")
+
     # Open the "Upload documents" page
     cms_eval_task_list_comps.link_upload_documents.click
     wait_for_heading_includes(cms_eval_upload_documents_comps.text_page_heading, "Upload documents", timeout: 5)
@@ -111,6 +132,13 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   end
 
   def complete_email_evaluators
+    # Evaluation State Check
+    expect(cms_eval_task_list_comps.text_add_evaluators_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_set_due_date_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_upload_documents_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_email_evaluators_status.text).to include("To do")
+    expect(cms_eval_task_list_comps.text_inactive_review_evaluators_status.text).to include("Cannot start")
+
     # Open the "Upload documents" page
     cms_eval_task_list_comps.link_email_evaluators.click
     wait_for_heading_includes(cms_eval_email_evaluators_comps.text_page_heading, "Email evaluators", timeout: 5)
@@ -131,10 +159,16 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     cms_eval_email_evaluators_comps.button_send_email_and_continue.click
     expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
     expect(cms_eval_task_list_comps.text_section_heading.text).to include("Procurement task list")
+
+    # Evaluation State Check
+    expect(cms_eval_task_list_comps.text_add_evaluators_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_set_due_date_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_upload_documents_status.text).to include("Complete")
     expect(cms_eval_task_list_comps.text_email_evaluators_status.text).to include("Complete")
+    expect(cms_eval_task_list_comps.text_inactive_review_evaluators_status.text).to include("Cannot start")
   end
 
   def complete_review_evaluations
-    # TODO - Dont forget to harden the checks for statuses in other sections as well.
+    # TODO
   end
 end
