@@ -58,5 +58,4 @@ class CmsCaseEvaluationSchoolUserFlowMethods < CmsBasePage
     expect(cms_eval_school_task_list_comps.text_upload_evaluation_scoring_document_status.text).to include("Complete")
     expect(cms_eval_school_task_list_comps.text_evaluation_approved_by_dfe_status_post_clickable.text).to include("In progress")
   end
-
 end

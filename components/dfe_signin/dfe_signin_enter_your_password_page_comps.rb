@@ -26,6 +26,4 @@ class DfeSigninEnterYourPasswordPageComps
   def button_sign_in_test_server
     find(:xpath, "//button[contains(.,'Sign in')]")
   end
-
-
 end

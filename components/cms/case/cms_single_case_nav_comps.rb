@@ -38,4 +38,8 @@ class CmsSingleCaseNavComps
   def link_files
     find(:xpath, "//a[text()='Files']")
   end
+
+  def text_notice_agent_assigned
+    find(:xpath, "//h3/div[contains(.,'Agent assigned to case successfully')]")
+  end
 end

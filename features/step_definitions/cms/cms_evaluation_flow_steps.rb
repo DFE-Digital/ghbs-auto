@@ -9,3 +9,7 @@ And(/^login and complete the school facing evaluation flow as the school user$/)
   cms_case_evaluation_school_user_flow_methods.complete_download_documents
   cms_case_evaluation_school_user_flow_methods.complete_upload_evaluation_scoring_docs
 end
+
+Then(/^we confirm the notification to the proc ops user has been sent$/) do
+  cms_notifications_methods.validate_notification_from_evaluation_has_arrived
+end

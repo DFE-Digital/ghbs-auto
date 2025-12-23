@@ -7,7 +7,7 @@ Feature: GHBS - Util - Data management
     Given we select org <Org> to add a user too
     When we add first name "XXX" last name "XXX" email "XXXX@education.gov.uk" to associate with the org
     And we set their permission level to "End User"
-    Then we see the confirmation message showing the user "XXXX@education.gov.uk" has been added to the org
+    Then we see the confirmation message showing the user has been added to the org
     Examples:
       | Org                                      |
       # ABBEY ACADEMIES TRUST (Open)

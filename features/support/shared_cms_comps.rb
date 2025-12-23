@@ -7,7 +7,8 @@ require "components/cms/find_a_case/cms_find_a_case_page_comps"
 require "components/cms/cms_notifications_page_comps"
 require "components/cms/find_a_case/cms_search_results_page_comps"
 require "components/cms/case/cms_single_case_view_page_comps"
-require "components/cms/case/cms_single_case_resolve_case_page_comps"
+require "components/cms/case/actions/cms_single_case_resolve_case_page_comps"
+require "components/cms/case/actions/cms_single_case_assign_to_case_worker_comps"
 require "components/cms/case/cms_single_case_actions_comps"
 require "components/cms/create_a_case/cms_create_a_new_case_comps"
 require "components/cms/create_a_case/cms_create_a_new_case_check_answers_comps"
@@ -41,6 +42,7 @@ module SharedCmsComps
   # Single Case Actions
   def cms_single_case_view_page_comps = @cms_single_case_view_page_comps ||= CmsSingleCaseViewPageComps.new
   def cms_single_case_resolve_case_page_comps = @cms_single_case_resolve_case_page_comps ||= CmsSingleCaseResolveCasePageComps.new
+  def cms_single_case_assign_to_case_worker_comps = @cms_single_case_assign_to_case_worker_comps ||= CmsSingleCaseAssignToCaseWorkerComps.new
   def cms_single_case_actions_comps = @cms_single_case_actions_comps ||= CmsSingleCaseActionsComps.new
   def cms_single_case_nav_comps = @cms_single_case_nav_comps ||= CmsSingleCaseNavComps.new
 
@@ -51,7 +53,6 @@ module SharedCmsComps
   def cms_single_case_messages_comps = @cms_single_case_messages_comps ||= CmsSingleCaseMessagesComps.new
 
   # Single Case Actions - Evaluation
-
   def cms_eval_add_evaluator_details_comps = @cms_eval_add_evaluator_details_comps ||= CmsEvalAddEvaluatorDetailsComps.new
   def cms_eval_add_evaluators_comps = @cms_eval_add_evaluators_comps ||= CmsEvalAddEvaluatorsComps.new
   def cms_eval_school_approved_comps = @cms_eval_school_approved_comps ||= CmsEvalSchoolApprovedComps.new

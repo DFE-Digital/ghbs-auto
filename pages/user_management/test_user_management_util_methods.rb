@@ -8,9 +8,7 @@ require "components/dfe_signin/user_management/dfe_signin_4_permission_level_com
 require "components/dfe_signin/user_management/dfe_signin_5_select_services_comps"
 require "components/dfe_signin/user_management/dfe_signin_6_review_invite_details_comps"
 
-
 class TestUserManagementUtilMethods < SharedGlobalMethodsBasePage
-
   def open_test_manage_users_screen
     visit SECRETS["test_dfe_signin_org_admin_screens"]
 
@@ -62,12 +60,12 @@ class TestUserManagementUtilMethods < SharedGlobalMethodsBasePage
     end
 
     if current_page_title_name == "Invite user"
-        if page.has_css?(".govuk-error-summary", wait: 0) || page.has_css?(".govuk-error-message", wait: 0)
-          error_text = page.has_css?(".govuk-error-summary", wait: 0) ? find(".govuk-error-summary").text : find(".govuk-error-message").text
-          raise "Org already associated with user (cannot continue). UI error: #{error_text}"
-        end
-        # Re-raise if it wasn't the expected "already associated" case
-        raise
+      if page.has_css?(".govuk-error-summary", wait: 0) || page.has_css?(".govuk-error-message", wait: 0)
+        error_text = page.has_css?(".govuk-error-summary", wait: 0) ? find(".govuk-error-summary").text : find(".govuk-error-message").text
+        raise "Org already associated with user (cannot continue). UI error: #{error_text}"
+      end
+      # Re-raise if it wasn't the expected "already associated" case
+      raise
     end
 
     # Now we should be on the permissions page
@@ -95,13 +93,11 @@ class TestUserManagementUtilMethods < SharedGlobalMethodsBasePage
     expect(dfe_signin_6_review_invite_details_comps.text_page_heading.text).to include("Review invite details")
   end
 
-  def review_details_to_completion(user_email)
+  def review_details_to_completion
     # Screen 6 - Review invite details
     dfe_signin_6_review_invite_details_comps.button_submit.click
     expect(page).to have_current_path(%r{/approvals/users}, url: true, wait: 10)
     expect(dfe_signin_1_manage_users_comps.text_page_heading.text).to include("Manage users")
     dfe_signin_1_manage_users_comps.text_success_invite_test_server
-
   end
-
 end

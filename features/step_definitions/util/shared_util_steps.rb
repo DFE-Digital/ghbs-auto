@@ -16,6 +16,6 @@ And(/^we set their permission level to "([^"]*)"$/) do |level|
   test_user_management_util_methods.permission_to_completion(level)
 end
 
-Then(/^we see the confirmation message showing the user "([^"]*)" has been added to the org$/) do |user_email|
-  test_user_management_util_methods.review_details_to_completion(user_email)
+Then(/^we see the confirmation message showing the user has been added to the org$/) do
+  test_user_management_util_methods.review_details_to_completion
 end

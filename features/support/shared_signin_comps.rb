@@ -25,5 +25,4 @@ module SharedDfeSignInComps
   def dfe_signin_4_permission_level_comps = @dfe_signin_4_permission_level_comps ||= DfeSignin4PermissionLevelComps.new
   def dfe_signin_5_select_services_comps = @dfe_signin_5_select_services_comps ||= DfeSignin5SelectServicesComps.new
   def dfe_signin_6_review_invite_details_comps = @dfe_signin_6_review_invite_details_comps ||= DfeSignin6ReviewInviteDetailsComps.new
-
 end

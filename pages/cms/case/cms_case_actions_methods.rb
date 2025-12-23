@@ -2,11 +2,12 @@
 
 require "pages/cms/cms_base_page"
 require "components/cms/case/cms_single_case_actions_comps"
-require "components/cms/case/cms_single_case_resolve_case_page_comps"
+require "components/cms/case/actions/cms_single_case_resolve_case_page_comps"
 require "components/cms/case/cms_single_case_view_page_comps"
 require "components/cms/find_a_case/cms_search_results_page_comps"
 require "components/cms/case/cms_single_case_nav_comps"
 require "components/cms/case/cms_single_case_messages_comps"
+require "components/cms/case/actions/cms_single_case_assign_to_case_worker_comps"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
 class CmsCaseActionsMethods < CmsBasePage
@@ -79,6 +80,22 @@ class CmsCaseActionsMethods < CmsBasePage
 
     # Next up is "Open" cases!
     _resolve_case("Open")
+  end
+
+  def assign_current_case_worker_to_case
+    # Open Assign Screen
+    cms_single_case_actions_comps.link_assign_to_case_worker.click
+    expect(page).to have_current_path(%r{/assignments/new}, url: true, wait: 10)
+    expect(cms_single_case_assign_to_case_worker_comps.text_page_heading.text).to include("Assign to case worker")
+
+    # Select caseworker from drop down list
+    cms_single_case_assign_to_case_worker_comps.input_search_for_case_worker_name.set("test user 1")
+    sleep(2) # allow time for the dropdown list to populate / render with correct content
+    cms_single_case_assign_to_case_worker_comps.dropdown_select_case_worker_name("Auto 1 Test User 1").click
+
+    # Assign caseworker
+    cms_single_case_assign_to_case_worker_comps.button_assign.click
+    cms_single_case_nav_comps.text_notice_agent_assigned
   end
 
 private

@@ -30,4 +30,8 @@ class CmsSingleCaseActionsComps
   def link_reopen_case
     find(:xpath, "//a[text()='Reopen case']")
   end
+
+  def link_assign_to_case_worker
+    find(:xpath, "//a[text()='Assign to case worker']")
+  end
 end

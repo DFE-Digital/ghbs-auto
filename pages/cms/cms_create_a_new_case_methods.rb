@@ -138,6 +138,9 @@ class CmsCreateANewCaseMethods < CmsBasePage
   end
 
   def change_case_level_to(case_level)
+    # Log the case number
+    case_state.case_number = cms_single_case_view_page_comps.text_page_heading_case_number.text
+
     # Open Case Details tab and select to "Change" Case Summary
     cms_single_case_nav_comps.link_case_details.click
     expect(cms_single_case_case_details_comps.text_page_heading.text).to include("Case details")
