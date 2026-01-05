@@ -6,7 +6,7 @@ Feature: GHBS - Util - Data management
   Scenario Outline: Test User Management Util 01 - Add users to all orgs
     Given we select org <Org> to add a user too
     When we add first name "XXX" last name "XXX" email "XXXX@education.gov.uk" to associate with the org
-    And we set their permission level to "End User"
+    And we set their permission level to "Approver"
     Then we see the confirmation message showing the user has been added to the org
     Examples:
       | Org                                      |
@@ -55,11 +55,12 @@ Feature: GHBS - Util - Data management
       # THE AYLESBURY VALE ACADEMY (Open)
       | UID: 2218, UKPRN: 10058250, UPIN: 135211 |
 
+
   Scenario Outline: Test User Management Util 02 - Add users to cut down list all orgs
     Given we select org <Org> to add a user too
-    When we add first name "Tom" last name "Paine" email "tom.paine@airelogic.com" to associate with the org
-    And we set their permission level to "End user"
-    Then we see the confirmation message showing the user "tom.paine@airelogic.com" has been added to the org
+    When we add first name "XXX" last name "XXXX" email "XXXX@education.gov.uk" to associate with the org
+    And we set their permission level to "End User"
+    Then we see the confirmation message showing the user has been added to the org
     Examples:
       | Org                                      |
       # MAT - ABBEY ACADEMIES TRUST (Open)

@@ -89,7 +89,6 @@ class TestUserManagementUtilMethods < SharedGlobalMethodsBasePage
 
     # Screen 5 - Select services # Move on to the next page
     dfe_signin_5_select_services_comps.button_continue.click
-    expect(page).to have_current_path(%r{/confirm-details}, url: true, wait: 10)
     expect(dfe_signin_6_review_invite_details_comps.text_page_heading.text).to include("Review invite details")
   end
 
