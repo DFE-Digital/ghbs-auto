@@ -26,7 +26,7 @@ require "components/cms/case/task_list/evaluation/school_view/cms_eval_school_up
 require "components/cms/case/task_list/evaluation/cms_eval_email_evaluators_comps"
 require "components/cms/case/task_list/evaluation/cms_eval_review_evaluations_comps"
 require "components/cms/case/task_list/evaluation/cms_eval_set_due_date_comps"
-require "components/cms/case/task_list/evaluation/cms_eval_task_list_comps"
+require "components/cms/case/task_list/cms_task_list_comps"
 require "components/cms/case/task_list/evaluation/cms_eval_upload_documents_comps"
 
 module SharedCmsComps
@@ -62,7 +62,7 @@ module SharedCmsComps
   def cms_eval_email_evaluators_comps = @cms_eval_email_evaluators_comps ||= CmsEvalEmailEvaluatorsComps.new
   def cms_eval_review_evaluations_comps = @cms_eval_review_evaluations_comps ||= CmsEvalReviewEvaluationsComps.new
   def cms_eval_set_due_date_comps = @cms_eval_set_due_date_comps ||= CmsEvalSetDueDateComps.new
-  def cms_eval_task_list_comps = @cms_eval_task_list_comps ||= CmsEvalTaskListComps.new
+  def cms_task_list_comps = @cms_task_list_comps ||= CmsTaskListComps.new
   def cms_eval_upload_documents_comps = @cms_eval_upload_documents_comps ||= CmsEvalUploadDocumentsComps.new
 
   # Navigation

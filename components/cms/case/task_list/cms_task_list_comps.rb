@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CmsEvalTaskListComps
+class CmsTaskListComps
   include Capybara::DSL
 
   def text_section_heading
