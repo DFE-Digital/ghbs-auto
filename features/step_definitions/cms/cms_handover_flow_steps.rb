@@ -10,5 +10,5 @@ And(/^login and complete the school facing handover flow as the school user$/) d
 end
 
 Then(/^we validate the completion of the Download contract section in the cms$/) do
-  pending
+  cms_case_handover_flow_methods.validate_download_contract_handover_pre_school_completion
 end

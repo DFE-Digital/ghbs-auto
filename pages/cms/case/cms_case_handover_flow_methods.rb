@@ -124,7 +124,24 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
   end
 
   def validate_download_contract_handover_pre_school_completion
-    # TODO
+    # Return to the CMS home page
+    visit SECRETS["dev_proc_ops_cms_homepage_url"]
+    expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 10)
+    expect(cms_mycases_page_comps.text_page_heading.text).to include("My cases")
+
+    # Re-open our case and nav to task list
+    world.cms_top_nav_methods.nav_to_find_a_case_screen
+    world.cms_find_a_case_methods.search_for_case(case_state.case_number)
+    world.cms_find_a_case_methods.open_returned_result_with_case_number(case_state.case_number)
+    cms_single_case_nav_comps.link_task_list.click
+    expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
+    expect(cms_task_list_comps.text_section_heading.text).to include("Procurement task list")
+
+    # Handover State Check
+    expect(cms_task_list_comps.text_add_contract_recipients_status.text).to include("Complete")
+    expect(cms_task_list_comps.text_upload_contract_and_handover_document_status.text).to include("Complete")
+    expect(cms_task_list_comps.text_share_contract_and_handover_document_status.text).to include("Complete")
+    expect(cms_task_list_comps.text_inactive_download_contract_and_handover_document_status.text).to include("Complete")
   end
 
 end
