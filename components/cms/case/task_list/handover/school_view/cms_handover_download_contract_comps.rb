@@ -11,11 +11,23 @@ class CmsHandoverDownloadContractComps
     find(:xpath, "//h1/preceding-sibling::span")
   end
 
-  def link_download_contract_handover_pack
-    find(:xpath, "//a[text()='Download contract handover pack']")
+  def link_download_link(document_name)
+    find(:xpath, "//dl/div/dd/a[text()='#{document_name}']")
   end
 
-  def text_download_contract_handover_pack_status
-    find(:xpath, "//a[text()='Download contract handover pack']/parent::div/following-sibling::div/strong")
+  def radio_downloaded_docs_yes
+    find(:xpath, "//label[@for='handover_packs_has_downloaded_documents_true']")
+  end
+
+  def radio_downloaded_docs_no
+    find(:xpath, "//label[@for='handover_packs_has_downloaded_documents_false']")
+  end
+
+  def button_cancel
+    find(:xpath, "//a[text()='Cancel']")
+  end
+
+  def button_continue
+    find(:xpath, "//input[@value='Continue']")
   end
 end
