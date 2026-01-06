@@ -32,5 +32,4 @@ class CmsCaseHandoverSchoolUserFlowMethods < CmsBasePage
     expect(cms_handover_proc_task_list_comps.text_page_heading.text).to include("Procurement task list")
     expect(cms_handover_proc_task_list_comps.text_download_contract_handover_pack_status.text).to include("Complete")
   end
-
 end

@@ -23,7 +23,6 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
     complete_add_contract_recipients
     complete_upload_contract
     complete_share_contract_and_handover_doc
-
   end
 
   def complete_add_contract_recipients
@@ -143,5 +142,4 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
     expect(cms_task_list_comps.text_share_contract_and_handover_document_status.text).to include("Complete")
     expect(cms_task_list_comps.text_inactive_download_contract_and_handover_document_status.text).to include("Complete")
   end
-
 end

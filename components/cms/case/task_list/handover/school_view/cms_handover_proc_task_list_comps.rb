@@ -18,5 +18,4 @@ class CmsHandoverProcTaskListComps
   def text_download_contract_handover_pack_status
     find(:xpath, "//a[text()='Download contract handover pack']/parent::div/following-sibling::div/strong")
   end
-
 end
