@@ -23,6 +23,7 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
     expect(cms_task_list_comps.text_handover_heading.text).to include("Share contract and handover document")
 
     complete_add_contract_recipients
+    complete_upload_contract
 
   end
 
@@ -52,7 +53,7 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
     wait_for_heading_includes(cms_handover_add_contract_recipients_comps.text_page_heading, "Contract Recipients", timeout: 5)
 
     # Confirm our user has been added
-    cms_handover_add_contract_recipients_comps.text_recipient_email_address(case_state.case_evaluator_1_email)
+    cms_handover_add_contract_recipients_comps.text_recipient_email_address(case_state.case_handover_1_email)
     cms_handover_add_contract_recipients_comps.text_recipient_name("#{user_first_name} #{user_last_name}")
 
     # Return to the main menu
@@ -64,7 +65,31 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
   end
 
   def complete_upload_contract
-    # TODO
+    # Handover State Check
+    expect(cms_task_list_comps.text_add_contract_recipients_status.text).to include("Complete")
+    expect(cms_task_list_comps.text_upload_contract_and_handover_document_status.text).to include("To do")
+    expect(cms_task_list_comps.text_inactive_share_contract_and_handover_document_status.text).to include("Cannot start")
+    expect(cms_task_list_comps.text_inactive_download_contract_and_handover_document_status.text).to include("Cannot start")
+
+    # Open the "Upload contract and handover document" page
+    cms_task_list_comps.link_upload_contract_and_handover_document.click
+    wait_for_heading_includes(cms_handover_upload_contract_comps.text_page_heading, "Upload handover pack", timeout: 5)
+
+    # Upload the test file via Dropzone
+    upload_file_via_dropzone("resources/test_data/handover_doc.txt", input_selector: 'input[type="file"].dz-hidden-input')
+    case_state.case_proc_ops_handover_uploaded_file_name_1 = "handover_doc.txt"
+
+    # Validate the document is uploaded
+    wait_for_heading_includes(cms_handover_upload_contract_comps.text_uploaded_file_name("handover_doc.txt"), "handover_doc.txt", timeout: 5)
+
+    # Confirm all docs are uploaded
+    cms_handover_upload_contract_comps.radio_yes.click
+
+    # Return to the main menu
+    cms_handover_upload_contract_comps.button_continue.click
+    expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 5)
+    expect(cms_task_list_comps.text_section_heading.text).to include("Procurement task list")
+    expect(cms_task_list_comps.text_upload_contract_and_handover_document_status.text).to include("Complete")
   end
 
   def complete_share_contract_and_handover_doc
