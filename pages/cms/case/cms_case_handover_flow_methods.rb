@@ -24,6 +24,7 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
 
     complete_add_contract_recipients
     complete_upload_contract
+    complete_share_contract_and_handover_doc
 
   end
 
@@ -93,7 +94,35 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
   end
 
   def complete_share_contract_and_handover_doc
-    # TODO
+    # Handover State Check
+    expect(cms_task_list_comps.text_add_contract_recipients_status.text).to include("Complete")
+    expect(cms_task_list_comps.text_upload_contract_and_handover_document_status.text).to include("Complete")
+    expect(cms_task_list_comps.text_share_contract_and_handover_document_status.text).to include("To do")
+    expect(cms_task_list_comps.text_inactive_download_contract_and_handover_document_status.text).to include("Cannot start")
+
+    # Open the "Share contract and handover document" page
+    cms_task_list_comps.link_share_contract_and_handover_document.click
+    wait_for_heading_includes(cms_handover_share_contract_comps.text_page_heading, "Share handover pack", timeout: 5)
+
+    # Validate handover recipients email addresses are visible in the "sharing with" section
+    cms_handover_share_contract_comps.text_sharing_with_email_list(case_state.case_handover_1_email)
+
+    # Validate uploaded attachments are referenced in the "Documents" section
+    cms_handover_share_contract_comps.text_docs_uploaded_list(case_state.case_proc_ops_handover_uploaded_file_name_1)
+
+    # Retrieve the "unique-case-specific-link" from the email template
+    case_state.case_handover_case_specific_link = cms_handover_share_contract_comps.unique_case_specific_link_href
+
+    # Send the email. / Return to the main menu
+    cms_handover_share_contract_comps.button_send_email_and_continue.click
+    expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
+    expect(cms_task_list_comps.text_section_heading.text).to include("Procurement task list")
+
+    # Handover State Check
+    expect(cms_task_list_comps.text_add_contract_recipients_status.text).to include("Complete")
+    expect(cms_task_list_comps.text_upload_contract_and_handover_document_status.text).to include("Complete")
+    expect(cms_task_list_comps.text_share_contract_and_handover_document_status.text).to include("Complete")
+    expect(cms_task_list_comps.text_inactive_download_contract_and_handover_document_status.text).to include("Cannot start")
   end
 
   def validate_download_contract_handover_pre_school_completion

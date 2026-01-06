@@ -140,7 +140,7 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     expect(cms_task_list_comps.text_email_evaluators_status.text).to include("To do")
     expect(cms_task_list_comps.text_inactive_review_evaluators_status.text).to include("Cannot start")
 
-    # Open the "Upload documents" page
+    # Open the "Email evaluators" page
     cms_task_list_comps.link_email_evaluators.click
     wait_for_heading_includes(cms_eval_email_evaluators_comps.text_page_heading, "Email evaluators", timeout: 5)
 
