@@ -120,6 +120,11 @@ class CaseState
     :case_school_eval_uploaded_file_name_1,
     :case_eval_case_specific_link,
     :case_evaluation_email_sent,
+    # Handover case info
+    :case_handover_1_email,
+    :case_proc_ops_handover_uploaded_file_name_1,
+    :case_handover_case_specific_link,
+    :case_handover_email_sent,
     # Generic info
     :search_term
 

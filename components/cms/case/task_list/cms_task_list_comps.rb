@@ -85,12 +85,20 @@ class CmsTaskListComps
     find(:xpath, "//a[text()='Share contract and handover document']")
   end
 
+  def text_inactive_share_contract_and_handover_document_status
+    find(:xpath, "//div[text()='Share contract and handover document']/following-sibling::div/strong")
+  end
+
   def text_share_contract_and_handover_document_status
     find(:xpath, "//a[text()='Share contract and handover document']/parent::div/following-sibling::div/strong")
   end
 
   def link_download_contract_and_handover_document
     find(:xpath, "//a[text()='Download contract and handover document']")
+  end
+
+  def text_inactive_download_contract_and_handover_document_status
+    find(:xpath, "//div[text()='Download contract and handover document']/following-sibling::div/strong")
   end
 
   def text_download_contract_and_handover_document_status

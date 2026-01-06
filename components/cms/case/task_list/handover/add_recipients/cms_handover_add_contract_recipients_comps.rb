@@ -11,11 +11,11 @@ class CmsHandoverAddContractRecipientsComps
     find(:xpath, "//td[text()='#{username}']/following-sibling::td/a")
   end
 
-  def text_evaluator_email_address(email_address)
+  def text_recipient_email_address(email_address)
     find(:xpath, "//tbody/tr/td[2][contains(.,'#{email_address}')]")
   end
 
-  def text_evaluator_name(name)
+  def text_recipient_name(name)
     find(:xpath, "//tbody/tr/td[1][contains(.,'#{name}')]")
   end
 

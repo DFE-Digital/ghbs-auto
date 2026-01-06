@@ -28,6 +28,12 @@ require "components/cms/case/task_list/evaluation/cms_eval_review_evaluations_co
 require "components/cms/case/task_list/evaluation/cms_eval_set_due_date_comps"
 require "components/cms/case/task_list/cms_task_list_comps"
 require "components/cms/case/task_list/evaluation/cms_eval_upload_documents_comps"
+require "components/cms/case/task_list/handover/add_recipients/cms_handover_add_contract_recipient_details_comps"
+require "components/cms/case/task_list/handover/add_recipients/cms_handover_add_contract_recipients_comps"
+require "components/cms/case/task_list/handover/school_view/cms_handover_download_contract_comps"
+require "components/cms/case/task_list/handover/school_view/cms_handover_proc_task_list_comps"
+require "components/cms/case/task_list/handover/cms_handover_share_contract_comps"
+require "components/cms/case/task_list/handover/cms_handover_upload_contract_comps"
 
 module SharedCmsComps
   # Pre Flow pages
@@ -64,6 +70,14 @@ module SharedCmsComps
   def cms_eval_set_due_date_comps = @cms_eval_set_due_date_comps ||= CmsEvalSetDueDateComps.new
   def cms_task_list_comps = @cms_task_list_comps ||= CmsTaskListComps.new
   def cms_eval_upload_documents_comps = @cms_eval_upload_documents_comps ||= CmsEvalUploadDocumentsComps.new
+
+  # Single Case Actions - Handover
+  def cms_handover_add_contract_recipient_details_comps = @cms_handover_add_contract_recipient_details_comps ||= CmsHandoverAddContractRecipientDetailsComps.new
+  def cms_handover_add_contract_recipients_comps = @cms_handover_add_contract_recipients_comps ||= CmsHandoverAddContractRecipientsComps.new
+  def cms_handover_download_contract_comps = @cms_handover_download_contract_comps ||= CmsHandoverDownloadContractComps.new
+  def cms_handover_proc_task_list_comps = @cms_handover_proc_task_list_comps ||= CmsHandoverProcTaskListComps.new
+  def cms_handover_share_contract_comps = @cms_handover_share_contract_comps ||= CmsHandoverShareContractComps.new
+  def cms_handover_upload_contract_comps = @cms_handover_upload_contract_comps ||= CmsHandoverUploadContractComps.new
 
   # Navigation
   def cms_top_nav_comps = @cms_top_nav_comps ||= CmsTopNavComps.new

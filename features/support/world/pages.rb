@@ -31,6 +31,7 @@ require "pages/cms/case/cms_case_actions_methods"
 require "pages/cms/case/cms_case_evaluation_flow_methods"
 require "pages/cms/cms_create_a_new_case_methods"
 require "pages/cms/case/cms_case_evaluation_school_user_flow_methods"
+require "pages/cms/case/cms_case_handover_flow_methods"
 require "pages/user_management/test_user_management_util_methods"
 require "pages/cms/cms_notifications_methods"
 
@@ -171,6 +172,10 @@ module Pages
 
   def cms_notifications_methods
     @cms_notifications_methods ||= CmsNotificationsMethods.new(resolved_world)
+  end
+
+  def cms_case_handover_flow_methods
+    @cms_case_handover_flow_methods ||= CmsCaseHandoverFlowMethods.new(resolved_world)
   end
 
   ##### SHARED PAGES #####
