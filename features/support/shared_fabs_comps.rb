@@ -11,6 +11,10 @@ require "components/fabs/fabs_buying_category_page_comps"
 require "components/fabs/fabs_buying_option_page_comps"
 require "components/fabs/fabs_search_page_comps"
 require "components/fabs/fabs_all_buying_options_page_comps"
+require "components/fabs/contentful/contentful_cms_login_comps"
+require "components/fabs/contentful/contentful_cms_login_landing_page_comps"
+require "components/fabs/contentful/contentful_cms_search_comps"
+require "components/fabs/contentful/contentful_cms_solution_comps"
 
 module SharedFabsComps
   # Error Pages
@@ -35,4 +39,10 @@ module SharedFabsComps
   # Search
   def fabs_search_comps = @fabs_search_comps ||= FabsSearchPageComps.new
   def fabs_all_buying_options_comps = @fabs_all_buying_options_comps ||= FabsAllBuyingOptionsPageComps.new
+
+  # Contentful
+  def contentful_cms_login_comps = @contentful_cms_login_comps ||= ContentfulCmsLoginComps.new
+  def contentful_cms_login_landing_page_comps = @contentful_cms_login_landing_page_comps ||= ContentfulCmsLoginLandingPageComps.new
+  def contentful_cms_search_comps = @contentful_cms_search_comps ||= ContentfulCmsSearchComps.new
+  def contentful_cms_solution_comps = @contentful_cms_solution_comps ||= ContentfulCmsSolutionComps.new
 end
