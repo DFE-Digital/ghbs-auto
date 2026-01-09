@@ -34,6 +34,10 @@ require "components/cms/case/task_list/handover/school_view/cms_handover_downloa
 require "components/cms/case/task_list/handover/school_view/cms_handover_proc_task_list_comps"
 require "components/cms/case/task_list/handover/cms_handover_share_contract_comps"
 require "components/cms/case/task_list/handover/cms_handover_upload_contract_comps"
+require "components/cms/management/cms_management_comps"
+require "components/cms/management/cms_management_sync_framework_comps"
+require "components/cms/frameworks/cms_frameworks_register_comps"
+require "components/cms/frameworks/cms_frameworks_individual_framework_comps"
 
 module SharedCmsComps
   # Pre Flow pages
@@ -85,4 +89,13 @@ module SharedCmsComps
   # Create Case Actions
   def cms_create_a_new_case_comps = @cms_create_a_new_case_comps ||= CmsCreateANewCaseComps.new
   def cms_create_a_new_case_check_answers_comps = @cms_create_a_new_case_check_answers_comps ||= CmsCreateANewCaseCheckAnswersComps.new
+
+  # Frameworks
+  def cms_frameworks_individual_framework_comps = @cms_frameworks_individual_framework_comps ||= CmsFrameworksIndividualFrameworkComps.new
+  def cms_frameworks_register_comps = @cms_frameworks_register_comps ||= CmsFrameworksRegisterComps.new
+
+  # Management
+  def cms_management_comps = @cms_management_comps ||= CmsManagementComps.new
+  def cms_management_sync_framework_comps = @cms_management_sync_framework_comps ||= CmsManagementSyncFrameworksMethods.new
+
 end

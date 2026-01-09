@@ -38,6 +38,8 @@ require "pages/cms/case/cms_case_handover_school_user_flow_methods"
 require "pages/fabs/contentful/contentful_login_methods"
 require "pages/fabs/contentful/contentful_edit_solution_methods"
 require "pages/fabs/contentful/contentful_api_methods"
+require "pages/cms/management/cms_management_sync_frameworks_methods"
+require "pages/cms/cms_frameworks_methods"
 
 module Pages
   def resolved_world
@@ -197,6 +199,16 @@ module Pages
 
   def cms_case_handover_school_user_flow_methods
     @cms_case_handover_school_user_flow_methods ||= CmsCaseHandoverSchoolUserFlowMethods.new(resolved_world)
+  end
+
+  ##### CMS MANAGEMENT PAGES #####
+
+  def cms_management_sync_frameworks_methods
+    @cms_management_sync_frameworks_methods ||= CmsManagementSyncFrameworksMethods.new(resolved_world)
+  end
+
+  def cms_frameworks_methods
+    @cms_frameworks_methods ||= CmsFrameworksMethods.new(resolved_world)
   end
 
   ##### SHARED PAGES #####
