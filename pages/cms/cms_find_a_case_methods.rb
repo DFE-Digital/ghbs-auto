@@ -47,8 +47,7 @@ class CmsFindACaseMethods < CmsBasePage
     link.click
 
     expect(page).to have_current_path(%r{/onboarding_cases/}, url: true, wait: 10)
-    expect(cms_single_case_view_page_comps.text_page_heading_case_number.text)
-      .to include(case_number)
+    expect(cms_single_case_view_page_comps.text_page_heading_case_number.text).to include(case_number)
 
     puts "[INFO] Opened #{status} case #{case_number}"
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CmsFrameworksRegisterComps < CmsBasePage
+class CmsFrameworksRegisterComps
   include Capybara::DSL
 
   def text_page_heading

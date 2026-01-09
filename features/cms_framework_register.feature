@@ -8,4 +8,4 @@ Feature: GHBS - FABS to CMS - Framework Register Flows
     And we validate this change has appeared on the Contentful API
     And we open and login to the proc ops CMS screens as an admin in the dev environment
     And trigger the Synchronization job
-    Then the changes to "FrameworkName" will have been reflected in the Frameworks Register
+    Then the changes contentful framework changes will be reflected in the Frameworks Register

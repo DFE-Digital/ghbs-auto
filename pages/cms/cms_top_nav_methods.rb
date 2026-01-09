@@ -14,7 +14,7 @@ class CmsTopNavMethods < CmsBasePage
   end
 
   def nav_to_cases_screen
-    cms_top_nav_comps.link_cases.click
+    cms_top_nav_comps.link_my_cases.click
     expect(page).to have_current_path(%r{/cases#my-cases}, url: true, wait: 10)
     expect(cms_mycases_page_comps.text_page_heading.text).to include("My cases")
   end

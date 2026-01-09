@@ -8,5 +8,4 @@ class CmsFrameworksMethods < CmsBasePage
   def validate_the_contentful_framework_has_been_updated
     # TODO
   end
-
 end

@@ -96,6 +96,5 @@ module SharedCmsComps
 
   # Management
   def cms_management_comps = @cms_management_comps ||= CmsManagementComps.new
-  def cms_management_sync_framework_comps = @cms_management_sync_framework_comps ||= CmsManagementSyncFrameworksMethods.new
-
+  def cms_management_sync_framework_comps = @cms_management_sync_framework_comps ||= CmsManagementSyncFrameworkComps.new
 end

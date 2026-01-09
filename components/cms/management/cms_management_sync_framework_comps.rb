@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CmsManagementSyncFrameworkComps < CmsBasePage
+class CmsManagementSyncFrameworkComps
   include Capybara::DSL
 
   def text_page_heading
@@ -9,5 +9,9 @@ class CmsManagementSyncFrameworkComps < CmsBasePage
 
   def button_synchronise
     find(:xpath, "//button[text()='Synchronise']")
+  end
+
+  def text_notice
+    find(:xpath, "//div/h2[contains(.,'Notice')]/parent::div/following-sibling::div/h3/div")
   end
 end

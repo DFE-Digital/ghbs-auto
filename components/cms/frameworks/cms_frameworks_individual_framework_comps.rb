@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CmsFrameworksIndividualFrameworkComps < CmsBasePage
+class CmsFrameworksIndividualFrameworkComps
   include Capybara::DSL
 
   def text_page_heading
@@ -38,5 +38,4 @@ class CmsFrameworksIndividualFrameworkComps < CmsBasePage
   def text_framework_created_contentful_id
     find(:xpath, "(//h2[contains(.,'Framework Created')])[1]/following-sibling::div//tr/th[contains(.,'Contentful')]/following-sibling::td")
   end
-
 end
