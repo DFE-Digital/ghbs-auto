@@ -34,7 +34,7 @@ class CmsSignInFlowMethods < CmsBasePage
     cms_login_page_comps.button_signin.click
 
     # Navigates user through the DfE sign-in flow to the "My Cases" page
-    world.shared_global_methods.complete_dfe_signin_as("cec")
+    world.shared_global_methods.complete_dfe_signin_as("cec","dev")
 
     # Complete the login process > my cases
     expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 10)
@@ -46,7 +46,7 @@ class CmsSignInFlowMethods < CmsBasePage
   def continue_and_complete_dfe_signin_as_proc_ops_admin
     cms_login_page_comps.button_signin.click
     # Navigates user through the DfE sign-in flow to the "My Cases" page
-    world.shared_global_methods.complete_dfe_signin_as("proc ops")
+    world.shared_global_methods.complete_dfe_signin_as("proc ops","dev")
 
     # Complete the login process > my cases
     expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)

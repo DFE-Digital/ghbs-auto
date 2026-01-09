@@ -12,7 +12,7 @@ class EnergyInfoSubmittedMethods < EnergyBasePage
     info_string = energy_info_submitted_comps.text_page_heading.text.strip
 
     # Expected string for today's date
-    today_formatted = Date.today.strftime("%-d %B %Y")
+    today_formatted = Date.today.strftime("%d %B %Y")
     expected_string = "Information submitted on #{today_formatted}"
 
     # Validate exact match
