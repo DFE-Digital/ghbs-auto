@@ -37,6 +37,7 @@ require "pages/cms/cms_notifications_methods"
 require "pages/cms/case/cms_case_handover_school_user_flow_methods"
 require "pages/fabs/contentful/contentful_login_methods"
 require "pages/fabs/contentful/contentful_edit_solution_methods"
+require "pages/fabs/contentful/contentful_api_methods"
 
 module Pages
   def resolved_world
@@ -63,6 +64,10 @@ module Pages
 
   def contentful_edit_solution_methods
     @contentful_edit_solution_methods ||= ContentfulEditSolutionMethods.new(resolved_world)
+  end
+
+  def contentful_api_methods
+    @contentful_api_methods ||= ContentfulApiMethods.new(resolved_world)
   end
 
   ##### ENERGY PAGES: Pre Login #####

@@ -11,8 +11,9 @@ Before do
   # Reset of flags before each scenario
   ENV["AXE"] = "false"
 
-  # ensure clean state per scenario
+  # Reset shared per-scenario DTOs
   @case_state = CaseState.new
+  @framework_state = FrameworkState.new
 end
 
 After do |scenario|

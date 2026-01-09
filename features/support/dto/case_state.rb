@@ -21,13 +21,15 @@
 #   # Debug dump
 #   puts case_state.to_h
 #
-# This object is instantiated fresh for each scenario (see world_case_state.rb).
+# This object is instantiated fresh for each scenario (see world_state.rb).
 # -----------------------------------------------------------------------------
 
 class CaseState
   # All stored values are strings (to simplify serialization/logging).
-  attr_accessor \
+  # This list is the single source of truth for what this case_state holds.
+  ATTRS = [
     :user_email,
+
     # Energy onboarding case
     :user_type,
     :school_name,
@@ -98,6 +100,7 @@ class CaseState
     :billing_payment_terms,
     :billing_how_receive,
     :billing_address,
+
     # Generic / Shared case info
     :case_number,
     :case_organisation_name,
@@ -113,6 +116,7 @@ class CaseState
     :case_procurement_value,
     :case_case_source,
     :case_level,
+
     # Evaluation case info
     :case_evaluator_1_email,
     :case_evaluation_due_date,
@@ -120,25 +124,35 @@ class CaseState
     :case_school_eval_uploaded_file_name_1,
     :case_eval_case_specific_link,
     :case_evaluation_email_sent,
+
     # Handover case info
     :case_handover_1_email,
     :case_proc_ops_handover_uploaded_file_name_1,
     :case_handover_case_specific_link,
     :case_handover_email_sent,
+
     # Generic info
-    :search_term
+    :search_term,
+  ].freeze
+
+  # Create getters and setters for all case attributes
+  attr_accessor(*ATTRS)
 
   def initialize
-    # Initialise all fields to empty strings.
+    # Initialize all fields to empty strings.
     # This avoids nil checks when concatenating or logging values.
-    self.class.attr_names.each { |attr| instance_variable_set("@#{attr}", "") }
+    ATTRS.each do |attr|
+      instance_variable_set("@#{attr}", "")
+    end
   end
 
   # Accepts a hash of attributes and updates each one if it exists on the object.
   # Example: case_state.update(user_type: "MAT", energy_choice: "gas only")
+  # All values are coerced to strings for consistency.
   def update(attrs = {})
     attrs.each do |k, v|
-      send("#{k}=", v.to_s) if respond_to?("#{k}=")
+      setter = "#{k}="
+      send(setter, v.to_s) if respond_to?(setter)
     end
     self
   end
@@ -146,22 +160,13 @@ class CaseState
   # Returns a plain Ruby hash of all instance variables and their values.
   # Example: puts case_state.to_h => {:user_email=>"qa@example.com", :school_name=>"Test School", ...}
   def to_h
-    self.class.attr_names.to_h do |attr|
-      [attr.to_sym, instance_variable_get("@#{attr}")]
+    ATTRS.to_h do |attr|
+      [attr.to_sym, public_send(attr)]
     end
   end
 
   # Shorthand string version (mainly for debug logging)
   def to_s
     to_h.inspect
-  end
-
-  class << self
-    # Dynamically discover all attribute names based on defined writers
-    def attr_names
-      instance_methods(false)
-        .grep(/=\z/)
-        .map { |m| m.to_s.delete_suffix("=").to_sym }
-    end
   end
 end

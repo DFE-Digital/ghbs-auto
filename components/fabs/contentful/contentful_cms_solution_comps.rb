@@ -23,12 +23,16 @@ class ContentfulCmsSolutionComps
     find(:xpath, "xxx") # TBC - This isn't handled in a standard way.
   end
 
+  def link_dfe_buying_solution_clear
+    find(:xpath, "//button[@data-test-id='boolean-editor-clear']//span[text()='Clear']")
+  end
+
   def radio_dfe_buying_solution_yes
-    find(:xpath, "//input[@id='entity.buying_option_type.en-US.true.6zpl8S']/parent::label")
+    find(:xpath, "//div[@data-field-id='buying_option_type']//label[contains(.,'Yes')]")
   end
 
   def radio_dfe_buying_solution_no
-    find(:xpath, "//input[@id='entity.buying_option_type.en-US.false.FbkqRI']/parent::label")
+    find(:xpath, "//div[@data-field-id='buying_option_type']//label[contains(.,'No')]")
   end
 
   def input_provider_name

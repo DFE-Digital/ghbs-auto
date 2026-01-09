@@ -10,5 +10,5 @@ When(/^we update the "([^"]*)" frameworks title and content$/) do |framework_nam
 end
 
 And(/^we validate this change has appeared on the Contentful API$/) do
-  pending
+  contentful_api_methods.confirm_solution_has_been_added_to_the_api
 end

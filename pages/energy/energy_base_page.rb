@@ -13,13 +13,4 @@ class EnergyBasePage < BasePage
   include SharedEnergyComps
   include SharedDfeSignInComps
   include A11yAssertions
-
-  def case_state
-    # use the World’s case_state if available; fallback helps in unit tests
-    if @world.respond_to?(:case_state)
-      @world.case_state
-    else
-      @case_state ||= CaseState.new
-    end
-  end
 end

@@ -13,6 +13,10 @@ $LOAD_PATH.unshift(File.expand_path("../..", __dir__))
 require "helpers/env_helpers"
 require "helpers/url_nav_helpers"
 
+# World state (scenario-scoped DTOs like case_state, framework_state)
+require "features/support/world/world_state"
+World(WorldState)
+
 SECRETS  = EnvHelpers.load_secrets.freeze
 SETTINGS = EnvHelpers.load_settings.freeze
 World(EnvHelpers)

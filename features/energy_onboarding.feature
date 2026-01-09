@@ -18,6 +18,7 @@ Examples:
   | SchoolUser | SchoolName       | Switching | VatFlow | BillingOption |
   | MAT        | Hazelwick School | gas only  | 20      | Direct debit  |
 
+
 Scenario Outline: ES-981: Energy Onboarding Flow - Electricity + Direct Debit Only
   Given we are logged in to the Energy Onboarding Flow as a <SchoolUser> School user
   And we select <SchoolName> from the bullet list and start the onboarding journey
