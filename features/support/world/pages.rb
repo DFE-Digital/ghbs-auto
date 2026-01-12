@@ -47,16 +47,16 @@ module Pages
   end
 
   ##### FABS PAGES #####
-  def home_page_methods
-    @home_page_methods ||= FabsHomePageMethods.new(resolved_world)
+  def fabs_home_page_methods
+    @fabs_home_page_methods ||= FabsHomePageMethods.new(resolved_world)
   end
 
-  def nav_methods
-    @nav_methods ||= FabsNavMethods.new(resolved_world)
+  def fabs_nav_methods
+    @fabs_nav_methods ||= FabsNavMethods.new(resolved_world)
   end
 
-  def search_methods
-    @search_methods ||= FabsSearchMethods.new(resolved_world)
+  def fabs_search_page_methods
+    @fabs_search_page_methods ||= FabsSearchPageMethods.new(resolved_world)
   end
 
   ##### CONTENTFUL CMS PAGES #####

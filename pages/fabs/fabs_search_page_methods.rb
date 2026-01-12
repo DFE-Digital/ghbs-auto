@@ -2,7 +2,7 @@
 
 require "pages/fabs/fabs_base_page"
 
-class FabsSearchMethods < FabsBasePage
+class FabsSearchPageMethods < FabsBasePage
   def confirm_returned_buying_options
     expect(page).to have_link("Everything ICT")
     expect(page).to have_link("CCS purchasing platform catalogue")
