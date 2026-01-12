@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+require "pages/energy/energy_base_page"
+require "components/energy/pre_login/energy_start_comps"
+
+class EnergyStartPageMethods < EnergyBasePage
+  def open_energy_start_page
+    visit SECRETS["dev_energy_onboarding_homepage_url"]
+  end
+
+  def validate_start_page_loaded
+    expect(page).to have_current_path(%r{/start}, url: true, wait: 10)
+    expect(energy_start_comps.text_page_heading.text).to include("Join Energy for Schools")
+  end
+end

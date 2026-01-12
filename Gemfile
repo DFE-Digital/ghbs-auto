@@ -9,6 +9,9 @@ gem "rspec"
 gem "rubocop-govuk", require: false
 gem "selenium-webdriver"
 
+# API
+gem "faraday", "~> 2.9"
+
 # Accessibility
 gem "axe-core-capybara", "~> 4.10"
 gem "axe-core-cucumber", "~> 4.10"

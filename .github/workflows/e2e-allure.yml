@@ -11,7 +11,7 @@ defaults:
 # Global config (change as you need to switch between tags)
 env:
   CUCUMBER_PROFILE: allure_pretty    # change per profile
-  CUCUMBER_TAGS: "@regression"       # set tags
+  CUCUMBER_TAGS: "@regression or @energy"       # set tags
   RETENTION_DAYS: 60                 # Set how long to retain reports and trends
   PUBLISH_BRANCHES: '["main","ES-650-CI-intergration"]'
 
