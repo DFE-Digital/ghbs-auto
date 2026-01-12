@@ -13,12 +13,12 @@ env:
   CUCUMBER_PROFILE: allure_pretty    # change per profile
   CUCUMBER_TAGS: "@regression or @energy"       # set tags
   RETENTION_DAYS: 60                 # Set how long to retain reports and trends
-  PUBLISH_BRANCHES: '["main","ES-650-CI-intergration"]'
+  PUBLISH_BRANCHES: '["main", "auto-build-maintenance"]'
 
 on:
   pull_request: {}
   push:
-    branches: [ main, ES-650-CI-intergration ]
+    branches: [ main, auto-build-maintenance ]
   workflow_dispatch: {}
   schedule:
     - cron: '0 2 * * *'              # Set your time here
@@ -132,29 +132,133 @@ jobs:
             echo "sha=${GITHUB_SHA}";
           } > reports/allure-results/environment.properties
 
-      - name: Generate config/.secrets.yml
+      - name: Generate + validate config/.secrets.yml (no values printed)
         env:
+          # URL's
           STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
+          DEV_ENERGY_ONBOARDING_HOMEPAGE_URL: ${{ secrets.DEV_ENERGY_ONBOARDING_HOMEPAGE_URL }}
+          DEV_PROC_OPS_CMS_HOMEPAGE_URL: ${{ secrets.DEV_PROC_OPS_CMS_HOMEPAGE_URL }}
+          DEV_CEC_CMS_HOMEPAGE_URL: ${{ secrets.DEV_CEC_CMS_HOMEPAGE_URL }}
+          DEV_CEC_CMS_FIND_A_CASE_URL: ${{ secrets.DEV_CEC_CMS_FIND_A_CASE_URL }}
+          TEST_DFE_SIGNIN_ORG_ADMIN_SCREENS: ${{ secrets.TEST_DFE_SIGNIN_ORG_ADMIN_SCREENS }}
+          CONTENTFUL_TEST_ENV: ${{ secrets.CONTENTFUL_TEST_ENV }}
+          CONTENTFUL_TEST_ENV_API: ${{ secrets.CONTENTFUL_TEST_ENV_API }}
+
+          # Schools Colab CMS
+          PROC_OPS_CMS_USERNAME: ${{ secrets.PROC_OPS_CMS_USERNAME }}
+          PROC_OPS_CMS_PASSWORD: ${{ secrets.PROC_OPS_CMS_PASSWORD }}
+
+          # Energy School Flow
+          SCHOOL_ENERGY_MAT_USERNAME: ${{ secrets.SCHOOL_ENERGY_MAT_USERNAME }}
+          SCHOOL_ENERGY_MAT_PASSWORD: ${{ secrets.SCHOOL_ENERGY_MAT_PASSWORD }}
+          SCHOOL_ENERGY_SAT_USERNAME: ${{ secrets.SCHOOL_ENERGY_SAT_USERNAME }}
+          SCHOOL_ENERGY_SAT_PASSWORD: ${{ secrets.SCHOOL_ENERGY_SAT_PASSWORD }}
+
+          # CEC CMS
+          CEC_CMS_USERNAME: ${{ secrets.CEC_CMS_USERNAME }}
+          CEC_CMS_PASSWORD: ${{ secrets.CEC_CMS_PASSWORD }}
+
+          # Test Server Approver
+          TEST_SERVER_APPROVER_USERNAME: ${{ secrets.TEST_SERVER_APPROVER_USERNAME }}
+          TEST_SERVER_APPROVER_PASSWORD: ${{ secrets.TEST_SERVER_APPROVER_PASSWORD }}
+
+          # Contentful CMS
+          CONTENTFUL_TEST_USER_LOGIN: ${{ secrets.CONTENTFUL_TEST_USER_LOGIN }}
+          CONTENTFUL_TEST_USER_PASSWORD: ${{ secrets.CONTENTFUL_TEST_USER_PASSWORD }}
+
+          # Test Users
+          TEST_USER_1: ${{ secrets.TEST_USER_1 }}
+          TEST_USER_2: ${{ secrets.TEST_USER_2 }}
+          TEST_USER_3: ${{ secrets.TEST_USER_3 }}
+          TEST_USER_4: ${{ secrets.TEST_USER_4 }}
+
+          # Optional
+          LOCAL_DEBUG_CASE_STATE: ${{ secrets.LOCAL_DEBUG_CASE_STATE }}
         run: |
+          set -euo pipefail
+          
           cat > config/.secrets.yml <<YAML
           ci:
             staging_fabs_homepage_url: "${STAGING_FABS_HOMEPAGE_URL}"
-          YAML
+            dev_energy_onboarding_homepage_url: "${DEV_ENERGY_ONBOARDING_HOMEPAGE_URL}"
+            dev_proc_ops_cms_homepage_url: "${DEV_PROC_OPS_CMS_HOMEPAGE_URL}"
+            dev_cec_cms_homepage_url: "${DEV_CEC_CMS_HOMEPAGE_URL}"
+            dev_cec_cms_find_a_case_url: "${DEV_CEC_CMS_FIND_A_CASE_URL}"
+            test_dfe_signin_org_admin_screens: "${TEST_DFE_SIGNIN_ORG_ADMIN_SCREENS}"
+            contentful_test_env: "${CONTENTFUL_TEST_ENV}"
+            contentful_test_env_api: "${CONTENTFUL_TEST_ENV_API}"
 
-      - name: Verify required secrets
-        run: |
-          if [ -z "${{ secrets.STAGING_FABS_HOMEPAGE_URL }}" ]; then
-            echo "Missing required secret: STAGING_FABS_HOMEPAGE_URL"
-            exit 1
-          fi
+            proc_ops_cms_username: "${PROC_OPS_CMS_USERNAME}"
+            proc_ops_cms_password: "${PROC_OPS_CMS_PASSWORD}"
+          
+            school_energy_mat_username: "${SCHOOL_ENERGY_MAT_USERNAME}"
+            school_energy_mat_password: "${SCHOOL_ENERGY_MAT_PASSWORD}"
+            school_energy_sat_username: "${SCHOOL_ENERGY_SAT_USERNAME}"
+            school_energy_sat_password: "${SCHOOL_ENERGY_SAT_PASSWORD}"
+          
+            cec_cms_username: "${CEC_CMS_USERNAME}"
+            cec_cms_password: "${CEC_CMS_PASSWORD}"
+          
+            test_server_approver_username: "${TEST_SERVER_APPROVER_USERNAME}"
+            test_server_approver_password: "${TEST_SERVER_APPROVER_PASSWORD}"
+          
+            contentful_test_user_login: "${CONTENTFUL_TEST_USER_LOGIN}"
+            contentful_test_user_password: "${CONTENTFUL_TEST_USER_PASSWORD}"
+          
+            test_user_1: "${TEST_USER_1}"
+            test_user_2: "${TEST_USER_2}"
+            test_user_3: "${TEST_USER_3}"
+            test_user_4: "${TEST_USER_4}"
+          
+            local_debug_case_state: "${LOCAL_DEBUG_CASE_STATE}"
+          YAML
+          
+          ruby <<'RUBY'
+          require "yaml"
+          y = YAML.load_file("config/.secrets.yml")
+          abort("Missing ci section in config/.secrets.yml") unless y["ci"]
+          
+          required_keys = %w[
+            staging_fabs_homepage_url
+            dev_energy_onboarding_homepage_url
+            dev_proc_ops_cms_homepage_url
+            dev_cec_cms_homepage_url
+            dev_cec_cms_find_a_case_url
+            test_dfe_signin_org_admin_screens
+            contentful_test_env
+            contentful_test_env_api
+            proc_ops_cms_username
+            proc_ops_cms_password
+            school_energy_mat_username
+            school_energy_mat_password
+            school_energy_sat_username
+            school_energy_sat_password
+            cec_cms_username
+            cec_cms_password
+            test_server_approver_username
+            test_server_approver_password
+            contentful_test_user_login
+            contentful_test_user_password
+            test_user_1
+            test_user_2
+            test_user_3
+            test_user_4
+          ]
+          
+          required_keys.each do |k|
+            v = y["ci"][k]
+            abort("Missing or empty key in secrets file: #{k}") if v.nil? || v.to_s.strip.empty?
+          end
+          
+          puts "Secrets file created + validated (keys present, values non-empty)"
+          RUBY
+
 
       - name: Bundle install
         run: bundle install --without development
 
       # ---- Running of the tests  ----
       - name: Run Cucumber with Allure (profile chooses browser)
-        env:
-          STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
         run: |
           TEST_ENV=ci bundle exec cucumber -p "$CUCUMBER_PROFILE" --tags "$CUCUMBER_TAGS" || true
 
