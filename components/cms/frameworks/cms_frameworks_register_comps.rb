@@ -4,7 +4,7 @@ class CmsFrameworksRegisterComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "//h1")
+    find(:xpath, "//a[text()='Frameworks Register']")
   end
 
   def input_search

@@ -23,6 +23,7 @@ class FrameworkState
     cta
     provider_initials
     contentful_id
+    internal_framework_ref
   ].freeze
 
   # Create getters and setters for all framework attributes

@@ -30,5 +30,4 @@ class CmsManagementComps
   def link_tasks_sync_all_case_survey
     find(:xpath, "//a[text()='All Cases Survey']")
   end
-
 end

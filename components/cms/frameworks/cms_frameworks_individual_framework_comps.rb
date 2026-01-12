@@ -27,6 +27,18 @@ class CmsFrameworksIndividualFrameworkComps
     find(:xpath, "(//h2[contains(.,'Framework Updated')])[1]/following-sibling::div//span[contains(.,'See details')]")
   end
 
+  def text_framework_updated_name
+    find(:xpath, "(//h2[contains(.,'Framework Updated')])[1]/following-sibling::div//tr/th[contains(.,'Name')]/following-sibling::td")
+  end
+
+  def text_framework_updated_description
+    find(:xpath, "(//h2[contains(.,'Framework Updated')])[1]/following-sibling::div//tr/th[contains(.,'Description')]/following-sibling::td")
+  end
+
+  def text_framework_updated_provider_reference
+    find(:xpath, "(//h2[contains(.,'Framework Updated')])[1]/following-sibling::div//tr/th[contains(.,'Provider reference')]/following-sibling::td")
+  end
+
   def link_framework_created_see_details
     find(:xpath, "(//h2[contains(.,'Framework Created')])[1]/following-sibling::div//span[contains(.,'See details')]")
   end
