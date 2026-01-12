@@ -2,7 +2,7 @@
 Feature: GHBS - FABS page load checker
   Background:
     Given we open and validate the fabs homepage
-@
+
   Scenario: Check core pages are loading as expected
     Given I validate the footer pages are loading correctly
     And I validate the category flow pages are loading correctly
