@@ -1,4 +1,4 @@
-@energy
+@energy @regression
 Feature: GHBS - Energy - Onboarding Flow
   Background:
     Given we open and validate the start of the energy onboarding flow

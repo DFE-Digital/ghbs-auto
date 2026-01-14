@@ -43,11 +43,23 @@ class CmsFrameworksIndividualFrameworkComps
     find(:xpath, "(//h2[contains(.,'Framework Created')])[1]/following-sibling::div//span[contains(.,'See details')]")
   end
 
+  def link_framework_created_see_details_optional
+    first(:xpath, "(//h2[contains(.,'Framework Created')])[1]/following-sibling::div//span[contains(.,'See details')]", minimum: 0)
+  end
+
   def text_framework_created_source
     find(:xpath, "(//h2[contains(.,'Framework Created')])[1]/following-sibling::div//tr/th[contains(.,'Source')]/following-sibling::td")
   end
 
   def text_framework_created_contentful_id
     find(:xpath, "(//h2[contains(.,'Framework Created')])[1]/following-sibling::div//tr/th[contains(.,'Contentful')]/following-sibling::td")
+  end
+
+  def link_pagination_next
+    find(:xpath, "//a[@aria-label='Next page']")
+  end
+
+  def link_pagination_results
+    find(:xpath, "//div[@class='pagination__results']")
   end
 end
