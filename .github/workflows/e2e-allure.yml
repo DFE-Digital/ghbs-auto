@@ -11,7 +11,7 @@ defaults:
 # Global config (change as you need to switch between tags)
 env:
   CUCUMBER_PROFILE: allure_pretty    # change per profile
-  CUCUMBER_TAGS: "@regression or @energy"       # set tags
+  CUCUMBER_TAGS: "@regression"       # set tags
   RETENTION_DAYS: 60                 # Set how long to retain reports and trends
   PUBLISH_BRANCHES: '["main", "auto-build-maintenance"]'
 
@@ -141,6 +141,7 @@ jobs:
           DEV_CEC_CMS_HOMEPAGE_URL: ${{ secrets.DEV_CEC_CMS_HOMEPAGE_URL }}
           DEV_CEC_CMS_FIND_A_CASE_URL: ${{ secrets.DEV_CEC_CMS_FIND_A_CASE_URL }}
           TEST_DFE_SIGNIN_ORG_ADMIN_SCREENS: ${{ secrets.TEST_DFE_SIGNIN_ORG_ADMIN_SCREENS }}
+          CONTENTFUL_SIGNIN_URL: ${{ secrets.CONTENTFUL_SIGNIN_URL }}
           CONTENTFUL_TEST_ENV: ${{ secrets.CONTENTFUL_TEST_ENV }}
           CONTENTFUL_TEST_ENV_API: ${{ secrets.CONTENTFUL_TEST_ENV_API }}
 
@@ -185,6 +186,7 @@ jobs:
             dev_cec_cms_homepage_url: "${DEV_CEC_CMS_HOMEPAGE_URL}"
             dev_cec_cms_find_a_case_url: "${DEV_CEC_CMS_FIND_A_CASE_URL}"
             test_dfe_signin_org_admin_screens: "${TEST_DFE_SIGNIN_ORG_ADMIN_SCREENS}"
+            contentful_signin_url: ${CONTENTFUL_SIGNIN_URL}
             contentful_test_env: "${CONTENTFUL_TEST_ENV}"
             contentful_test_env_api: "${CONTENTFUL_TEST_ENV_API}"
 
@@ -225,6 +227,7 @@ jobs:
             dev_cec_cms_homepage_url
             dev_cec_cms_find_a_case_url
             test_dfe_signin_org_admin_screens
+            contentful_signin_url
             contentful_test_env
             contentful_test_env_api
             proc_ops_cms_username

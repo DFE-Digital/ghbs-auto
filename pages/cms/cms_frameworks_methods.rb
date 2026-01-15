@@ -2,12 +2,14 @@
 
 require "pages/cms/cms_base_page"
 require "helpers/validation_helpers"
+require "helpers/interaction_helpers"
 require "components/cms/cms_top_nav_comps"
 require "components/cms/frameworks/cms_frameworks_register_comps"
 require "components/cms/frameworks/cms_frameworks_individual_framework_comps"
 
 class CmsFrameworksMethods < CmsBasePage
   include ValidationHelpers
+  include InteractionHelpers
   def validate_the_contentful_framework_has_been_updated
     # Navigate to the Frameworks Register screen
     cms_top_nav_comps.link_frameworks.click
@@ -47,6 +49,14 @@ class CmsFrameworksMethods < CmsBasePage
     expect(cms_frameworks_individual_framework_comps.text_framework_updated_provider_reference.text).to include(framework_state.provider_ref)
 
     # Validate the data from the Framework Created list.
+    exists = element_exists_across_pages?(
+      target: -> { cms_frameworks_individual_framework_comps.link_framework_created_see_details_optional },
+      next_button: -> { cms_frameworks_individual_framework_comps.link_pagination_next },
+      marker: -> { cms_frameworks_individual_framework_comps.link_pagination_results },
+      marker_change_timeout: 2 # “hot second” window, bounded
+    )
+    expect(exists).to be(true)
+
     cms_frameworks_individual_framework_comps.link_framework_created_see_details.click
     expect(cms_frameworks_individual_framework_comps.text_framework_created_source.text).to include("faf_import")
     expect(cms_frameworks_individual_framework_comps.text_framework_created_contentful_id.text).to include(framework_state.contentful_id)
