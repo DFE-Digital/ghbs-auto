@@ -12,11 +12,13 @@ require "components/cms/cms_mycases_page_comps"
 require "helpers/unique_content_helpers"
 require "helpers/validation_helpers"
 require "helpers/content_format_helpers"
+require "helpers/interaction_helpers"
 
 class CmsCreateANewCaseMethods < CmsBasePage
   include UniqueContentHelpers
   include ValidationHelpers
   include ContentFormatHelpers
+  include InteractionHelpers
 
   def create_a_new_case_with_unique_data
     complete_create_a_new_case_page
@@ -33,8 +35,17 @@ class CmsCreateANewCaseMethods < CmsBasePage
     case_org_name = "Hazelwick School"
     case_state.case_organisation_name = case_org_name
     cms_create_a_new_case_comps.input_organisation_name.send_keys(case_org_name)
-    sleep(1) # allow time for the dropdown list to populate / render with correct content
+    sleep(2) # allow time for the dropdown list to populate / render with correct content
     cms_create_a_new_case_comps.dropdown_select_org_based_on_ukprn("10034642").click
+
+    # In CI we occasionally select Hazeldene School instead of Hazelwick, I this is a resource issue.
+    # So the below is some defensive code to retry if it's not up to scratch.
+    if cms_create_a_new_case_comps.input_organisation_name.value != case_org_name
+      puts "THE ELEMENT TEXT: #{cms_create_a_new_case_comps.input_organisation_name.value}"
+      interaction_helpers.clear_input(cms_create_a_new_case_comps.input_organisation_name, and_type: case_org_name)
+      sleep(2)
+      cms_create_a_new_case_comps.dropdown_select_org_based_on_ukprn("10034642").click
+    end
 
     ### Contact first name
     case_first_name = "AutoTestFN-#{Time.now.strftime('%S-%M-%H-%m-%d-%Y')}"

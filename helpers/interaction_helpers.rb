@@ -55,4 +55,21 @@ module InteractionHelpers
       end
     end
   end
+
+  # This is a last resort for clearing awkward input fields! Using the keys based on OS.
+  def clear_input(element, and_type: nil)
+    modifier = mac_os? ? :command : :control
+
+    element.click
+    element.send_keys([modifier, "a"], :backspace)
+
+    element.send_keys(and_type) if and_type
+  end
+
+private
+
+  def mac_os?
+    require "rbconfig"
+    RbConfig::CONFIG["host_os"].downcase.include?("darwin")
+  end
 end
