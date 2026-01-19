@@ -3,15 +3,16 @@
 require "pages/fabs/fabs_base_page"
 require "components/fabs/fabs_home_page_comps"
 require "components/fabs/fabs_search_page_comps"
+require "helpers/validation_helpers"
 
 class FabsHomePageMethods < FabsBasePage
+  include ValidationHelpers
   def open_fabs_homepage
     visit SECRETS["staging_fabs_homepage_url"]
   end
 
   def validate_homepage_loaded
-    expect(fabs_home_page_comps.text_page_heading.text)
-      .to include("Get help buying for schools")
+    wait_for_heading_includes(fabs_home_page_comps.text_page_heading, "Get help buying for schools", timeout: 5)
   end
 
   def search_for(term)
@@ -20,7 +21,6 @@ class FabsHomePageMethods < FabsBasePage
     fabs_home_page_comps.button_main_search.click
 
     # confirm the page load
-    expect(fabs_search_comps.text_page_heading.text)
-      .to include("Search Get help buying for schools")
+    wait_for_heading_includes(fabs_search_comps.text_page_heading, "Search Get help buying for schools", timeout: 5)
   end
 end
