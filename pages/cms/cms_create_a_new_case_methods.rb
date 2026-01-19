@@ -38,8 +38,8 @@ class CmsCreateANewCaseMethods < CmsBasePage
     sleep(2) # allow time for the dropdown list to populate / render with correct content
     cms_create_a_new_case_comps.dropdown_select_org_based_on_ukprn("10034642").click
 
-    # In CI we occasionally select Hazeldene School instead of Hazelwick, I this is a resource issue.
-    # So the below is some defensive code to retry if it's not up to scratch.
+    # In CI we occasionally select Hazeldene School instead of Hazelwick, I believe this to be a resource issue.
+    # So the below is some defensive code to retry if it's not correctly selected the school.
     if cms_create_a_new_case_comps.input_organisation_name.value != case_org_name
       puts "THE ELEMENT TEXT: #{cms_create_a_new_case_comps.input_organisation_name.value}"
       interaction_helpers.clear_input(cms_create_a_new_case_comps.input_organisation_name, and_type: case_org_name)
