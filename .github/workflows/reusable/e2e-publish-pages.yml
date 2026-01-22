@@ -1,0 +1,115 @@
+name: Reusable - Publish Allure to GitHub Pages
+
+on:
+  workflow_call:
+    inputs:
+      retention_days:
+        required: true
+        type: number
+    publish_branches_json:
+      required: true
+      type: string
+    source_workflow_file:
+      required: true
+      type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  publish:
+    name: Publish (GitHub Pages)
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Download Allure HTML artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: allure-report
+          path: ./_site
+
+      - name: Download previous site bundle
+        uses: dawidd6/action-download-artifact@v3
+        with:
+          name: site-bundle
+          path: _prev
+          workflow: ${{ inputs.source_workflow_file }}
+          workflow_conclusion: completed
+          if_no_artifact_found: ignore
+
+      - name: Stage per-run report and latest redirect
+        run: |
+          set -euo pipefail
+          BRANCH="${{ github.ref_name }}"
+          RUN="${{ github.run_number }}"
+          
+          # start with what's already live
+          mkdir -p publish
+          if [ -d _prev ]; then cp -a _prev/. publish/; fi
+          
+          # prevent Jekyll processing
+          touch publish/.nojekyll
+          
+          # copy this run
+          mkdir -p "publish/runs/$BRANCH/$RUN" "publish/runs/$BRANCH/latest"
+          cp -a _site/. "publish/runs/$BRANCH/$RUN/"
+          
+          # redirect runs/<branch>/latest -> runs/<branch>/<run>/
+          cat > "publish/runs/$BRANCH/latest/index.html" <<EOF
+          <!doctype html>
+          <meta charset="utf-8">
+          <meta http-equiv="refresh" content="0; url=../$RUN/">
+          <title>Redirecting to latest run…</title>
+          <h1>Redirecting to latest run…</h1>
+          <p>If you're not redirected, <a href="../$RUN/">open run $RUN</a>.</p>
+          EOF
+
+      - name: Build home index.html (branches → latest)
+        run: |
+          set -euo pipefail
+          mkdir -p publish/runs
+          cat > publish/index.html <<'HTML'
+          <!doctype html>
+          <meta charset="utf-8">
+          <title>E2E Allure Reports</title>
+          <h1>E2E Allure Reports</h1>
+          <p>Select a branch to view its latest report:</p>
+          <ul>
+          HTML
+          if [ -d publish/runs ]; then
+            for b in $(ls -1 publish/runs); do
+              echo "  <li><a href=\"runs/$b/latest/\">$b — latest</a></li>" >> publish/index.html
+            done
+          fi
+          echo "</ul>" >> publish/index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./publish
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
+
+      - name: Archive site for next publish
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-bundle
+          path: ./publish
+          retention-days: ${{ inputs.retention_days }}
+
+      - name: Publish summary with link
+        run: |
+          echo "### Allure report published" >> $GITHUB_STEP_SUMMARY
+          echo "- Latest for \`${{ github.ref_name }}\`: ${{ steps.deploy.outputs.page_url }}runs/${{ github.ref_name }}/latest/" >> $GITHUB_STEP_SUMMARY
+          echo "- This run: ${{ steps.deploy.outputs.page_url }}runs/${{ github.ref_name }}/${{ github.run_number }}/" >> $GITHUB_STEP_SUMMARY

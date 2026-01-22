@@ -1,0 +1,32 @@
+name: CI - E2E Allure (Smoke)
+
+on:
+  pull_request: {}
+  push:
+    branches: [ main, auto-build-maintenance ]
+  workflow_dispatch: {}
+
+env:
+  RETENTION_DAYS: 60
+  PUBLISH_BRANCHES: '["main","auto-build-maintenance"]'
+  CUCUMBER_PROFILE: allure_pretty
+
+jobs:
+  e2e:
+    name: E2E (Allure) - Smoke Run
+    uses: ./.github/workflows/e2e-allure-core.yml
+    secrets: inherit
+    with:
+      cucumber_profile: ${{ env.CUCUMBER_PROFILE }}
+      cucumber_tags: "@smoke"
+      retention_days: ${{ env.RETENTION_DAYS }}
+
+  publish:
+    name: Publish (GitHub Pages)
+    needs: [e2e]
+    if: ${{ needs.e2e.outputs.has_report == 'true' &&
+      contains(fromJson(env.PUBLISH_BRANCHES), github.ref_name) }}
+    uses: ./.github/workflows/e2e-publish-pages.yml
+    secrets: inherit
+    with:
+      retention_days: ${{ env.RETENTION_DAYS }}
