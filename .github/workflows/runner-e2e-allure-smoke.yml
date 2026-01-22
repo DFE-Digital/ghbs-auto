@@ -23,7 +23,7 @@ jobs:
     needs: [e2e]
     if: ${{ needs.e2e.outputs.has_report == 'true' &&
       contains(fromJson('["main","auto-build-maintenance"]'), github.ref_name) }}
-    uses: shared-publish-pages.yml
+    uses: ./.github/workflows/shared-publish-pages.yml
     secrets: inherit
     with:
       retention_days: 14

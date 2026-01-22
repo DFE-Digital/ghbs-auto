@@ -15,4 +15,3 @@ jobs:
       cucumber_tags: "@weekly-data-cleanup"
       retention_days: 30
       test_env: "ci"
-
