@@ -8,7 +8,7 @@ on:
 jobs:
   e2e:
     name: Weekly Data Cleanup
-    uses: ./.github/workflows/e2e-allure-core.yml
+    uses: ./.github/workflows/shared-allure-core.yml
     secrets: inherit
     with:
       cucumber_profile: "allure_pretty"

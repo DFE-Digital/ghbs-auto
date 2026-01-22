@@ -8,23 +8,23 @@ on:
 jobs:
   e2e:
     name: E2E (Allure) - Nightly Regression
-    uses: ./.github/workflows/e2e-allure-core.yml
+    uses: ./.github/workflows/shared-allure-core.yml
     secrets: inherit
     with:
       cucumber_profile: "allure_pretty"
       cucumber_tags: "@regression"
       retention_days: 60
       test_env: "ci"
-      history_source_workflow_file: ".github/workflows/e2e-allure-nightly.yml"
+      history_source_workflow_file: ".github/workflows/runner-e2e-allure-nightly.yml"
 
   publish:
     name: Publish (GitHub Pages)
     needs: [e2e]
     if: ${{ needs.e2e.outputs.has_report == 'true' &&
       contains(fromJson('["main","auto-build-maintenance"]'), github.ref_name) }}
-    uses: ./.github/workflows/e2e-publish-pages.yml
+    uses: shared-publish-pages.yml
     secrets: inherit
     with:
       retention_days: 60
       publish_branches_json: '["main","auto-build-maintenance"]'
-      source_workflow_file: ".github/workflows/e2e-allure-nightly.yml"
+      source_workflow_file: ".github/workflows/runner-e2e-allure-nightly.yml"
