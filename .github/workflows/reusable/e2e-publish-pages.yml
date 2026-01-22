@@ -6,12 +6,12 @@ on:
       retention_days:
         required: true
         type: number
-    publish_branches_json:
-      required: true
-      type: string
-    source_workflow_file:
-      required: true
-      type: string
+      publish_branches_json:
+        required: true
+        type: string
+      source_workflow_file:
+        required: true
+        type: string
 
 permissions:
   contents: read

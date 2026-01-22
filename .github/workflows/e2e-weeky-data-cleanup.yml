@@ -7,9 +7,12 @@ on:
 
 jobs:
   e2e:
-    name: E2E - Weekly CMS Test Data Cleanup Run
-    uses: e2e-allure-core.yml
+    name: Weekly Data Cleanup
+    uses: ./.github/workflows/e2e-allure-core.yml
     secrets: inherit
     with:
+      cucumber_profile: "allure_pretty"
       cucumber_tags: "@weekly-data-cleanup"
       retention_days: 30
+      test_env: "ci"
+

@@ -19,6 +19,10 @@ on:
         type: string
         required: false
         default: "ci"
+      history_source_workflow_file:
+        type: string
+        required: false
+        default: ""
     outputs:
       has_report:
         description: "true if Allure report exists"
@@ -226,13 +230,14 @@ jobs:
 
       # ---- Restore history before generating report ----
       - name: Download previous Allure history (same branch)
+        if: ${{ inputs.history_source_workflow_file != '' }}
         uses: dawidd6/action-download-artifact@v6
         with:
           name: allure-history
           path: history
           branch: ${{ github.ref_name }}
           workflow_conclusion: completed
-          workflow: .github/workflows/e2e-allure-nightly.yml
+          workflow: ${{ inputs.history_source_workflow_file }}
           if_no_artifact_found: ignore
         continue-on-error: true
 
