@@ -68,7 +68,7 @@ jobs:
           echo "Env:    $TEST_ENV"
 
       - name: Setup tooling (Ruby/Node/Java/Chrome/Allure)
-        uses: ./.github/actions/e2e_setup_ruby_node_java
+        uses: ./.github//workflows/actions/e2e_setup_ruby_node_java
 
       - name: Prepare folders (leave config/ alone)
         run: mkdir -p reports screenshots
