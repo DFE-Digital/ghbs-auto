@@ -42,7 +42,7 @@ jobs:
 
       # Bring in last published site so older runs remain visible
       - name: Download previous site bundle
-        uses: dawidd6/action-download-artifact@v3
+        uses: dawidd6/action-download-artifact@v12
         with:
           name: site-bundle
           path: _prev
