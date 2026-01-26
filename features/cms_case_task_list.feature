@@ -3,6 +3,7 @@ Feature: GHBS - CMS - Case - Tasklist Flows
   Background:
     Given we open and login to the proc ops CMS screens as an admin in the dev environment
 
+  @smoke
   Scenario: ES-982: CMS - Case - Full Evaluation Flow
     Given we create a new case and set it to a level "4" case
     And we assign our current case worker to the case

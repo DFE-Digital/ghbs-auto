@@ -1,0 +1,64 @@
+name: "E2E Setup (Ruby + Node + Java + Chrome)"
+description: "Sets up Ruby, Node, Java, Chrome and required libs; installs Allure CLI"
+inputs:
+  ruby_bundler_cache:
+    description: "Enable bundler-cache in ruby/setup-ruby"
+    required: false
+    default: "true"
+  node_version:
+    required: false
+    default: "20"
+  java_version:
+    required: false
+    default: "17"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        bundler-cache: ${{ inputs.ruby_bundler_cache }}
+
+    - name: Set up Node (needed for Allure CLI)
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node_version }}
+
+    - name: Set up Java (needed by Allure CLI)
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: ${{ inputs.java_version }}
+
+    - name: Install Allure CLI
+      shell: bash
+      run: npm install -g allure-commandline
+
+    - name: Install browser libs (Ubuntu)
+      shell: bash
+      run: |
+        set -euxo pipefail
+        sudo apt-get update
+        sudo apt-get install -y \
+          fonts-liberation \
+          libgtk-3-0 \
+          libnss3 \
+          libgbm1 \
+          libxkbcommon0 \
+          libatk-bridge2.0-0
+        # 24.04 uses libasound2t64; 22.04 uses libasound2
+        sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2
+
+    # ---- Browser: Chrome (may add FF/Edge later if needed) ----
+    - name: Set up Chrome
+      uses: browser-actions/setup-chrome@v1
+
+    - name: Show versions
+      shell: bash
+      run: |
+        ruby -v
+        bundle -v
+        node -v
+        java -version
+        google-chrome --version || true

@@ -1,0 +1,460 @@
+#name: CI - E2E Allure
+#
+#permissions:
+#  contents: read
+#  actions: read
+#
+#defaults:
+#  run:
+#    shell: bash
+#
+## Global config (change as you need to switch between tags)
+#env:
+#  CUCUMBER_PROFILE: allure_pretty    # change per profile
+#  CUCUMBER_TAGS: "@regression"       # set tags
+#  RETENTION_DAYS: 60                 # Set how long to retain reports and trends
+#  PUBLISH_BRANCHES: '["main", "auto-build-maintenance"]'
+#
+#on:
+#  pull_request: {}
+#  push:
+#    branches: [ main, auto-build-maintenance ]
+#  workflow_dispatch: {}
+#  schedule:
+#    - cron: '0 2 * * *'              # Set your time here
+#
+#concurrency:
+#  group: e2e-allure-${{ github.ref_name }}
+#  cancel-in-progress: true
+#
+#jobs:
+#  init:
+#    name: Init
+#    runs-on: ubuntu-latest
+#    outputs:
+#      publish_branches: ${{ steps.expose.outputs.publish_branches }}
+#    steps:
+#      - id: expose
+#        run: |
+#          # Pass the JSON string through safely (quotes preserved)
+#          printf 'publish_branches=%s\n' '${{ env.PUBLISH_BRANCHES }}' >> "$GITHUB_OUTPUT"
+#  e2e:
+#    name: E2E (Allure) v5
+#    runs-on: ubuntu-latest
+#    timeout-minutes: 45
+#    env:
+#      TEST_ENV: ci
+#    outputs:
+#      has_report: ${{ steps.check_report.outputs.exists }}
+#
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v4
+#
+#      - name: Marker
+#        run: |
+#          echo "CI-E2E-Allure :: $(date -u)"
+#          echo "Branch: $GITHUB_REF_NAME"
+#          echo "SHA:    $GITHUB_SHA"
+#          echo "Actor:  $GITHUB_ACTOR"
+#          echo "Tags:   $CUCUMBER_TAGS"
+#          echo "Profile:$CUCUMBER_PROFILE"
+#
+#      - name: Set up Ruby
+#        uses: ruby/setup-ruby@v1
+#        with:
+#          bundler-cache: true
+#
+#      - name: Set up Node (needed for Allure CLI)
+#        uses: actions/setup-node@v4
+#        with:
+#          node-version: "20"
+#
+#      - name: Set up Java (needed by Allure CLI)
+#        uses: actions/setup-java@v4
+#        with:
+#          distribution: temurin
+#          java-version: "17"
+#
+#      - name: Install Allure CLI
+#        run: npm install -g allure-commandline
+#
+#      - name: Install browser libs (Noble-safe)
+#        run: |
+#          set -euxo pipefail
+#          sudo apt-get update
+#          sudo apt-get install -y \
+#            fonts-liberation \
+#            libgtk-3-0 \
+#            libnss3 \
+#            libgbm1 \
+#            libxkbcommon0 \
+#            libatk-bridge2.0-0
+#          # 24.04 uses libasound2t64; 22.04 uses libasound2
+#          sudo apt-get install -y libasound2t64 || sudo apt-get install -y libasound2
+#
+#      # ---- Browser: Chrome (may add FF/Edge later if needed) ----
+#      - name: Set up Chrome
+#        uses: browser-actions/setup-chrome@v1
+#
+#      - name: Show versions
+#        run: |
+#          ruby -v
+#          bundle -v
+#          node -v
+#          java -version
+#          google-chrome --version || true
+#
+#      - name: Prepare folders (leave config/ alone)
+#        run: mkdir -p reports screenshots
+#
+#      - name: Write Allure executor.json (dynamic build info)
+#        run: |
+#          mkdir -p reports/allure-results
+#          cat > reports/allure-results/executor.json <<EOF
+#          {
+#            "name": "GitHub Actions",
+#            "type": "github",
+#            "buildName": "CI - E2E Allure #${GITHUB_RUN_NUMBER}",
+#            "buildUrl": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}",
+#            "reportName": "Allure Report",
+#            "buildOrder": ${GITHUB_RUN_NUMBER}
+#          }
+#          EOF
+#
+#      - name: Write Allure environment.properties
+#        run: |
+#          {
+#            echo "profile=$CUCUMBER_PROFILE";
+#            echo "tags=$CUCUMBER_TAGS";
+#            echo "test_env=$TEST_ENV";
+#            echo "branch=${GITHUB_REF_NAME}";
+#            echo "sha=${GITHUB_SHA}";
+#          } > reports/allure-results/environment.properties
+#
+#      - name: Generate + validate config/.secrets.yml (no values printed)
+#        env:
+#          # URL's
+#          STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
+#          DEV_ENERGY_ONBOARDING_HOMEPAGE_URL: ${{ secrets.DEV_ENERGY_ONBOARDING_HOMEPAGE_URL }}
+#          DEV_PROC_OPS_CMS_HOMEPAGE_URL: ${{ secrets.DEV_PROC_OPS_CMS_HOMEPAGE_URL }}
+#          DEV_CEC_CMS_HOMEPAGE_URL: ${{ secrets.DEV_CEC_CMS_HOMEPAGE_URL }}
+#          DEV_CEC_CMS_FIND_A_CASE_URL: ${{ secrets.DEV_CEC_CMS_FIND_A_CASE_URL }}
+#          TEST_DFE_SIGNIN_ORG_ADMIN_SCREENS: ${{ secrets.TEST_DFE_SIGNIN_ORG_ADMIN_SCREENS }}
+#          CONTENTFUL_SIGNIN_URL: ${{ secrets.CONTENTFUL_SIGNIN_URL }}
+#          CONTENTFUL_TEST_ENV: ${{ secrets.CONTENTFUL_TEST_ENV }}
+#          CONTENTFUL_TEST_ENV_API: ${{ secrets.CONTENTFUL_TEST_ENV_API }}
+#
+#          # Schools Colab CMS
+#          PROC_OPS_CMS_USERNAME: ${{ secrets.PROC_OPS_CMS_USERNAME }}
+#          PROC_OPS_CMS_PASSWORD: ${{ secrets.PROC_OPS_CMS_PASSWORD }}
+#
+#          # Energy School Flow
+#          SCHOOL_ENERGY_MAT_USERNAME: ${{ secrets.SCHOOL_ENERGY_MAT_USERNAME }}
+#          SCHOOL_ENERGY_MAT_PASSWORD: ${{ secrets.SCHOOL_ENERGY_MAT_PASSWORD }}
+#          SCHOOL_ENERGY_SAT_USERNAME: ${{ secrets.SCHOOL_ENERGY_SAT_USERNAME }}
+#          SCHOOL_ENERGY_SAT_PASSWORD: ${{ secrets.SCHOOL_ENERGY_SAT_PASSWORD }}
+#
+#          # CEC CMS
+#          CEC_CMS_USERNAME: ${{ secrets.CEC_CMS_USERNAME }}
+#          CEC_CMS_PASSWORD: ${{ secrets.CEC_CMS_PASSWORD }}
+#
+#          # Test Server Approver
+#          TEST_SERVER_APPROVER_USERNAME: ${{ secrets.TEST_SERVER_APPROVER_USERNAME }}
+#          TEST_SERVER_APPROVER_PASSWORD: ${{ secrets.TEST_SERVER_APPROVER_PASSWORD }}
+#
+#          # Contentful CMS
+#          CONTENTFUL_TEST_USER_LOGIN: ${{ secrets.CONTENTFUL_TEST_USER_LOGIN }}
+#          CONTENTFUL_TEST_USER_PASSWORD: ${{ secrets.CONTENTFUL_TEST_USER_PASSWORD }}
+#
+#          # Test Users
+#          TEST_USER_1: ${{ secrets.TEST_USER_1 }}
+#          TEST_USER_2: ${{ secrets.TEST_USER_2 }}
+#          TEST_USER_3: ${{ secrets.TEST_USER_3 }}
+#          TEST_USER_4: ${{ secrets.TEST_USER_4 }}
+#
+#          # Optional
+#          LOCAL_DEBUG_CASE_STATE: ${{ secrets.LOCAL_DEBUG_CASE_STATE }}
+#        run: |
+#          set -euo pipefail
+#
+#          cat > config/.secrets.yml <<YAML
+#          ci:
+#            staging_fabs_homepage_url: "${STAGING_FABS_HOMEPAGE_URL}"
+#            dev_energy_onboarding_homepage_url: "${DEV_ENERGY_ONBOARDING_HOMEPAGE_URL}"
+#            dev_proc_ops_cms_homepage_url: "${DEV_PROC_OPS_CMS_HOMEPAGE_URL}"
+#            dev_cec_cms_homepage_url: "${DEV_CEC_CMS_HOMEPAGE_URL}"
+#            dev_cec_cms_find_a_case_url: "${DEV_CEC_CMS_FIND_A_CASE_URL}"
+#            test_dfe_signin_org_admin_screens: "${TEST_DFE_SIGNIN_ORG_ADMIN_SCREENS}"
+#            contentful_signin_url: ${CONTENTFUL_SIGNIN_URL}
+#            contentful_test_env: "${CONTENTFUL_TEST_ENV}"
+#            contentful_test_env_api: "${CONTENTFUL_TEST_ENV_API}"
+#
+#            proc_ops_cms_username: "${PROC_OPS_CMS_USERNAME}"
+#            proc_ops_cms_password: "${PROC_OPS_CMS_PASSWORD}"
+#
+#            school_energy_mat_username: "${SCHOOL_ENERGY_MAT_USERNAME}"
+#            school_energy_mat_password: "${SCHOOL_ENERGY_MAT_PASSWORD}"
+#            school_energy_sat_username: "${SCHOOL_ENERGY_SAT_USERNAME}"
+#            school_energy_sat_password: "${SCHOOL_ENERGY_SAT_PASSWORD}"
+#
+#            cec_cms_username: "${CEC_CMS_USERNAME}"
+#            cec_cms_password: "${CEC_CMS_PASSWORD}"
+#
+#            test_server_approver_username: "${TEST_SERVER_APPROVER_USERNAME}"
+#            test_server_approver_password: "${TEST_SERVER_APPROVER_PASSWORD}"
+#
+#            contentful_test_user_login: "${CONTENTFUL_TEST_USER_LOGIN}"
+#            contentful_test_user_password: "${CONTENTFUL_TEST_USER_PASSWORD}"
+#
+#            test_user_1: "${TEST_USER_1}"
+#            test_user_2: "${TEST_USER_2}"
+#            test_user_3: "${TEST_USER_3}"
+#            test_user_4: "${TEST_USER_4}"
+#
+#            local_debug_case_state: "${LOCAL_DEBUG_CASE_STATE}"
+#          YAML
+#
+#          ruby <<'RUBY'
+#          require "yaml"
+#          y = YAML.load_file("config/.secrets.yml")
+#          abort("Missing ci section in config/.secrets.yml") unless y["ci"]
+#
+#          required_keys = %w[
+#            staging_fabs_homepage_url
+#            dev_energy_onboarding_homepage_url
+#            dev_proc_ops_cms_homepage_url
+#            dev_cec_cms_homepage_url
+#            dev_cec_cms_find_a_case_url
+#            test_dfe_signin_org_admin_screens
+#            contentful_signin_url
+#            contentful_test_env
+#            contentful_test_env_api
+#            proc_ops_cms_username
+#            proc_ops_cms_password
+#            school_energy_mat_username
+#            school_energy_mat_password
+#            school_energy_sat_username
+#            school_energy_sat_password
+#            cec_cms_username
+#            cec_cms_password
+#            test_server_approver_username
+#            test_server_approver_password
+#            contentful_test_user_login
+#            contentful_test_user_password
+#            test_user_1
+#            test_user_2
+#            test_user_3
+#            test_user_4
+#          ]
+#
+#          required_keys.each do |k|
+#            v = y["ci"][k]
+#            abort("Missing or empty key in secrets file: #{k}") if v.nil? || v.to_s.strip.empty?
+#          end
+#
+#          puts "Secrets file created + validated (keys present, values non-empty)"
+#          RUBY
+#
+#
+#      - name: Bundle install
+#        run: bundle install --without development
+#
+#      # ---- Running of the tests  ----
+#      - name: Run Cucumber with Allure (profile chooses browser)
+#        run: |
+#          TEST_ENV=ci bundle exec cucumber -p "$CUCUMBER_PROFILE" --tags "$CUCUMBER_TAGS" || true
+#
+#      # ---- Restore history before generating report ----
+#      - name: Download previous Allure history (same branch)
+#        uses: dawidd6/action-download-artifact@v6
+#        with:
+#          name: allure-history
+#          path: history
+#          branch: ${{ github.ref_name }}
+#          workflow_conclusion: completed
+#          workflow: .github/workflows/e2e-allure.yml
+#          if_no_artifact_found: ignore
+#        continue-on-error: true
+#
+#      - name: Load Allure results with previous history (if any)
+#        run: |
+#          if [ -d history ]; then
+#            mkdir -p reports/allure-results/history
+#            cp -R history/* reports/allure-results/history/ || true
+#            ls -la reports/allure-results/history || true
+#          else
+#            echo "No previous history found; using this run as baseline."
+#          fi
+#
+#      - name: Patch seed history for trend / append history data
+#        run: |
+#          set -euo pipefail
+#          f="reports/allure-results/history/history-trend.json"
+#          if [ -f "$f" ]; then
+#            tmp="$(mktemp)"
+#            jq --arg rn "Allure Report" --argjson bo ${GITHUB_RUN_NUMBER:-1} \
+#               'map(.reportName = ($rn) | .buildOrder = (.buildOrder // ($bo-1)))' \
+#               "$f" > "$tmp" && mv "$tmp" "$f"
+#            echo "Patched $f to include reportName/buildOrder"
+#          else
+#            echo "No history-trend.json to patch"
+#          fi
+#
+#      # ---- Generate Allure Report ----
+#      - name: Generate Allure report
+#        run: |
+#          allure generate reports/allure-results --clean -o reports/allure-report
+#
+#      # ---- Robust gate: set job output if report exists ----
+#      - name: Check report exists (set job output)
+#        id: check_report
+#        run: |
+#          if [ -d reports/allure-report ] && [ "$(ls -A reports/allure-report | wc -l)" -gt 0 ]; then
+#            echo "exists=true" >> "$GITHUB_OUTPUT"
+#          else
+#            echo "exists=false" >> "$GITHUB_OUTPUT"
+#          fi
+#
+#      # ---- Upload artifacts ----
+#      - name: Upload Allure history for next run
+#        if: always()
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: allure-history
+#          path: reports/allure-report/history
+#          if-no-files-found: warn
+#          retention-days: ${{ env.RETENTION_DAYS }}
+#
+#      - name: Upload raw Allure results
+#        if: always()
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: allure-results
+#          path: reports/allure-results
+#          if-no-files-found: warn
+#          retention-days: ${{ env.RETENTION_DAYS }}
+#
+#      - name: Upload Allure HTML report
+#        if: always() && steps.check_report.outputs.exists == 'true'
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: allure-report
+#          path: reports/allure-report
+#          if-no-files-found: error
+#          retention-days: ${{ env.RETENTION_DAYS }}
+#
+#      - name: Summary
+#        if: always()
+#        run: |
+#          echo "### Allure E2E summary" >> $GITHUB_STEP_SUMMARY
+#          echo " - Profile: \`allure_pretty\`" >> $GITHUB_STEP_SUMMARY
+#          echo " - Tags: \`$CUCUMBER_TAGS\`" >> $GITHUB_STEP_SUMMARY
+#          echo " - TEST_ENV: \`${TEST_ENV}\`" >> $GITHUB_STEP_SUMMARY
+#          echo " - Artifacts: **allure-report** (HTML), **allure-results** (raw)" >> $GITHUB_STEP_SUMMARY
+#
+#
+#  publish:
+#    needs: [init, e2e]
+#    if: ${{ needs.e2e.outputs.has_report == 'true' &&
+#      contains(fromJson(needs.init.outputs.publish_branches), github.ref_name) }}
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: read          # Allows us to check out existing gh-pages to preserve older runs
+#      pages: write
+#      id-token: write
+#    environment:
+#      name: github-pages
+#      url: ${{ steps.deploy.outputs.page_url }}
+#    steps:
+#      - name: Download Allure HTML artifact
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: allure-report
+#          path: ./_site
+#
+#        # Bring in last published site so older runs remain visible
+#      - name: Download previous site bundle
+#        uses: dawidd6/action-download-artifact@v3
+#        with:
+#          name: site-bundle
+#          path: _prev
+#          workflow: .github/workflows/e2e-allure.yml
+#          workflow_conclusion: completed
+#          if_no_artifact_found: ignore
+#
+#
+#        # Stage per-run report and a branch "latest" redirect, preserving old runs
+#      - name: Stage per-run report and latest redirect
+#        run: |
+#          set -euo pipefail
+#          BRANCH="${{ github.ref_name }}"
+#          RUN="${{ github.run_number }}"
+#
+#          # start with what's already live
+#          mkdir -p publish
+#          if [ -d _prev ]; then cp -a _prev/. publish/; fi
+#
+#          # prevent Jekyll processing
+#          touch publish/.nojekyll
+#
+#          # copy this run
+#          mkdir -p "publish/runs/$BRANCH/$RUN" "publish/runs/$BRANCH/latest"
+#          cp -a _site/. "publish/runs/$BRANCH/$RUN/"
+#
+#          # redirect runs/<branch>/latest -> runs/<branch>/<run>/
+#          cat > "publish/runs/$BRANCH/latest/index.html" <<EOF
+#          <!doctype html>
+#          <meta charset="utf-8">
+#          <meta http-equiv="refresh" content="0; url=../$RUN/">
+#          <title>Redirecting to latest run…</title>
+#          <h1>Redirecting to latest run…</h1>
+#          <p>If you're not redirected, <a href="../$RUN/">open run $RUN</a>.</p>
+#          EOF
+#
+#      # Simple home page listing branches → latest (keeps it browsable)
+#      - name: Build home index.html (branches → latest)
+#        run: |
+#          set -euo pipefail
+#          mkdir -p publish/runs
+#          cat > publish/index.html <<'HTML'
+#          <!doctype html>
+#          <meta charset="utf-8">
+#          <title>E2E Allure Reports</title>
+#          <h1>E2E Allure Reports</h1>
+#          <p>Select a branch to view its latest report:</p>
+#          <ul>
+#          HTML
+#          if [ -d publish/runs ]; then
+#            for b in $(ls -1 publish/runs); do
+#              echo "  <li><a href=\"runs/$b/latest/\">$b — latest</a></li>" >> publish/index.html
+#            done
+#          fi
+#          echo "</ul>" >> publish/index.html
+#
+#      - name: Setup Pages
+#        uses: actions/configure-pages@v5
+#
+#      - name: Upload Pages artifact
+#        uses: actions/upload-pages-artifact@v3
+#        with:
+#          path: ./publish
+#
+#      - name: Deploy to GitHub Pages
+#        id: deploy
+#        uses: actions/deploy-pages@v4
+#
+#      - name: Archive site for next publish
+#        if: always()
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: site-bundle
+#          path: ./publish
+#          retention-days: ${{ env.RETENTION_DAYS }}
+#
+#      - name: Publish summary with link
+#        run: |
+#          echo "### Allure report published" >> $GITHUB_STEP_SUMMARY
+#          echo "- Latest for \`${{ github.ref_name }}\`: ${{ steps.deploy.outputs.page_url }}runs/${{ github.ref_name }}/latest/" >> $GITHUB_STEP_SUMMARY
+#          echo "- This run: ${{ steps.deploy.outputs.page_url }}runs/${{ github.ref_name }}/${{ github.run_number }}/" >> $GITHUB_STEP_SUMMARY
+#

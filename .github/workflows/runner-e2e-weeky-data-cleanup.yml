@@ -1,0 +1,17 @@
+name: CI - Weekly Data Cleanup
+
+on:
+  schedule:
+    - cron: "0 4 * * 6"  # 04:00 UTC Saturday
+  workflow_dispatch: {}
+
+jobs:
+  e2e:
+    name: Weekly Data Cleanup
+    uses: ./.github/workflows/shared-allure-core.yml
+    secrets: inherit
+    with:
+      cucumber_profile: "allure_pretty"
+      cucumber_tags: "@weekly-data-cleanup"
+      retention_days: 30
+      test_env: "ci"

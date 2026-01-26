@@ -1,4 +1,4 @@
-@framework-register @regression
+@framework-register @regression @smoke
 Feature: GHBS - FABS to CMS - Framework Register Flows
 
   Scenario: ES-989: Framework Register - FABS to CMS - Update Existing Framework
