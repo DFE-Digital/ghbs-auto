@@ -50,24 +50,29 @@ jobs:
       - name: Stage per-run report and latest redirect
         run: |
           set -euo pipefail
-
+          
           SUITE="${{ inputs.suite }}"
           BRANCH="${{ github.ref_name }}"
           RUN="${{ github.run_number }}"
-
+          
           # start with what's already live
           mkdir -p publish
+          
+          # Cleanup legacy structure (pre-suite layout) BEFORE merging previous site
+          rm -rf publish/runs || true
+          
+          # bring in last published site so older runs remain visible
           if [ -d _prev ]; then cp -a _prev/. publish/; fi
-
+          
           # prevent Jekyll processing
           touch publish/.nojekyll
-
+          
           # suite + branch paths
           mkdir -p "publish/${SUITE}/${BRANCH}/${RUN}" "publish/${SUITE}/${BRANCH}/latest"
-
+          
           # copy this run
           cp -a _site/. "publish/${SUITE}/${BRANCH}/${RUN}/"
-
+          
           # redirect: <suite>/<branch>/latest -> <suite>/<branch>/<run>/
           cat > "publish/${SUITE}/${BRANCH}/latest/index.html" <<EOF
           <!doctype html>
@@ -77,6 +82,7 @@ jobs:
           <h1>Redirecting to latest run…</h1>
           <p>If you're not redirected, <a href="../${RUN}/">open run ${RUN}</a>.</p>
           EOF
+
 
       # Landing page: Suites -> Branches -> latest
       - name: Build home index.html (suites → branches → latest)
@@ -93,7 +99,7 @@ jobs:
 
           # Build a simple suite list
           if [ -d publish ]; then
-            for suite in $(ls -1 publish | grep -vE '^(index\.html|\.nojekyll)$' || true); do
+            for suite in $(ls -1 publish | grep -vE '^(index\.html|\.nojekyll|runs)$' || true); do
               # only include directories
               [ -d "publish/${suite}" ] || continue
 
@@ -101,7 +107,7 @@ jobs:
               echo "<ul>" >> publish/index.html
 
               # list branches inside the suite
-              for branch in $(ls -1 "publish/${suite}" || true); do
+              for branch in $(ls -1 "publish/${suite}" | sort || true); do
                 [ -d "publish/${suite}/${branch}" ] || continue
                 echo "  <li><a href=\"${suite}/${branch}/latest/\">${branch} — latest</a></li>" >> publish/index.html
               done
