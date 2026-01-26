@@ -4,7 +4,7 @@ on:
   workflow_dispatch: {}
   pull_request: {}
   push:
-    branches: ["main", "auto-build-maintenance","ES-1118-Weekly-Data-Cleanup-Scripts"]
+    branches: ["main", "auto-build-maintenance"]
 
 jobs:
   e2e:
@@ -27,5 +27,6 @@ jobs:
     secrets: inherit
     with:
       retention_days: 14
-      publish_branches_json: '["main","auto-build-maintenance","ES-1118-Weekly-Data-Cleanup-Scripts"]'
+      publish_branches_json: '["main","auto-build-maintenance"]'
       source_workflow_file: ".github/workflows/runner-e2e-allure-smoke.yml"
+      suite: "smoke"
