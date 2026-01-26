@@ -28,3 +28,4 @@ jobs:
       retention_days: 60
       publish_branches_json: '["main","auto-build-maintenance"]'
       source_workflow_file: ".github/workflows/runner-e2e-allure-nightly.yml"
+      suite: "nightly"

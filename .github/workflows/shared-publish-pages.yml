@@ -12,6 +12,9 @@ on:
       source_workflow_file:
         required: true
         type: string
+      suite:
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -22,6 +25,10 @@ jobs:
   publish:
     name: Publish (GitHub Pages)
     runs-on: ubuntu-latest
+
+    # Gate publish here (so runners can be simpler)
+    if: ${{ contains(fromJson(inputs.publish_branches_json), github.ref_name) }}
+
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
@@ -33,6 +40,7 @@ jobs:
           name: allure-report
           path: ./_site
 
+      # Bring in last published site so older runs remain visible
       - name: Download previous site bundle
         uses: dawidd6/action-download-artifact@v3
         with:
@@ -42,25 +50,28 @@ jobs:
           workflow_conclusion: completed
           if_no_artifact_found: ignore
 
+      # Stage per-run report and a SUITE+branch "latest" redirect, preserving old runs
       - name: Stage per-run report and latest redirect
         run: |
           set -euo pipefail
+
+          SUITE="${{ inputs.suite }}"
           BRANCH="${{ github.ref_name }}"
           RUN="${{ github.run_number }}"
-          
+
           # start with what's already live
           mkdir -p publish
           if [ -d _prev ]; then cp -a _prev/. publish/; fi
-          
+
           # prevent Jekyll processing
           touch publish/.nojekyll
-          
-          # copy this run
-          mkdir -p "publish/runs/$BRANCH/$RUN" "publish/runs/$BRANCH/latest"
-          cp -a _site/. "publish/runs/$BRANCH/$RUN/"
-          
-          # redirect runs/<branch>/latest -> runs/<branch>/<run>/
-          cat > "publish/runs/$BRANCH/latest/index.html" <<EOF
+
+          # copy this run (keyed by suite + branch)
+          mkdir -p "publish/runs/$SUITE/$BRANCH/$RUN" "publish/runs/$SUITE/$BRANCH/latest"
+          cp -a _site/. "publish/runs/$SUITE/$BRANCH/$RUN/"
+
+          # redirect runs/<suite>/<branch>/latest -> runs/<suite>/<branch>/<run>/
+          cat > "publish/runs/$SUITE/$BRANCH/latest/index.html" <<EOF
           <!doctype html>
           <meta charset="utf-8">
           <meta http-equiv="refresh" content="0; url=../$RUN/">
@@ -69,24 +80,31 @@ jobs:
           <p>If you're not redirected, <a href="../$RUN/">open run $RUN</a>.</p>
           EOF
 
-      - name: Build home index.html (branches → latest)
+      # Landing page: Suites -> Branches -> latest
+      - name: Build home index.html (suites → branches → latest)
         run: |
           set -euo pipefail
-          mkdir -p publish/runs
+
           cat > publish/index.html <<'HTML'
           <!doctype html>
           <meta charset="utf-8">
           <title>E2E Allure Reports</title>
           <h1>E2E Allure Reports</h1>
-          <p>Select a branch to view its latest report:</p>
-          <ul>
+          <p>Select a suite and branch to view its latest report:</p>
           HTML
+
           if [ -d publish/runs ]; then
-            for b in $(ls -1 publish/runs); do
-              echo "  <li><a href=\"runs/$b/latest/\">$b — latest</a></li>" >> publish/index.html
+            for suite in $(ls -1 publish/runs); do
+              echo "<h2>${suite}</h2>" >> publish/index.html
+              echo "<ul>" >> publish/index.html
+              for branch in $(ls -1 "publish/runs/${suite}"); do
+                echo "  <li><a href=\"runs/${suite}/${branch}/latest/\">${branch} — latest</a></li>" >> publish/index.html
+              done
+              echo "</ul>" >> publish/index.html
             done
+          else
+            echo "<p>No reports published yet.</p>" >> publish/index.html
           fi
-          echo "</ul>" >> publish/index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -110,6 +128,11 @@ jobs:
 
       - name: Publish summary with link
         run: |
+          SUITE="${{ inputs.suite }}"
+          BRANCH="${{ github.ref_name }}"
+          RUN="${{ github.run_number }}"
+
           echo "### Allure report published" >> $GITHUB_STEP_SUMMARY
-          echo "- Latest for \`${{ github.ref_name }}\`: ${{ steps.deploy.outputs.page_url }}runs/${{ github.ref_name }}/latest/" >> $GITHUB_STEP_SUMMARY
-          echo "- This run: ${{ steps.deploy.outputs.page_url }}runs/${{ github.ref_name }}/${{ github.run_number }}/" >> $GITHUB_STEP_SUMMARY
+          echo "- Suite: \`${SUITE}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Latest: ${{ steps.deploy.outputs.page_url }}runs/${SUITE}/${BRANCH}/latest/" >> $GITHUB_STEP_SUMMARY
+          echo "- This run: ${{ steps.deploy.outputs.page_url }}runs/${SUITE}/${BRANCH}/${RUN}/" >> $GITHUB_STEP_SUMMARY
