@@ -2,7 +2,7 @@ name: CI - E2E Allure (Nightly)
 
 on:
   schedule:
-    - cron:  "*/15 * * * *"   # quick edit to prove working (normally 02:00 UTC daily)
+    - cron: "15 2 * * *" # 02:15 UTC daily
   workflow_dispatch: {}
 
 jobs:
