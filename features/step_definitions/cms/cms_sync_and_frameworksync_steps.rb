@@ -11,3 +11,7 @@ end
 When(/^we navigate the Frameworks Register opening the first DfE approved record$/) do
   cms_frameworks_methods.nav_to_frameworks_and_open_first_dfe_approved
 end
+
+And(/^we add multiple new categories to the framework$/) do
+  cms_frameworks_methods.add_multiple_test_categories_to_current_framework
+end

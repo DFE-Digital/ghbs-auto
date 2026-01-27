@@ -6,10 +6,12 @@ require "helpers/interaction_helpers"
 require "components/cms/cms_top_nav_comps"
 require "components/cms/frameworks/cms_frameworks_register_comps"
 require "components/cms/frameworks/cms_frameworks_individual_framework_comps"
+require "components/cms/frameworks/cms_frameworks_individual_fw_categories_comps"
 
 class CmsFrameworksMethods < CmsBasePage
   include ValidationHelpers
   include InteractionHelpers
+
   def validate_the_contentful_framework_has_been_updated
     # Navigate to the Frameworks Register screen
     cms_top_nav_comps.link_frameworks.click
@@ -86,5 +88,63 @@ class CmsFrameworksMethods < CmsBasePage
 
     #  Validate the pain page data
     expect(cms_frameworks_individual_framework_comps.text_framework_status.text).to include("DfE approved")
+  end
+
+  def reset_all_checkboxes
+    fw_cats = cms_frameworks_individual_fw_categories_comps
+
+    fw_cats.checkbox_label_pairs.each do |checkbox_method, label_method|
+      checkbox = fw_cats.public_send(checkbox_method)
+      fw_cats.public_send(label_method).click if checkbox.checked?
+    end
+  end
+
+  def add_multiple_test_categories_to_current_framework
+    # Our Framework should include the name "Auto Test Solution"
+    framework_partial_name = "Auto Test Solution"
+
+    # First we need to see if there are already categories on this framework.
+    if cms_frameworks_individual_framework_comps.add_categories_visible?
+      # Leave the statement and progress with the test as normal.
+    elsif cms_frameworks_individual_framework_comps.change_categories_visible?
+      # Ok it appears there are categories on this one, lets open up the list and remove them so we can proceed
+      cms_frameworks_individual_framework_comps.link_change_categories.click
+      expect(page).to have_current_path(%r{/frameworks/frameworks/}, url: true, wait: 10)
+      expect(cms_frameworks_individual_fw_categories_comps.text_page_heading_edit.text).to include("Edit Framework Categories")
+
+      # Find and uncheck all checked boxes
+      reset_all_checkboxes
+
+      # Save changes and return to the main individual framework screen
+      cms_frameworks_individual_fw_categories_comps.button_save_changes.click
+      expect(page).to have_current_path(%r{/frameworks/frameworks/}, url: true, wait: 10)
+      expect(cms_frameworks_individual_framework_comps.text_page_heading.text).to include(framework_partial_name)
+    end
+
+    # Open Add Categories Screen
+    cms_frameworks_individual_framework_comps.link_add_categories.click
+    expect(page).to have_current_path(%r{/frameworks/frameworks/}, url: true, wait: 10)
+    expect(cms_frameworks_individual_fw_categories_comps.text_page_heading_edit.text).to include("Edit Framework Categories")
+
+    # Add new categories
+    cms_frameworks_individual_fw_categories_comps.label_audit_accessibility.click
+    cms_frameworks_individual_fw_categories_comps.label_breakfast_club.click
+    cms_frameworks_individual_fw_categories_comps.label_decarbonisation.click
+    cms_frameworks_individual_fw_categories_comps.label_boilers_and_plumbing_services.click
+    cms_frameworks_individual_fw_categories_comps.label_av_displays.click
+    cms_frameworks_individual_fw_categories_comps.label_consultancy.click
+    cms_frameworks_individual_fw_categories_comps.label_water.click
+    cms_frameworks_individual_fw_categories_comps.button_save_changes.click
+    expect(page).to have_current_path(%r{/frameworks/frameworks/}, url: true, wait: 10)
+    expect(cms_frameworks_individual_framework_comps.text_page_heading.text).to include(framework_partial_name)
+
+    # Validate that these categories have appeared on the framework
+    cms_frameworks_individual_framework_comps.text_applied_category_name("Audit Accessibility (buildings and digital)")
+    cms_frameworks_individual_framework_comps.text_applied_category_name("Breakfast Club")
+    cms_frameworks_individual_framework_comps.text_applied_category_name("Decarbonisation")
+    cms_frameworks_individual_framework_comps.text_applied_category_name("Boilers and plumbing services")
+    cms_frameworks_individual_framework_comps.text_applied_category_name("AV Displays")
+    cms_frameworks_individual_framework_comps.text_applied_category_name("Consultancy")
+    cms_frameworks_individual_framework_comps.text_applied_category_name("Water")
   end
 end
