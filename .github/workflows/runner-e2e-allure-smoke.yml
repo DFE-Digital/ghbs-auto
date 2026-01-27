@@ -16,6 +16,7 @@ jobs:
       cucumber_tags: "@smoke"
       retention_days: 14
       test_env: "ci"
+      test_pack: "Smoke"
       history_source_workflow_file: ".github/workflows/runner-e2e-allure-smoke.yml"
 
   publish:
