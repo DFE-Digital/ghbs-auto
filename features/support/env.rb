@@ -24,6 +24,7 @@ World(EnvHelpers)
 ########################################
 # Global Runtime settings (single source of truth), loaded based on run config
 ########################################
+TEST_PACK = ENV["TEST_PACK"] || "unknown"
 RUN_ENV      = ENV["TEST_ENV"] || "default"
 BROWSER      = SETTINGS["browser"]        || "chrome"
 WINDOW_WIDTH = SETTINGS["window_width"]   || 1920
@@ -65,6 +66,7 @@ AllureCucumber.configure do |config|
 
   # Put environment info here (shows on report main page)
   config.environment_properties = {
+    test_pack: TEST_PACK,
     test_environment: RUN_ENV,
     browser: BROWSER,
     resolution: "#{WINDOW_WIDTH}x#{WINDOW_HEIGHT}",

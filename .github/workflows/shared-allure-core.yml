@@ -3,6 +3,10 @@ name: Reusable - E2E Allure Core Build
 on:
   workflow_call:
     inputs:
+      test_pack:
+        required: false
+        type: string
+        default: "unknown"
       cucumber_profile:
         type: string
         required: false
@@ -47,6 +51,7 @@ jobs:
     timeout-minutes: 45
     env:
       TEST_ENV: ${{ inputs.test_env }}
+      TEST_PACK: ${{ inputs.test_pack }}
       CUCUMBER_PROFILE: ${{ inputs.cucumber_profile }}
       CUCUMBER_TAGS: ${{ inputs.cucumber_tags }}
       RETENTION_DAYS: ${{ inputs.retention_days }}

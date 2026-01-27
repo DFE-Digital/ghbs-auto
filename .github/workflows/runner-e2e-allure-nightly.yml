@@ -15,6 +15,7 @@ jobs:
       cucumber_tags: "@regression"
       retention_days: 60
       test_env: "ci"
+      test_pack: "Nightly"
       history_source_workflow_file: ".github/workflows/runner-e2e-allure-nightly.yml"
 
   publish:
