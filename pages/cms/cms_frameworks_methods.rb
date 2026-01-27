@@ -61,4 +61,30 @@ class CmsFrameworksMethods < CmsBasePage
     expect(cms_frameworks_individual_framework_comps.text_framework_created_source.text).to include("faf_import")
     expect(cms_frameworks_individual_framework_comps.text_framework_created_contentful_id.text).to include(framework_state.contentful_id)
   end
+
+  def nav_to_frameworks_and_open_first_dfe_approved
+    # Navigate to the Frameworks Register screen
+    cms_top_nav_comps.link_frameworks.click
+    expect(page).to have_current_path(%r{/frameworks#frameworks-register}, url: true, wait: 10)
+    expect(cms_frameworks_register_comps.text_page_heading.text).to include("Frameworks Register")
+
+    # Our Framework should include the name "Auto Test Solution"
+    framework_partial_name = "Auto Test Solution"
+
+    # Find and select our Auto Test Solution framework from the list / narrow down the options
+    cms_frameworks_register_comps.input_search.set(framework_partial_name)
+    cms_frameworks_register_comps.input_search.send_keys(:enter)
+    sleep(1)
+
+    # Confirm the status us "DfE approved"
+    cms_frameworks_register_comps.checkbox_status_dfe_approved.click
+
+    # Open the framework
+    cms_frameworks_register_comps.link_internal_framework_ref_partial_name(framework_partial_name).click
+    expect(page).to have_current_path(%r{/frameworks/frameworks/}, url: true, wait: 10)
+    expect(cms_frameworks_individual_framework_comps.text_page_heading.text).to include(framework_partial_name)
+
+    #  Validate the pain page data
+    expect(cms_frameworks_individual_framework_comps.text_framework_status.text).to include("DfE approved")
+  end
 end
