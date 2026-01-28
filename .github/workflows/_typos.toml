@@ -1,0 +1,13 @@
+[default]
+extend-ignore-identifiers-re = ["idx_.+"]
+
+[default.extend-words]
+inferrable = "inferrable"
+SME = "SME"
+MIS = "MIS"
+TUPE = "TUPE"
+notifyable = "notifyable"
+permissable = "permissable"
+
+[files]
+extend-exclude = ["Gemfile", "components/cms/frameworks/cms_frameworks_individual_fw_categories_comps.rb"]
