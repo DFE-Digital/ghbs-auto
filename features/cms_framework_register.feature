@@ -1,6 +1,7 @@
-@framework-register @regression @smoke
+@framework-register @regression
 Feature: GHBS - FABS to CMS - Framework Register Flows
 
+  @smoke
   Scenario: ES-989: Framework Register - FABS to CMS - Update Existing Framework
     Given we are logged in to Contentful with publishing permissions
     When we update the "Auto Test Solution - Please Ignore" frameworks title and content
@@ -9,7 +10,6 @@ Feature: GHBS - FABS to CMS - Framework Register Flows
     And trigger the Synchronization job
     Then the changes contentful framework changes will be reflected in the Frameworks Register
 
-  @wip
   Scenario: CMS - Framework Register - Categories
     Given we open and login to the proc ops CMS screens as an admin in the dev environment
     When we navigate the Frameworks Register opening the first DfE approved record
