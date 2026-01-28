@@ -10,7 +10,7 @@ Feature: GHBS - FABS to CMS - Framework Register Flows
     And trigger the Synchronization job
     Then the changes contentful framework changes will be reflected in the Frameworks Register
 
-  Scenario: CMS - Framework Register - Categories
+  Scenario: ES-1127 - CMS - Framework Register - Categories
     Given we open and login to the proc ops CMS screens as an admin in the dev environment
     When we navigate the Frameworks Register opening the first DfE approved record
     And we add multiple new categories to the framework
