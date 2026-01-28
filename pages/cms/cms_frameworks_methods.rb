@@ -147,4 +147,69 @@ class CmsFrameworksMethods < CmsBasePage
     cms_frameworks_individual_framework_comps.text_applied_category_name("Consultancy")
     cms_frameworks_individual_framework_comps.text_applied_category_name("Water")
   end
+
+  def remove_all_existing_categories
+    # Our Framework should include the name "Auto Test Solution"
+    framework_partial_name = "Auto Test Solution"
+
+    # Open category list and remove any active ones
+    cms_frameworks_individual_framework_comps.change_categories_visible?
+    cms_frameworks_individual_framework_comps.link_change_categories.click
+    expect(page).to have_current_path(%r{/frameworks/frameworks/}, url: true, wait: 10)
+    expect(cms_frameworks_individual_fw_categories_comps.text_page_heading_edit.text).to include("Edit Framework Categories")
+
+    # Find and uncheck all checked boxes
+    reset_all_checkboxes
+
+    # Save changes and return to the main individual framework screen
+    cms_frameworks_individual_fw_categories_comps.button_save_changes.click
+    expect(page).to have_current_path(%r{/frameworks/frameworks/}, url: true, wait: 10)
+    expect(cms_frameworks_individual_framework_comps.text_page_heading.text).to include(framework_partial_name)
+    expect(cms_frameworks_individual_framework_comps.link_framework_details.text).to include("Framework Details")
+  end
+
+  def confirm_categories_are_no_longer_associated_with_framework
+    expect(cms_frameworks_individual_framework_comps.link_framework_details.text).to include("Framework Details")
+    expect(cms_frameworks_individual_framework_comps.no_applied_category_name?("Books")).to be true
+    expect(cms_frameworks_individual_framework_comps.no_applied_category_name?("Audit Accessibility (buildings and digital)")).to be true
+    expect(cms_frameworks_individual_framework_comps.no_applied_category_name?("Breakfast Club")).to be true
+    expect(cms_frameworks_individual_framework_comps.no_applied_category_name?("Decarbonisation")).to be true
+    expect(cms_frameworks_individual_framework_comps.no_applied_category_name?("Boilers and plumbing services")).to be true
+    expect(cms_frameworks_individual_framework_comps.no_applied_category_name?("AV Displays")).to be true
+    expect(cms_frameworks_individual_framework_comps.no_applied_category_name?("Consultancy")).to be true
+    expect(cms_frameworks_individual_framework_comps.no_applied_category_name?("Water")).to be true
+  end
+
+  def leave_and_return_to_the_current_active_framework
+    # Store current framework title
+    current_framework_title = cms_frameworks_individual_framework_comps.text_page_heading.text
+
+    # Navigate back to the main Framework Register page
+    # Note ES-1142 is a defect that is linked to the below code and why we need a
+    # double click of the back button for this to work as desired.
+    expect(cms_frameworks_individual_framework_comps.link_framework_details.text).to include("Framework Details")
+    cms_frameworks_individual_framework_comps.link_back_button.click
+
+    unless page.has_current_path?(%r{/frameworks#frameworks-register}, url: true, wait: 2) ||
+        page.has_current_path?(%r{frameworks_filter}, url: true, wait: 2)
+      cms_frameworks_individual_framework_comps.link_back_button.click
+      cms_frameworks_individual_framework_comps.link_back_button.click
+    end
+
+    expect(page).to have_current_path(%r{frameworks_filter}, url: true, wait: 2)
+    expect(cms_frameworks_register_comps.text_page_heading.text).to include("Frameworks Register")
+
+    # Find and select our Auto Test Solution framework from the list / narrow down the options
+    cms_frameworks_register_comps.input_search.set(current_framework_title)
+    cms_frameworks_register_comps.input_search.send_keys(:enter)
+    sleep(1)
+
+    # Confirm the status us "DfE approved"
+    cms_frameworks_register_comps.checkbox_status_dfe_approved.click
+
+    # Open the framework / Validate the framework has correctly loaded (Note this was a previous defect)
+    cms_frameworks_register_comps.link_internal_framework_ref_partial_name(current_framework_title).click
+    expect(page).to have_current_path(%r{/frameworks/frameworks/}, url: true, wait: 10)
+    expect(cms_frameworks_individual_framework_comps.text_page_heading.text).to include(current_framework_title)
+  end
 end

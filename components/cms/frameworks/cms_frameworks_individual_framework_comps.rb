@@ -31,6 +31,10 @@ class CmsFrameworksIndividualFrameworkComps
     find(:xpath, "//a[text()='Add Categories']")
   end
 
+  def link_framework_details
+    find(:xpath, "//a[@id='tab_framework-details']")
+  end
+
   def add_categories_visible?
     has_selector?(:xpath, "//a[normalize-space()='Add Categories']", wait: 2)
   end
@@ -49,6 +53,10 @@ class CmsFrameworksIndividualFrameworkComps
 
   def text_applied_category_name(cat_name)
     find(:xpath, "//dt[text()='Categories']/following-sibling::dd[1][contains(.,'#{cat_name}')]")
+  end
+
+  def no_applied_category_name?(cat_name)
+    has_no_selector?(:xpath, "//dt[text()='Categories']/following-sibling::dd[1][contains(.,'#{cat_name}')]")
   end
 
   def text_framework_updated_description
@@ -81,5 +89,9 @@ class CmsFrameworksIndividualFrameworkComps
 
   def link_pagination_results
     find(:xpath, "//div[@class='pagination__results']")
+  end
+
+  def link_back_button
+    find(:xpath, "//a[text()='Back']")
   end
 end
