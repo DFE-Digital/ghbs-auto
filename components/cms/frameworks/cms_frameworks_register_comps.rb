@@ -15,6 +15,10 @@ class CmsFrameworksRegisterComps
     find(:xpath, "//dd[text()='#{framework_name}']/ancestor::div/preceding-sibling::div/dt[text()='Framework Ref']/following-sibling::dd/a")
   end
 
+  def link_internal_framework_ref_partial_name(partial_framework_name)
+    find(:xpath, "//dd[contains(.,'#{partial_framework_name}')]/ancestor::div/preceding-sibling::div/dt[text()='Framework Ref']/following-sibling::dd/a")
+  end
+
   def checkbox_status_dfe_approved
     find(:xpath, "//label[text()='DfE approved']")
   end
