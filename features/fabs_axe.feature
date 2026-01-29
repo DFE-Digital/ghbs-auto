@@ -1,4 +1,4 @@
-@selenium-axe
+@selenium-axe @fabs
 Feature: GHBS - FABS page accessibility checks
   Background:
     Given we open and validate the fabs homepage

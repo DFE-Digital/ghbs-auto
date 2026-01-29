@@ -36,7 +36,6 @@ module SharedFabsComps
   def fabs_buying_category_comps = @fabs_buying_category_comps ||= FabsBuyingCategoryComps.new
   def fabs_buying_option_comps = @fabs_buying_option_comps ||= FabsBuyingOptionComps.new
 
-
   # Search
   def fabs_search_comps = @fabs_search_comps ||= FabsSearchComps.new
   def fabs_all_buying_options_comps = @fabs_all_buying_options_comps ||= FabsAllBuyingOptionsComps.new
