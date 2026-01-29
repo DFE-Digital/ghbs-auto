@@ -3,6 +3,7 @@
 require "pages/fabs/fabs_home_page_methods"
 require "pages/fabs/fabs_nav_methods"
 require "pages/fabs/fabs_search_page_methods"
+require "pages/fabs/fabs_breadcrumb_methods"
 require "pages/shared/shared_global_methods"
 require "pages/energy/pre_login/energy_start_page_methods"
 require "pages/energy/pre_login/energy_signin_flow_methods"
@@ -57,6 +58,10 @@ module Pages
 
   def fabs_search_page_methods
     @fabs_search_page_methods ||= FabsSearchPageMethods.new(resolved_world)
+  end
+
+  def fabs_breadcrumb_methods
+    @fabs_breadcrumb_methods ||= FabsBreadcrumbMethods.new(resolved_world)
   end
 
   ##### CONTENTFUL CMS PAGES #####

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require "pages/fabs/fabs_base_page"
-require "components/fabs/fabs_home_page_comps"
-require "components/fabs/fabs_search_page_comps"
+require "components/fabs/fabs_home_comps"
+require "components/fabs/fabs_search_comps"
 require "helpers/validation_helpers"
 
 class FabsHomePageMethods < FabsBasePage
@@ -12,13 +12,13 @@ class FabsHomePageMethods < FabsBasePage
   end
 
   def validate_homepage_loaded
-    wait_for_heading_includes(fabs_home_page_comps.text_page_heading, "Get help buying for schools", timeout: 5)
+    wait_for_heading_includes(fabs_home_comps.text_page_heading, "Get help buying for schools", timeout: 5)
   end
 
   def search_for(term)
     # Search the term
-    fabs_home_page_comps.input_search_field.set(term)
-    fabs_home_page_comps.button_main_search.click
+    fabs_home_comps.input_search_field.set(term)
+    fabs_home_comps.button_main_search.click
 
     # confirm the page load
     wait_for_heading_includes(fabs_search_comps.text_page_heading, "Search Get help buying for schools", timeout: 5)

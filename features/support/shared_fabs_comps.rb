@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require "components/fabs/fabs_404_page_comps"
-require "components/fabs/fabs_500_page_comps"
+require "components/fabs/fabs_404_comps"
+require "components/fabs/fabs_500_comps"
 require "components/fabs/fabs_top_nav_comps"
 require "components/fabs/fabs_footer_nav_comps"
-require "components/fabs/fabs_accessibility_statement_page_comps"
-require "components/fabs/fabs_terms_and_conditions_page_comps"
-require "components/fabs/fabs_home_page_comps"
-require "components/fabs/fabs_buying_category_page_comps"
-require "components/fabs/fabs_buying_option_page_comps"
-require "components/fabs/fabs_search_page_comps"
-require "components/fabs/fabs_all_buying_options_page_comps"
+require "components/fabs/fabs_accessibility_statement_comps"
+require "components/fabs/fabs_terms_and_conditions_comps"
+require "components/fabs/fabs_home_comps"
+require "components/fabs/fabs_buying_category_comps"
+require "components/fabs/fabs_buying_option_comps"
+require "components/fabs/fabs_search_comps"
+require "components/fabs/fabs_all_buying_options_comps"
 require "components/fabs/contentful/contentful_cms_login_comps"
 require "components/fabs/contentful/contentful_cms_login_landing_page_comps"
 require "components/fabs/contentful/contentful_cms_search_comps"
@@ -18,27 +18,28 @@ require "components/fabs/contentful/contentful_cms_solution_comps"
 
 module SharedFabsComps
   # Error Pages
-  def fabs_404_comps = @fabs_404_comps ||= Fabs404PageComps.new
-  def fabs_500_comps = @fabs_500_comps ||= Fabs500PageComps.new
+  def fabs_404_comps = @fabs_404_comps ||= Fabs404Comps.new
+  def fabs_500_comps = @fabs_500_comps ||= Fabs500Comps.new
 
   # Header / Footer
   def fabs_top_nav_comps = @fabs_top_nav_comps ||= FabsTopNavComps.new
-  def fabs_footer_comps = @fabs_footer_comps ||= FabsFooterNavComps.new
+  def fabs_footer_nav_comps = @fabs_footer_nav_comps ||= FabsFooterNavComps.new
 
-  def fabs_access_statement_comps
-    @fabs_access_statement_comps ||= FabsAccessibilityStatementPageComps.new
+  def fabs_accessibility_statement_comps
+    @fabs_accessibility_statement_comps ||= FabsAccessibilityStatementComps.new
   end
 
-  def fabs_terms_and_conditions_comps = @fabs_terms_and_conditions_comps ||= FabsTermsAndConditionsPageComps.new
+  def fabs_terms_and_conditions_comps = @fabs_terms_and_conditions_comps ||= FabsTermsAndConditionsComps.new
 
   # Core Flow
-  def fabs_home_page_comps = @fabs_home_page_comps ||= FabsHomePageComps.new
-  def fabs_buying_cat_comps = @fabs_buying_cat_comps ||= FabsBuyingCategoryPageComps.new
-  def fabs_buying_option_comps = @fabs_buying_option_comps ||= FabsBuyingOptionPageComps.new
+  def fabs_home_comps = @fabs_home_comps ||= FabsHomeComps.new
+  def fabs_buying_category_comps = @fabs_buying_category_comps ||= FabsBuyingCategoryComps.new
+  def fabs_buying_option_comps = @fabs_buying_option_comps ||= FabsBuyingOptionComps.new
+
 
   # Search
-  def fabs_search_comps = @fabs_search_comps ||= FabsSearchPageComps.new
-  def fabs_all_buying_options_comps = @fabs_all_buying_options_comps ||= FabsAllBuyingOptionsPageComps.new
+  def fabs_search_comps = @fabs_search_comps ||= FabsSearchComps.new
+  def fabs_all_buying_options_comps = @fabs_all_buying_options_comps ||= FabsAllBuyingOptionsComps.new
 
   # Contentful
   def contentful_cms_login_comps = @contentful_cms_login_comps ||= ContentfulCmsLoginComps.new
