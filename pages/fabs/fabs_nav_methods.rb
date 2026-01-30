@@ -2,6 +2,14 @@
 
 require "pages/fabs/fabs_base_page"
 require "helpers/url_nav_helpers"
+require "components/fabs/fabs_404_comps"
+require "components/fabs/fabs_500_comps"
+require "components/fabs/fabs_search_comps"
+require "components/fabs/fabs_home_comps"
+require "components/fabs/fabs_all_buying_options_comps"
+require "components/fabs/fabs_footer_nav_comps"
+require "components/fabs/fabs_accessibility_statement_comps"
+require "components/fabs/fabs_terms_and_conditions_comps"
 
 class FabsNavMethods < FabsBasePage
   include UrlHelpers
@@ -26,7 +34,7 @@ class FabsNavMethods < FabsBasePage
 
   def navigate_to_search_page
     reset_to_homepage_via_logo
-    fabs_home_page_comps.button_main_search.click
+    fabs_home_comps.button_main_search.click
     expect(page).to have_current_path(%r{/search}, url: true, wait: 10)
     expect(fabs_search_comps.text_page_heading.text).to include("Search Get help buying for schools")
     axe_check! if FlagsGlobalConfig.axe_enabled?
@@ -34,9 +42,9 @@ class FabsNavMethods < FabsBasePage
 
   def navigate_to_all_buying_options_page
     reset_to_homepage_via_logo
-    fabs_home_page_comps.link_all_buying_options.click
+    fabs_home_comps.link_all_buying_options.click
     expect(page).to have_current_path(%r{/solutions}, url: true, wait: 10)
-    expect(fabs_home_page_comps.text_page_heading.text).to include("All buying options")
+    expect(fabs_all_buying_options_comps.text_page_heading.text).to include("All buying options")
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
@@ -44,15 +52,15 @@ class FabsNavMethods < FabsBasePage
 
   def navigate_to_accessibility_statement_page
     reset_to_homepage_via_logo
-    fabs_footer_comps.link_accessibility_statement.click
+    fabs_footer_nav_comps.link_accessibility_statement.click
     expect(page).to have_current_path(%r{/accessibility-statement}, url: true, wait: 10)
-    expect(fabs_access_statement_comps.text_page_heading.text).to include("Accessibility statement for Get help buying for schools")
+    expect(fabs_accessibility_statement_comps.text_page_heading.text).to include("Accessibility statement for Get help buying for schools")
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def navigate_to_terms_and_conditions_page
     reset_to_homepage_via_logo
-    fabs_footer_comps.link_terms_and_conditions.click
+    fabs_footer_nav_comps.link_terms_and_conditions.click
     expect(page).to have_current_path(%r{/terms-and-conditions}, url: true, wait: 10)
     expect(fabs_terms_and_conditions_comps.text_page_heading.text).to include("Terms and conditions")
     axe_check! if FlagsGlobalConfig.axe_enabled?
@@ -71,7 +79,7 @@ class FabsNavMethods < FabsBasePage
   def reset_to_homepage_via_logo
     fabs_top_nav_comps.image_dfe_logo.click
     expect(page).to have_current_path(%r{/}, url: true, wait: 10)
-    expect(fabs_home_page_comps.text_page_heading.text).to include("Get help buying for schools")
+    expect(fabs_home_comps.text_page_heading.text).to include("Get help buying for schools")
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 end

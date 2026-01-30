@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class FabsTermsAndConditionsPageComps
+class FabsAllBuyingOptionsComps
   include Capybara::DSL
 
   def text_page_heading
