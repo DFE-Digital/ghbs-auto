@@ -40,7 +40,6 @@ class FabsBankingMethods < FabsBasePage
       fallback_on: [403]
     )
 
-
     # Confirm link to DfE Banking Comparison Tool
     url_dfe_comp_tool = "https://banking-for-schools.education.gov.uk/site/LEUFJZNSINPDVTWF/index.html"
     expect(page).to have_link("DfE Banking Comparison Tool (opens in new tab)", href: url_dfe_comp_tool)
