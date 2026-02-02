@@ -53,4 +53,60 @@ module HttpApiHelpers
     expect(response.code.to_i).to eq(expected_http_status_code.to_i), "Expected #{url} to return #{expected_http_status_code}, got #{response.code}"
     expect(response.body).to include(expected_content_or_html) if expected_content_or_html
   end
+
+  def validate_link_reachable(url, expected_title_or_text: nil, expected_status: 200, fallback_on: [403])
+    response = http_response_for(url)
+    code = response.code.to_i
+
+    if code == expected_status
+      if expected_title_or_text
+        body = utf8_body(response)
+        expect(body).to include(expected_title_or_text)
+      end
+      return true
+    end
+
+    if fallback_on.include?(code)
+      puts "HTTP returned #{code} for #{url}; falling back to browser check"
+      validate_in_browser(url, expected_title_or_text: expected_title_or_text)
+      return true
+    end
+
+    raise "Expected #{url} to return #{expected_status}, got #{code}"
+  end
+
+private
+
+  def validate_in_browser(url, expected_title_or_text: nil)
+    original_url = page.current_url
+
+    new_window = open_new_window
+    within_window(new_window) do
+      visit url
+
+      # Basic load check
+      expect(page).to have_current_path(/./, wait: 10)
+
+      # Optional: assert some meaningful text or title etc on the page
+      # Note I left this optional as we may find some pages change content too often and cause us issues!
+      if expected_title_or_text
+        expect(page).to have_text(expected_title_or_text, wait: 10)
+      end
+    end
+
+    switch_to_window(windows.first)
+    visit original_url
+  end
+
+  def utf8_body(response)
+    body = response.body.to_s
+
+    # If it's binary ie ASCII-8BIT, force to UTF-8 with replacement for bad bytes
+    if body.encoding == Encoding::ASCII_8BIT
+      body = body.force_encoding("UTF-8")
+    end
+
+    # If still not valid UTF-8, clean it up
+    body.encode("UTF-8", invalid: :replace, undef: :replace, replace: "")
+  end
 end

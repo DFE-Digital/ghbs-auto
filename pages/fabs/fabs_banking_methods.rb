@@ -32,12 +32,24 @@ class FabsBankingMethods < FabsBasePage
     # Confirm link to FSCS
     url_fscs = "https://www.fscs.org.uk/what-we-cover/banks-building-societies-credit-unions/"
     expect(page).to have_link("FSCS protected amount of £120,000 (opens in new tab)", href: url_fscs)
-    validate_http_response_and_content(url_fscs, 200, "Banks, building societies and credit unions")
+    # validate_http_response_and_content(url_fscs, 200, "Banks, building societies and credit unions")
+    validate_link_reachable(
+      url_fscs,
+      expected_title_or_text: "Banks, building societies and credit unions",
+      expected_status: 200,
+      fallback_on: [403]
+    )
 
     # Confirm link to DfE Banking Comparison Tool
     url_dfe_comp_tool = "https://banking-for-schools.education.gov.uk/site/LEUFJZNSINPDVTWF/index.html"
     expect(page).to have_link("DfE Banking Comparison Tool (opens in new tab)", href: url_dfe_comp_tool)
-    validate_http_response_and_content(url_dfe_comp_tool, 200, "Banking comparison tool")
+    # validate_http_response_and_content(url_dfe_comp_tool, 200, "Banking comparison tool")
+    validate_link_reachable(
+      url_dfe_comp_tool,
+      expected_title_or_text: "Banking comparison tool",
+      expected_status: 200,
+      fallback_on: [403]
+    )
 
     # Confirm link to Find out more about Insignis (opens in new tab)
     url_insignis = "/insignis-savings-platform"
@@ -53,12 +65,24 @@ class FabsBankingMethods < FabsBasePage
     # Confirm link to FSCS
     url_fscs = "https://www.fscs.org.uk/"
     expect(page).to have_link("Financial Services Compensation Scheme.", href: url_fscs)
-    validate_http_response_and_content(url_fscs, 200, "FSCS protects you when financial firms fail")
+    # validate_http_response_and_content(url_fscs, 200, "FSCS protects you when financial firms fail")
+    validate_link_reachable(
+      url_fscs,
+      expected_title_or_text: "FSCS protects you when financial firms fail",
+      expected_status: 200,
+      fallback_on: [403]
+    )
 
     # Confirm link to DfE Banking Comparison Tool
     url_insignis = "https://www.insigniscash.com/schools"
     expect(page).to have_link("Visit the Insignis cash savings platform (opens in new tab)", href: url_insignis)
-    validate_http_response_and_content(url_insignis, 200, "Transform your school&#x27;s reserves into resources")
+    # validate_http_response_and_content(url_insignis, 200, "Transform your school&#x27;s reserves into resources")
+    validate_link_reachable(
+      url_insignis,
+      expected_title_or_text: "Transform your school&#x27;s reserves into resources",
+      expected_status: 200,
+      fallback_on: [403]
+    )
 
     # Confirm link to Current accounts for schools
     fabs_insignis_savings_platform_comps.link_related_content_current_accounts_for_schools.click
@@ -76,7 +100,13 @@ class FabsBankingMethods < FabsBasePage
     # Validate the external Barclays link
     url_barclays = "https://www.barclayscorporate.com/industry-expertise/our-sector-coverage/education/"
     expect(page).to have_link("Visit Barclays’ website", href: url_barclays)
-    validate_http_response_and_content(url_barclays, 200, "Across the UK, we are committed to delivering outstanding")
+    # validate_http_response_and_content(url_barclays, 200, "Across the UK, we are committed to delivering outstanding")
+    validate_link_reachable(
+      url_barclays,
+      expected_title_or_text: "Across the UK, we are committed to delivering outstanding",
+      expected_status: 200,
+      fallback_on: [403]
+    )
 
     reset_to_current_accounts_via_related_content
 
@@ -89,8 +119,13 @@ class FabsBankingMethods < FabsBasePage
     # Validate the external Lloyds Banking Group link
     url_lloyds = "https://www.lloydsbank.com/business/industry-expertise/education.html?WT.ac=lloyds-RM_signature-hub-sectors-page-education"
     expect(page).to have_link("Visit Lloyds Banking Group’s website", href: url_lloyds)
-    # validate_http_response_and_content(url_lloyds, 200)
-    validate_http_response_and_content(url_lloyds, 200, "Dedicated support for schools and academy trusts")
+    # validate_http_response_and_content(url_lloyds, 200, "Dedicated support for schools and academy trusts")
+    validate_link_reachable(
+      url_lloyds,
+      expected_title_or_text: "Dedicated support for schools and academy trusts",
+      expected_status: 200,
+      fallback_on: [403]
+    )
 
     reset_to_current_accounts_via_related_content
 
@@ -103,7 +138,13 @@ class FabsBankingMethods < FabsBasePage
     # Validate the external NatWest link
     url_natwest = "https://www.natwest.com/business/bank-accounts.html?intcam=PC_HP-B-HI-ATLMettle-DEF-A#switch-offer"
     expect(page).to have_link("Visit NatWest’s website", href: url_natwest)
-    validate_http_response_and_content(url_natwest, 200, "Tools to help you grow, all from one bank")
+    # validate_http_response_and_content(url_natwest, 200, "Tools to help you grow, all from one bank")
+    validate_link_reachable(
+      url_natwest,
+      expected_title_or_text: "Tools to help you grow, all from one bank",
+      expected_status: 200,
+      fallback_on: [403]
+    )
 
     reset_to_current_accounts_via_related_content
 
@@ -116,7 +157,13 @@ class FabsBankingMethods < FabsBasePage
     # Validate the external Santander link
     url_santander = "https://www.santander.co.uk/corporate/sectors/education"
     expect(page).to have_link("Visit Santander’s website", href: url_santander)
-    validate_http_response_and_content(url_santander, 200, "Education | Santander Corporate and Commercial Banking")
+    # validate_http_response_and_content(url_santander, 200, "Education | Santander Corporate and Commercial Banking")
+    validate_link_reachable(
+      url_santander,
+      expected_title_or_text: "Education | Santander Corporate and Commercial Banking",
+      expected_status: 200,
+      fallback_on: [403]
+    )
 
     reset_to_current_accounts_via_related_content
 
@@ -129,7 +176,13 @@ class FabsBankingMethods < FabsBasePage
     # Validate the external Unity Trust Bank link
     url_unity_bank = "https://www.unity.co.uk/"
     expect(page).to have_link("Visit Unity Trust Bank’s website", href: url_unity_bank)
-    validate_http_response_and_content(url_unity_bank, 200, "Banking that makes a positive difference")
+    # validate_http_response_and_content(url_unity_bank, 200, "Banking that makes a positive difference")
+    validate_link_reachable(
+      url_unity_bank,
+      expected_title_or_text: "Banking that makes a positive difference",
+      expected_status: 200,
+      fallback_on: [403]
+    )
   end
 
   def reset_to_current_accounts_via_related_content
