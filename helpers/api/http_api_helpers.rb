@@ -54,21 +54,21 @@ module HttpApiHelpers
     expect(response.body).to include(expected_content_or_html) if expected_content_or_html
   end
 
-  def validate_link_reachable(url, expected_title_or_text: nil, expected_status: 200, fallback_on: [403])
+  def validate_link_reachable(url, expected_title: nil, expected_status: 200, fallback_on: [403])
     response = http_response_for(url)
     code = response.code.to_i
 
     if code == expected_status
-      if expected_title_or_text
-        body = utf8_body(response)
-        expect(body).to include(expected_title_or_text)
-      end
+      return true unless expected_title
+
+      body = utf8_body(response)
+      expect(body).to include(expected_title)
       return true
     end
 
     if fallback_on.include?(code)
       puts "HTTP returned #{code} for #{url}; falling back to browser check"
-      validate_in_browser(url, expected_title_or_text: expected_title_or_text)
+      validate_in_browser(url, expected_title: expected_title)
       return true
     end
 
@@ -77,25 +77,20 @@ module HttpApiHelpers
 
 private
 
-  def validate_in_browser(url, expected_title_or_text: nil)
-    original_url = page.current_url
-
+  def validate_in_browser(url, expected_title: nil)
+    original_window = page.current_window
     new_window = open_new_window
+
     within_window(new_window) do
       visit url
-
-      # Basic load check
       expect(page).to have_current_path(/./, wait: 10)
 
-      # Optional: assert some meaningful text or title etc on the page
-      # Note I left this optional as we may find some pages change content too often and cause us issues!
-      if expected_title_or_text
-        expect(page).to have_text(expected_title_or_text, wait: 10)
+      if expected_title
+        expect(page).to have_title(expected_title, exact: false, wait: 10)
       end
     end
 
-    switch_to_window(windows.first)
-    visit original_url
+    switch_to_window(original_window)
   end
 
   def utf8_body(response)
