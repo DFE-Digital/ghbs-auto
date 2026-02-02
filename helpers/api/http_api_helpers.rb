@@ -48,9 +48,9 @@ module HttpApiHelpers
     response
   end
 
-  def validate_http_response_and_content(url, expected_http_status_code, expected_content_or_html)
+  def validate_http_response_and_content(url, expected_http_status_code, expected_content_or_html = nil)
     response = http_response_for(url)
-    expect(response.code.to_i).to eq(expected_http_status_code.to_i)
-    expect(response.body).to include(expected_content_or_html)
+    expect(response.code.to_i).to eq(expected_http_status_code.to_i), "Expected #{url} to return #{expected_http_status_code}, got #{response.code}"
+    expect(response.body).to include(expected_content_or_html) if expected_content_or_html
   end
 end
