@@ -10,8 +10,6 @@ require "helpers/url_nav_helpers"
 class FabsBreadcrumbMethods < FabsBasePage
   include UrlHelpers
 
-  # --- Error pages ---
-
   def navigate_to_a_simple_buying_option_via_buying_category
     # Open up the Recruitment, HR and training buying category
     fabs_home_comps.link_category_recruitment_hr_and_training.click

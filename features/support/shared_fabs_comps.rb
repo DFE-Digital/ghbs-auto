@@ -11,6 +11,10 @@ require "components/fabs/fabs_buying_category_comps"
 require "components/fabs/fabs_buying_option_comps"
 require "components/fabs/fabs_search_comps"
 require "components/fabs/fabs_all_buying_options_comps"
+require "components/fabs/fabs_savings_options_for_schools_comps"
+require "components/fabs/fabs_insignis_savings_platform_comps"
+require "components/fabs/fabs_current_accounts_comps"
+require "components/fabs/fabs_shared_related_content_comps"
 require "components/fabs/contentful/contentful_cms_login_comps"
 require "components/fabs/contentful/contentful_cms_login_landing_page_comps"
 require "components/fabs/contentful/contentful_cms_search_comps"
@@ -39,6 +43,12 @@ module SharedFabsComps
   # Search
   def fabs_search_comps = @fabs_search_comps ||= FabsSearchComps.new
   def fabs_all_buying_options_comps = @fabs_all_buying_options_comps ||= FabsAllBuyingOptionsComps.new
+
+  # Banking
+  def fabs_savings_options_for_schools_comps = @fabs_savings_options_for_schools_comps ||= FabsSavingsOptionsForSchoolsComps.new
+  def fabs_insignis_savings_platform_comps = @fabs_insignis_savings_platform_comps ||= FabsInsignisSavingsPlatformComps.new
+  def fabs_current_accounts_comps = @fabs_current_accounts_comps ||= FabsCurrentAccountsComps.new
+  def fabs_shared_related_content_comps = @fabs_shared_related_content_comps ||= FabsSharedRelatedContentComps.new
 
   # Contentful
   def contentful_cms_login_comps = @contentful_cms_login_comps ||= ContentfulCmsLoginComps.new
