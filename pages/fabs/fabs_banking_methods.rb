@@ -67,6 +67,7 @@ class FabsBankingMethods < FabsBasePage
   end
 
   def validate_the_correct_links_on_the_current_accounts_page
+    #### Barclays ####
     # Navigate to the internal Barclays page
     fabs_current_accounts_comps.link_barclays.click
     expect(page).to have_current_path(%r{/barclays}, url: true, wait: 10)
@@ -79,6 +80,7 @@ class FabsBankingMethods < FabsBasePage
 
     reset_to_current_accounts_via_related_content
 
+    #### Lloyds Banking Group ####
     # Navigate to the internal Lloyds Banking Group page
     fabs_current_accounts_comps.link_lloyds_banking_group.click
     expect(page).to have_current_path(%r{/lloyds-banking-group}, url: true, wait: 10)
@@ -87,12 +89,13 @@ class FabsBankingMethods < FabsBasePage
     # Validate the external Lloyds Banking Group link
     url_lloyds = "https://www.lloydsbank.com/business/industry-expertise/education.html?WT.ac=lloyds-RM_signature-hub-sectors-page-education"
     expect(page).to have_link("Visit Lloyds Banking Group’s website", href: url_lloyds)
+    # validate_http_response_and_content(url_lloyds, 200)
+    validate_http_response_and_content(url_lloyds, 200, "Dedicated support for schools and academy trusts")
 
-    # TODO: issue with HTTP request to loydes, we may need to change the approach for this site.
-    # validate_http_response_and_content(url_lloyds, 200, "Dedicated support for schools and academy trusts")
 
     reset_to_current_accounts_via_related_content
 
+    #### NatWest ####
     # Navigate to the internal NatWest page
     fabs_current_accounts_comps.link_natwest.click
     expect(page).to have_current_path(%r{/natwest}, url: true, wait: 10)
@@ -105,6 +108,7 @@ class FabsBankingMethods < FabsBasePage
 
     reset_to_current_accounts_via_related_content
 
+    #### Santander ####
     # Navigate to the internal Santander page
     fabs_current_accounts_comps.link_santander.click
     expect(page).to have_current_path(%r{/santander}, url: true, wait: 10)
@@ -117,6 +121,7 @@ class FabsBankingMethods < FabsBasePage
 
     reset_to_current_accounts_via_related_content
 
+    #### Unity Trust Bank ####
     # Navigate to the internal Unity Trust Bank page
     fabs_current_accounts_comps.link_unity_trust_bank.click
     expect(page).to have_current_path(%r{/unity-trust-bank}, url: true, wait: 10)
