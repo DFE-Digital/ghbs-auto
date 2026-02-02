@@ -79,18 +79,31 @@ private
 
   def validate_in_browser(url, expected_title: nil)
     original_window = page.current_window
-    new_window = open_new_window
+    win = open_new_window
 
-    within_window(new_window) do
+    within_window(win) do
       visit url
       expect(page).to have_current_path(/./, wait: 10)
 
-      if expected_title
-        expect(page).to have_title(expected_title, exact: false, wait: 10)
+      return true unless expected_title
+
+      ok = page.has_title?(expected_title, exact: false, wait: 10)
+
+      unless ok
+        # Debugging for CI
+        puts "BROWSER FALLBACK FAILED"
+        puts "Requested URL: #{url}"
+        puts "Current URL:   #{page.current_url}"
+        puts "Title:         #{page.title.inspect}"
+        html = page.html.to_s
+        puts "HTML SNIP:     #{html[0, 500]}"
+
+        raise "Expected title to include #{expected_title.inspect} but got #{page.title.inspect} for #{page.current_url}"
       end
     end
 
     switch_to_window(original_window)
+    true
   end
 
   def utf8_body(response)
