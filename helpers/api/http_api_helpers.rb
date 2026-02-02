@@ -4,7 +4,6 @@ require "net/http"
 require "uri"
 
 module HttpApiHelpers
-
   def http_response_for(url, base_url: nil, limit: 5)
     raise "Too many redirects" if limit <= 0
 

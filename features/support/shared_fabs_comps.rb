@@ -55,5 +55,4 @@ module SharedFabsComps
   def contentful_cms_login_landing_page_comps = @contentful_cms_login_landing_page_comps ||= ContentfulCmsLoginLandingPageComps.new
   def contentful_cms_search_comps = @contentful_cms_search_comps ||= ContentfulCmsSearchComps.new
   def contentful_cms_solution_comps = @contentful_cms_solution_comps ||= ContentfulCmsSolutionComps.new
-
 end

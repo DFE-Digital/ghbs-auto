@@ -92,7 +92,6 @@ class FabsBankingMethods < FabsBasePage
     # validate_http_response_and_content(url_lloyds, 200)
     validate_http_response_and_content(url_lloyds, 200, "Dedicated support for schools and academy trusts")
 
-
     reset_to_current_accounts_via_related_content
 
     #### NatWest ####
@@ -131,7 +130,6 @@ class FabsBankingMethods < FabsBasePage
     url_unity_bank = "https://www.unity.co.uk/"
     expect(page).to have_link("Visit Unity Trust Bank’s website", href: url_unity_bank)
     validate_http_response_and_content(url_unity_bank, 200, "Banking that makes a positive difference")
-
   end
 
   def reset_to_current_accounts_via_related_content

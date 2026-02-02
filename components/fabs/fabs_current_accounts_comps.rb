@@ -26,6 +26,4 @@ class FabsCurrentAccountsComps
   def link_unity_trust_bank
     find(:xpath, "//a[text()='Unity Trust Bank (opens in new tab)']")
   end
-
-
 end

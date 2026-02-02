@@ -15,6 +15,3 @@ end
 Then(/^finally we validate the links on the Current accounts for schools page$/) do
   fabs_banking_methods.validate_the_correct_links_on_the_current_accounts_page
 end
-
-
-
