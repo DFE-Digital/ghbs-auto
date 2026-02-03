@@ -54,7 +54,20 @@ module HttpApiHelpers
     expect(response.body).to include(expected_content_or_html) if expected_content_or_html
   end
 
-  def validate_link_reachable(url, expected_title: nil, expected_status: 200, fallback_on: [403])
+  def validate_link_reachable(
+    url,
+    expected_title: nil,
+    expected_status: 200,
+    fallback_on: [403],
+    only_run_in: "local" # gate: only validate externally in this environment, e.g. "local" or "ci" but for both "nil"
+  )
+    current_env = SECRETS["test_environment"]
+
+    if only_run_in && current_env != only_run_in
+      puts "Skipping external link validation for #{url} (test_environment=#{current_env})"
+      return true
+    end
+
     response = http_response_for(url)
     code = response.code.to_i
 
