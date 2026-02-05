@@ -236,7 +236,7 @@ jobs:
       # ---- Restore history before generating report ----
       - name: Download previous Allure history (same branch)
         if: ${{ inputs.history_source_workflow_file != '' }}
-        uses: dawidd6/action-download-artifact@v6
+        uses: dawidd6/action-download-artifact@v12
         with:
           name: allure-history
           path: history
