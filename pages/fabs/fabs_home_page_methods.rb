@@ -12,7 +12,7 @@ class FabsHomePageMethods < FabsBasePage
   end
 
   def validate_homepage_loaded
-    wait_for_heading_includes(fabs_home_comps.text_page_heading, "Get help buying for schools", timeout: 5)
+    wait_for_element_to_include(fabs_home_comps.text_page_heading, "Get help buying for schools", timeout: 5)
   end
 
   def search_for(term)
@@ -21,6 +21,6 @@ class FabsHomePageMethods < FabsBasePage
     fabs_home_comps.button_main_search.click
 
     # confirm the page load
-    wait_for_heading_includes(fabs_search_comps.text_page_heading, "Search Get help buying for schools", timeout: 5)
+    wait_for_element_to_include(fabs_search_comps.text_page_heading, "Search Get help buying for schools", timeout: 5)
   end
 end

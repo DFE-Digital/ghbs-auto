@@ -12,14 +12,14 @@ class ContentfulEditSolutionMethods < FabsBasePage
 
   def open_auto_solution_page_and_edit_content(framework_name)
     # Search for 'Auto Test Solution - Please Ignore'
-    wait_for_heading_includes(contentful_cms_search_comps.text_page_heading, "All content", timeout: 5)
+    wait_for_element_to_include(contentful_cms_search_comps.text_page_heading, "All content", timeout: 5)
     contentful_cms_search_comps.input_search_field.set(framework_name)
-    wait_for_heading_includes(contentful_cms_search_comps.link_select_returned_result(framework_name), framework_name, timeout: 5)
+    wait_for_element_to_include(contentful_cms_search_comps.link_select_returned_result(framework_name), framework_name, timeout: 5)
     contentful_cms_search_comps.link_select_returned_result(framework_name).click
 
     # Open Solution
     expect(page).to have_current_path(%r{/entries/}, url: true, wait: 10)
-    wait_for_heading_includes(contentful_cms_solution_comps.text_page_heading, framework_name, timeout: 5)
+    wait_for_element_to_include(contentful_cms_solution_comps.text_page_heading, framework_name, timeout: 5)
 
     # Update and store title
     framework_state.title = framework_name + " #{Time.now.strftime('%m-%d-%Y-%H-%M-%S')}"
@@ -54,6 +54,6 @@ class ContentfulEditSolutionMethods < FabsBasePage
 
     # Submit Change
     contentful_cms_solution_comps.button_publish_changes.click
-    wait_for_heading_includes(contentful_cms_solution_comps.text_current_status, "published", timeout: 5)
+    wait_for_element_to_include(contentful_cms_solution_comps.text_current_status, "published", timeout: 5)
   end
 end

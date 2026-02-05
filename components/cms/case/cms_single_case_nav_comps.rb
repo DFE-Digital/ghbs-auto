@@ -39,6 +39,10 @@ class CmsSingleCaseNavComps
     find(:xpath, "//a[text()='Files']")
   end
 
+  def link_onboarding_summary
+    find(:xpath, "//a[text()='Onboarding summary']")
+  end
+
   def text_notice_agent_assigned
     find(:xpath, "//h3/div[contains(.,'Agent assigned to case successfully')]")
   end

@@ -47,7 +47,7 @@ class CmsCaseEvaluationSchoolUserFlowMethods < CmsBasePage
     case_state.case_school_eval_uploaded_file_name_1 = "evaluation_school_upload_doc.txt"
 
     # Validate the document is uploaded
-    wait_for_heading_includes(cms_eval_school_upload_eval_scoring_comps.text_uploaded_file_name("evaluation_school_upload_doc.txt"), "evaluation_school_upload_doc.txt", timeout: 5)
+    wait_for_element_to_include(cms_eval_school_upload_eval_scoring_comps.text_uploaded_file_name("evaluation_school_upload_doc.txt"), "evaluation_school_upload_doc.txt", timeout: 5)
 
     # Complete and leave the form
     cms_eval_school_upload_eval_scoring_comps.radio_uploaded_docs_yes.click
