@@ -11,6 +11,10 @@ class CmsSingleCaseViewPageComps
     find(:xpath, "//p[@id='case-ref']/strong")
   end
 
+  def text_page_heading_case_owner
+    find(:xpath, "//p[@id='case-ref']")
+  end
+
   def text_flash_notice_content
     find(:xpath, "//div[@id='flash_notice']")
   end

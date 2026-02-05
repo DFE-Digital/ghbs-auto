@@ -11,10 +11,12 @@ module ValidationHelpers
     expect(actual).to include(expected), "Expected #{actual.inspect} to include #{expected.inspect}"
   end
 
-  def wait_for_heading_includes(element, expected, timeout: 10)
-    expect(element).to have_text(expected, wait: timeout)
+  def wait_for_element_to_include(element, expected, timeout: 10, downcase: false)
+    matcher = downcase ? /#{Regexp.escape(expected.to_s)}/i : expected
+
+    expect(element).to have_text(matcher, wait: timeout)
     true
   rescue Capybara::ExpectationNotMet
-    raise "Timed out after #{timeout}s waiting for heading to include #{expected.inspect}"
+    raise "Timed out after #{timeout}s waiting for element to include #{expected.inspect}"
   end
 end

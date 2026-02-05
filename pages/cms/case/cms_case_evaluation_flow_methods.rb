@@ -38,11 +38,11 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
 
     # Open the "Add evaluators" page
     cms_task_list_comps.link_add_evaluators.click
-    wait_for_heading_includes(cms_eval_add_evaluators_comps.text_page_heading, "Evaluators", timeout: 5)
+    wait_for_element_to_include(cms_eval_add_evaluators_comps.text_page_heading, "Evaluators", timeout: 5)
 
     # Complete the "Add" process to add a new evaluator
     cms_eval_add_evaluators_comps.button_add.click
-    wait_for_heading_includes(cms_eval_add_evaluator_details_comps.text_page_heading, "Add evaluator details", timeout: 5)
+    wait_for_element_to_include(cms_eval_add_evaluator_details_comps.text_page_heading, "Add evaluator details", timeout: 5)
 
     user_first_name = "AutoTestEvalFN-#{Time.now.strftime('%S-%M-%H-%m-%d-%Y')}"
     user_last_name = "AutoTestEvalLN"
@@ -52,7 +52,7 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     cms_eval_add_evaluator_details_comps.input_email_address.set(case_state.case_evaluator_1_email)
 
     cms_eval_add_evaluator_details_comps.button_save_changes.click
-    wait_for_heading_includes(cms_eval_add_evaluators_comps.text_page_heading, "Evaluators", timeout: 5)
+    wait_for_element_to_include(cms_eval_add_evaluators_comps.text_page_heading, "Evaluators", timeout: 5)
 
     # Confirm our user has been added
     cms_eval_add_evaluators_comps.text_evaluator_email_address(case_state.case_evaluator_1_email)
@@ -78,7 +78,7 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     cms_task_list_comps.link_set_due_date.click
 
     # Complete the "Set due date" process
-    wait_for_heading_includes(cms_eval_set_due_date_comps.text_page_heading, "Set due date", timeout: 5)
+    wait_for_element_to_include(cms_eval_set_due_date_comps.text_page_heading, "Set due date", timeout: 5)
 
     # get today's date + 60 days
     future_date = Date.today + 60
@@ -113,14 +113,14 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
 
     # Open the "Upload documents" page
     cms_task_list_comps.link_upload_documents.click
-    wait_for_heading_includes(cms_eval_upload_documents_comps.text_page_heading, "Upload documents", timeout: 5)
+    wait_for_element_to_include(cms_eval_upload_documents_comps.text_page_heading, "Upload documents", timeout: 5)
 
     # Upload the test file via Dropzone
     upload_file_via_dropzone("resources/test_data/evaluation_doc.txt", input_selector: 'input[type="file"].dz-hidden-input')
     case_state.case_proc_ops_eval_uploaded_file_name_1 = "evaluation_doc.txt"
 
     # Validate the document is uploaded
-    wait_for_heading_includes(cms_eval_upload_documents_comps.text_uploaded_file_name("evaluation_doc.txt"), "evaluation_doc.txt", timeout: 5)
+    wait_for_element_to_include(cms_eval_upload_documents_comps.text_uploaded_file_name("evaluation_doc.txt"), "evaluation_doc.txt", timeout: 5)
 
     # Confirm all docs are uploaded
     cms_eval_upload_documents_comps.radio_yes.click
@@ -142,7 +142,7 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
 
     # Open the "Email evaluators" page
     cms_task_list_comps.link_email_evaluators.click
-    wait_for_heading_includes(cms_eval_email_evaluators_comps.text_page_heading, "Email evaluators", timeout: 5)
+    wait_for_element_to_include(cms_eval_email_evaluators_comps.text_page_heading, "Email evaluators", timeout: 5)
 
     # Validate evaluators email addresses are visible in the "sharing with" section
     cms_eval_email_evaluators_comps.text_sharing_with_email_list(case_state.case_evaluator_1_email)

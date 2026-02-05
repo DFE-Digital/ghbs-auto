@@ -11,8 +11,16 @@ class CmsSearchResultsPageComps
     find(:xpath, "//a[contains(.,'#{case_number}')]")
   end
 
+  def link_org_based_on_case_number(case_number)
+    find(:xpath, "//a[contains(.,'#{case_number}')]/ancestor::td/following-sibling::td[1]/div/a")
+  end
+
   def link_first_case_number
     find(:xpath, "//tr[1]/td[1]/a")
+  end
+
+  def link_all_orgs_in_list
+    all(:xpath, "//tbody/tr/td/div/a", wait: 10)
   end
 
   def text_number_of_results

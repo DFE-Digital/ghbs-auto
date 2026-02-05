@@ -18,7 +18,7 @@ class CmsNotificationsMethods < CmsBasePage
     # Navigate to the notifications page
     cms_top_nav_comps.link_notifications.click
     expect(page).to have_current_path(%r{/support/notifications}, url: true, wait: 10)
-    wait_for_heading_includes(cms_notifications_page_comps.text_page_heading, "Notifications", timeout: 5)
+    wait_for_element_to_include(cms_notifications_page_comps.text_page_heading, "Notifications", timeout: 5)
 
     # Confirm notification has been received
     cms_notifications_page_comps.text_evaluation_notification_school_evaluated(case_state.case_number)

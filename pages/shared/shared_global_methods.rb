@@ -45,7 +45,7 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
     if environment == "dev"
       # This env uses the test signin server
       dfe_signin_access_the_service_page_comps.button_next.click
-      wait_for_heading_includes(dfe_signin_enter_your_password_page_comps.text_page_heading_test_server, "Enter your password", timeout: 10)
+      wait_for_element_to_include(dfe_signin_enter_your_password_page_comps.text_page_heading_test_server, "Enter your password", timeout: 10)
       dfe_signin_enter_your_password_page_comps.input_password_test_server.set(credentials[:password])
       dfe_signin_enter_your_password_page_comps.button_sign_in_test_server.click
     end
@@ -55,19 +55,19 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
       # Move to the stand-alone password screen and complete
       dfe_signin_access_the_service_page_comps.button_next.click
       expect(page).to have_current_path(%r{/oauth2/v2.0}, url: true, wait: 10)
-      wait_for_heading_includes(dfe_signin_enter_your_password_page_comps.text_page_heading, "Enter password", timeout: 10)
+      wait_for_element_to_include(dfe_signin_enter_your_password_page_comps.text_page_heading, "Enter password", timeout: 10)
       dfe_signin_enter_your_password_page_comps.input_password.set(credentials[:password])
       dfe_signin_enter_your_password_page_comps.button_sign_in.click
 
       # Send the verification code to the email
       expect(page).to have_current_path(%r{/login}, url: true, wait: 10)
-      wait_for_heading_includes(dfe_signin_verify_your_identity_comps.text_page_heading, "Verify your identity", timeout: 5)
+      wait_for_element_to_include(dfe_signin_verify_your_identity_comps.text_page_heading, "Verify your identity", timeout: 5)
       dfe_signin_verify_your_identity_comps.button_email_code_to.click
 
       # Use retrieved code to populate input
 
       # dfe_signin_enter_code_comps.input_enter_code.set("TBC-MFA-Code")
-      wait_for_heading_includes(dfe_signin_enter_code_comps.text_page_heading, "Enter code", timeout: 5)
+      wait_for_element_to_include(dfe_signin_enter_code_comps.text_page_heading, "Enter code", timeout: 5)
 
       # Temp stop gap to allow dev until new logic is implemented above
       sleep(10)
@@ -96,12 +96,12 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
     expect(page).to have_current_path(%r{/signin/username}, url: true, wait: 10)
     dfe_signin_access_the_service_page_comps.input_username.set(credentials[:email])
     dfe_signin_access_the_service_page_comps.button_next.click
-    wait_for_heading_includes(dfe_signin_enter_your_password_page_comps.text_page_heading_test_server, "Enter your password", timeout: 10)
+    wait_for_element_to_include(dfe_signin_enter_your_password_page_comps.text_page_heading_test_server, "Enter your password", timeout: 10)
     dfe_signin_enter_your_password_page_comps.input_password_test_server.set(credentials[:password])
     dfe_signin_enter_your_password_page_comps.button_sign_in_test_server.click
 
     # Validate we have arrived in the correct Manage Users screen
     expect(page).to have_current_path(%r{/approvals/users}, url: true, wait: 10)
-    wait_for_heading_includes(dfe_signin_1_manage_users_comps.text_page_heading, "Manage users", timeout: 5)
+    wait_for_element_to_include(dfe_signin_1_manage_users_comps.text_page_heading, "Manage users", timeout: 5)
   end
 end
