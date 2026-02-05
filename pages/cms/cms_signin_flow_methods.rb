@@ -11,7 +11,7 @@ require "components/energy/journey_start/energy_which_school_buying_for_comps"
 require "helpers/validation_helpers"
 require "components/cms/cms_mycases_page_comps"
 
-class CmsSignInFlowMethods < CmsBasePage
+class CmsSigninFlowMethods < CmsBasePage
   include ValidationHelpers
   def open_cms_cec_homepage
     visit SECRETS["dev_cec_cms_homepage_url"]
@@ -44,15 +44,17 @@ class CmsSignInFlowMethods < CmsBasePage
   end
 
   def continue_and_complete_dfe_signin_as_proc_ops_admin
-    cms_login_page_comps.button_signin.click
-    # Navigates user through the DfE sign-in flow to the "My Cases" page
-    world.shared_global_methods.complete_dfe_signin_as("proc ops", "dev")
+    defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: true) do
+      cms_login_page_comps.button_signin.click
+      # Navigates user through the DfE sign-in flow to the "My Cases" page
+      world.shared_global_methods.complete_dfe_signin_as("proc ops", "dev")
 
-    # Complete the login process > my cases
-    expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
-    expect(cms_mycases_page_comps.text_page_heading.text).to include("My cases")
+      # Complete the login process and lands on my cases
+      expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
+      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 2)
 
-    puts "[INFO] Successfully signed in as Proc Ops Admin user"
+      puts "[INFO] Successfully signed in as Proc Ops Admin user"
+    end
   end
 
   def continue_as_signed_in_user_to_which_school
@@ -65,5 +67,30 @@ class CmsSignInFlowMethods < CmsBasePage
     energy_before_you_start_comps.button_continue.click
     expect(page).to have_current_path(%r{/which-school-buying-for}, url: true, wait: 2)
     expect(energy_which_school_buying_for_comps.text_page_heading.text).to include("Which school are you buying for?")
+  end
+
+private
+
+  def defensive_login_retry(max_attempts: 3, sleep_s: 2, reset_between: true)
+    attempts = 0
+
+    begin
+      attempts += 1
+      yield
+      true
+    rescue Selenium::WebDriver::Error::UnknownError,
+           Selenium::WebDriver::Error::StaleElementReferenceError,
+           RSpec::Expectations::ExpectationNotMetError,
+           Capybara::ExpectationNotMet => e
+
+      raise if attempts >= max_attempts
+
+      msg = e.message.to_s
+      puts "[WARN] Login retry (attempt #{attempts}/#{max_attempts}) after error: #{msg.lines.first.strip}"
+
+      reset_session! if reset_between
+      sleep sleep_s
+      retry
+    end
   end
 end

@@ -42,6 +42,7 @@ require "pages/fabs/contentful/contentful_edit_solution_methods"
 require "pages/fabs/contentful/contentful_api_methods"
 require "pages/cms/management/cms_management_sync_frameworks_methods"
 require "pages/cms/cms_frameworks_methods"
+require "pages/cms/cms_role_based_access_methods"
 
 module Pages
   def resolved_world
@@ -172,7 +173,7 @@ module Pages
 
   ##### CMS PAGES #####
   def cms_signin_flow_methods
-    @cms_signin_flow_methods ||= CmsSignInFlowMethods.new(resolved_world)
+    @cms_signin_flow_methods ||= CmsSigninFlowMethods.new(resolved_world)
   end
 
   def cms_top_nav_methods
@@ -219,6 +220,10 @@ module Pages
 
   def cms_frameworks_methods
     @cms_frameworks_methods ||= CmsFrameworksMethods.new(resolved_world)
+  end
+
+  def cms_role_based_access_methods
+    @cms_role_based_access_methods ||= CmsRoleBasedAccessMethods.new(resolved_world)
   end
 
   ##### SHARED PAGES #####

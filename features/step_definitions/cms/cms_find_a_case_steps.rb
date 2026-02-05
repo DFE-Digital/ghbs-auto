@@ -12,9 +12,9 @@ Given(/^we find and open the first in flight case we come across for "([^"]*)"$/
   cms_find_a_case_methods.open_first_active_status_result_with_case_number_for_current_user
 end
 
-Given(/^we find and search for any cases for "([^"]*)"$/) do |org_name|
+Given(/^we find and search for any cases for "([^"]*)"$/) do |search_term|
   cms_top_nav_methods.nav_to_find_a_case_screen
-  cms_find_a_case_methods.search_for_case(org_name)
+  cms_find_a_case_methods.search_for_case(search_term)
 end
 
 When(/^we set the filter status to be "([^"]*)"$/) do |option|

@@ -11,3 +11,7 @@ Given(/^we open and login to the proc ops CMS screens as an admin in the dev env
   cms_signin_flow_methods.validate_cms_homepage_loaded
   cms_signin_flow_methods.continue_and_complete_dfe_signin_as_proc_ops_admin
 end
+
+And(/^we log out and log back in as our "([^"]*)"$/) do |arg|
+  pending
+end

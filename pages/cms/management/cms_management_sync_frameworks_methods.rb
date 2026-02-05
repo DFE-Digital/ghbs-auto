@@ -10,7 +10,7 @@ class CmsManagementSyncFrameworksMethods < CmsBasePage
   include ValidationHelpers
 
   def run_the_sync_job
-    # Navigate  to the Management section
+    # Navigate to the Management section
     cms_top_nav_comps.link_management.click
     expect(page).to have_current_path(%r{/support/management}, url: true, wait: 10)
     expect(cms_management_comps.text_page_heading.text).to include("CMS Management")
