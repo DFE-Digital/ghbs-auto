@@ -94,7 +94,7 @@ GEM
     diff-lcs (1.6.2)
     drb (2.2.3)
     dumb_delegator (1.1.0)
-    faraday (2.14.0)
+    faraday (2.14.1)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
@@ -105,7 +105,7 @@ GEM
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     ice_nine (0.11.2)
-    json (2.13.2)
+    json (2.18.1)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
     logger (1.7.0)
@@ -204,7 +204,7 @@ GEM
     unicode-display_width (3.1.5)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
-    uri (1.0.3)
+    uri (1.1.1)
     virtus (2.0.0)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -224,7 +224,7 @@ DEPENDENCIES
   axe-core-rspec (~> 4.10)
   capybara
   cucumber
-  faraday (~> 2.9)
+  faraday (~> 2.14)
   rspec
   rubocop-govuk
   selenium-webdriver
