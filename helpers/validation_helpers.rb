@@ -21,7 +21,6 @@ module ValidationHelpers
   end
 
   def element_present?(xpath, **options)
-    puts "Selector is: #{xpath.inspect} (#{xpath.class})"
     page.has_selector?(:xpath, xpath, **options.merge(wait: 0))
   end
 end

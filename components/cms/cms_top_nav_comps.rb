@@ -3,12 +3,20 @@
 class CmsTopNavComps
   include Capybara::DSL
 
+  def xpath_link_notifications
+    "//nav[@aria-label='Menu']//a[text()='Notifications']"
+  end
+
   def link_notifications
-    find(:xpath, "//nav[@aria-label='Menu']//a[text()='Notifications']")
+    find(:xpath, xpath_link_notifications)
+  end
+
+  def xpath_link_case_statistics
+    "//nav[@aria-label='Menu']//a[text()='Case Statistics']"
   end
 
   def link_case_statistics
-    find(:xpath, "//nav[@aria-label='Menu']//a[text()='Case Statistics']")
+    find(:xpath, xpath_link_case_statistics)
   end
 
   def link_management

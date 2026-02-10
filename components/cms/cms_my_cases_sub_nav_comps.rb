@@ -70,5 +70,4 @@ class CmsMyCasesSubNavComps
   def link_all_cases
     find(:xpath, xpath_link_all_cases)
   end
-
 end

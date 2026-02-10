@@ -6,6 +6,7 @@ require "pages/cms/cms_top_nav_methods"
 require "components/cms/management/cms_management_comps"
 require "components/cms/management/cms_agents_list_comps"
 require "components/cms/management/cms_agents_edit_agent_comps"
+require "components/cms/cms_case_statistics_comps"
 require "components/cms/cms_top_nav_comps"
 require "components/cms/cms_my_cases_sub_nav_comps"
 require "helpers/validation_helpers"
@@ -56,8 +57,19 @@ class CmsRoleBasedAccessMethods < CmsBasePage
         sub_nav_new_cases: true,
         sub_nav_all_cases: true
       )
+
       # Area: Notifications
+      section_validation_notification_tab(
+        notification: true
+      )
+
       # Area: Case Statistics
+      section_case_statistics_tabs(
+        main_case_statistics: true,
+        overview_by_person: true,
+        overview_by_stage: true,
+        overview_by_category: true
+      )
       # Area: Management > Configuration
       # Area: Management > Tasks
       # Area: Email Templates
@@ -139,6 +151,33 @@ private
     expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_triage)).to be(sub_nav_triage)
     expect(element_present?(cms_my_cases_sub_nav_comps.xpath_new_cases)).to be(sub_nav_new_cases)
     expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_all_cases)).to be(sub_nav_all_cases)
+  end
+
+  def section_validation_notification_tab(
+    notification: false
+  )
+    expect(element_present?(cms_top_nav_comps.xpath_link_my_cases)).to be(notification)
+  end
+
+  def section_case_statistics_tabs(
+    main_case_statistics: false,
+    overview_by_person: false,
+    overview_by_stage: false,
+    overview_by_category: false
+  )
+    expect(element_present?(cms_top_nav_comps.xpath_link_case_statistics)).to be(main_case_statistics)
+
+    if main_case_statistics
+      # If they have true on main_case_statistics then they will probably need to validate the rest so we need to nav there too
+      cms_top_nav_comps.link_case_statistics.click
+      expect(page).to have_current_path(%r{/support/case_statistics#stats-by-person}, url: true, wait: 20)
+      expect(cms_case_statistics_comps.text_page_heading.text).to include("Case statistics")
+
+      # Validate the Case Statistics page tabs
+      expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_person)).to be(overview_by_person)
+      expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_stage)).to be(overview_by_stage)
+      expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_category)).to be(overview_by_category)
+    end
   end
 
   def reset_all_checkboxes

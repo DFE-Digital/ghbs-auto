@@ -6,6 +6,7 @@ require "components/cms/cms_top_nav_comps"
 require "components/cms/cms_my_cases_sub_nav_comps"
 require "components/cms/find_a_case/cms_find_a_case_page_comps"
 require "components/cms/cms_notifications_page_comps"
+require "components/cms/cms_case_statistics_comps"
 require "components/cms/find_a_case/cms_search_results_page_comps"
 require "components/cms/case/cms_single_case_view_page_comps"
 require "components/cms/case/actions/cms_single_case_resolve_case_page_comps"
@@ -54,6 +55,7 @@ module SharedCmsComps
   def cms_find_a_case_page_comps = @cms_find_a_case_page_comps ||= CmsFindACasePageComps.new
   def cms_notifications_page_comps = @cms_notifications_page_comps ||= CmsNotificationsPageComps.new
   def cms_search_results_page_comps = @cms_search_results_page_comps ||= CmsSearchResultsPageComps.new
+  def cms_case_statistics_comps = @cms_case_statistics_comps ||= CmsCaseStatisticsComps.new
 
   # Single Case Actions
   def cms_single_case_view_page_comps = @cms_single_case_view_page_comps ||= CmsSingleCaseViewPageComps.new
