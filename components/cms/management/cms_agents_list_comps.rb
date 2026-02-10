@@ -7,12 +7,20 @@ class CmsAgentsListComps
     find(:xpath, "//h1")
   end
 
+  def xpath_link_current_staff
+    "//a[contains(.,'Current staff')]"
+  end
+
   def link_current_staff
-    find(:xpath, "//a[contains(.,'Current staff')]")
+    find(:xpath, xpath_link_current_staff)
+  end
+
+  def xpath_link_former_staff
+    "//a[contains(.,'Former staff')]"
   end
 
   def link_former_staff
-    find(:xpath, "//a[contains(.,'Former staff')]")
+    find(:xpath, xpath_link_former_staff)
   end
 
   def link_edit_by_name(agent_name)

@@ -85,12 +85,20 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
       # Area: Management > Configuration > Agents
+      section_validation_management_tab(
+        management: true
+      )
+
+      validate_agents_home_tabs(
+        current_staff_tab: true,
+        former_staff_tab: true
+      )
+
       # Area: Management > Configuration > Categories
       # Area: Management > Configuration > Email templates
       # Area: Management > Configuration > Energy for Schools
-
-
-      # Area: Management > Tasks
+      # Area: Management > Tasks Synchronise frameworks
+      # Area: Management > Tasks All Cases Survey
       # Area: Email Templates
       # Area: Find a case
       # Area: Frameworks
@@ -225,6 +233,19 @@ private
     expect(element_present?(cms_management_comps.xpath_link_config_energy_for_schools)).to be(config_energy_for_schools)
     expect(element_present?(cms_management_comps.xpath_link_tasks_sync_frameworks)).to be(tasks_synchronise_frameworks)
     expect(element_present?(cms_management_comps.xpath_link_tasks_sync_all_case_survey)).to be(tasks_all_cases_survey)
+  end
+
+  def validate_agents_home_tabs(
+    current_staff_tab: false,
+    former_staff_tab: false
+  )
+    # Open Agents Screen
+    cms_management_comps.link_config_agents.click
+    expect(page).to have_current_path(%r{/support/management/agents#current-accounts}, url: true, wait: 20)
+    expect(cms_agents_list_comps.text_page_heading.text).to include("Agents")
+
+    expect(element_present?(cms_agents_list_comps.xpath_link_current_staff)).to be(current_staff_tab)
+    expect(element_present?(cms_agents_list_comps.xpath_link_former_staff)).to be(former_staff_tab)
   end
 
   def reset_all_checkboxes

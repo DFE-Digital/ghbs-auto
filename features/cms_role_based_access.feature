@@ -22,6 +22,9 @@ Feature: GHBS - CMS - Role Based Access
       # | rba_test_user_login  | CEC Staff Member                     |
       # | rba_test_user_login  | CEC Admin                            |
 
+  # Scenario Outline: ES-1120-2 - CMS - RBA - Agents View
+  # Scenario Outline: ES-1120-3 - CMS - RBA - Agents View
+
 
   # Note: The key areas this test will focus on are shown below:
       # Area: My Cases
