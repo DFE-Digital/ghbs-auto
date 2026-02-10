@@ -10,6 +10,8 @@ require "components/cms/management/cms_man_categories_list_comps"
 require "components/cms/management/cms_man_email_templates_list_comps"
 require "components/cms/management/cms_man_email_templates_edit_comps"
 require "components/cms/management/cms_man_energy_for_schools_configure_email_comps"
+require "components/cms/management/cms_man_sync_framework_comps"
+require "components/cms/management/cms_man_all_cases_survey_comps"
 require "components/cms/cms_case_statistics_comps"
 require "components/cms/cms_top_nav_comps"
 require "components/cms/cms_my_cases_sub_nav_comps"
@@ -63,9 +65,8 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
       # Area: Notifications
-      section_validation_notification_tab(
-        notification: true
-      )
+      section_validation_management_tab(management: true)
+
 
       # Area: Case Statistics
       section_case_statistics_tabs(
@@ -75,9 +76,8 @@ class CmsRoleBasedAccessMethods < CmsBasePage
         overview_by_category: true
       )
       # Area: Management > Configuration
-      section_validation_management_tab(
-        management: true
-      )
+      section_validation_management_tab(management: true)
+
 
       validate_management_home(
         config_agents: true,
@@ -89,9 +89,7 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
       # Area: Management > Configuration > Agents
-      section_validation_management_tab(
-        management: true
-      )
+      section_validation_management_tab(management: true)
 
       validate_agents_home_tabs(
         current_staff_tab: true,
@@ -99,37 +97,25 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
       # Area: Management > Configuration > Categories
-      section_validation_management_tab(
-        management: true
-      )
-
-      validate_categories_screen(
-        category: true
-      )
+      section_validation_management_tab(management: true)
+      validate_categories_screen(category: true)
 
       # Area: Management > Configuration > Email templates
-      section_validation_management_tab(
-        management: true
-      )
-
-      validate_email_templates_screens(
-        email_templates: true
-      )
+      section_validation_management_tab(management: true)
+      validate_email_templates_screens(email_templates: true)
 
       # Area: Management > Configuration > Energy for Schools
-      # Covered in : validate_management_home check.
+      section_validation_management_tab(management: true)
+      validate_energy_for_schools_screen(energy_for_schools_page: true)
 
       # Area: Management > Tasks Synchronise frameworks
+      section_validation_management_tab(management: true)
+      validate_sycn_framework_screen(sync_frameworks_page: true)
 
       # Area: Management > Tasks All Cases Survey
+      section_validation_management_tab(management: true)
+      validate_all_cases_survey_screen(all_surveys_page: true)
 
-
-      # Area: Management > Configuration > Energy for Schools
-
-
-
-      # Area: Management > Tasks Synchronise frameworks
-      # Area: Management > Tasks All Cases Survey
       # Area: Email Templates
       # Area: Find a case
       # Area: Frameworks
@@ -299,6 +285,39 @@ private
     cms_management_comps.link_config_email_templates.click
     expect(page).to have_current_path(%r{/support/management/email_templates}, url: true, wait: 20)
     expect(cms_man_email_templates_list_comps.text_page_heading.text).to include("Email templates")
+  end
+
+  def validate_energy_for_schools_screen(
+    energy_for_schools_page: false
+  )
+    expect(element_present?(cms_management_comps.xpath_link_config_energy_for_schools)).to be(energy_for_schools_page)
+
+    # Open Email Screen
+    cms_management_comps.link_config_energy_for_schools.click
+    expect(page).to have_current_path(%r{/support/management/energy_for_schools}, url: true, wait: 20)
+    expect(cms_man_energy_for_schools_configure_email_comps.text_page_heading.text).to include("Energy for Schools")
+  end
+
+  def validate_sycn_framework_screen(
+    sync_frameworks_page: false
+  )
+    expect(element_present?(cms_management_comps.xpath_link_tasks_sync_frameworks)).to be(sync_frameworks_page)
+
+    # Open Email Screen
+    cms_management_comps.link_tasks_sync_frameworks.click
+    expect(page).to have_current_path(%r{/support/management/sync_frameworks}, url: true, wait: 20)
+    expect(cms_man_sync_framework_comps.text_page_heading.text).to include("Synchronise frameworks")
+  end
+
+  def validate_all_cases_survey_screen(
+    all_surveys_page: false
+  )
+    expect(element_present?(cms_management_comps.xpath_link_tasks_sync_all_case_survey)).to be(all_surveys_page)
+
+    # Open Email Screen
+    cms_management_comps.link_tasks_sync_all_case_survey.click
+    expect(page).to have_current_path(%r{/support/management/all_cases_surveys}, url: true, wait: 20)
+    expect(cms_man_all_cases_survey_comps.text_page_heading.text).to include("Eligible cases")
   end
 
   def reset_all_checkboxes

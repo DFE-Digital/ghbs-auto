@@ -46,6 +46,7 @@ require "components/cms/management/cms_man_categories_list_comps"
 require "components/cms/management/cms_man_email_templates_list_comps"
 require "components/cms/management/cms_man_email_templates_edit_comps"
 require "components/cms/management/cms_man_energy_for_schools_configure_email_comps"
+require "components/cms/management/cms_man_all_cases_survey_comps"
 require "components/cms/frameworks/cms_frameworks_register_comps"
 require "components/cms/frameworks/cms_frameworks_individual_framework_comps"
 require "components/cms/frameworks/cms_frameworks_individual_fw_categories_comps"
@@ -111,7 +112,7 @@ module SharedCmsComps
 
   # Management
   def cms_management_comps = @cms_management_comps ||= CmsManagementComps.new
-  def cms_management_sync_framework_comps = @cms_management_sync_framework_comps ||= CmsManSyncFrameworkComps.new
+  def cms_man_sync_framework_comps = @cms_man_sync_framework_comps ||= CmsManSyncFrameworkComps.new
   def cms_frameworks_individual_fw_categories_comps = @cms_frameworks_individual_fw_categories_comps ||= CmsFrameworksIndividualFwCategoriesComps.new
   def cms_agents_edit_agent_comps = @cms_agents_edit_agent_comps ||= CmsManAgentsEditAgentComps.new
   def cms_agents_list_comps = @cms_agents_list_comps ||= CmsManAgentsListComps.new
@@ -119,4 +120,5 @@ module SharedCmsComps
   def cms_man_email_templates_list_comps = @cms_man_email_templates_list_comps ||= CmsManEmailTemplatesListComps.new
   def cms_man_email_templates_edit_comps = @cms_man_email_templates_edit_comps ||= CmsManEmailTemplatesEditComps.new
   def cms_man_energy_for_schools_configure_email_comps = @cms_man_energy_for_schools_configure_email_comps ||= CmsManEnergyForSchoolsConfigureEmailComps.new
+  def cms_man_all_cases_survey_comps = @cms_man_all_cases_survey_comps ||= CmsManAllCasesSurveyComps.new
 end
