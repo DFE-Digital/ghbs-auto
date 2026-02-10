@@ -4,7 +4,7 @@ require "pages/cms/cms_base_page"
 require "helpers/validation_helpers"
 require "components/cms/cms_top_nav_comps"
 require "components/cms/management/cms_management_comps"
-require "components/cms/management/cms_management_sync_framework_comps"
+require "components/cms/management/cms_man_sync_framework_comps"
 
 class CmsManagementSyncFrameworksMethods < CmsBasePage
   include ValidationHelpers

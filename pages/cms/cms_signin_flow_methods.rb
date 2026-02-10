@@ -45,7 +45,11 @@ class CmsSigninFlowMethods < CmsBasePage
   end
 
   def continue_and_complete_dfe_signin_as_proc_ops_admin(user, environment)
-    defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: true) do
+    return_url = page.current_url
+
+    defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: false) do |attempt|
+      restore_start_state(attempt: attempt, return_url: return_url)
+
       cms_login_page_comps.button_signin.click
       # Navigates user through the DfE sign-in flow to the "My Cases" page
       world.shared_global_methods.complete_dfe_signin_as(user, environment)
@@ -55,6 +59,19 @@ class CmsSigninFlowMethods < CmsBasePage
       wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 2)
 
       puts "[INFO] Successfully signed in as Proc Ops Admin user"
+    end
+  end
+
+  def restore_start_state(attempt:, return_url:)
+    return if attempt == 1
+
+    puts "[INFO] Restoring start state (attempt #{attempt})"
+
+    if attempt == 2
+      page.refresh
+    else
+      Capybara.reset_sessions!
+      visit return_url
     end
   end
 
@@ -78,26 +95,41 @@ class CmsSigninFlowMethods < CmsBasePage
 
 private
 
-  def defensive_login_retry(max_attempts: 3, sleep_s: 2, reset_between: true)
-    attempts = 0
+  def defensive_login_retry(max_attempts:, sleep_s:, reset_between: false)
+    attempt = 0
+    last_error = nil
 
-    begin
-      attempts += 1
-      yield
-      true
-    rescue Selenium::WebDriver::Error::UnknownError,
-           Selenium::WebDriver::Error::StaleElementReferenceError,
-           RSpec::Expectations::ExpectationNotMetError,
-           Capybara::ExpectationNotMet => e
+    while attempt < max_attempts
+      attempt += 1
 
-      raise if attempts >= max_attempts
+      begin
+        yield
+        return # success
+      rescue Selenium::WebDriver::Error::UnknownError,
+             Selenium::WebDriver::Error::StaleElementReferenceError,
+             Selenium::WebDriver::Error::InvalidSessionIdError,
+             Capybara::ElementNotFound,
+             Capybara::ExpectationNotMet => e
 
-      msg = e.message.to_s
-      puts "[WARN] Login retry (attempt #{attempts}/#{max_attempts}) after error: #{msg.lines.first.strip}"
+        last_error = e
+        puts "[WARN] Login retry (attempt #{attempt}/#{max_attempts}) after error: #{e.class}: #{e.message}"
 
-      reset_session! if reset_between
-      sleep sleep_s
-      retry
+        # if we've used up our attempts, re-raise with original error
+        raise if attempt >= max_attempts
+
+        if reset_between
+          begin
+            Capybara.reset_sessions!
+          rescue StandardError => reset_err
+            puts "[WARN] Capybara.reset_sessions! raised #{reset_err.class}: #{reset_err.message}"
+          end
+        end
+
+        sleep sleep_s
+        next
+      end
     end
+
+    raise last_error if last_error
   end
 end

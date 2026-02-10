@@ -4,8 +4,12 @@ require "pages/shared/shared_global_methods"
 require "pages/cms/cms_base_page"
 require "pages/cms/cms_top_nav_methods"
 require "components/cms/management/cms_management_comps"
-require "components/cms/management/cms_agents_list_comps"
-require "components/cms/management/cms_agents_edit_agent_comps"
+require "components/cms/management/cms_man_agents_list_comps"
+require "components/cms/management/cms_man_agents_edit_agent_comps"
+require "components/cms/management/cms_man_categories_list_comps"
+require "components/cms/management/cms_man_email_templates_list_comps"
+require "components/cms/management/cms_man_email_templates_edit_comps"
+require "components/cms/management/cms_man_energy_for_schools_configure_email_comps"
 require "components/cms/cms_case_statistics_comps"
 require "components/cms/cms_top_nav_comps"
 require "components/cms/cms_my_cases_sub_nav_comps"
@@ -95,8 +99,35 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
       # Area: Management > Configuration > Categories
+      section_validation_management_tab(
+        management: true
+      )
+
+      validate_categories_screen(
+        category: true
+      )
+
       # Area: Management > Configuration > Email templates
+      section_validation_management_tab(
+        management: true
+      )
+
+      validate_email_templates_screens(
+        email_templates: true
+      )
+
       # Area: Management > Configuration > Energy for Schools
+      # Covered in : validate_management_home check.
+
+      # Area: Management > Tasks Synchronise frameworks
+
+      # Area: Management > Tasks All Cases Survey
+
+
+      # Area: Management > Configuration > Energy for Schools
+
+
+
       # Area: Management > Tasks Synchronise frameworks
       # Area: Management > Tasks All Cases Survey
       # Area: Email Templates
@@ -246,6 +277,28 @@ private
 
     expect(element_present?(cms_agents_list_comps.xpath_link_current_staff)).to be(current_staff_tab)
     expect(element_present?(cms_agents_list_comps.xpath_link_former_staff)).to be(former_staff_tab)
+  end
+
+  def validate_categories_screen(
+    category: false
+  )
+    expect(element_present?(cms_management_comps.xpath_link_config_categories)).to be(category)
+
+    # Open Email Screen
+    cms_management_comps.link_config_categories.click
+    expect(page).to have_current_path(%r{/support/management/categories}, url: true, wait: 20)
+    expect(cms_man_categories_list_comps.text_page_heading.text).to include("Categories")
+  end
+
+  def validate_email_templates_screens(
+    email_templates: false
+  )
+    expect(element_present?(cms_management_comps.xpath_link_config_email_templates)).to be(email_templates)
+
+    # Open Email Screen
+    cms_management_comps.link_config_email_templates.click
+    expect(page).to have_current_path(%r{/support/management/email_templates}, url: true, wait: 20)
+    expect(cms_man_email_templates_list_comps.text_page_heading.text).to include("Email templates")
   end
 
   def reset_all_checkboxes
