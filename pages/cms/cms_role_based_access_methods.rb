@@ -15,6 +15,11 @@ require "components/cms/management/cms_man_all_cases_survey_comps"
 require "components/cms/cms_case_statistics_comps"
 require "components/cms/cms_top_nav_comps"
 require "components/cms/cms_my_cases_sub_nav_comps"
+require "components/cms/find_a_case/cms_find_a_case_page_comps"
+require "components/cms/cms_mycases_page_comps"
+require "components/cms/cms_notifications_page_comps"
+require "components/cms/frameworks/cms_frameworks_register_comps"
+require "components/cms/frameworks/cms_frameworks_register_nav_comps"
 require "helpers/validation_helpers"
 
 class CmsRoleBasedAccessMethods < CmsBasePage
@@ -65,21 +70,19 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
       # Area: Notifications
-      section_validation_management_tab(management: true)
-
+      section_validation_management_tab(management_page: true)
 
       # Area: Case Statistics
       section_case_statistics_tabs(
         main_case_statistics: true,
-        overview_by_person: true,
-        overview_by_stage: true,
-        overview_by_category: true
+        overview_by_person_tab: true,
+        overview_by_stage_tab: true,
+        overview_by_category_tab: true
       )
       # Area: Management > Configuration
-      section_validation_management_tab(management: true)
+      section_validation_management_tab(management_page: true)
 
-
-      validate_management_home(
+      validate_management_home_page(
         config_agents: true,
         config_categories: true,
         config_email_templates: true,
@@ -89,36 +92,46 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
       # Area: Management > Configuration > Agents
-      section_validation_management_tab(management: true)
+      section_validation_management_tab(management_page: true)
 
-      validate_agents_home_tabs(
+      validate_agents_home_page(
         current_staff_tab: true,
         former_staff_tab: true
       )
 
       # Area: Management > Configuration > Categories
-      section_validation_management_tab(management: true)
-      validate_categories_screen(category: true)
+      section_validation_management_tab(management_page: true)
+      validate_categories_page(category: true)
 
       # Area: Management > Configuration > Email templates
-      section_validation_management_tab(management: true)
-      validate_email_templates_screens(email_templates: true)
+      section_validation_management_tab(management_page: true)
+      validate_email_templates_page(email_templates: true)
 
       # Area: Management > Configuration > Energy for Schools
-      section_validation_management_tab(management: true)
-      validate_energy_for_schools_screen(energy_for_schools_page: true)
+      section_validation_management_tab(management_page: true)
+      validate_energy_for_schools_page(energy_for_schools_page: true)
 
       # Area: Management > Tasks Synchronise frameworks
-      section_validation_management_tab(management: true)
-      validate_sycn_framework_screen(sync_frameworks_page: true)
+      section_validation_management_tab(management_page: true)
+      validate_sycn_framework_page(sync_frameworks_page: true)
 
       # Area: Management > Tasks All Cases Survey
-      section_validation_management_tab(management: true)
-      validate_all_cases_survey_screen(all_surveys_page: true)
+      section_validation_management_tab(management_page: true)
+      validate_all_cases_survey_page(all_surveys_page: true)
 
-      # Area: Email Templates
       # Area: Find a case
+      validate_find_a_case_page(top_nav_find_a_case_tab: true)
+
       # Area: Frameworks
+      validate_frameworks_page(
+        top_nav_frameworks_tab: true,
+        sub_frameworks_register: true,
+        sub_framework_evaluations: true,
+        sub_provider_contacts: true,
+        sub_providers: true
+      )
+
+      # Area: Frameworks Management
 
     when "Procurement Operations Admin"
       # Area: My Cases
@@ -186,57 +199,77 @@ private
     sub_nav_new_cases: false,
     sub_nav_all_cases: false
   )
+    # Validate the top page link
     expect(element_present?(cms_top_nav_comps.xpath_link_my_cases)).to be(top_nav_my_cases)
-    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_my_cases)).to be(sub_nav_my_cases)
-    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_fm)).to be(sub_nav_fm)
-    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_ict)).to be(sub_nav_ict)
-    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_energy)).to be(sub_nav_energy)
-    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_services)).to be(sub_nav_services)
-    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_triage)).to be(sub_nav_triage)
-    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_new_cases)).to be(sub_nav_new_cases)
-    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_all_cases)).to be(sub_nav_all_cases)
+
+    if top_nav_my_cases
+      # Nav to my cases screen
+      cms_top_nav_comps.link_my_cases.click
+      expect(page).to have_current_path(%r{cases#my-cases}, url: true, wait: 20)
+      expect(cms_mycases_page_comps.text_page_heading.text).to include("My cases")
+
+      # Validate the remaining tabs that are only visible of you have the my cases screen
+      expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_my_cases)).to be(sub_nav_my_cases)
+      expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_fm)).to be(sub_nav_fm)
+      expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_ict)).to be(sub_nav_ict)
+      expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_energy)).to be(sub_nav_energy)
+      expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_services)).to be(sub_nav_services)
+      expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_triage)).to be(sub_nav_triage)
+      expect(element_present?(cms_my_cases_sub_nav_comps.xpath_new_cases)).to be(sub_nav_new_cases)
+      expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_all_cases)).to be(sub_nav_all_cases)
+    end
   end
 
   def section_validation_notification_tab(
     notification: false
   )
+    # Validate the top page link
     expect(element_present?(cms_top_nav_comps.xpath_link_my_cases)).to be(notification)
+
+    if notification
+      # Nav to my notification screen
+      cms_top_nav_comps.link_my_cases.click
+      expect(page).to have_current_path(%r{support/notifications}, url: true, wait: 20)
+      expect(cms_notifications_page_comps.text_page_heading.text).to include("Notifications")
+    end
   end
 
   def section_case_statistics_tabs(
     main_case_statistics: false,
-    overview_by_person: false,
-    overview_by_stage: false,
-    overview_by_category: false
+    overview_by_person_tab: false,
+    overview_by_stage_tab: false,
+    overview_by_category_tab: false
   )
+    # Validate the top page link
     expect(element_present?(cms_top_nav_comps.xpath_link_case_statistics)).to be(main_case_statistics)
 
     if main_case_statistics
-      # If they have true on main_case_statistics then they will probably need to validate the rest so we need to nav there too
+      # Nav to my case statistics screen
       cms_top_nav_comps.link_case_statistics.click
       expect(page).to have_current_path(%r{/support/case_statistics#stats-by-person}, url: true, wait: 20)
       expect(cms_case_statistics_comps.text_page_heading.text).to include("Case statistics")
 
       # Validate the Case Statistics page tabs
-      expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_person)).to be(overview_by_person)
-      expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_stage)).to be(overview_by_stage)
-      expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_category)).to be(overview_by_category)
+      expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_person)).to be(overview_by_person_tab)
+      expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_stage)).to be(overview_by_stage_tab)
+      expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_category)).to be(overview_by_category_tab)
     end
   end
 
   def section_validation_management_tab(
-    management: false
+    management_page: false
   )
-    expect(element_present?(cms_top_nav_comps.xpath_link_management)).to be(management)
-    if management
-      # If they have true on management then they will probably need to validate the rest so we need to nav there too
+    # Validate the top page link
+    expect(element_present?(cms_top_nav_comps.xpath_link_management)).to be(management_page)
+    if management_page
+      # Validate the top level management tab
       cms_top_nav_comps.link_management.click
       expect(page).to have_current_path(%r{/support/management}, url: true, wait: 20)
       expect(cms_management_comps.text_page_heading.text).to include("CMS Management")
     end
   end
 
-  def validate_management_home(
+  def validate_management_home_page(
     config_agents: false,
     config_categories: false,
     config_email_templates: false,
@@ -252,7 +285,7 @@ private
     expect(element_present?(cms_management_comps.xpath_link_tasks_sync_all_case_survey)).to be(tasks_all_cases_survey)
   end
 
-  def validate_agents_home_tabs(
+  def validate_agents_home_page(
     current_staff_tab: false,
     former_staff_tab: false
   )
@@ -265,59 +298,95 @@ private
     expect(element_present?(cms_agents_list_comps.xpath_link_former_staff)).to be(former_staff_tab)
   end
 
-  def validate_categories_screen(
+  def validate_categories_page(
     category: false
   )
     expect(element_present?(cms_management_comps.xpath_link_config_categories)).to be(category)
 
-    # Open Email Screen
+    # Open Categories screen
     cms_management_comps.link_config_categories.click
     expect(page).to have_current_path(%r{/support/management/categories}, url: true, wait: 20)
     expect(cms_man_categories_list_comps.text_page_heading.text).to include("Categories")
   end
 
-  def validate_email_templates_screens(
+  def validate_email_templates_page(
     email_templates: false
   )
     expect(element_present?(cms_management_comps.xpath_link_config_email_templates)).to be(email_templates)
 
-    # Open Email Screen
+    # Open Email Templates screen
     cms_management_comps.link_config_email_templates.click
     expect(page).to have_current_path(%r{/support/management/email_templates}, url: true, wait: 20)
     expect(cms_man_email_templates_list_comps.text_page_heading.text).to include("Email templates")
   end
 
-  def validate_energy_for_schools_screen(
+  def validate_energy_for_schools_page(
     energy_for_schools_page: false
   )
     expect(element_present?(cms_management_comps.xpath_link_config_energy_for_schools)).to be(energy_for_schools_page)
 
-    # Open Email Screen
+    # Open Energy for schools screen
     cms_management_comps.link_config_energy_for_schools.click
     expect(page).to have_current_path(%r{/support/management/energy_for_schools}, url: true, wait: 20)
     expect(cms_man_energy_for_schools_configure_email_comps.text_page_heading.text).to include("Energy for Schools")
   end
 
-  def validate_sycn_framework_screen(
+  def validate_sycn_framework_page(
     sync_frameworks_page: false
   )
     expect(element_present?(cms_management_comps.xpath_link_tasks_sync_frameworks)).to be(sync_frameworks_page)
 
-    # Open Email Screen
+    # Open Sync Frameworks screen
     cms_management_comps.link_tasks_sync_frameworks.click
     expect(page).to have_current_path(%r{/support/management/sync_frameworks}, url: true, wait: 20)
     expect(cms_man_sync_framework_comps.text_page_heading.text).to include("Synchronise frameworks")
   end
 
-  def validate_all_cases_survey_screen(
+  def validate_all_cases_survey_page(
     all_surveys_page: false
   )
     expect(element_present?(cms_management_comps.xpath_link_tasks_sync_all_case_survey)).to be(all_surveys_page)
 
-    # Open Email Screen
+    # Open All cases survey screen
     cms_management_comps.link_tasks_sync_all_case_survey.click
     expect(page).to have_current_path(%r{/support/management/all_cases_surveys}, url: true, wait: 20)
     expect(cms_man_all_cases_survey_comps.text_page_heading.text).to include("Eligible cases")
+  end
+
+  def validate_find_a_case_page(
+    top_nav_find_a_case_tab: false
+  )
+    expect(element_present?(cms_top_nav_comps.xpath_link_find_a_case)).to be(top_nav_find_a_case_tab)
+    if top_nav_find_a_case_tab
+      # Open Find a case screen
+      cms_top_nav_comps.link_find_a_case.click
+      expect(page).to have_current_path(%r{/support/cases/find-a-case/new}, url: true, wait: 20)
+      expect(cms_find_a_case_page_comps.text_page_heading.text).to include("Find a case")
+    end
+  end
+
+  def validate_frameworks_page(
+    top_nav_frameworks_tab: false,
+    sub_frameworks_register: false,
+    sub_framework_evaluations: false,
+    sub_provider_contacts: false,
+    sub_providers: false
+  )
+    # Validate the top page link
+    expect(element_present?(cms_top_nav_comps.xpath_link_frameworks)).to be(top_nav_frameworks_tab)
+
+    if top_nav_frameworks_tab
+      # Open Frameworks screen
+      cms_top_nav_comps.link_frameworks.click
+      expect(page).to have_current_path(%r{/frameworks#frameworks-register}, url: true, wait: 20)
+      expect(cms_frameworks_register_comps.text_page_heading.text).to include("Find a case")
+
+      # Validate the Frameworks page tabs
+      expect(element_present?(cms_frameworks_register_nav_comps.xpath_link_frameworks_register)).to be(sub_frameworks_register)
+      expect(element_present?(cms_frameworks_register_nav_comps.xpath_link_framework_evaluations)).to be(sub_framework_evaluations)
+      expect(element_present?(cms_frameworks_register_nav_comps.xpath_link_provider_contacts)).to be(sub_provider_contacts)
+      expect(element_present?(cms_frameworks_register_nav_comps.xpath_link_providers)).to be(sub_providers)
+    end
   end
 
   def reset_all_checkboxes

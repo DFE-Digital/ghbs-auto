@@ -50,6 +50,7 @@ require "components/cms/management/cms_man_all_cases_survey_comps"
 require "components/cms/frameworks/cms_frameworks_register_comps"
 require "components/cms/frameworks/cms_frameworks_individual_framework_comps"
 require "components/cms/frameworks/cms_frameworks_individual_fw_categories_comps"
+require "components/cms/frameworks/cms_frameworks_register_nav_comps"
 
 module SharedCmsComps
   # Pre Flow pages
@@ -109,11 +110,12 @@ module SharedCmsComps
   # Frameworks
   def cms_frameworks_individual_framework_comps = @cms_frameworks_individual_framework_comps ||= CmsFrameworksIndividualFrameworkComps.new
   def cms_frameworks_register_comps = @cms_frameworks_register_comps ||= CmsFrameworksRegisterComps.new
+  def cms_man_sync_framework_comps = @cms_man_sync_framework_comps ||= CmsManSyncFrameworkComps.new
+  def cms_frameworks_individual_fw_categories_comps = @cms_frameworks_individual_fw_categories_comps ||= CmsFrameworksIndividualFwCategoriesComps.new
+  def cms_frameworks_register_nav_comps = @cms_frameworks_register_nav_comps ||= CmsFrameworksRegisterNavComps.new
 
   # Management
   def cms_management_comps = @cms_management_comps ||= CmsManagementComps.new
-  def cms_man_sync_framework_comps = @cms_man_sync_framework_comps ||= CmsManSyncFrameworkComps.new
-  def cms_frameworks_individual_fw_categories_comps = @cms_frameworks_individual_fw_categories_comps ||= CmsFrameworksIndividualFwCategoriesComps.new
   def cms_agents_edit_agent_comps = @cms_agents_edit_agent_comps ||= CmsManAgentsEditAgentComps.new
   def cms_agents_list_comps = @cms_agents_list_comps ||= CmsManAgentsListComps.new
   def cms_man_categories_list_comps = @cms_man_categories_list_comps ||= CmsManCategoriesListComps.new
