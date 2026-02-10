@@ -4,36 +4,31 @@ Feature: GHBS - CMS - Role Based Access
     Given we open and login to the proc ops CMS screens as an admin in the dev environment
 
   @wip
-  Scenario Outline: ES-1120-1 - CMS - RBA - Procurement Operations Admin
+  Scenario Outline: ES-1120-1 - CMS - RBA - High level functional area access validation
     Given we set our "<TargetUser>" to have Procurement Operations Admin from the Agents screen
     And we log out and log back in as our "<TargetUser>"
-    Then we validate that the Procurement Operations Admin has the correct access
+    Then we validate that the "<Role>" has the correct access within the cms system
     Examples:
-      | TargetUser           |
-      | rba_test_user_login  |
+      | TargetUser           | Role                                 |
+      | rba_test_user_login  | Global Administrator                 |
+      # | rba_test_user_login  | Procurement Operations Admin         |
+      # | rba_test_user_login  | Procurement Operations Staff Member  |
+      # | rba_test_user_login  | Engagement and Outreach Admin        |
+      # | rba_test_user_login  | Engagement and Outreach Staff Member |
+      # | rba_test_user_login  | Digital Team Staff Member            |
+      # | rba_test_user_login  | Data Analyst                         |
+      # | rba_test_user_login  | Framework Evaluator Admin            |
+      # | rba_test_user_login  | Framework Evaluator                  |
+      # | rba_test_user_login  | CEC Staff Member                     |
+      # | rba_test_user_login  | CEC Admin                            |
 
-#  Scenario Outline: ES-1120-2 - CMS - RBA - Procurement Operations Staff Member
-#    Given we are logged in to the CMS system as a "<LoginUser>" user
-#    When we set our "<TargetUser>" to have Procurement Operations Staff Member
-#    And we log out as log back in as our "<TargetUser>"
-#    Then we validate that the Procurement Operations Staff Member has the correct access
-#    Examples:
-#      | LoginUser | TargetUser |
-#
-#  Scenario Outline: ES-1120-3 - CMS - RBA - CEC Staff Member
-#    Given we are logged in to the CMS system as a "<LoginUser>" user
-#    When we set our "<TargetUser>" to have CEC Staff Member
-#    And we log out as log back in as our "<TargetUser>"
-#    Then we validate that the CEC Staff Member has the correct access
-#    Examples:
-#      | LoginUser | TargetUser |
-#
-#  Scenario Outline: ES-1120-4 - CMS - RBA - CEC Admin
-#    Given we are logged in to the CMS system as a "<LoginUser>" user
-#    When we set our "<TargetUser>" to have CEC Admin
-#    And we log out as log back in as our "<TargetUser>"
-#    Then we validate that the CEC Admin has the correct access
-#    Examples:
-#      | LoginUser | TargetUser |
 
-#  Scenario Outline: ES-1120-5 - CMS - RBA - CEC - Only logic check
+  # Note: The key areas this test will focus on are shown below:
+      # Area: My Cases
+      # Area: Notifications
+      # Area: Case Statistics
+      # Area: Management > Configuration
+      # Area: Management > Tasks
+      # Area: Email Templates
+      # Area: Find a case
+      # Area: Frameworks

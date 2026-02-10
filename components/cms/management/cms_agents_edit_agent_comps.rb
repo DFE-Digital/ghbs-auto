@@ -130,5 +130,4 @@ class CmsAgentsEditAgentComps
   def button_cancel
     find(:xpath, "//a[text()='Cancel']", visible: :all)
   end
-
 end

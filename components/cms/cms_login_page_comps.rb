@@ -10,4 +10,8 @@ class CmsLoginPageComps
   def button_signin
     find(:xpath, "//button[normalize-space(text())='Sign in']")
   end
+
+  def text_flash_notice
+    find(:xpath, "//div[@id='flash_notice']")
+  end
 end

@@ -30,6 +30,9 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
                   when "cec"
                     { email: SECRETS["cec_cms_username"],
                       password: SECRETS["cec_cms_password"] }
+                  when "rba_test_user_login"
+                    { email: SECRETS["rba_test_user_login"],
+                      password: SECRETS["rba_test_user_password"] }
                   else
                     raise ArgumentError, "Unknown user type: '#{user}'"
                   end

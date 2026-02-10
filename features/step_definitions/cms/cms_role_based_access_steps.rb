@@ -6,6 +6,6 @@ Given(/^we set our "([^"]*)" to have Procurement Operations Admin from the Agent
   cms_role_based_access_methods.set_single_role_based_permission(target_user, "Procurement Operations Admin")
 end
 
-Then(/^we validate that the Procurement Operations Admin has the correct access$/) do
-  pending
+Then(/^we validate that the "([^"]*)" has the correct access within the cms system$/) do |role|
+  cms_role_based_access_methods.validate_visible_screens_based_on_user_type(role)
 end

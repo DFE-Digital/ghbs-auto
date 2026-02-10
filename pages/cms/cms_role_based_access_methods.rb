@@ -6,6 +6,8 @@ require "pages/cms/cms_top_nav_methods"
 require "components/cms/management/cms_management_comps"
 require "components/cms/management/cms_agents_list_comps"
 require "components/cms/management/cms_agents_edit_agent_comps"
+require "components/cms/cms_top_nav_comps"
+require "components/cms/cms_my_cases_sub_nav_comps"
 require "helpers/validation_helpers"
 
 class CmsRoleBasedAccessMethods < CmsBasePage
@@ -39,7 +41,105 @@ class CmsRoleBasedAccessMethods < CmsBasePage
     validate_value_contains("Procurement Operations Admin", cms_agents_list_comps.text_see_roles_by_name("Auto 3 Test User 3").text)
   end
 
+  def validate_visible_screens_based_on_user_type(role)
+    case role
+    when "Global Administrator"
+      # Area: My Cases
+      section_validation_my_cases_tabs(
+        top_nav_my_cases: true,
+        sub_nav_my_cases: true,
+        sub_nav_fm: true,
+        sub_nav_ict: true,
+        sub_nav_energy: true,
+        sub_nav_services: true,
+        sub_nav_triage: true,
+        sub_nav_new_cases: true,
+        sub_nav_all_cases: true
+      )
+      # Area: Notifications
+      # Area: Case Statistics
+      # Area: Management > Configuration
+      # Area: Management > Tasks
+      # Area: Email Templates
+      # Area: Find a case
+      # Area: Frameworks
+
+    when "Procurement Operations Admin"
+      # Area: My Cases
+      # Area: Notifications
+      # Area: Case Statistics
+      # Area: Management > Configuration
+      # Area: Management > Tasks
+      # Area: Email Templates
+      # Area: Find a case
+      # Area: Frameworks
+
+    when "Procurement Operations Staff Member"
+      # Area: My Cases
+      # Area: Notifications
+      # Area: Case Statistics
+      # Area: Find a case
+      # Area: Frameworks
+
+    when "Engagement and Outreach Admin"
+      # Area: My Cases
+      # Area: Management > Configuration
+
+    when "Engagement and Outreach Staff Member"
+      # Area: My Cases
+
+    when "Digital Team Staff Member"
+      # Area: My Cases
+
+    when "Data Analyst"
+      # Area: Case Statistics
+
+    when "Framework Evaluator Admin"
+      # Area: Frameworks
+
+    when "Framework Evaluator"
+      # Area: Frameworks
+
+    when "CEC Staff Member"
+      # Area: My Cases
+      # Area: Notifications
+      # Area: Find a case
+
+    when "CEC Admin"
+      # Area: My Cases
+      # Area: Notifications
+      # Area: Management > Configuration
+      # Area: Email Templates
+      # Area: Find a case
+
+    else
+      raise ArgumentError, "[FAIL] Role '#{permission}' is not a recognised role in the system"
+    end
+  end
+
 private
+
+  def section_validation_my_cases_tabs(
+    top_nav_my_cases: false,
+    sub_nav_my_cases: false,
+    sub_nav_fm: false,
+    sub_nav_ict: false,
+    sub_nav_energy: false,
+    sub_nav_services: false,
+    sub_nav_triage: false,
+    sub_nav_new_cases: false,
+    sub_nav_all_cases: false
+  )
+    expect(element_present?(cms_top_nav_comps.xpath_link_my_cases)).to be(top_nav_my_cases)
+    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_my_cases)).to be(sub_nav_my_cases)
+    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_fm)).to be(sub_nav_fm)
+    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_ict)).to be(sub_nav_ict)
+    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_energy)).to be(sub_nav_energy)
+    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_services)).to be(sub_nav_services)
+    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_triage)).to be(sub_nav_triage)
+    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_new_cases)).to be(sub_nav_new_cases)
+    expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_all_cases)).to be(sub_nav_all_cases)
+  end
 
   def reset_all_checkboxes
     rba_roles = cms_agents_edit_agent_comps

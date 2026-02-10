@@ -8,6 +8,7 @@ require "components/dfe_signin/dfe_signin_enter_your_password_page_comps"
 require "components/energy/pre_login/energy_start_comps"
 require "components/energy/pre_login/energy_before_you_start_comps"
 require "components/energy/journey_start/energy_which_school_buying_for_comps"
+require "components/cms/cms_top_nav_comps"
 require "helpers/validation_helpers"
 require "components/cms/cms_mycases_page_comps"
 
@@ -26,7 +27,7 @@ class CmsSigninFlowMethods < CmsBasePage
   end
 
   def validate_cms_homepage_loaded
-    expect(page).to have_current_path(%r{/sign-in#my-cases}, url: true, wait: 10)
+    expect(page).to have_current_path(%r{/cms/sign-in}, url: true, wait: 10)
     expect(cms_login_page_comps.text_page_heading.text).to include("Case management system")
   end
 
@@ -43,11 +44,11 @@ class CmsSigninFlowMethods < CmsBasePage
     puts "[INFO] Successfully signed in as CEC Admin user"
   end
 
-  def continue_and_complete_dfe_signin_as_proc_ops_admin
+  def continue_and_complete_dfe_signin_as_proc_ops_admin(user, environment)
     defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: true) do
       cms_login_page_comps.button_signin.click
       # Navigates user through the DfE sign-in flow to the "My Cases" page
-      world.shared_global_methods.complete_dfe_signin_as("proc ops", "dev")
+      world.shared_global_methods.complete_dfe_signin_as(user, environment)
 
       # Complete the login process and lands on my cases
       expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
@@ -67,6 +68,12 @@ class CmsSigninFlowMethods < CmsBasePage
     energy_before_you_start_comps.button_continue.click
     expect(page).to have_current_path(%r{/which-school-buying-for}, url: true, wait: 2)
     expect(energy_which_school_buying_for_comps.text_page_heading.text).to include("Which school are you buying for?")
+  end
+
+  def sign_out_of_cms
+    cms_top_nav_comps.link_sign_out.click
+    expect(page).to have_current_path(%r{/cms/sign-in}, url: true, wait: 2)
+    expect(cms_login_page_comps.text_flash_notice.text).to include("You have been signed out.")
   end
 
 private

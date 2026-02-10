@@ -3,6 +3,7 @@
 require "components/cms/cms_login_page_comps"
 require "components/cms/cms_mycases_page_comps"
 require "components/cms/cms_top_nav_comps"
+require "components/cms/cms_my_cases_sub_nav_comps"
 require "components/cms/find_a_case/cms_find_a_case_page_comps"
 require "components/cms/cms_notifications_page_comps"
 require "components/cms/find_a_case/cms_search_results_page_comps"
@@ -92,6 +93,7 @@ module SharedCmsComps
 
   # Navigation
   def cms_top_nav_comps = @cms_top_nav_comps ||= CmsTopNavComps.new
+  def cms_my_cases_sub_nav_comps = @cms_my_cases_sub_nav_comps ||= CmsMyCasesSubNavComps.new
 
   # Create Case Actions
   def cms_create_a_new_case_comps = @cms_create_a_new_case_comps ||= CmsCreateANewCaseComps.new
