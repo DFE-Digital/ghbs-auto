@@ -71,6 +71,25 @@ class CmsRoleBasedAccessMethods < CmsBasePage
         overview_by_category: true
       )
       # Area: Management > Configuration
+      section_validation_management_tab(
+        management: true
+      )
+
+      validate_management_home(
+        config_agents: true,
+        config_categories: true,
+        config_email_templates: true,
+        config_energy_for_schools: true,
+        tasks_synchronise_frameworks: true,
+        tasks_all_cases_survey: true
+      )
+
+      # Area: Management > Configuration > Agents
+      # Area: Management > Configuration > Categories
+      # Area: Management > Configuration > Email templates
+      # Area: Management > Configuration > Energy for Schools
+
+
       # Area: Management > Tasks
       # Area: Email Templates
       # Area: Find a case
@@ -178,6 +197,34 @@ private
       expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_stage)).to be(overview_by_stage)
       expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_category)).to be(overview_by_category)
     end
+  end
+
+  def section_validation_management_tab(
+    management: false
+  )
+    expect(element_present?(cms_top_nav_comps.xpath_link_management)).to be(management)
+    if management
+      # If they have true on management then they will probably need to validate the rest so we need to nav there too
+      cms_top_nav_comps.link_management.click
+      expect(page).to have_current_path(%r{/support/management}, url: true, wait: 20)
+      expect(cms_management_comps.text_page_heading.text).to include("CMS Management")
+    end
+  end
+
+  def validate_management_home(
+    config_agents: false,
+    config_categories: false,
+    config_email_templates: false,
+    config_energy_for_schools: false,
+    tasks_synchronise_frameworks: false,
+    tasks_all_cases_survey: false
+  )
+    expect(element_present?(cms_management_comps.xpath_link_config_agents)).to be(config_agents)
+    expect(element_present?(cms_management_comps.xpath_link_config_categories)).to be(config_categories)
+    expect(element_present?(cms_management_comps.xpath_link_config_email_templates)).to be(config_email_templates)
+    expect(element_present?(cms_management_comps.xpath_link_config_energy_for_schools)).to be(config_energy_for_schools)
+    expect(element_present?(cms_management_comps.xpath_link_tasks_sync_frameworks)).to be(tasks_synchronise_frameworks)
+    expect(element_present?(cms_management_comps.xpath_link_tasks_sync_all_case_survey)).to be(tasks_all_cases_survey)
   end
 
   def reset_all_checkboxes
