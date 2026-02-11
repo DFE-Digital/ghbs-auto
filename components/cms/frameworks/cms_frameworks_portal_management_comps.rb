@@ -22,5 +22,4 @@ class CmsFrameworksPortalManagementComps
   def link_upload_frameworks_register_xlsx
     find(:xpath, xpath_link_upload_frameworks_register_xlsx)
   end
-
 end
