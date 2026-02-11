@@ -151,20 +151,120 @@ class CmsRoleBasedAccessMethods < CmsBasePage
 
     when "Procurement Operations Admin"
       # Area: My Cases
+      world.cms_rba_my_cases_methods.section_validation_my_cases_tabs(
+        top_nav_my_cases: true,
+        sub_nav_my_cases: true,
+        sub_nav_fm: true,
+        sub_nav_ict: true,
+        sub_nav_energy: true,
+        sub_nav_services: true,
+        sub_nav_triage: true,
+        sub_nav_new_cases: true,
+        sub_nav_all_cases: true
+      )
+
       # Area: Notifications
+      world.cms_rba_notifications_methods.section_validation_notification_tab(notification: true)
+
       # Area: Case Statistics
-      # Area: Management > Configuration
-      # Area: Management > Tasks
-      # Area: Email Templates
+      world.cms_rba_case_statistics_methods.section_case_statistics_tabs(
+        main_case_statistics: true,
+        overview_by_person_tab: true,
+        overview_by_stage_tab: true,
+        overview_by_category_tab: true
+      )
+
+      # Area: Management > Configuration > Agents
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+
+      world.cms_rba_management_methods.validate_agents_home_page(
+        current_staff_tab: true,
+        former_staff_tab: true
+      )
+
+      # Area: Management > Configuration > Categories
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+      world.cms_rba_management_methods.validate_categories_page(category: true)
+
+      # Area: Management > Configuration > Email templates
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+      world.cms_rba_management_methods.validate_email_templates_page(email_templates: true)
+
+      # Area: Management > Configuration > Energy for Schools
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+      world.cms_rba_management_methods.validate_energy_for_schools_page(energy_for_schools_page: true)
+
+      # Area: Management > Tasks Synchronise frameworks
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+      world.cms_rba_management_methods.validate_sycn_framework_page(sync_frameworks_page: true)
+
+      # Area: Management > Tasks All Cases Survey
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+      world.cms_rba_management_methods.validate_all_cases_survey_page(all_surveys_page: true)
+
       # Area: Find a case
+      world.cms_rba_find_a_case_methods.validate_find_a_case_page(top_nav_find_a_case_tab: true)
+
       # Area: Frameworks
+      world.cms_rba_frameworks_methods.validate_frameworks_page(
+        top_nav_frameworks_tab: true,
+        sub_frameworks_register: true,
+        sub_framework_evaluations: true,
+        sub_provider_contacts: true,
+        sub_providers: true
+      )
+
+      # Area: Frameworks Management
+      world.cms_rba_frameworks_methods.validate_frameworks_management(
+        top_nav_framework_management_portal: true,
+        sub_activity_log: false,
+        sub_upload_framework_register_xlsx: false
+      )
 
     when "Procurement Operations Staff Member"
       # Area: My Cases
+      world.cms_rba_my_cases_methods.section_validation_my_cases_tabs(
+        top_nav_my_cases: true,
+        sub_nav_my_cases: true,
+        sub_nav_fm: true,
+        sub_nav_ict: true,
+        sub_nav_energy: true,
+        sub_nav_services: true,
+        sub_nav_triage: true,
+        sub_nav_new_cases: true,
+        sub_nav_all_cases: true
+      )
+
       # Area: Notifications
+      world.cms_rba_notifications_methods.section_validation_notification_tab(notification: true)
+
       # Area: Case Statistics
+      world.cms_rba_case_statistics_methods.section_case_statistics_tabs(
+        main_case_statistics: true,
+        overview_by_person_tab: true,
+        overview_by_stage_tab: true,
+        overview_by_category_tab: true
+      )
+
+      # Area: Management > Configuration > Agents
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: false)
+
       # Area: Find a case
+      world.cms_rba_find_a_case_methods.validate_find_a_case_page(top_nav_find_a_case_tab: true)
+
       # Area: Frameworks
+      world.cms_rba_frameworks_methods.validate_frameworks_page(
+        top_nav_frameworks_tab: true,
+        sub_frameworks_register: true,
+        sub_framework_evaluations: true,
+        sub_provider_contacts: true,
+        sub_providers: true
+      )
+
+      # Area: Frameworks Management
+      world.cms_rba_frameworks_methods.validate_frameworks_management(
+        top_nav_framework_management_portal: false
+      )
 
     when "Engagement and Outreach Admin"
       # Area: My Cases
