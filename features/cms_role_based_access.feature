@@ -5,7 +5,7 @@ Feature: GHBS - CMS - Role Based Access
 
   @wip
   Scenario Outline: ES-1120-1 - CMS - RBA - High level functional area access validation
-    Given we set our "<TargetUser>" to have Procurement Operations Admin from the Agents screen
+    Given we set out "<TargetUser>" to have a role of "<Role>" from the Agents screen
     And we log out and log back in as our "<TargetUser>"
     Then we validate that the "<Role>" has the correct access within the cms system
     Examples:
@@ -23,7 +23,7 @@ Feature: GHBS - CMS - Role Based Access
       # | rba_test_user_login  | CEC Admin                            |
 
   # Scenario Outline: ES-1120-2 - CMS - RBA - Agents View
-  # Scenario Outline: ES-1120-3 - CMS - RBA - Agents View
+  # Scenario Outline: ES-1120-3 - CMS - RBA - Cases View
 
 
   # Note: The key areas this test will focus on are shown below:

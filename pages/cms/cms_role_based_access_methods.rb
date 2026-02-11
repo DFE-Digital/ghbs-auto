@@ -20,6 +20,9 @@ require "components/cms/cms_mycases_page_comps"
 require "components/cms/cms_notifications_page_comps"
 require "components/cms/frameworks/cms_frameworks_register_comps"
 require "components/cms/frameworks/cms_frameworks_register_nav_comps"
+require "components/cms/frameworks/cms_frameworks_portal_management_activity_log_comps"
+require "components/cms/frameworks/cms_frameworks_portal_management_comps"
+require "components/cms/frameworks/cms_frameworks_portal_management_upload_fw_comps"
 require "helpers/validation_helpers"
 
 class CmsRoleBasedAccessMethods < CmsBasePage
@@ -50,7 +53,7 @@ class CmsRoleBasedAccessMethods < CmsBasePage
     expect(cms_agents_list_comps.text_page_heading.text).to include("Agents")
 
     # Save and validate the permissions have been applied
-    validate_value_contains("Procurement Operations Admin", cms_agents_list_comps.text_see_roles_by_name("Auto 3 Test User 3").text)
+    validate_value_contains(permission, cms_agents_list_comps.text_see_roles_by_name("Auto 3 Test User 3").text)
   end
 
   def validate_visible_screens_based_on_user_type(role)
@@ -132,6 +135,11 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
       # Area: Frameworks Management
+      validate_frameworks_management(
+        top_nav_framework_management_portal: true,
+        sub_activity_log: true,
+        sub_upload_framework_register_xlsx: true
+      )
 
     when "Procurement Operations Admin"
       # Area: My Cases
@@ -206,7 +214,7 @@ private
       # Nav to my cases screen
       cms_top_nav_comps.link_my_cases.click
       expect(page).to have_current_path(%r{cases#my-cases}, url: true, wait: 20)
-      expect(cms_mycases_page_comps.text_page_heading.text).to include("My cases")
+      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 5)
 
       # Validate the remaining tabs that are only visible of you have the my cases screen
       expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_my_cases)).to be(sub_nav_my_cases)
@@ -230,7 +238,7 @@ private
       # Nav to my notification screen
       cms_top_nav_comps.link_my_cases.click
       expect(page).to have_current_path(%r{support/notifications}, url: true, wait: 20)
-      expect(cms_notifications_page_comps.text_page_heading.text).to include("Notifications")
+      wait_for_element_to_include(cms_notifications_page_comps.text_page_heading, "Notifications", timeout: 5)
     end
   end
 
@@ -247,7 +255,7 @@ private
       # Nav to my case statistics screen
       cms_top_nav_comps.link_case_statistics.click
       expect(page).to have_current_path(%r{/support/case_statistics#stats-by-person}, url: true, wait: 20)
-      expect(cms_case_statistics_comps.text_page_heading.text).to include("Case statistics")
+      wait_for_element_to_include(cms_case_statistics_comps.text_page_heading, "Case statistics", timeout: 5)
 
       # Validate the Case Statistics page tabs
       expect(element_present?(cms_case_statistics_comps.xpath_link_overview_by_person)).to be(overview_by_person_tab)
@@ -265,7 +273,7 @@ private
       # Validate the top level management tab
       cms_top_nav_comps.link_management.click
       expect(page).to have_current_path(%r{/support/management}, url: true, wait: 20)
-      expect(cms_management_comps.text_page_heading.text).to include("CMS Management")
+      wait_for_element_to_include(cms_management_comps.text_page_heading, "CMS Management", timeout: 5)
     end
   end
 
@@ -292,7 +300,7 @@ private
     # Open Agents Screen
     cms_management_comps.link_config_agents.click
     expect(page).to have_current_path(%r{/support/management/agents#current-accounts}, url: true, wait: 20)
-    expect(cms_agents_list_comps.text_page_heading.text).to include("Agents")
+    wait_for_element_to_include(cms_agents_list_comps.text_page_heading, "Agents", timeout: 5)
 
     expect(element_present?(cms_agents_list_comps.xpath_link_current_staff)).to be(current_staff_tab)
     expect(element_present?(cms_agents_list_comps.xpath_link_former_staff)).to be(former_staff_tab)
@@ -306,7 +314,7 @@ private
     # Open Categories screen
     cms_management_comps.link_config_categories.click
     expect(page).to have_current_path(%r{/support/management/categories}, url: true, wait: 20)
-    expect(cms_man_categories_list_comps.text_page_heading.text).to include("Categories")
+    wait_for_element_to_include(cms_man_categories_list_comps.text_page_heading, "Categories", timeout: 5)
   end
 
   def validate_email_templates_page(
@@ -317,7 +325,7 @@ private
     # Open Email Templates screen
     cms_management_comps.link_config_email_templates.click
     expect(page).to have_current_path(%r{/support/management/email_templates}, url: true, wait: 20)
-    expect(cms_man_email_templates_list_comps.text_page_heading.text).to include("Email templates")
+    wait_for_element_to_include(cms_man_email_templates_list_comps.text_page_heading, "Email templates", timeout: 5)
   end
 
   def validate_energy_for_schools_page(
@@ -328,7 +336,7 @@ private
     # Open Energy for schools screen
     cms_management_comps.link_config_energy_for_schools.click
     expect(page).to have_current_path(%r{/support/management/energy_for_schools}, url: true, wait: 20)
-    expect(cms_man_energy_for_schools_configure_email_comps.text_page_heading.text).to include("Energy for Schools")
+    wait_for_element_to_include(cms_man_energy_for_schools_configure_email_comps.text_page_heading, "Energy for Schools", timeout: 5)
   end
 
   def validate_sycn_framework_page(
@@ -339,7 +347,7 @@ private
     # Open Sync Frameworks screen
     cms_management_comps.link_tasks_sync_frameworks.click
     expect(page).to have_current_path(%r{/support/management/sync_frameworks}, url: true, wait: 20)
-    expect(cms_man_sync_framework_comps.text_page_heading.text).to include("Synchronise frameworks")
+    wait_for_element_to_include(cms_man_sync_framework_comps.text_page_heading, "Synchronise frameworks", timeout: 5)
   end
 
   def validate_all_cases_survey_page(
@@ -350,7 +358,7 @@ private
     # Open All cases survey screen
     cms_management_comps.link_tasks_sync_all_case_survey.click
     expect(page).to have_current_path(%r{/support/management/all_cases_surveys}, url: true, wait: 20)
-    expect(cms_man_all_cases_survey_comps.text_page_heading.text).to include("Eligible cases")
+    wait_for_element_to_include(cms_man_all_cases_survey_comps.text_page_heading, "Eligible cases", timeout: 5)
   end
 
   def validate_find_a_case_page(
@@ -361,7 +369,7 @@ private
       # Open Find a case screen
       cms_top_nav_comps.link_find_a_case.click
       expect(page).to have_current_path(%r{/support/cases/find-a-case/new}, url: true, wait: 20)
-      expect(cms_find_a_case_page_comps.text_page_heading.text).to include("Find a case")
+      wait_for_element_to_include(cms_find_a_case_page_comps.text_page_heading, "Find a case", timeout: 5)
     end
   end
 
@@ -379,13 +387,53 @@ private
       # Open Frameworks screen
       cms_top_nav_comps.link_frameworks.click
       expect(page).to have_current_path(%r{/frameworks#frameworks-register}, url: true, wait: 20)
-      expect(cms_frameworks_register_comps.text_page_heading.text).to include("Find a case")
+      wait_for_element_to_include(cms_frameworks_register_nav_comps.link_frameworks_register, "Frameworks Register", timeout: 5)
 
       # Validate the Frameworks page tabs
       expect(element_present?(cms_frameworks_register_nav_comps.xpath_link_frameworks_register)).to be(sub_frameworks_register)
       expect(element_present?(cms_frameworks_register_nav_comps.xpath_link_framework_evaluations)).to be(sub_framework_evaluations)
       expect(element_present?(cms_frameworks_register_nav_comps.xpath_link_provider_contacts)).to be(sub_provider_contacts)
       expect(element_present?(cms_frameworks_register_nav_comps.xpath_link_providers)).to be(sub_providers)
+    end
+  end
+
+  def validate_frameworks_management(
+    top_nav_framework_management_portal: false,
+    sub_activity_log: false,
+    sub_upload_framework_register_xlsx: false
+  )
+    # Validate the top page link - Note that to see this you need to be on the frameworks register screen first!
+    expect(element_present?(cms_top_nav_comps.xpath_link_management)).to be(top_nav_framework_management_portal)
+
+    if top_nav_framework_management_portal
+      # Open Frameworks Portal Management screen
+      cms_top_nav_comps.link_management.click
+      expect(page).to have_current_path(%r{/frameworks/management}, url: true, wait: 20)
+      wait_for_element_to_include(cms_frameworks_portal_management_comps.text_page_heading, "Frameworks Portal Management", timeout: 5)
+
+      # Validate the Frameworks Management Sub pages
+      expect(element_present?(cms_frameworks_portal_management_comps.xpath_link_activity_log)).to be(sub_activity_log)
+
+      if sub_activity_log
+        # Open Activity Log screen
+        cms_frameworks_portal_management_comps.link_activity_log.click
+        expect(page).to have_current_path(%r{/frameworks/management/activity_log}, url: true, wait: 20)
+        wait_for_element_to_include(cms_frameworks_portal_management_activity_log_comps.text_page_heading, "Activity Log", timeout: 5)
+
+        # Return to the Frameworks Portal Management screen
+        cms_top_nav_comps.link_management.click
+        expect(page).to have_current_path(%r{/frameworks/management}, url: true, wait: 20)
+        wait_for_element_to_include(cms_frameworks_portal_management_comps.text_page_heading, "Frameworks Portal Management", timeout: 5)
+      end
+
+      expect(element_present?(cms_frameworks_portal_management_comps.xpath_link_upload_frameworks_register_xlsx)).to be(sub_upload_framework_register_xlsx)
+
+      if sub_upload_framework_register_xlsx
+        # Open Upload Frameworks Register xlsx screen
+        cms_frameworks_portal_management_comps.link_upload_frameworks_register_xlsx.click
+        expect(page).to have_current_path(%r{frameworks/management/register_upload/new}, url: true, wait: 20)
+        wait_for_element_to_include(cms_frameworks_portal_management_upload_fw_comps.text_page_heading, "Upload Frameworks Register xlsx", timeout: 5)
+      end
     end
   end
 

@@ -51,6 +51,9 @@ require "components/cms/frameworks/cms_frameworks_register_comps"
 require "components/cms/frameworks/cms_frameworks_individual_framework_comps"
 require "components/cms/frameworks/cms_frameworks_individual_fw_categories_comps"
 require "components/cms/frameworks/cms_frameworks_register_nav_comps"
+require "components/cms/frameworks/cms_frameworks_portal_management_activity_log_comps"
+require "components/cms/frameworks/cms_frameworks_portal_management_comps"
+require "components/cms/frameworks/cms_frameworks_portal_management_upload_fw_comps"
 
 module SharedCmsComps
   # Pre Flow pages
@@ -113,6 +116,9 @@ module SharedCmsComps
   def cms_man_sync_framework_comps = @cms_man_sync_framework_comps ||= CmsManSyncFrameworkComps.new
   def cms_frameworks_individual_fw_categories_comps = @cms_frameworks_individual_fw_categories_comps ||= CmsFrameworksIndividualFwCategoriesComps.new
   def cms_frameworks_register_nav_comps = @cms_frameworks_register_nav_comps ||= CmsFrameworksRegisterNavComps.new
+  def cms_frameworks_portal_management_activity_log_comps = @cms_frameworks_portal_management_activity_log_comps ||= CmsFrameworksPortalManagementActivityLogComps.new
+  def cms_frameworks_portal_management_comps = @cms_frameworks_portal_management_comps ||= CmsFrameworksPortalManagementComps.new
+  def cms_frameworks_portal_management_upload_fw_comps = @cms_frameworks_portal_management_upload_fw_comps ||= CmsFrameworksPortalManagementUploadFwComps.new
 
   # Management
   def cms_management_comps = @cms_management_comps ||= CmsManagementComps.new
