@@ -35,6 +35,14 @@ class CmsTopNavComps
     find(:xpath, xpath_link_my_cases)
   end
 
+  def xpath_link_my_cases_e_and_o
+    "//nav[@aria-label='Menu']//a[text()='Cases']"
+  end
+
+  def link_my_cases_e_and_o
+    find(:xpath, xpath_link_my_cases_e_and_o)
+  end
+
   def xpath_link_find_a_case
     "//nav[@aria-label='Menu']//a[text()='Find a case']"
   end

@@ -24,7 +24,15 @@ class CmsRbaManagementMethods < CmsBasePage
     if management_page
       # Validate the top level management tab
       cms_top_nav_comps.link_management.click
-      expect(page).to have_current_path(%r{/support/management}, url: true, wait: 20)
+
+      if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(current_user_state.role)
+        expect(page).to have_current_path(%r{/engagement/management}, url: true, wait: 20)
+      elsif ["CEC Staff Member", "CEC Admin"].include?(current_user_state.role)
+        expect(page).to have_current_path(%r{/cec/management}, url: true, wait: 20)
+      else
+        expect(page).to have_current_path(%r{/support/management}, url: true, wait: 20)
+      end
+
       wait_for_element_to_include(cms_management_comps.text_page_heading, "CMS Management", timeout: 5)
     end
   end
@@ -51,7 +59,15 @@ class CmsRbaManagementMethods < CmsBasePage
   )
     # Open Agents Screen
     cms_management_comps.link_config_agents.click
-    expect(page).to have_current_path(%r{/support/management/agents#current-accounts}, url: true, wait: 20)
+
+    if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(current_user_state.role)
+      expect(page).to have_current_path(%r{/engagement/management/agents#current-accounts}, url: true, wait: 20)
+    elsif ["CEC Staff Member", "CEC Admin"].include?(current_user_state.role)
+      expect(page).to have_current_path(%r{/cec/management/agents#current-accounts}, url: true, wait: 20)
+    else
+      expect(page).to have_current_path(%r{/support/management/agents#current-accounts}, url: true, wait: 20)
+    end
+
     wait_for_element_to_include(cms_agents_list_comps.text_page_heading, "Agents", timeout: 5)
 
     expect(element_present?(cms_agents_list_comps.xpath_link_current_staff)).to be(current_staff_tab)

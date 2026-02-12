@@ -28,4 +28,12 @@ class BasePage
       @framework_state ||= FrameworkState.new
     end
   end
+
+  def current_user_state
+    if world && !world.equal?(self) && world.respond_to?(:current_user_state)
+      world.current_user_state
+    else
+      @current_user_state ||= CurrentUserState.new
+    end
+  end
 end

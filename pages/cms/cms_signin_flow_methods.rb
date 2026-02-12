@@ -44,7 +44,13 @@ class CmsSigninFlowMethods < CmsBasePage
     puts "[INFO] Successfully signed in as CEC Admin user"
   end
 
-  def continue_and_complete_dfe_signin_as_proc_ops_admin(user, environment)
+  def continue_and_complete_dfe_signin_as_any_cms_user_type(user, environment, role = nil)
+    # Set current_case_state
+    current_user_state.user = user
+    current_user_state.role = role
+    current_user_state.env = environment
+
+    # Retrieve the current url in case we need to retry login
     return_url = page.current_url
 
     defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: false) do |attempt|
@@ -53,17 +59,23 @@ class CmsSigninFlowMethods < CmsBasePage
       cms_login_page_comps.button_signin.click
       # Navigates user through the DfE sign-in flow to the "My Cases" page
       world.shared_global_methods.complete_dfe_signin_as(user, environment)
-
       # Complete the login process and lands on my cases
-      expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
-      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 2)
+      if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(role)
+        expect(page).to have_current_path(%r{/engagement#my-cases}, url: true, wait: 20)
+      elsif ["CEC Staff Member", "CEC Admin"].include?(role)
+        expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 20)
+      else
+        expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
+      end
 
-      puts "[INFO] Successfully signed in as Proc Ops Admin user"
+      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 2)
+      puts "[INFO] Successfully signed in as #{role} user"
     end
   end
 
   def restore_start_state(attempt:, return_url:)
-    return if attempt == 1
+    attempt = attempt.to_i
+    return if attempt <= 1
 
     puts "[INFO] Restoring start state (attempt #{attempt})"
 

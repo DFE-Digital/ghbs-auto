@@ -33,6 +33,9 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
                   when "rba_test_user_login"
                     { email: SECRETS["rba_test_user_login"],
                       password: SECRETS["rba_test_user_password"] }
+                  when "global"
+                    { email: SECRETS["global_admin_username"],
+                      password: SECRETS["global_admin_password"] }
                   else
                     raise ArgumentError, "Unknown user type: '#{user}'"
                   end

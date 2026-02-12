@@ -267,11 +267,65 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
     when "Engagement and Outreach Admin"
+      top_nav_link_checker_only(
+        notification: false,
+        case_statistics: false,
+        management: true,
+        my_cases: true,
+        frameworks: false
+      )
+
       # Area: My Cases
+      world.cms_rba_my_cases_methods.section_validation_my_cases_tabs(
+        top_nav_my_cases: true,
+        sub_nav_my_cases: true,
+        sub_nav_fm: false,
+        sub_nav_ict: false,
+        sub_nav_energy: false,
+        sub_nav_services: false,
+        sub_nav_triage: false,
+        sub_nav_new_cases: false,
+        sub_nav_all_cases: true
+      )
+
       # Area: Management > Configuration
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+
+      world.cms_rba_management_methods.validate_management_home_page(
+        config_agents: true,
+        config_categories: false,
+        config_email_templates: false,
+        config_energy_for_schools: false,
+        tasks_synchronise_frameworks: false,
+        tasks_all_cases_survey: false
+      )
+
+      world.cms_rba_management_methods.validate_agents_home_page(
+        current_staff_tab: true,
+        former_staff_tab: true
+      )
 
     when "Engagement and Outreach Staff Member"
+      top_nav_link_checker_only(
+        notification: false,
+        case_statistics: false,
+        management: false,
+        my_cases: true,
+        frameworks: false
+      )
+
       # Area: My Cases
+      world.cms_rba_my_cases_methods.section_validation_my_cases_tabs(
+        top_nav_my_cases: true,
+        sub_nav_my_cases: true,
+        sub_nav_fm: false,
+        sub_nav_ict: false,
+        sub_nav_energy: false,
+        sub_nav_services: false,
+        sub_nav_triage: false,
+        sub_nav_new_cases: false,
+        sub_nav_all_cases: true
+      )
 
     when "Digital Team Staff Member"
       # Area: My Cases
@@ -303,6 +357,29 @@ class CmsRoleBasedAccessMethods < CmsBasePage
   end
 
 private
+
+  def top_nav_link_checker_only(
+    notification: false,
+    case_statistics: false,
+    management: false,
+    my_cases: false,
+    frameworks: false
+  )
+
+    # Validate the top page links
+    expect(element_present?(cms_top_nav_comps.xpath_link_notifications)).to be(notification)
+    expect(element_present?(cms_top_nav_comps.xpath_link_case_statistics)).to be(case_statistics)
+    expect(element_present?(cms_top_nav_comps.xpath_link_management)).to be(management)
+
+    # E and O has a different name for "My cases" it calls it "Cases" hence the below check.
+    if my_cases
+      has_standard = element_present?(cms_top_nav_comps.xpath_link_my_cases)
+      has_e_and_o  = element_present?(cms_top_nav_comps.xpath_link_my_cases_e_and_o)
+      expect(has_standard || has_e_and_o).to be(true)
+    end
+
+    expect(element_present?(cms_top_nav_comps.xpath_link_frameworks)).to be(frameworks)
+  end
 
   def reset_all_checkboxes
     rba_roles = cms_agents_edit_agent_comps
