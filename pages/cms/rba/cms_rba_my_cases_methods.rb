@@ -20,7 +20,6 @@ class CmsRbaMyCasesMethods < CmsBasePage
     sub_nav_new_cases: false,
     sub_nav_all_cases: false
   )
-
     # Validate the top page link
     if top_nav_my_cases
       # Nav to my cases screen

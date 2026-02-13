@@ -399,7 +399,6 @@ class CmsRoleBasedAccessMethods < CmsBasePage
         overview_by_category_tab: true
       )
 
-
     when "Framework Evaluator Admin"
       world.cms_rba_top_nav_link_methods.top_nav_link_checker_only(
         notification: false,

@@ -79,7 +79,6 @@ class CmsSigninFlowMethods < CmsBasePage
         wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
       end
 
-
       puts "[INFO] Successfully signed in as #{role} user"
     end
   end

@@ -16,7 +16,6 @@ class CmsRbaTopNavLinkMethods < CmsBasePage
     find_a_case: false,
     frameworks: false
   )
-
     # Validate the top page links
     expect(element_present?(cms_top_nav_comps.xpath_link_notifications)).to be(notification)
     expect(element_present?(cms_top_nav_comps.xpath_link_case_statistics)).to be(case_statistics)
@@ -114,5 +113,4 @@ class CmsRbaTopNavLinkMethods < CmsBasePage
     expect(page).to have_current_path(%r{/support/case_statistics#stats-by-person}, url: true, wait: 20)
     wait_for_element_to_include(cms_case_statistics_comps.text_page_heading, "Case statistics", timeout: 5)
   end
-
 end
