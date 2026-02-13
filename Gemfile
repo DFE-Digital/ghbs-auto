@@ -10,7 +10,7 @@ gem "rubocop-govuk", require: false
 gem "selenium-webdriver"
 
 # API
-gem "faraday", "~> 2.9"
+gem "faraday", "~> 2.14"
 
 # Accessibility
 gem "axe-core-capybara", "~> 4.10"
