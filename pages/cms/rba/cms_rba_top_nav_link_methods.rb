@@ -13,6 +13,7 @@ class CmsRbaTopNavLinkMethods < CmsBasePage
     case_statistics: false,
     management: false,
     my_cases: false,
+    find_a_case: false,
     frameworks: false
   )
 
@@ -20,6 +21,7 @@ class CmsRbaTopNavLinkMethods < CmsBasePage
     expect(element_present?(cms_top_nav_comps.xpath_link_notifications)).to be(notification)
     expect(element_present?(cms_top_nav_comps.xpath_link_case_statistics)).to be(case_statistics)
     expect(element_present?(cms_top_nav_comps.xpath_link_management)).to be(management)
+    expect(element_present?(cms_top_nav_comps.xpath_link_find_a_case)).to be(find_a_case)
 
     # E and O has a different name for "My cases" it calls it "Cases" hence the below check.
     if my_cases

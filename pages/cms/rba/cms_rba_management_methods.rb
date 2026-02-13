@@ -78,11 +78,12 @@ class CmsRbaManagementMethods < CmsBasePage
     category: false
   )
     expect(element_present?(cms_management_comps.xpath_link_config_categories)).to be(category)
-
-    # Open Categories screen
-    cms_management_comps.link_config_categories.click
-    expect(page).to have_current_path(%r{/support/management/categories}, url: true, wait: 20)
-    wait_for_element_to_include(cms_man_categories_list_comps.text_page_heading, "Categories", timeout: 5)
+    if category
+      # Open Categories screen
+      cms_management_comps.link_config_categories.click
+      expect(page).to have_current_path(%r{/support/management/categories}, url: true, wait: 5)
+      wait_for_element_to_include(cms_man_categories_list_comps.text_page_heading, "Categories", timeout: 5)
+    end
   end
 
   def validate_email_templates_page(
@@ -90,10 +91,16 @@ class CmsRbaManagementMethods < CmsBasePage
   )
     expect(element_present?(cms_management_comps.xpath_link_config_email_templates)).to be(email_templates)
 
-    # Open Email Templates screen
-    cms_management_comps.link_config_email_templates.click
-    expect(page).to have_current_path(%r{/support/management/email_templates}, url: true, wait: 20)
-    wait_for_element_to_include(cms_man_email_templates_list_comps.text_page_heading, "Email templates", timeout: 5)
+    if email_templates
+      # Open Email Templates screen
+      cms_management_comps.link_config_email_templates.click
+      if ["CEC Staff Member", "CEC Admin"].include?(current_user_state.role)
+        expect(page).to have_current_path(%r{/cec/management/email_templates}, url: true, wait: 20)
+      else
+        expect(page).to have_current_path(%r{/support/management/email_templates}, url: true, wait: 20)
+      end
+      wait_for_element_to_include(cms_man_email_templates_list_comps.text_page_heading, "Email templates", timeout: 5)
+    end
   end
 
   def validate_energy_for_schools_page(
@@ -101,10 +108,12 @@ class CmsRbaManagementMethods < CmsBasePage
   )
     expect(element_present?(cms_management_comps.xpath_link_config_energy_for_schools)).to be(energy_for_schools_page)
 
-    # Open Energy for schools screen
-    cms_management_comps.link_config_energy_for_schools.click
-    expect(page).to have_current_path(%r{/support/management/energy_for_schools}, url: true, wait: 20)
-    wait_for_element_to_include(cms_man_energy_for_schools_configure_email_comps.text_page_heading, "Energy for Schools", timeout: 5)
+    if energy_for_schools_page
+      # Open Energy for schools screen
+      cms_management_comps.link_config_energy_for_schools.click
+      expect(page).to have_current_path(%r{/support/management/energy_for_schools}, url: true, wait: 5)
+      wait_for_element_to_include(cms_man_energy_for_schools_configure_email_comps.text_page_heading, "Energy for Schools", timeout: 5)
+    end
   end
 
   def validate_sycn_framework_page(
@@ -112,20 +121,23 @@ class CmsRbaManagementMethods < CmsBasePage
   )
     expect(element_present?(cms_management_comps.xpath_link_tasks_sync_frameworks)).to be(sync_frameworks_page)
 
-    # Open Sync Frameworks screen
-    cms_management_comps.link_tasks_sync_frameworks.click
-    expect(page).to have_current_path(%r{/support/management/sync_frameworks}, url: true, wait: 20)
-    wait_for_element_to_include(cms_man_sync_framework_comps.text_page_heading, "Synchronise frameworks", timeout: 5)
+    if sync_frameworks_page
+      # Open Sync Frameworks screen
+      cms_management_comps.link_tasks_sync_frameworks.click
+      expect(page).to have_current_path(%r{/support/management/sync_frameworks}, url: true, wait: 5)
+      wait_for_element_to_include(cms_man_sync_framework_comps.text_page_heading, "Synchronise frameworks", timeout: 5)
+    end
   end
 
   def validate_all_cases_survey_page(
     all_surveys_page: false
   )
     expect(element_present?(cms_management_comps.xpath_link_tasks_sync_all_case_survey)).to be(all_surveys_page)
-
-    # Open All cases survey screen
-    cms_management_comps.link_tasks_sync_all_case_survey.click
-    expect(page).to have_current_path(%r{/support/management/all_cases_surveys}, url: true, wait: 20)
-    wait_for_element_to_include(cms_man_all_cases_survey_comps.text_page_heading, "Eligible cases", timeout: 5)
+    if all_surveys_page
+      # Open All cases survey screen
+      cms_management_comps.link_tasks_sync_all_case_survey.click
+      expect(page).to have_current_path(%r{/support/management/all_cases_surveys}, url: true, wait: 5)
+      wait_for_element_to_include(cms_man_all_cases_survey_comps.text_page_heading, "Eligible cases", timeout: 5)
+    end
   end
 end

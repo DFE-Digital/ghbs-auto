@@ -273,6 +273,7 @@ class CmsRoleBasedAccessMethods < CmsBasePage
         case_statistics: false,
         management: true,
         my_cases: true,
+        find_a_case: false,
         frameworks: false
       )
 
@@ -312,6 +313,7 @@ class CmsRoleBasedAccessMethods < CmsBasePage
         case_statistics: false,
         management: false,
         my_cases: true,
+        find_a_case: false,
         frameworks: false
       )
 
@@ -404,6 +406,7 @@ class CmsRoleBasedAccessMethods < CmsBasePage
         case_statistics: false,
         management: true,
         my_cases: false,
+        find_a_case: false,
         frameworks: true
       )
 
@@ -429,6 +432,7 @@ class CmsRoleBasedAccessMethods < CmsBasePage
         case_statistics: false,
         management: false,
         my_cases: false,
+        find_a_case: false,
         frameworks: true
       )
 
@@ -442,16 +446,78 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
     when "CEC Staff Member"
+      world.cms_rba_top_nav_link_methods.top_nav_link_checker_only(
+        notification: true,
+        case_statistics: false,
+        management: false,
+        my_cases: true,
+        find_a_case: true,
+        frameworks: false
+      )
+
       # Area: My Cases
-      # Area: Notifications
-      # Area: Find a case
+      world.cms_rba_my_cases_methods.section_validation_my_cases_tabs(
+        top_nav_my_cases: true,
+        sub_nav_my_cases: true,
+        sub_nav_fm: false,
+        sub_nav_ict: false,
+        sub_nav_energy: false,
+        sub_nav_services: false,
+        sub_nav_triage: false,
+        sub_nav_new_cases: false,
+        sub_nav_all_cases: true
+      )
 
     when "CEC Admin"
+      world.cms_rba_top_nav_link_methods.top_nav_link_checker_only(
+        notification: true,
+        case_statistics: false,
+        management: true,
+        my_cases: true,
+        find_a_case: true,
+        frameworks: false
+      )
+
       # Area: My Cases
-      # Area: Notifications
-      # Area: Management > Configuration
-      # Area: Email Templates
-      # Area: Find a case
+      world.cms_rba_my_cases_methods.section_validation_my_cases_tabs(
+        top_nav_my_cases: true,
+        sub_nav_my_cases: true,
+        sub_nav_fm: false,
+        sub_nav_ict: false,
+        sub_nav_energy: false,
+        sub_nav_services: false,
+        sub_nav_triage: false,
+        sub_nav_new_cases: false,
+        sub_nav_all_cases: true
+      )
+
+      # Area: Management > Configuration > Agents
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+
+      world.cms_rba_management_methods.validate_agents_home_page(
+        current_staff_tab: true,
+        former_staff_tab: false
+      )
+
+      # Area: Management > Configuration > Categories
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+      world.cms_rba_management_methods.validate_categories_page(category: false)
+
+      # Area: Management > Configuration > Email templates
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+      world.cms_rba_management_methods.validate_email_templates_page(email_templates: true)
+
+      # Area: Management > Configuration > Energy for Schools
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+      world.cms_rba_management_methods.validate_energy_for_schools_page(energy_for_schools_page: false)
+
+      # Area: Management > Tasks Synchronise frameworks
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+      world.cms_rba_management_methods.validate_sycn_framework_page(sync_frameworks_page: false)
+
+      # Area: Management > Tasks All Cases Survey
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
+      world.cms_rba_management_methods.validate_all_cases_survey_page(all_surveys_page: false)
 
     else
       raise ArgumentError, "[FAIL] Role '#{role}' is not a recognised role in the system"
