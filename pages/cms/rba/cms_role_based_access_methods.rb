@@ -399,10 +399,47 @@ class CmsRoleBasedAccessMethods < CmsBasePage
 
 
     when "Framework Evaluator Admin"
+      world.cms_rba_top_nav_link_methods.top_nav_link_checker_only(
+        notification: false,
+        case_statistics: false,
+        management: true,
+        my_cases: false,
+        frameworks: true
+      )
+
       # Area: Frameworks
+      world.cms_rba_frameworks_methods.validate_frameworks_page(
+        top_nav_frameworks_tab: true,
+        sub_frameworks_register: true,
+        sub_framework_evaluations: true,
+        sub_provider_contacts: true,
+        sub_providers: true
+      )
+
+      # Area: Frameworks - Management
+      world.cms_rba_frameworks_methods.validate_frameworks_management(
+        top_nav_framework_management_portal: true,
+        sub_activity_log: true,
+        sub_upload_framework_register_xlsx: true
+      )
 
     when "Framework Evaluator"
+      world.cms_rba_top_nav_link_methods.top_nav_link_checker_only(
+        notification: false,
+        case_statistics: false,
+        management: false,
+        my_cases: false,
+        frameworks: true
+      )
+
       # Area: Frameworks
+      world.cms_rba_frameworks_methods.validate_frameworks_page(
+        top_nav_frameworks_tab: true,
+        sub_frameworks_register: true,
+        sub_framework_evaluations: true,
+        sub_provider_contacts: true,
+        sub_providers: true
+      )
 
     when "CEC Staff Member"
       # Area: My Cases
@@ -456,10 +493,10 @@ private
       cms_agents_edit_agent_comps.label_data_analyst.set(true)
 
     when "Framework Evaluator Admin"
-      cms_agents_edit_agent_comps.label_framework_evaluator.set(true)
+      cms_agents_edit_agent_comps.label_framework_evaluator_admin.set(true)
 
     when "Framework Evaluator"
-      cms_agents_edit_agent_comps.label_framework_evaluator_admin.set(true)
+      cms_agents_edit_agent_comps.label_framework_evaluator.set(true)
 
     when "CEC Staff Member"
       cms_agents_edit_agent_comps.label_cec_staff_member.set(true)

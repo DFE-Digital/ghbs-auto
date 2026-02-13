@@ -12,6 +12,7 @@ require "components/cms/cms_top_nav_comps"
 require "helpers/validation_helpers"
 require "components/cms/cms_mycases_page_comps"
 require "components/cms/cms_case_statistics_comps"
+require "components/cms/frameworks/cms_frameworks_register_comps"
 
 class CmsSigninFlowMethods < CmsBasePage
   include ValidationHelpers
@@ -70,6 +71,9 @@ class CmsSigninFlowMethods < CmsBasePage
       elsif ["Data Analyst"].include?(role)
         expect(page).to have_current_path(%r{/support/case_statistics#stats-by-person}, url: true, wait: 20)
         wait_for_element_to_include(cms_case_statistics_comps.text_page_heading, "Case statistics", timeout: 10)
+      elsif ["Framework Evaluator Admin", "Framework Evaluator"].include?(role)
+        expect(page).to have_current_path(%r{/frameworks#frameworks-register}, url: true, wait: 20)
+        wait_for_element_to_include(cms_frameworks_register_comps.text_page_heading, "Frameworks Register", timeout: 10)
       else
         expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
         wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
