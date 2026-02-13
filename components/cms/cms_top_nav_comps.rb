@@ -62,4 +62,14 @@ class CmsTopNavComps
   def link_sign_out
     find(:xpath, "//nav[@aria-label='Menu']//a[text()='Sign out']")
   end
+
+  # This is only shown when we click on a link and dont have access ie
+  # You are not authorised to access that page.
+  def link_go_home
+    find(:xpath, "//a[contains(.,'Go Home')]")
+  end
+
+  def text_not_auth_header
+    find(:xpath, "//h1")
+  end
 end

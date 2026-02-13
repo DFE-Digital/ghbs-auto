@@ -30,6 +30,7 @@ require "pages/cms/rba/cms_rba_frameworks_methods"
 require "pages/cms/rba/cms_rba_management_methods"
 require "pages/cms/rba/cms_rba_my_cases_methods"
 require "pages/cms/rba/cms_rba_notifications_methods"
+require "pages/cms/rba/cms_rba_top_nav_link_methods"
 
 require "helpers/validation_helpers"
 
@@ -267,7 +268,7 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
     when "Engagement and Outreach Admin"
-      top_nav_link_checker_only(
+      world.cms_rba_top_nav_link_methods.top_nav_link_checker_only(
         notification: false,
         case_statistics: false,
         management: true,
@@ -306,7 +307,7 @@ class CmsRoleBasedAccessMethods < CmsBasePage
       )
 
     when "Engagement and Outreach Staff Member"
-      top_nav_link_checker_only(
+      world.cms_rba_top_nav_link_methods.top_nav_link_checker_only(
         notification: false,
         case_statistics: false,
         management: false,
@@ -329,9 +330,73 @@ class CmsRoleBasedAccessMethods < CmsBasePage
 
     when "Digital Team Staff Member"
       # Area: My Cases
+      world.cms_rba_my_cases_methods.section_validation_my_cases_tabs(
+        top_nav_my_cases: true,
+        sub_nav_my_cases: true,
+        sub_nav_fm: true,
+        sub_nav_ict: true,
+        sub_nav_energy: true,
+        sub_nav_services: true,
+        sub_nav_triage: true,
+        sub_nav_new_cases: true,
+        sub_nav_all_cases: true
+      )
+
+      # Area: Notifications
+      world.cms_rba_notifications_methods.section_validation_notification_tab(notification: true)
+
+      # Area: Case Statistics
+      world.cms_rba_case_statistics_methods.section_case_statistics_tabs(
+        main_case_statistics: true,
+        overview_by_person_tab: true,
+        overview_by_stage_tab: true,
+        overview_by_category_tab: true
+      )
+
+      # Area: Management > Configuration > Agents
+      world.cms_rba_management_methods.section_validation_management_tab(management_page: false)
+
+      # Area: Find a case
+      world.cms_rba_find_a_case_methods.validate_find_a_case_page(top_nav_find_a_case_tab: true)
+
+      # Area: Frameworks
+      world.cms_rba_frameworks_methods.validate_frameworks_page(
+        top_nav_frameworks_tab: true,
+        sub_frameworks_register: true,
+        sub_framework_evaluations: true,
+        sub_provider_contacts: true,
+        sub_providers: true
+      )
+
+      # Area: Frameworks Management
+      world.cms_rba_frameworks_methods.validate_frameworks_management(
+        top_nav_framework_management_portal: false
+      )
 
     when "Data Analyst"
+      world.cms_rba_top_nav_link_methods.top_nav_link_checker_for_visible_but_none_accessible(
+        notification_visible: true,
+        notification_reject_access: true,
+        case_statistics_visible: true,
+        case_statistics_reject_access: false,
+        management_visible: false,
+        management_reject_access: false,
+        my_cases_visible: true,
+        my_cases_reject_access: true,
+        find_a_case_visible: true,
+        find_a_case_reject_access: true,
+        frameworks_visible: false,
+        frameworks_reject_access: false
+      )
+
       # Area: Case Statistics
+      world.cms_rba_case_statistics_methods.section_case_statistics_tabs(
+        main_case_statistics: true,
+        overview_by_person_tab: true,
+        overview_by_stage_tab: true,
+        overview_by_category_tab: true
+      )
+
 
     when "Framework Evaluator Admin"
       # Area: Frameworks
@@ -357,29 +422,6 @@ class CmsRoleBasedAccessMethods < CmsBasePage
   end
 
 private
-
-  def top_nav_link_checker_only(
-    notification: false,
-    case_statistics: false,
-    management: false,
-    my_cases: false,
-    frameworks: false
-  )
-
-    # Validate the top page links
-    expect(element_present?(cms_top_nav_comps.xpath_link_notifications)).to be(notification)
-    expect(element_present?(cms_top_nav_comps.xpath_link_case_statistics)).to be(case_statistics)
-    expect(element_present?(cms_top_nav_comps.xpath_link_management)).to be(management)
-
-    # E and O has a different name for "My cases" it calls it "Cases" hence the below check.
-    if my_cases
-      has_standard = element_present?(cms_top_nav_comps.xpath_link_my_cases)
-      has_e_and_o  = element_present?(cms_top_nav_comps.xpath_link_my_cases_e_and_o)
-      expect(has_standard || has_e_and_o).to be(true)
-    end
-
-    expect(element_present?(cms_top_nav_comps.xpath_link_frameworks)).to be(frameworks)
-  end
 
   def reset_all_checkboxes
     rba_roles = cms_agents_edit_agent_comps

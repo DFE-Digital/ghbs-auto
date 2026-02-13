@@ -11,6 +11,7 @@ require "components/energy/journey_start/energy_which_school_buying_for_comps"
 require "components/cms/cms_top_nav_comps"
 require "helpers/validation_helpers"
 require "components/cms/cms_mycases_page_comps"
+require "components/cms/cms_case_statistics_comps"
 
 class CmsSigninFlowMethods < CmsBasePage
   include ValidationHelpers
@@ -62,13 +63,19 @@ class CmsSigninFlowMethods < CmsBasePage
       # Complete the login process and lands on my cases
       if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(role)
         expect(page).to have_current_path(%r{/engagement#my-cases}, url: true, wait: 20)
+        wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
       elsif ["CEC Staff Member", "CEC Admin"].include?(role)
         expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 20)
+        wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
+      elsif ["Data Analyst"].include?(role)
+        expect(page).to have_current_path(%r{/support/case_statistics#stats-by-person}, url: true, wait: 20)
+        wait_for_element_to_include(cms_case_statistics_comps.text_page_heading, "Case statistics", timeout: 10)
       else
         expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
+        wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
       end
 
-      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 2)
+
       puts "[INFO] Successfully signed in as #{role} user"
     end
   end
