@@ -4,13 +4,13 @@ require "pages/cms/cms_base_page"
 require "helpers/validation_helpers"
 require "components/cms/cms_top_nav_comps"
 require "components/cms/management/cms_management_comps"
-require "components/cms/management/cms_management_sync_framework_comps"
+require "components/cms/management/cms_man_sync_framework_comps"
 
 class CmsManagementSyncFrameworksMethods < CmsBasePage
   include ValidationHelpers
 
   def run_the_sync_job
-    # Navigate  to the Management section
+    # Navigate to the Management section
     cms_top_nav_comps.link_management.click
     expect(page).to have_current_path(%r{/support/management}, url: true, wait: 10)
     expect(cms_management_comps.text_page_heading.text).to include("CMS Management")

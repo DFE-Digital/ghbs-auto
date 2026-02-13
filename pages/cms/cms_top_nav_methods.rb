@@ -25,6 +25,12 @@ class CmsTopNavMethods < CmsBasePage
     expect(cms_find_a_case_page_comps.text_page_heading.text).to include("Find a case")
   end
 
+  def nav_to_management_screen
+    cms_top_nav_comps.link_management.click
+    expect(page).to have_current_path(%r{/support/management}, url: true, wait: 10)
+    expect(cms_management_comps.text_page_heading.text).to include("CMS Management")
+  end
+
   def click_sign_out_button
     # TODO: add the sign out flow
   end

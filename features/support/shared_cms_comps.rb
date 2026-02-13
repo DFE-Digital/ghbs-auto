@@ -3,8 +3,10 @@
 require "components/cms/cms_login_page_comps"
 require "components/cms/cms_mycases_page_comps"
 require "components/cms/cms_top_nav_comps"
+require "components/cms/cms_my_cases_sub_nav_comps"
 require "components/cms/find_a_case/cms_find_a_case_page_comps"
 require "components/cms/cms_notifications_page_comps"
+require "components/cms/cms_case_statistics_comps"
 require "components/cms/find_a_case/cms_search_results_page_comps"
 require "components/cms/case/cms_single_case_view_page_comps"
 require "components/cms/case/actions/cms_single_case_resolve_case_page_comps"
@@ -37,10 +39,21 @@ require "components/cms/case/task_list/handover/school_view/cms_handover_proc_ta
 require "components/cms/case/task_list/handover/cms_handover_share_contract_comps"
 require "components/cms/case/task_list/handover/cms_handover_upload_contract_comps"
 require "components/cms/management/cms_management_comps"
-require "components/cms/management/cms_management_sync_framework_comps"
+require "components/cms/management/cms_man_sync_framework_comps"
+require "components/cms/management/cms_man_agents_edit_agent_comps"
+require "components/cms/management/cms_man_agents_list_comps"
+require "components/cms/management/cms_man_categories_list_comps"
+require "components/cms/management/cms_man_email_templates_list_comps"
+require "components/cms/management/cms_man_email_templates_edit_comps"
+require "components/cms/management/cms_man_energy_for_schools_configure_email_comps"
+require "components/cms/management/cms_man_all_cases_survey_comps"
 require "components/cms/frameworks/cms_frameworks_register_comps"
 require "components/cms/frameworks/cms_frameworks_individual_framework_comps"
 require "components/cms/frameworks/cms_frameworks_individual_fw_categories_comps"
+require "components/cms/frameworks/cms_frameworks_register_nav_comps"
+require "components/cms/frameworks/cms_frameworks_portal_management_activity_log_comps"
+require "components/cms/frameworks/cms_frameworks_portal_management_comps"
+require "components/cms/frameworks/cms_frameworks_portal_management_upload_fw_comps"
 
 module SharedCmsComps
   # Pre Flow pages
@@ -51,6 +64,7 @@ module SharedCmsComps
   def cms_find_a_case_page_comps = @cms_find_a_case_page_comps ||= CmsFindACasePageComps.new
   def cms_notifications_page_comps = @cms_notifications_page_comps ||= CmsNotificationsPageComps.new
   def cms_search_results_page_comps = @cms_search_results_page_comps ||= CmsSearchResultsPageComps.new
+  def cms_case_statistics_comps = @cms_case_statistics_comps ||= CmsCaseStatisticsComps.new
 
   # Single Case Actions
   def cms_single_case_view_page_comps = @cms_single_case_view_page_comps ||= CmsSingleCaseViewPageComps.new
@@ -90,6 +104,7 @@ module SharedCmsComps
 
   # Navigation
   def cms_top_nav_comps = @cms_top_nav_comps ||= CmsTopNavComps.new
+  def cms_my_cases_sub_nav_comps = @cms_my_cases_sub_nav_comps ||= CmsMyCasesSubNavComps.new
 
   # Create Case Actions
   def cms_create_a_new_case_comps = @cms_create_a_new_case_comps ||= CmsCreateANewCaseComps.new
@@ -98,9 +113,20 @@ module SharedCmsComps
   # Frameworks
   def cms_frameworks_individual_framework_comps = @cms_frameworks_individual_framework_comps ||= CmsFrameworksIndividualFrameworkComps.new
   def cms_frameworks_register_comps = @cms_frameworks_register_comps ||= CmsFrameworksRegisterComps.new
+  def cms_man_sync_framework_comps = @cms_man_sync_framework_comps ||= CmsManSyncFrameworkComps.new
+  def cms_frameworks_individual_fw_categories_comps = @cms_frameworks_individual_fw_categories_comps ||= CmsFrameworksIndividualFwCategoriesComps.new
+  def cms_frameworks_register_nav_comps = @cms_frameworks_register_nav_comps ||= CmsFrameworksRegisterNavComps.new
+  def cms_frameworks_portal_management_activity_log_comps = @cms_frameworks_portal_management_activity_log_comps ||= CmsFrameworksPortalManagementActivityLogComps.new
+  def cms_frameworks_portal_management_comps = @cms_frameworks_portal_management_comps ||= CmsFrameworksPortalManagementComps.new
+  def cms_frameworks_portal_management_upload_fw_comps = @cms_frameworks_portal_management_upload_fw_comps ||= CmsFrameworksPortalManagementUploadFwComps.new
 
   # Management
   def cms_management_comps = @cms_management_comps ||= CmsManagementComps.new
-  def cms_management_sync_framework_comps = @cms_management_sync_framework_comps ||= CmsManagementSyncFrameworkComps.new
-  def cms_frameworks_individual_fw_categories_comps = @cms_frameworks_individual_fw_categories_comps ||= CmsFrameworksIndividualFwCategoriesComps.new
+  def cms_agents_edit_agent_comps = @cms_agents_edit_agent_comps ||= CmsManAgentsEditAgentComps.new
+  def cms_agents_list_comps = @cms_agents_list_comps ||= CmsManAgentsListComps.new
+  def cms_man_categories_list_comps = @cms_man_categories_list_comps ||= CmsManCategoriesListComps.new
+  def cms_man_email_templates_list_comps = @cms_man_email_templates_list_comps ||= CmsManEmailTemplatesListComps.new
+  def cms_man_email_templates_edit_comps = @cms_man_email_templates_edit_comps ||= CmsManEmailTemplatesEditComps.new
+  def cms_man_energy_for_schools_configure_email_comps = @cms_man_energy_for_schools_configure_email_comps ||= CmsManEnergyForSchoolsConfigureEmailComps.new
+  def cms_man_all_cases_survey_comps = @cms_man_all_cases_survey_comps ||= CmsManAllCasesSurveyComps.new
 end

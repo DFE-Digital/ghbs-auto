@@ -14,6 +14,7 @@ Before do
   # Reset shared per-scenario DTOs
   @case_state = CaseState.new
   @framework_state = FrameworkState.new
+  @current_user_state = CurrentUserState.new
 end
 
 After do |scenario|

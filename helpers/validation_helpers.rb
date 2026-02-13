@@ -19,4 +19,8 @@ module ValidationHelpers
   rescue Capybara::ExpectationNotMet
     raise "Timed out after #{timeout}s waiting for element to include #{expected.inspect}"
   end
+
+  def element_present?(xpath, **options)
+    page.has_selector?(:xpath, xpath, **options.merge(wait: 0))
+  end
 end

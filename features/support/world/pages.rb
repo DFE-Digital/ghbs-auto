@@ -42,6 +42,14 @@ require "pages/fabs/contentful/contentful_edit_solution_methods"
 require "pages/fabs/contentful/contentful_api_methods"
 require "pages/cms/management/cms_management_sync_frameworks_methods"
 require "pages/cms/cms_frameworks_methods"
+require "pages/cms/rba/cms_rba_case_statistics_methods"
+require "pages/cms/rba/cms_rba_find_a_case_methods"
+require "pages/cms/rba/cms_rba_frameworks_methods"
+require "pages/cms/rba/cms_rba_management_methods"
+require "pages/cms/rba/cms_rba_my_cases_methods"
+require "pages/cms/rba/cms_rba_notifications_methods"
+require "pages/cms/rba/cms_role_based_access_methods"
+require "pages/cms/rba/cms_rba_top_nav_link_methods"
 
 module Pages
   def resolved_world
@@ -172,7 +180,7 @@ module Pages
 
   ##### CMS PAGES #####
   def cms_signin_flow_methods
-    @cms_signin_flow_methods ||= CmsSignInFlowMethods.new(resolved_world)
+    @cms_signin_flow_methods ||= CmsSigninFlowMethods.new(resolved_world)
   end
 
   def cms_top_nav_methods
@@ -219,6 +227,40 @@ module Pages
 
   def cms_frameworks_methods
     @cms_frameworks_methods ||= CmsFrameworksMethods.new(resolved_world)
+  end
+
+  ##### ROLE BASED ACCESS #####
+
+  def cms_role_based_access_methods
+    @cms_role_based_access_methods ||= CmsRoleBasedAccessMethods.new(resolved_world)
+  end
+
+  def cms_rba_case_statistics_methods
+    @cms_rba_case_statistics_methods ||= CmsRbaCaseStatisticsMethods.new(resolved_world)
+  end
+
+  def cms_rba_find_a_case_methods
+    @cms_rba_find_a_case_methods ||= CmsRbaFindACaseMethods.new(resolved_world)
+  end
+
+  def cms_rba_frameworks_methods
+    @cms_rba_frameworks_methods ||= CmsRbaFrameworksMethods.new(resolved_world)
+  end
+
+  def cms_rba_management_methods
+    @cms_rba_management_methods ||= CmsRbaManagementMethods.new(resolved_world)
+  end
+
+  def cms_rba_my_cases_methods
+    @cms_rba_my_cases_methods ||= CmsRbaMyCasesMethods.new(resolved_world)
+  end
+
+  def cms_rba_notifications_methods
+    @cms_rba_notifications_methods ||= CmsRbaNotificationsMethods.new(resolved_world)
+  end
+
+  def cms_rba_top_nav_link_methods
+    @cms_rba_top_nav_link_methods ||= CmsRbaTopNavLinkMethods.new(resolved_world)
   end
 
   ##### SHARED PAGES #####
