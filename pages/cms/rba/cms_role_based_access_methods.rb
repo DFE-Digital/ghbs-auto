@@ -125,7 +125,7 @@ class CmsRoleBasedAccessMethods < CmsBasePage
 
       # Area: Management > Tasks Synchronise frameworks
       world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
-      world.cms_rba_management_methods.validate_sycn_framework_page(sync_frameworks_page: true)
+      world.cms_rba_management_methods.validate_sync_framework_page(sync_frameworks_page: true)
 
       # Area: Management > Tasks All Cases Survey
       world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
@@ -197,7 +197,7 @@ class CmsRoleBasedAccessMethods < CmsBasePage
 
       # Area: Management > Tasks Synchronise frameworks
       world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
-      world.cms_rba_management_methods.validate_sycn_framework_page(sync_frameworks_page: true)
+      world.cms_rba_management_methods.validate_sync_framework_page(sync_frameworks_page: true)
 
       # Area: Management > Tasks All Cases Survey
       world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
@@ -512,7 +512,7 @@ class CmsRoleBasedAccessMethods < CmsBasePage
 
       # Area: Management > Tasks Synchronise frameworks
       world.cms_rba_management_methods.section_validation_management_tab(management_page: true)
-      world.cms_rba_management_methods.validate_sycn_framework_page(sync_frameworks_page: false)
+      world.cms_rba_management_methods.validate_sync_framework_page(sync_frameworks_page: false)
 
       # Area: Management > Tasks All Cases Survey
       world.cms_rba_management_methods.section_validation_management_tab(management_page: true)

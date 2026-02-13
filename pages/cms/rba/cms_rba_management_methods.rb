@@ -116,7 +116,7 @@ class CmsRbaManagementMethods < CmsBasePage
     end
   end
 
-  def validate_sycn_framework_page(
+  def validate_sync_framework_page(
     sync_frameworks_page: false
   )
     expect(element_present?(cms_management_comps.xpath_link_tasks_sync_frameworks)).to be(sync_frameworks_page)
