@@ -83,17 +83,31 @@ class CmsSigninFlowMethods < CmsBasePage
     end
   end
 
-  def restore_start_state(attempt:, return_url:)
+  def restore_start_state(attempt:, return_url: nil)
     attempt = attempt.to_i
-    return if attempt <= 1
 
-    puts "[INFO] Restoring start state (attempt #{attempt})"
+    case attempt
+    when 1
+      # First attempt: no restoration
+      nil
 
-    if attempt == 2
+    when 2
+      puts "[INFO] Restoring start state (attempt #{attempt}): refresh"
       page.refresh
-    else
-      Capybara.reset_sessions!
+
+    when 3
+      raise ArgumentError, "return_url is required for attempt 3" if return_url.nil? || return_url.strip.empty?
+
+      puts "[INFO] Restoring start state (attempt #{attempt}): visit return_url"
       visit return_url
+
+    else
+      # Attempt 4+ : deepest reset to case start page
+      raise ArgumentError, "return_url is required for attempt #{attempt}" if return_url.nil? || return_url.strip.empty?
+
+      puts "[INFO] Restoring start state (attempt #{attempt}): reset session + cms homepage"
+      world.cms_signin_flow_methods.open_cms_proc_ops_homepage
+      world.cms_signin_flow_methods.validate_cms_homepage_loaded
     end
   end
 
