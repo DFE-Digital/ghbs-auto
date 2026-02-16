@@ -141,6 +141,10 @@ jobs:
           CONTENTFUL_TEST_USER_LOGIN: ${{ secrets.CONTENTFUL_TEST_USER_LOGIN }}
           CONTENTFUL_TEST_USER_PASSWORD: ${{ secrets.CONTENTFUL_TEST_USER_PASSWORD }}
 
+          # Role Based Access Test Account
+          RBA_TEST_USER_LOGIN: ${{ secrets.RBA_TEST_USER_LOGIN }}
+          RBA_TEST_USER_PASSWORD: ${{ secrets.RBA_TEST_USER_PASSWORD }}
+
           # Test Users
           TEST_USER_1: ${{ secrets.TEST_USER_1 }}
           TEST_USER_2: ${{ secrets.TEST_USER_2 }}
@@ -182,6 +186,9 @@ jobs:
 
             contentful_test_user_login: "${CONTENTFUL_TEST_USER_LOGIN}"
             contentful_test_user_password: "${CONTENTFUL_TEST_USER_PASSWORD}"
+          
+            rba_test_user_login: "${RBA_TEST_USER_LOGIN}"
+            rba_test_user_password: "${RBA_TEST_USER_PASSWORD}"
 
             test_user_1: "${TEST_USER_1}"
             test_user_2: "${TEST_USER_2}"
@@ -220,6 +227,8 @@ jobs:
             test_server_approver_password
             contentful_test_user_login
             contentful_test_user_password
+            rba_test_user_login
+            rba_test_user_password
             test_user_1
             test_user_2
             test_user_3
