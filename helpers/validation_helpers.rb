@@ -27,7 +27,7 @@ module ValidationHelpers
   def fetch_secret!(key)
     value = SECRETS[key]
     if value.nil? || value.to_s.strip.empty?
-      raise "[ERROR] Missing secret '#{key}' in this runtime (nil/blank). Check GitHub Actions secrets/env mapping."
+      raise "[ERROR] Missing secret '#{key}' in this runtime (nil/blank). Check GitHub Actions secrets/env mapping. But also check your shared-allure-core.yml!"
     end
 
     value

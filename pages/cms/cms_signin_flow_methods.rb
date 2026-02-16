@@ -95,17 +95,17 @@ class CmsSigninFlowMethods < CmsBasePage
     attempt = attempt.to_i
     return if attempt <= 1
 
-    raise ArgumentError, "return_url is required" if return_url.nil? || return_url.strip.empty?
+    raise ArgumentError, "return_url is required" if return_url.to_s.strip.empty?
 
     if attempt == 2
-      puts "[INFO] Restoring start state (attempt #{attempt}): refresh"
-      page.refresh
+      puts "[INFO] Restoring start state (attempt #{attempt}): visit return_url"
     else
-      puts "[INFO] Restoring start state (attempt #{attempt}): reset session"
+      puts "[INFO] Restoring start state (attempt #{attempt}): reset session + visit return_url"
       Capybara.reset_sessions!
-      world.cms_signin_flow_methods.open_cms_cec_homepage
-      world.cms_signin_flow_methods.validate_cms_homepage_loaded
     end
+    visit return_url
+
+    expect(page).to have_selector(:xpath, "//button[normalize-space()='Sign in']", wait: 20)
   end
 
   def continue_as_signed_in_user_to_which_school
@@ -136,8 +136,8 @@ private
       attempt += 1
 
       begin
-        yield
-        return # success
+        yield(attempt)
+        return
       rescue Selenium::WebDriver::Error::UnknownError,
              Selenium::WebDriver::Error::StaleElementReferenceError,
              Selenium::WebDriver::Error::InvalidSessionIdError,
@@ -147,20 +147,11 @@ private
 
         last_error = e
         puts "[WARN] Login retry (attempt #{attempt}/#{max_attempts}) after error: #{e.class}: #{e.message}"
-
-        # if we've used up our attempts, re-raise with original error
         raise if attempt >= max_attempts
 
-        if reset_between
-          begin
-            Capybara.reset_sessions!
-          rescue StandardError => reset_err
-            puts "[WARN] Capybara.reset_sessions! raised #{reset_err.class}: #{reset_err.message}"
-          end
-        end
+        Capybara.reset_sessions! if reset_between
 
         sleep sleep_s
-        next
       end
     end
 
