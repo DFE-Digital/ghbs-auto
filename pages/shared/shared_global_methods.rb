@@ -19,23 +19,23 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
     user = user.downcase
     credentials = case user
                   when "mat"
-                    { email: SECRETS["school_energy_mat_username"],
-                      password: SECRETS["school_energy_mat_password"] }
+                    { email: fetch_secret!("school_energy_mat_username"),
+                      password: fetch_secret!("school_energy_mat_password") }
                   when "sat"
-                    { email: SECRETS["school_energy_sat_username"],
-                      password: SECRETS["school_energy_sat_password"] }
+                    { email: fetch_secret!("school_energy_sat_username"),
+                      password: fetch_secret!("school_energy_sat_password") }
                   when "proc ops"
-                    { email: SECRETS["proc_ops_cms_username"],
-                      password: SECRETS["proc_ops_cms_password"] }
+                    { email: fetch_secret!("proc_ops_cms_username"),
+                      password: fetch_secret!("proc_ops_cms_password") }
                   when "cec"
-                    { email: SECRETS["cec_cms_username"],
-                      password: SECRETS["cec_cms_password"] }
+                    { email: fetch_secret!("cec_cms_username"),
+                      password: fetch_secret!("cec_cms_password") }
                   when "rba_test_user_login"
-                    { email: SECRETS["rba_test_user_login"],
-                      password: SECRETS["rba_test_user_password"] }
+                    { email: fetch_secret!("rba_test_user_login"),
+                      password: fetch_secret!("rba_test_user_password") }
                   when "global"
-                    { email: SECRETS["global_admin_username"],
-                      password: SECRETS["global_admin_password"] }
+                    { email: fetch_secret!("global_admin_username"),
+                      password: fetch_secret!("global_admin_password") }
                   else
                     raise ArgumentError, "Unknown user type: '#{user}'"
                   end
