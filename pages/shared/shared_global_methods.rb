@@ -46,7 +46,10 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
 
     # NOTE: this method assumes we are already on the first page of the DfE Sign-In flow
     expect(page).to have_current_path(%r{/signin/username}, url: true, wait: 10)
-    dfe_signin_access_the_service_page_comps.input_username.set(credentials[:email])
+    wait_for_element_to_include(dfe_signin_access_the_service_page_comps.text_page_heading, "Access the DfE Sign-in service", timeout: 10)
+
+    # Hardened input email validation
+    enter_username_with_verification(credentials[:email])
 
     if environment == "dev"
       # This env uses the test signin server
@@ -109,5 +112,22 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
     # Validate we have arrived in the correct Manage Users screen
     expect(page).to have_current_path(%r{/approvals/users}, url: true, wait: 10)
     wait_for_element_to_include(dfe_signin_1_manage_users_comps.text_page_heading, "Manage users", timeout: 5)
+  end
+
+private
+
+  def enter_username_with_verification(email)
+    field = dfe_signin_access_the_service_page_comps.input_username
+
+    field.set(email)
+
+    # We give Capybara a moment to sync
+    unless field.value == email
+      puts "[WARN] Username did not persist, retrying input..."
+      field.set(email)
+    end
+
+    # Final assertion (will raise if still wrong)
+    expect(field.value).to eq(email)
   end
 end

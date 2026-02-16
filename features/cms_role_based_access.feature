@@ -21,6 +21,15 @@ Feature: GHBS - CMS - Role Based Access
       | rba_test_user_login  | CEC Staff Member                     |
       | rba_test_user_login  | CEC Admin                            |
 
+#  @wip
+#  Scenario Outline: ES-1120-1 - CMS - RBA - High level functional area and screen flow access validation
+#    Given we set out "<TargetUser>" to have a role of "<Role>" from the Agents screen
+#    And we log out and log back in as our "<TargetUser>" who has the role of "<Role>"
+#    Then we validate that the "<Role>" has the correct access within the cms system
+#    Examples:
+#      | TargetUser           | Role                                 |
+#      | rba_test_user_login  | CEC Staff Member                     |
+
 #  Scenario Outline: ES-1120-2 - CMS - RBA - Agents View Permissions
 #    Given we set out "<TargetUser>" to have a role of "<Role>" from the Agents screen
 #    And we log out and log back in as our "<TargetUser>" who has the role of "<Role>"

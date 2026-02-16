@@ -59,6 +59,8 @@ class CmsSigninFlowMethods < CmsBasePage
     #  restore_start_state(attempt: attempt, return_url: return_url)
 
     cms_login_page_comps.button_signin.click
+    expect(page).to have_current_path(%r{/signin/username}, url: true, wait: 10)
+    wait_for_element_to_include(dfe_signin_access_the_service_page_comps.text_page_heading, "Access the DfE Sign-in service", timeout: 10)
 
     # Navigates user through the DfE sign-in flow to the "My Cases" page
     world.shared_global_methods.complete_dfe_signin_as(user, environment)
