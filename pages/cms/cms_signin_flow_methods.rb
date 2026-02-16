@@ -53,60 +53,56 @@ class CmsSigninFlowMethods < CmsBasePage
     current_user_state.env = environment
 
     # Retrieve the current url in case we need to retry login
-    return_url = page.current_url
+    # return_url = page.current_url
 
-    defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: false) do |attempt|
-      restore_start_state(attempt: attempt, return_url: return_url)
+    # defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: false) do |attempt|
+    #  restore_start_state(attempt: attempt, return_url: return_url)
 
-      cms_login_page_comps.button_signin.click
-      # Navigates user through the DfE sign-in flow to the "My Cases" page
-      world.shared_global_methods.complete_dfe_signin_as(user, environment)
-      # Complete the login process and lands on my cases
-      if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(role)
-        expect(page).to have_current_path(%r{/engagement#my-cases}, url: true, wait: 20)
-        wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
-      elsif ["CEC Staff Member", "CEC Admin"].include?(role)
-        expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 20)
-        wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
-      elsif ["Data Analyst"].include?(role)
-        expect(page).to have_current_path(%r{/support/case_statistics#stats-by-person}, url: true, wait: 20)
-        wait_for_element_to_include(cms_case_statistics_comps.text_page_heading, "Case statistics", timeout: 10)
-      elsif ["Framework Evaluator Admin", "Framework Evaluator"].include?(role)
-        expect(page).to have_current_path(%r{/frameworks#frameworks-register}, url: true, wait: 20)
-        wait_for_element_to_include(cms_frameworks_register_comps.text_page_heading, "Frameworks Register", timeout: 10)
-      else
-        expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
-        wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
-      end
+    cms_login_page_comps.button_signin.click
+    expect(page).to have_current_path(%r{/signin/username}, url: true, wait: 10)
+    wait_for_element_to_include(dfe_signin_access_the_service_page_comps.text_page_heading, "Access the DfE Sign-in service", timeout: 10)
 
-      puts "[INFO] Successfully signed in as #{role} user"
-    end
-  end
+    # Navigates user through the DfE sign-in flow to the "My Cases" page
+    world.shared_global_methods.complete_dfe_signin_as(user, environment)
 
-  def restore_start_state(attempt:, return_url: nil)
-    attempt = attempt.to_i
+    # Complete the login process and lands on my cases
+    if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(role)
+      expect(page).to have_current_path(%r{/engagement#my-cases}, url: true, wait: 20)
+      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
 
-    case attempt
-    when 1
-      # First attempt: no restoration
-      nil
+    elsif ["CEC Staff Member", "CEC Admin"].include?(role)
+      expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 20)
+      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
 
-    when 2
-      puts "[INFO] Restoring start state (attempt #{attempt}): refresh"
-      page.refresh
+    elsif ["Data Analyst"].include?(role)
+      expect(page).to have_current_path(%r{/support/case_statistics#stats-by-person}, url: true, wait: 20)
+      wait_for_element_to_include(cms_case_statistics_comps.text_page_heading, "Case statistics", timeout: 10)
 
-    when 3
-      raise ArgumentError, "return_url is required for attempt 3" if return_url.nil? || return_url.strip.empty?
-
-      puts "[INFO] Restoring start state (attempt #{attempt}): visit return_url"
-      visit return_url
+    elsif ["Framework Evaluator Admin", "Framework Evaluator"].include?(role)
+      expect(page).to have_current_path(%r{/frameworks#frameworks-register}, url: true, wait: 20)
+      wait_for_element_to_include(cms_frameworks_register_comps.text_page_heading, "Frameworks Register", timeout: 10)
 
     else
-      # Attempt 4+ : deepest reset to case start page
-      raise ArgumentError, "return_url is required for attempt #{attempt}" if return_url.nil? || return_url.strip.empty?
+      expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
+      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
+    end
 
-      puts "[INFO] Restoring start state (attempt #{attempt}): reset session + cms homepage"
-      world.cms_signin_flow_methods.open_cms_proc_ops_homepage
+    puts "[INFO] Successfully signed in as #{role} user"
+  end
+
+  def restore_start_state(attempt:, return_url:)
+    attempt = attempt.to_i
+    return if attempt <= 1
+
+    raise ArgumentError, "return_url is required" if return_url.nil? || return_url.strip.empty?
+
+    if attempt == 2
+      puts "[INFO] Restoring start state (attempt #{attempt}): refresh"
+      page.refresh
+    else
+      puts "[INFO] Restoring start state (attempt #{attempt}): reset session"
+      Capybara.reset_sessions!
+      world.cms_signin_flow_methods.open_cms_cec_homepage
       world.cms_signin_flow_methods.validate_cms_homepage_loaded
     end
   end
@@ -145,7 +141,8 @@ private
              Selenium::WebDriver::Error::StaleElementReferenceError,
              Selenium::WebDriver::Error::InvalidSessionIdError,
              Capybara::ElementNotFound,
-             Capybara::ExpectationNotMet => e
+             Capybara::ExpectationNotMet,
+             RSpec::Expectations::ExpectationNotMetError => e
 
         last_error = e
         puts "[WARN] Login retry (attempt #{attempt}/#{max_attempts}) after error: #{e.class}: #{e.message}"

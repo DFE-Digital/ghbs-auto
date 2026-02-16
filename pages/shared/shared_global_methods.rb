@@ -19,23 +19,23 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
     user = user.downcase
     credentials = case user
                   when "mat"
-                    { email: SECRETS["school_energy_mat_username"],
-                      password: SECRETS["school_energy_mat_password"] }
+                    { email: fetch_secret!("school_energy_mat_username"),
+                      password: fetch_secret!("school_energy_mat_password") }
                   when "sat"
-                    { email: SECRETS["school_energy_sat_username"],
-                      password: SECRETS["school_energy_sat_password"] }
+                    { email: fetch_secret!("school_energy_sat_username"),
+                      password: fetch_secret!("school_energy_sat_password") }
                   when "proc ops"
-                    { email: SECRETS["proc_ops_cms_username"],
-                      password: SECRETS["proc_ops_cms_password"] }
+                    { email: fetch_secret!("proc_ops_cms_username"),
+                      password: fetch_secret!("proc_ops_cms_password") }
                   when "cec"
-                    { email: SECRETS["cec_cms_username"],
-                      password: SECRETS["cec_cms_password"] }
+                    { email: fetch_secret!("cec_cms_username"),
+                      password: fetch_secret!("cec_cms_password") }
                   when "rba_test_user_login"
-                    { email: SECRETS["rba_test_user_login"],
-                      password: SECRETS["rba_test_user_password"] }
+                    { email: fetch_secret!("rba_test_user_login"),
+                      password: fetch_secret!("rba_test_user_password") }
                   when "global"
-                    { email: SECRETS["global_admin_username"],
-                      password: SECRETS["global_admin_password"] }
+                    { email: fetch_secret!("global_admin_username"),
+                      password: fetch_secret!("global_admin_password") }
                   else
                     raise ArgumentError, "Unknown user type: '#{user}'"
                   end
@@ -46,7 +46,10 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
 
     # NOTE: this method assumes we are already on the first page of the DfE Sign-In flow
     expect(page).to have_current_path(%r{/signin/username}, url: true, wait: 10)
-    dfe_signin_access_the_service_page_comps.input_username.set(credentials[:email])
+    wait_for_element_to_include(dfe_signin_access_the_service_page_comps.text_page_heading, "Access the DfE Sign-in service", timeout: 10)
+
+    # Hardened input email validation
+    enter_username_with_verification(credentials[:email])
 
     if environment == "dev"
       # This env uses the test signin server
@@ -109,5 +112,22 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
     # Validate we have arrived in the correct Manage Users screen
     expect(page).to have_current_path(%r{/approvals/users}, url: true, wait: 10)
     wait_for_element_to_include(dfe_signin_1_manage_users_comps.text_page_heading, "Manage users", timeout: 5)
+  end
+
+private
+
+  def enter_username_with_verification(email)
+    field = dfe_signin_access_the_service_page_comps.input_username
+
+    field.set(email)
+
+    # We give Capybara a moment to sync
+    unless field.value == email
+      puts "[WARN] Username did not persist, retrying input..."
+      field.set(email)
+    end
+
+    # Final assertion (will raise if still wrong)
+    expect(field.value).to eq(email)
   end
 end

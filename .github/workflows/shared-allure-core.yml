@@ -119,6 +119,10 @@ jobs:
           PROC_OPS_CMS_USERNAME: ${{ secrets.PROC_OPS_CMS_USERNAME }}
           PROC_OPS_CMS_PASSWORD: ${{ secrets.PROC_OPS_CMS_PASSWORD }}
 
+          # Global Admin User CMS
+          GLOBAL_ADMIN_USERNAME: ${{ secrets.GLOBAL_ADMIN_USERNAME }}
+          GLOBAL_ADMIN_PASSWORD: ${{ secrets.GLOBAL_ADMIN_PASSWORD }}
+
           # Energy School Flow
           SCHOOL_ENERGY_MAT_USERNAME: ${{ secrets.SCHOOL_ENERGY_MAT_USERNAME }}
           SCHOOL_ENERGY_MAT_PASSWORD: ${{ secrets.SCHOOL_ENERGY_MAT_PASSWORD }}
@@ -161,6 +165,9 @@ jobs:
 
             proc_ops_cms_username: "${PROC_OPS_CMS_USERNAME}"
             proc_ops_cms_password: "${PROC_OPS_CMS_PASSWORD}"
+          
+            global_admin_username: "${GLOBAL_ADMIN_USERNAME}"
+            global_admin_password: "${GLOBAL_ADMIN_PASSWORD}"
 
             school_energy_mat_username: "${SCHOOL_ENERGY_MAT_USERNAME}"
             school_energy_mat_password: "${SCHOOL_ENERGY_MAT_PASSWORD}"
@@ -201,6 +208,8 @@ jobs:
             contentful_test_env_api
             proc_ops_cms_username
             proc_ops_cms_password
+            global_admin_username
+            global_admin_password
             school_energy_mat_username
             school_energy_mat_password
             school_energy_sat_username

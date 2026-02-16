@@ -23,4 +23,13 @@ module ValidationHelpers
   def element_present?(xpath, **options)
     page.has_selector?(:xpath, xpath, **options.merge(wait: 0))
   end
+
+  def fetch_secret!(key)
+    value = SECRETS[key]
+    if value.nil? || value.to_s.strip.empty?
+      raise "[ERROR] Missing secret '#{key}' in this runtime (nil/blank). Check GitHub Actions secrets/env mapping."
+    end
+
+    value
+  end
 end
