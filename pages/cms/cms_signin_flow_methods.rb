@@ -53,41 +53,42 @@ class CmsSigninFlowMethods < CmsBasePage
     current_user_state.env = environment
 
     # Retrieve the current url in case we need to retry login
-    # return_url = page.current_url
+    return_url = page.current_url
 
-    # defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: false) do |attempt|
-    #  restore_start_state(attempt: attempt, return_url: return_url)
+    defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: false) do |attempt|
+      restore_start_state(attempt: attempt, return_url: return_url)
 
-    cms_login_page_comps.button_signin.click
-    expect(page).to have_current_path(%r{/signin/username}, url: true, wait: 10)
-    wait_for_element_to_include(dfe_signin_access_the_service_page_comps.text_page_heading, "Access the DfE Sign-in service", timeout: 10)
+      cms_login_page_comps.button_signin.click
+      expect(page).to have_current_path(%r{/signin/username}, url: true, wait: 10)
+      wait_for_element_to_include(dfe_signin_access_the_service_page_comps.text_page_heading, "Access the DfE Sign-in service", timeout: 10)
 
-    # Navigates user through the DfE sign-in flow to the "My Cases" page
-    world.shared_global_methods.complete_dfe_signin_as(user, environment)
+      # Navigates user through the DfE sign-in flow to the "My Cases" page
+      world.shared_global_methods.complete_dfe_signin_as(user, environment)
 
-    # Complete the login process and lands on my cases
-    if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(role)
-      expect(page).to have_current_path(%r{/engagement#my-cases}, url: true, wait: 20)
-      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
+      # Complete the login process and lands on my cases
+      if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(role)
+        expect(page).to have_current_path(%r{/engagement#my-cases}, url: true, wait: 20)
+        wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
 
-    elsif ["CEC Staff Member", "CEC Admin"].include?(role)
-      expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 20)
-      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
+      elsif ["CEC Staff Member", "CEC Admin"].include?(role)
+        expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 20)
+        wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
 
-    elsif ["Data Analyst"].include?(role)
-      expect(page).to have_current_path(%r{/support/case_statistics#stats-by-person}, url: true, wait: 20)
-      wait_for_element_to_include(cms_case_statistics_comps.text_page_heading, "Case statistics", timeout: 10)
+      elsif ["Data Analyst"].include?(role)
+        expect(page).to have_current_path(%r{/support/case_statistics#stats-by-person}, url: true, wait: 20)
+        wait_for_element_to_include(cms_case_statistics_comps.text_page_heading, "Case statistics", timeout: 10)
 
-    elsif ["Framework Evaluator Admin", "Framework Evaluator"].include?(role)
-      expect(page).to have_current_path(%r{/frameworks#frameworks-register}, url: true, wait: 20)
-      wait_for_element_to_include(cms_frameworks_register_comps.text_page_heading, "Frameworks Register", timeout: 10)
+      elsif ["Framework Evaluator Admin", "Framework Evaluator"].include?(role)
+        expect(page).to have_current_path(%r{/frameworks#frameworks-register}, url: true, wait: 20)
+        wait_for_element_to_include(cms_frameworks_register_comps.text_page_heading, "Frameworks Register", timeout: 10)
 
-    else
-      expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
-      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
+      else
+        expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
+        wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
+      end
+
+      puts "[INFO] Successfully signed in as #{role} user"
     end
-
-    puts "[INFO] Successfully signed in as #{role} user"
   end
 
   def restore_start_state(attempt:, return_url:)
