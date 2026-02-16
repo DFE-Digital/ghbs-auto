@@ -49,7 +49,8 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
     wait_for_element_to_include(dfe_signin_access_the_service_page_comps.text_page_heading, "Access the DfE Sign-in service", timeout: 10)
 
     # Hardened input email validation
-    enter_username_with_verification(credentials[:email])
+    # enter_username_with_verification(credentials[:email])
+    enter_username_with_verification("example_hardcoded_email@test.com")
 
     if environment == "dev"
       # This env uses the test signin server

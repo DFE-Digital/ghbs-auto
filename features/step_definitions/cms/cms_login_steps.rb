@@ -9,7 +9,7 @@ end
 Given(/^we open and login to the proc ops CMS screens as an admin in the dev environment$/) do
   cms_signin_flow_methods.open_cms_proc_ops_homepage
   cms_signin_flow_methods.validate_cms_homepage_loaded
-  cms_signin_flow_methods.continue_and_complete_dfe_signin_as_any_cms_user_type("global", "dev", "global")
+  cms_signin_flow_methods.continue_and_complete_dfe_signin_as_any_cms_user_type("proc ops", "dev", "global")
 end
 
 And(/^we log out and log back in as our "([^"]*)"$/) do |target_user|
