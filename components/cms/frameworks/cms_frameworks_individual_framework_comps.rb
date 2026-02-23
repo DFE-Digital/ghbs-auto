@@ -91,6 +91,14 @@ class CmsFrameworksIndividualFrameworkComps
     find(:xpath, "//div[@class='pagination__results']")
   end
 
+  def link_pagination_final_page
+    find(:xpath, "//a[@aria-label='Next page']/preceding-sibling::a[1]")
+  end
+
+  def link_pagination_first_page
+    find(:xpath, "//a[@aria-label='Page 1']")
+  end
+
   def link_back_button
     find(:xpath, "//a[text()='Back']")
   end
