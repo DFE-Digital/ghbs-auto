@@ -196,7 +196,7 @@ class CmsFrameworksMethods < CmsBasePage
       cms_frameworks_individual_framework_comps.link_back_button.click
     end
 
-    expect(page).to have_current_path(%r{frameworks_filter}, url: true, wait: 2)
+    expect(page).to have_current_path(%r{frameworks_filter}, url: true, wait: 10)
     expect(cms_frameworks_register_comps.text_page_heading.text).to include("Frameworks Register")
 
     # Find and select our Auto Test Solution framework from the list / narrow down the options
