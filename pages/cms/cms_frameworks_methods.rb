@@ -50,14 +50,24 @@ class CmsFrameworksMethods < CmsBasePage
     expect(cms_frameworks_individual_framework_comps.text_framework_updated_description.text).to include(framework_state.description)
     expect(cms_frameworks_individual_framework_comps.text_framework_updated_provider_reference.text).to include(framework_state.provider_ref)
 
-    # Validate the data from the Framework Created list.
-    exists = element_exists_across_pages?(
-      target: -> { cms_frameworks_individual_framework_comps.link_framework_created_see_details_optional },
-      next_button: -> { cms_frameworks_individual_framework_comps.link_pagination_next },
-      marker: -> { cms_frameworks_individual_framework_comps.link_pagination_results },
-      marker_change_timeout: 2 # “hot second” window, bounded
-    )
-    expect(exists).to be(true)
+    begin
+      # Identify the final page as this is where we expect to see this, nav right there (saves runtime)
+      cms_frameworks_individual_framework_comps.link_pagination_final_page.click
+      element_present?(cms_frameworks_individual_framework_comps.link_framework_created_see_details_optional, timeout: 5)
+    rescue StandardError => e
+      # if it wasn't found on the last page then reset to page 1 of the paginated list and loop
+      cms_frameworks_individual_framework_comps.link_pagination_first_page.click
+
+      # Validate the data from the Framework Created list.
+      exists = element_exists_across_pages?(
+        target: -> { cms_frameworks_individual_framework_comps.link_framework_created_see_details_optional },
+        next_button: -> { cms_frameworks_individual_framework_comps.link_pagination_next },
+        marker: -> { cms_frameworks_individual_framework_comps.link_pagination_results },
+        marker_change_timeout: 2 # “hot second” window, bounded
+      )
+      expect(exists).to be(true)
+      puts "Something went wrong: #{e.message}"
+    end
 
     cms_frameworks_individual_framework_comps.link_framework_created_see_details.click
     expect(cms_frameworks_individual_framework_comps.text_framework_created_source.text).to include("faf_import")
