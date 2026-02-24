@@ -122,8 +122,8 @@ module SharedCmsComps
 
   # Management
   def cms_management_comps = @cms_management_comps ||= CmsManagementComps.new
-  def cms_agents_edit_agent_comps = @cms_agents_edit_agent_comps ||= CmsManAgentsEditAgentComps.new
-  def cms_agents_list_comps = @cms_agents_list_comps ||= CmsManAgentsListComps.new
+  def cms_man_agents_edit_agent_comps = @cms_man_agents_edit_agent_comps ||= CmsManAgentsEditAgentComps.new
+  def cms_man_agents_list_comps = @cms_man_agents_list_comps ||= CmsManAgentsListComps.new
   def cms_man_categories_list_comps = @cms_man_categories_list_comps ||= CmsManCategoriesListComps.new
   def cms_man_email_templates_list_comps = @cms_man_email_templates_list_comps ||= CmsManEmailTemplatesListComps.new
   def cms_man_email_templates_edit_comps = @cms_man_email_templates_edit_comps ||= CmsManEmailTemplatesEditComps.new

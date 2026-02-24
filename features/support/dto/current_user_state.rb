@@ -6,6 +6,7 @@ class CurrentUserState
     user
     role
     env
+    base_url
   ].freeze
 
   # Create getters and setters for all current user attributes

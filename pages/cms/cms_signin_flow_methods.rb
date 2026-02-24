@@ -51,6 +51,7 @@ class CmsSigninFlowMethods < CmsBasePage
     current_user_state.user = user
     current_user_state.role = role
     current_user_state.env = environment
+    current_user_state.base_url = "support" # this is overwritten based on login type
 
     # Retrieve the current url in case we need to retry login
     return_url = page.current_url
@@ -69,10 +70,12 @@ class CmsSigninFlowMethods < CmsBasePage
       if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(role)
         expect(page).to have_current_path(%r{/engagement#my-cases}, url: true, wait: 20)
         wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
+        current_user_state.base_url = "engagement"
 
       elsif ["CEC Staff Member", "CEC Admin"].include?(role)
         expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 20)
         wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
+        current_user_state.base_url = "cec"
 
       elsif ["Data Analyst"].include?(role)
         expect(page).to have_current_path(%r{/support/case_statistics#stats-by-person}, url: true, wait: 20)

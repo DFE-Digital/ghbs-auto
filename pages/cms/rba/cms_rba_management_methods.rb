@@ -68,10 +68,10 @@ class CmsRbaManagementMethods < CmsBasePage
       expect(page).to have_current_path(%r{/support/management/agents#current-accounts}, url: true, wait: 20)
     end
 
-    wait_for_element_to_include(cms_agents_list_comps.text_page_heading, "Agents", timeout: 5)
+    wait_for_element_to_include(cms_man_agents_list_comps.text_page_heading, "Agents", timeout: 5)
 
-    expect(element_present?(cms_agents_list_comps.xpath_link_current_staff)).to be(current_staff_tab)
-    expect(element_present?(cms_agents_list_comps.xpath_link_former_staff)).to be(former_staff_tab)
+    expect(element_present?(cms_man_agents_list_comps.xpath_link_current_staff)).to be(current_staff_tab)
+    expect(element_present?(cms_man_agents_list_comps.xpath_link_former_staff)).to be(former_staff_tab)
   end
 
   def validate_categories_page(
