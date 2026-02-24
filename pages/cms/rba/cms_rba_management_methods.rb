@@ -25,14 +25,7 @@ class CmsRbaManagementMethods < CmsBasePage
       # Validate the top level management tab
       cms_top_nav_comps.link_management.click
 
-      if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(current_user_state.role)
-        expect(page).to have_current_path(%r{/engagement/management}, url: true, wait: 20)
-      elsif ["CEC Staff Member", "CEC Admin"].include?(current_user_state.role)
-        expect(page).to have_current_path(%r{/cec/management}, url: true, wait: 20)
-      else
-        expect(page).to have_current_path(%r{/support/management}, url: true, wait: 20)
-      end
-
+      expect(page).to have_current_path(%r{#{current_user_state.base_url}/management}, url: true, wait: 20)
       wait_for_element_to_include(cms_management_comps.text_page_heading, "CMS Management", timeout: 5)
     end
   end
@@ -60,14 +53,7 @@ class CmsRbaManagementMethods < CmsBasePage
     # Open Agents Screen
     cms_management_comps.link_config_agents.click
 
-    if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(current_user_state.role)
-      expect(page).to have_current_path(%r{/engagement/management/agents#current-accounts}, url: true, wait: 20)
-    elsif ["CEC Staff Member", "CEC Admin"].include?(current_user_state.role)
-      expect(page).to have_current_path(%r{/cec/management/agents#current-accounts}, url: true, wait: 20)
-    else
-      expect(page).to have_current_path(%r{/support/management/agents#current-accounts}, url: true, wait: 20)
-    end
-
+    expect(page).to have_current_path(%r{#{current_user_state.base_url}/management/agents#current-accounts}, url: true, wait: 20)
     wait_for_element_to_include(cms_man_agents_list_comps.text_page_heading, "Agents", timeout: 5)
 
     expect(element_present?(cms_man_agents_list_comps.xpath_link_current_staff)).to be(current_staff_tab)
@@ -94,11 +80,8 @@ class CmsRbaManagementMethods < CmsBasePage
     if email_templates
       # Open Email Templates screen
       cms_management_comps.link_config_email_templates.click
-      if ["CEC Staff Member", "CEC Admin"].include?(current_user_state.role)
-        expect(page).to have_current_path(%r{/cec/management/email_templates}, url: true, wait: 20)
-      else
-        expect(page).to have_current_path(%r{/support/management/email_templates}, url: true, wait: 20)
-      end
+
+      expect(page).to have_current_path(%r{#{current_user_state.base_url}/management/email_templates}, url: true, wait: 20)
       wait_for_element_to_include(cms_man_email_templates_list_comps.text_page_heading, "Email templates", timeout: 5)
     end
   end
