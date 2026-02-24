@@ -52,7 +52,6 @@ require "pages/cms/rba/cms_role_based_access_methods"
 require "pages/cms/rba/cms_rba_top_nav_link_methods"
 require "pages/cms/rba/cms_rba_admin_agents_methods"
 
-
 module Pages
   def resolved_world
     respond_to?(:world) ? world : self

@@ -82,7 +82,6 @@ class CmsRbaAdminAgentsMethods < CmsBasePage
     else
       raise ArgumentError, "Role '#{current_user_state.role}' is not a role we think should have agent permissions"
     end
-
   end
 
 private
@@ -100,7 +99,6 @@ private
     visible_cec_staff_member: false,
     visible_cec_admin: false
   )
-
     expect(element_present?(cms_man_agents_edit_agent_comps.xpath_label_global_administrator)).to be(visible_global_administrator)
     expect(element_present?(cms_man_agents_edit_agent_comps.xpath_label_procurement_operations_admin)).to be(visible_procurement_operations_admin)
     expect(element_present?(cms_man_agents_edit_agent_comps.xpath_label_procurement_operations_staff_member)).to be(visible_procurement_operations_staff_member)
@@ -113,5 +111,4 @@ private
     expect(element_present?(cms_man_agents_edit_agent_comps.xpath_label_cec_staff_member)).to be(visible_cec_staff_member)
     expect(element_present?(cms_man_agents_edit_agent_comps.xpath_label_cec_admin)).to be(visible_cec_admin)
   end
-
 end

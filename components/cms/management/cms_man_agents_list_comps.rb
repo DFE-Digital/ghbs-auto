@@ -38,5 +38,4 @@ class CmsManAgentsListComps
   def link_new_agent
     find(:xpath, "//a[contains(.,'New Agent')]")
   end
-
 end
