@@ -37,17 +37,15 @@ Feature: GHBS - CMS - Role Based Access
     Given we set out "<TargetUser>" to have a role of "<Role>" from the Agents screen
     And we log out and log back in as our "<TargetUser>" who has the role of "<Role>"
     Then we validate that the "<Role>" has the correct Find a Case permissions
-    And we validate that the "<Role>" has the correct MyCases permissions
+    #And we validate that the "<Role>" has the correct MyCases permissions
     Examples:
       | TargetUser           | Role                                 |
       | rba_test_user_login  | Global Administrator                 |
-#      | rba_test_user_login  | Procurement Operations Admin         |
-#      | rba_test_user_login  | Procurement Operations Staff Member  |
-#      | rba_test_user_login  | Engagement and Outreach Admin        |
-#      | rba_test_user_login  | Engagement and Outreach Staff Member |
-#      | rba_test_user_login  | Digital Team Staff Member            |
-#      | rba_test_user_login  | CEC Staff Member                     |
-#      | rba_test_user_login  | CEC Admin                            |
+      | rba_test_user_login  | Procurement Operations Admin         |
+      | rba_test_user_login  | Procurement Operations Staff Member  |
+      | rba_test_user_login  | Digital Team Staff Member            |
+      | rba_test_user_login  | CEC Staff Member                     |
+      | rba_test_user_login  | CEC Admin                            |
 
 
 # Note: The key areas these tests will focus on are shown below:

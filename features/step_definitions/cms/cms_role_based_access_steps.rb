@@ -17,7 +17,7 @@ Then(/^we validate that the current user has the correct Agents screen permissio
 end
 
 Then(/^we validate that the "([^"]*)" has the correct Find a Case permissions$/) do |arg|
-  pending
+  cms_rba_find_a_case_methods.validate_find_a_case_view_permissions
 end
 
 And(/^we validate that the "([^"]*)" has the correct MyCases permissions$/) do |arg|

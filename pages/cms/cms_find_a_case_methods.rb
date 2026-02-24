@@ -22,7 +22,7 @@ class CmsFindACaseMethods < CmsBasePage
 
     # confirm the page load
     expect(page).to have_current_path(%r{/cases/find-a-case}, url: true, wait: 10)
-    wait_for_element_to_include(cms_notifications_page_comps.text_page_heading, "Search results", timeout: 5)
+    wait_for_element_to_include(cms_search_results_page_comps.text_page_heading, "Search results", timeout: 5)
   end
 
   def open_returned_result_with_case_number(term)
