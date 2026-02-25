@@ -16,10 +16,10 @@ Then(/^we validate that the current user has the correct Agents screen permissio
   cms_rba_admin_agents_methods.open_and_validate_new_agents_list
 end
 
-Then(/^we validate that the "([^"]*)" has the correct Find a Case permissions$/) do |arg|
+Then(/^we validate that the current user has the correct Find a Case permissions$/) do
   cms_rba_find_a_case_methods.validate_find_a_case_view_permissions
 end
 
-And(/^we validate that the "([^"]*)" has the correct MyCases permissions$/) do |arg|
-  pending
+And(/^we validate that the current user has the correct MyCases permissions$/) do
+  cms_rba_my_cases_methods.validate_my_cases_view_levels
 end

@@ -32,12 +32,11 @@ Feature: GHBS - CMS - Role Based Access
       | rba_test_user_login  | Engagement and Outreach Admin        |
       | rba_test_user_login  | CEC Admin                            |
 
-  @wip
   Scenario Outline: ES-1179-2 - CMS - RBA - View cases on Find a Case and MyCase
     Given we set out "<TargetUser>" to have a role of "<Role>" from the Agents screen
     And we log out and log back in as our "<TargetUser>" who has the role of "<Role>"
-    Then we validate that the "<Role>" has the correct Find a Case permissions
-    #And we validate that the "<Role>" has the correct MyCases permissions
+    Then we validate that the current user has the correct Find a Case permissions
+    And we validate that the current user has the correct MyCases permissions
     Examples:
       | TargetUser           | Role                                 |
       | rba_test_user_login  | Global Administrator                 |

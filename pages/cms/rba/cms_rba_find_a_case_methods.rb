@@ -90,7 +90,7 @@ class CmsRbaFindACaseMethods < CmsBasePage
       )
 
     else
-      raise ArgumentError, "Role '#{current_user_state.role}' is not a role we think should have agent permissions"
+      raise ArgumentError, "Role '#{current_user_state.role}' is not a role we think should see the find a case screen"
     end
   end
 
@@ -146,8 +146,6 @@ class CmsRbaFindACaseMethods < CmsBasePage
     world.cms_find_a_case_methods.search_for_case(level_7_case_number)
     expect(element_present?(cms_search_results_page_comps.xpath_link_case_number(level_7_case_number))).to be(level_7_case_visibility)
     nav_to_find_a_case_screen
-
-
   end
 
   def nav_to_find_a_case_screen
@@ -156,5 +154,4 @@ class CmsRbaFindACaseMethods < CmsBasePage
     expect(page).to have_current_path(%r{#{current_user_state.base_url}/cases/find-a-case/new}, url: true, wait: 20)
     wait_for_element_to_include(cms_find_a_case_page_comps.text_page_heading, "Find a case", timeout: 5)
   end
-
 end
