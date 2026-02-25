@@ -27,7 +27,7 @@ class CmsTopNavMethods < CmsBasePage
 
   def nav_to_management_screen
     cms_top_nav_comps.link_management.click
-    expect(page).to have_current_path(%r{/support/management}, url: true, wait: 10)
+    expect(page).to have_current_path(%r{#{current_user_state.base_url}/management}, url: true, wait: 10)
     expect(cms_management_comps.text_page_heading.text).to include("CMS Management")
   end
 

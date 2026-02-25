@@ -7,8 +7,12 @@ class CmsSearchResultsPageComps
     find(:xpath, "//h1")
   end
 
+  def xpath_link_case_number(case_number)
+    "//a[contains(.,'#{case_number}')]"
+  end
+
   def link_case_number(case_number)
-    find(:xpath, "//a[contains(.,'#{case_number}')]")
+    find(:xpath, xpath_link_case_number(case_number))
   end
 
   def link_org_based_on_case_number(case_number)

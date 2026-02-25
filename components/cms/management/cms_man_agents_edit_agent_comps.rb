@@ -19,88 +19,132 @@ class CmsManAgentsEditAgentComps
     find(:xpath, "//input[@id='agent-email-field']")
   end
 
+  def xpath_label_global_administrator
+    "//label[normalize-space()='Global Administrator']"
+  end
+
   def label_global_administrator
-    find(:xpath, "//label[normalize-space()='Global Administrator']")
+    find(:xpath, xpath_label_global_administrator)
   end
 
   def checkbox_global_administrator
     label_global_administrator.find(:xpath, "./preceding-sibling::input[@type='checkbox']", visible: :all)
   end
 
+  def xpath_label_procurement_operations_admin
+    "//label[normalize-space()='Procurement Operations Admin']"
+  end
+
   def label_procurement_operations_admin
-    find(:xpath, "//label[normalize-space()='Procurement Operations Admin']")
+    find(:xpath, xpath_label_procurement_operations_admin)
   end
 
   def checkbox_procurement_operations_admin
     label_procurement_operations_admin.find(:xpath, "./preceding-sibling::input[@type='checkbox']", visible: :all)
   end
 
+  def xpath_label_procurement_operations_staff_member
+    "//label[normalize-space()='Procurement Operations Staff Member']"
+  end
+
   def label_procurement_operations_staff_member
-    find(:xpath, "//label[normalize-space()='Procurement Operations Staff Member']")
+    find(:xpath, xpath_label_procurement_operations_staff_member)
   end
 
   def checkbox_procurement_operations_staff_member
     label_procurement_operations_staff_member.find(:xpath, "./preceding-sibling::input[@type='checkbox']", visible: :all)
   end
 
+  def xpath_label_engagement_and_outreach_admin
+    "//label[normalize-space()='Engagement and Outreach Admin']"
+  end
+
   def label_engagement_and_outreach_admin
-    find(:xpath, "//label[normalize-space()='Engagement and Outreach Admin']")
+    find(:xpath, xpath_label_engagement_and_outreach_admin)
   end
 
   def checkbox_engagement_and_outreach_admin
     label_engagement_and_outreach_admin.find(:xpath, "./preceding-sibling::input[@type='checkbox']", visible: :all)
   end
 
+  def xpath_label_engagement_and_outreach_staff_member
+    "//label[normalize-space()='Engagement and Outreach Staff Member']"
+  end
+
   def label_engagement_and_outreach_staff_member
-    find(:xpath, "//label[normalize-space()='Engagement and Outreach Staff Member']")
+    find(:xpath, xpath_label_engagement_and_outreach_staff_member)
   end
 
   def checkbox_engagement_and_outreach_staff_member
     label_engagement_and_outreach_staff_member.find(:xpath, "./preceding-sibling::input[@type='checkbox']", visible: :all)
   end
 
+  def xpath_label_digital_team_staff_member
+    "//label[normalize-space()='Digital Team Staff Member']"
+  end
+
   def label_digital_team_staff_member
-    find(:xpath, "//label[normalize-space()='Digital Team Staff Member']")
+    find(:xpath, xpath_label_digital_team_staff_member)
   end
 
   def checkbox_digital_team_staff_member
     label_digital_team_staff_member.find(:xpath, "./preceding-sibling::input[@type='checkbox']", visible: :all)
   end
 
+  def xpath_label_data_analyst
+    "//label[normalize-space()='Data Analyst']"
+  end
+
   def label_data_analyst
-    find(:xpath, "//label[normalize-space()='Data Analyst']")
+    find(:xpath, xpath_label_data_analyst)
   end
 
   def checkbox_data_analyst
     label_data_analyst.find(:xpath, "./preceding-sibling::input[@type='checkbox']", visible: :all)
   end
 
+  def xpath_label_framework_evaluator
+    "//label[normalize-space()='Framework Evaluator']"
+  end
+
   def label_framework_evaluator
-    find(:xpath, "//label[normalize-space()='Framework Evaluator']")
+    find(:xpath, xpath_label_framework_evaluator)
   end
 
   def checkbox_framework_evaluator
     label_framework_evaluator.find(:xpath, "./preceding-sibling::input[@type='checkbox']", visible: :all)
   end
 
+  def xpath_label_framework_evaluator_admin
+    "//label[normalize-space()='Framework Evaluator Admin']"
+  end
+
   def label_framework_evaluator_admin
-    find(:xpath, "//label[normalize-space()='Framework Evaluator Admin']")
+    find(:xpath, xpath_label_framework_evaluator_admin)
   end
 
   def checkbox_framework_evaluator_admin
     label_framework_evaluator_admin.find(:xpath, "./preceding-sibling::input[@type='checkbox']", visible: :all)
   end
 
+  def xpath_label_cec_staff_member
+    "//label[normalize-space()='CEC Staff Member']"
+  end
+
   def label_cec_staff_member
-    find(:xpath, "//label[normalize-space()='CEC Staff Member']")
+    find(:xpath, xpath_label_cec_staff_member)
   end
 
   def checkbox_cec_staff_member
     label_cec_staff_member.find(:xpath, "./preceding-sibling::input[@type='checkbox']", visible: :all)
   end
 
+  def xpath_label_cec_admin
+    "//label[normalize-space()='CEC Admin']"
+  end
+
   def label_cec_admin
-    find(:xpath, "//label[normalize-space()='CEC Admin']")
+    find(:xpath, xpath_label_cec_admin)
   end
 
   def checkbox_cec_admin

@@ -23,19 +23,14 @@ class CmsRbaMyCasesMethods < CmsBasePage
     # Validate the top page link
     if top_nav_my_cases
       # Nav to my cases screen
-      if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member"].include?(current_user_state.role)
+      expect(page).to have_current_path(%r{#{current_user_state.base_url}#my-cases}, url: true, wait: 20)
+
+      if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member", "CEC Staff Member", "CEC Admin"].include?(current_user_state.role)
         expect(element_present?(cms_top_nav_comps.xpath_link_my_cases_e_and_o)).to be(top_nav_my_cases)
-        expect(page).to have_current_path(%r{engagement#my-cases}, url: true, wait: 20)
-        wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 5)
-        cms_top_nav_comps.link_my_cases_e_and_o.click
-      elsif ["CEC Staff Member", "CEC Admin"].include?(current_user_state.role)
-        expect(element_present?(cms_top_nav_comps.xpath_link_my_cases_e_and_o)).to be(top_nav_my_cases)
-        expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 20)
         wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 5)
         cms_top_nav_comps.link_my_cases_e_and_o.click
       else
         expect(element_present?(cms_top_nav_comps.xpath_link_my_cases)).to be(top_nav_my_cases)
-        expect(page).to have_current_path(%r{/support#my-cases}, url: true, wait: 20)
         wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 5)
         cms_top_nav_comps.link_my_cases.click
       end
@@ -49,6 +44,185 @@ class CmsRbaMyCasesMethods < CmsBasePage
       expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_triage)).to be(sub_nav_triage)
       expect(element_present?(cms_my_cases_sub_nav_comps.xpath_new_cases)).to be(sub_nav_new_cases)
       expect(element_present?(cms_my_cases_sub_nav_comps.xpath_link_all_cases)).to be(sub_nav_all_cases)
+    end
+  end
+
+  def validate_my_cases_view_levels
+    # Validate the expected selectable roles
+    case current_user_state.role
+    when "Global Administrator"
+      section_my_cases_view_levels(
+        level_1_case_visibility: true,
+        level_2_case_visibility: true,
+        level_3_case_visibility: true,
+        level_4_case_visibility: true,
+        level_5_case_visibility: true,
+        level_6_case_visibility: true,
+        level_7_case_visibility: true
+      )
+
+    when "Procurement Operations Admin"
+      section_my_cases_view_levels(
+        level_1_case_visibility: true,
+        level_2_case_visibility: true,
+        level_3_case_visibility: true,
+        level_4_case_visibility: true,
+        level_5_case_visibility: true,
+        level_6_case_visibility: true,
+        level_7_case_visibility: true
+      )
+
+    when "Procurement Operations Staff Member"
+      section_my_cases_view_levels(
+        level_1_case_visibility: true,
+        level_2_case_visibility: true,
+        level_3_case_visibility: true,
+        level_4_case_visibility: true,
+        level_5_case_visibility: true,
+        level_6_case_visibility: true,
+        level_7_case_visibility: true
+      )
+
+    when "Digital Team Staff Member"
+      section_my_cases_view_levels(
+        level_1_case_visibility: true,
+        level_2_case_visibility: true,
+        level_3_case_visibility: true,
+        level_4_case_visibility: true,
+        level_5_case_visibility: true,
+        level_6_case_visibility: true,
+        level_7_case_visibility: true
+      )
+
+    when "CEC Staff Member"
+      section_my_cases_view_levels(
+        level_1_case_visibility: false,
+        level_2_case_visibility: false,
+        level_3_case_visibility: false,
+        level_4_case_visibility: false,
+        level_5_case_visibility: false,
+        level_6_case_visibility: true,
+        level_7_case_visibility: true
+      )
+
+    when "CEC Admin"
+      section_my_cases_view_levels(
+        level_1_case_visibility: false,
+        level_2_case_visibility: false,
+        level_3_case_visibility: false,
+        level_4_case_visibility: false,
+        level_5_case_visibility: false,
+        level_6_case_visibility: true,
+        level_7_case_visibility: true
+      )
+
+    else
+      raise ArgumentError, "Role '#{current_user_state.role}' is not a role we think should see the my cases section/screen"
+    end
+  end
+
+  def section_my_cases_view_levels(
+    level_1_case_visibility: false,
+    level_2_case_visibility: false,
+    level_3_case_visibility: false,
+    level_4_case_visibility: false,
+    level_5_case_visibility: false,
+    level_6_case_visibility: false,
+    level_7_case_visibility: false
+  )
+    open_my_cases
+
+    # Search for a level 1 case
+    filter_by_level(1)
+    level_1_case_number = "001674"
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_1_case_number), wait: 5)).to be(level_1_case_visibility)
+
+    # Search for a level 2 case
+    filter_by_level(2)
+    level_2_case_number = "001661"
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_2_case_number), wait: 5)).to be(level_2_case_visibility)
+
+    # Search for a level 3 case
+    filter_by_level(3)
+    level_3_case_number = "001667"
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_3_case_number), wait: 5)).to be(level_3_case_visibility)
+
+    # Search for a level 4 case
+    filter_by_level(4)
+    level_4_case_number = "001671"
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_4_case_number), wait: 5)).to be(level_4_case_visibility)
+
+    # Search for a level 5 case
+    filter_by_level(5)
+    level_5_case_number = "001672"
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_5_case_number), wait: 5)).to be(level_5_case_visibility)
+
+    # Search for a level 6 case
+    filter_by_level(6)
+    level_6_case_number = "001673"
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_6_case_number), wait: 5)).to be(level_6_case_visibility)
+
+    # Search for a level 7 case
+    filter_by_level(7)
+    level_7_case_number = "001675"
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_7_case_number), wait: 5)).to be(level_7_case_visibility)
+  end
+
+private
+
+  def open_my_cases
+    if ["Engagement and Outreach Admin", "Engagement and Outreach Staff Member", "CEC Staff Member", "CEC Admin"].include?(current_user_state.role)
+      cms_top_nav_comps.link_my_cases_e_and_o.click
+      expect(element_present?(cms_top_nav_comps.xpath_link_my_cases_e_and_o)).to be(true)
+    else
+      cms_top_nav_comps.link_my_cases.click
+      expect(element_present?(cms_top_nav_comps.xpath_link_my_cases)).to be(true)
+    end
+    wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 5)
+  end
+
+  def filter_by_level(level)
+    checkbox_all = cms_mycases_page_comps.checkbox_level_all
+    cms_mycases_page_comps.label_level_all.click unless checkbox_all.checked?
+
+    case level
+    when 1
+      cms_mycases_page_comps.label_level_1.click
+      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_1, visible: :all, wait: 5)
+      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_1, visible: :all, wait: 2)
+      expect(checkbox.checked?).to be(true)
+    when 2
+      cms_mycases_page_comps.label_level_2.click
+      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_2, visible: :all, wait: 5)
+      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_2, visible: :all, wait: 2)
+      expect(checkbox.checked?).to be(true)
+    when 3
+      cms_mycases_page_comps.label_level_3.click
+      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_3, visible: :all, wait: 5)
+      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_3, visible: :all, wait: 2)
+      expect(checkbox.checked?).to be(true)
+    when 4
+      cms_mycases_page_comps.label_level_4.click
+      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_4, visible: :all, wait: 5)
+      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_4, visible: :all, wait: 2)
+      expect(checkbox.checked?).to be(true)
+    when 5
+      cms_mycases_page_comps.label_level_5.click
+      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_5, visible: :all, wait: 5)
+      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_5, visible: :all, wait: 2)
+      expect(checkbox.checked?).to be(true)
+    when 6
+      cms_mycases_page_comps.label_level_6.click
+      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_6, visible: :all, wait: 5)
+      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_6, visible: :all, wait: 2)
+      expect(checkbox.checked?).to be(true)
+    when 7
+      cms_mycases_page_comps.label_level_7.click
+      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_7, visible: :all, wait: 5)
+      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_7, visible: :all, wait: 2)
+      expect(checkbox.checked?).to be(true)
+    else
+      raise ArgumentError, "Level '#{clevel}' is not a level option"
     end
   end
 end

@@ -34,4 +34,8 @@ class CmsManAgentsListComps
   def text_see_roles_by_name(agent_name)
     find(:xpath, "//th[contains(.,'#{agent_name}')]/following-sibling::td[1]")
   end
+
+  def link_new_agent
+    find(:xpath, "//a[contains(.,'New Agent')]")
+  end
 end
