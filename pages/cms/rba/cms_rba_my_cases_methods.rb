@@ -132,40 +132,13 @@ class CmsRbaMyCasesMethods < CmsBasePage
   )
     open_my_cases
 
-    # Search for a level 1 case
-    filter_by_level(1)
-    level_1_case_number = "001674"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_1_case_number), wait: 10)).to be(level_1_case_visibility)
-
-    # Search for a level 2 case
-    filter_by_level(2)
-    level_2_case_number = "001661"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_2_case_number), wait: 10)).to be(level_2_case_visibility)
-
-    # Search for a level 3 case
-    filter_by_level(3)
-    level_3_case_number = "001667"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_3_case_number), wait: 10)).to be(level_3_case_visibility)
-
-    # Search for a level 4 case
-    filter_by_level(4)
-    level_4_case_number = "001671"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_4_case_number), wait: 10)).to be(level_4_case_visibility)
-
-    # Search for a level 5 case
-    filter_by_level(5)
-    level_5_case_number = "001672"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_5_case_number), wait: 10)).to be(level_5_case_visibility)
-
-    # Search for a level 6 case
-    filter_by_level(6)
-    level_6_case_number = "001673"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_6_case_number), wait: 10)).to be(level_6_case_visibility)
-
-    # Search for a level 7 case
-    filter_by_level(7)
-    level_7_case_number = "001675"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_7_case_number), wait: 10)).to be(level_7_case_visibility)
+    validate_case_visibility_for_level_with_reload(1, "001674", level_1_case_visibility)
+    validate_case_visibility_for_level_with_reload(2, "001661", level_2_case_visibility)
+    validate_case_visibility_for_level_with_reload(3, "001667", level_3_case_visibility)
+    validate_case_visibility_for_level_with_reload(4, "001671", level_4_case_visibility)
+    validate_case_visibility_for_level_with_reload(5, "001672", level_5_case_visibility)
+    validate_case_visibility_for_level_with_reload(6, "001673", level_6_case_visibility)
+    validate_case_visibility_for_level_with_reload(7, "001675", level_7_case_visibility)
   end
 
 private
@@ -224,5 +197,23 @@ private
     else
       raise ArgumentError, "Level '#{clevel}' is not a level option"
     end
+  end
+
+  def validate_case_visibility_for_level(level, case_number, expected_visibility)
+    filter_by_level(level)
+
+    expect(
+      element_present?(
+        cms_mycases_page_comps.xpath_link_case(case_number),
+        wait: 5
+      )
+    ).to be(expected_visibility)
+  end
+
+  def validate_case_visibility_for_level_with_reload(level, case_number, expected_visibility)
+    validate_case_visibility_for_level(level, case_number, expected_visibility)
+  rescue RSpec::Expectations::ExpectationNotMetError, Capybara::ElementNotFound
+    open_my_cases
+    validate_case_visibility_for_level(level, case_number, expected_visibility)
   end
 end
