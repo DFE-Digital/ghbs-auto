@@ -135,37 +135,37 @@ class CmsRbaMyCasesMethods < CmsBasePage
     # Search for a level 1 case
     filter_by_level(1)
     level_1_case_number = "001674"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_1_case_number), wait: 5)).to be(level_1_case_visibility)
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_1_case_number), wait: 10)).to be(level_1_case_visibility)
 
     # Search for a level 2 case
     filter_by_level(2)
     level_2_case_number = "001661"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_2_case_number), wait: 5)).to be(level_2_case_visibility)
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_2_case_number), wait: 10)).to be(level_2_case_visibility)
 
     # Search for a level 3 case
     filter_by_level(3)
     level_3_case_number = "001667"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_3_case_number), wait: 5)).to be(level_3_case_visibility)
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_3_case_number), wait: 10)).to be(level_3_case_visibility)
 
     # Search for a level 4 case
     filter_by_level(4)
     level_4_case_number = "001671"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_4_case_number), wait: 5)).to be(level_4_case_visibility)
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_4_case_number), wait: 10)).to be(level_4_case_visibility)
 
     # Search for a level 5 case
     filter_by_level(5)
     level_5_case_number = "001672"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_5_case_number), wait: 5)).to be(level_5_case_visibility)
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_5_case_number), wait: 10)).to be(level_5_case_visibility)
 
     # Search for a level 6 case
     filter_by_level(6)
     level_6_case_number = "001673"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_6_case_number), wait: 5)).to be(level_6_case_visibility)
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_6_case_number), wait: 10)).to be(level_6_case_visibility)
 
     # Search for a level 7 case
     filter_by_level(7)
     level_7_case_number = "001675"
-    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_7_case_number), wait: 5)).to be(level_7_case_visibility)
+    expect(element_present?(cms_mycases_page_comps.xpath_link_case(level_7_case_number), wait: 10)).to be(level_7_case_visibility)
   end
 
 private

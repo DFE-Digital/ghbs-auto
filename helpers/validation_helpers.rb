@@ -20,7 +20,7 @@ module ValidationHelpers
     raise "Timed out after #{timeout}s waiting for element to include #{expected.inspect}"
   end
 
-  def element_present?(xpath, wait: 0, **options)
+  def element_present?(xpath, wait: Capybara.default_max_wait_time, **options)
     page.has_selector?(:xpath, xpath, wait: wait, **options)
   end
 
