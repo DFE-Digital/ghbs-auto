@@ -161,39 +161,25 @@ private
     case level
     when 1
       cms_mycases_page_comps.label_level_1.click
-      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_1, visible: :all, wait: 5)
-      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_1, visible: :all, wait: 2)
-      expect(checkbox.checked?).to be(true)
+      expect(page).to have_checked_field(cms_mycases_page_comps.id_checkbox_level_1, visible: :all, wait: 10)
     when 2
       cms_mycases_page_comps.label_level_2.click
-      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_2, visible: :all, wait: 5)
-      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_2, visible: :all, wait: 2)
-      expect(checkbox.checked?).to be(true)
+      expect(page).to have_checked_field(cms_mycases_page_comps.id_checkbox_level_2, visible: :all, wait: 10)
     when 3
       cms_mycases_page_comps.label_level_3.click
-      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_3, visible: :all, wait: 5)
-      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_3, visible: :all, wait: 2)
-      expect(checkbox.checked?).to be(true)
+      expect(page).to have_checked_field(cms_mycases_page_comps.id_checkbox_level_3, visible: :all, wait: 10)
     when 4
       cms_mycases_page_comps.label_level_4.click
-      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_4, visible: :all, wait: 5)
-      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_4, visible: :all, wait: 2)
-      expect(checkbox.checked?).to be(true)
+      expect(page).to have_checked_field(cms_mycases_page_comps.id_checkbox_level_4, visible: :all, wait: 10)
     when 5
       cms_mycases_page_comps.label_level_5.click
-      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_5, visible: :all, wait: 5)
-      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_5, visible: :all, wait: 2)
-      expect(checkbox.checked?).to be(true)
+      expect(page).to have_checked_field(cms_mycases_page_comps.id_checkbox_level_5, visible: :all, wait: 10)
     when 6
       cms_mycases_page_comps.label_level_6.click
-      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_6, visible: :all, wait: 5)
-      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_6, visible: :all, wait: 2)
-      expect(checkbox.checked?).to be(true)
+      expect(page).to have_checked_field(cms_mycases_page_comps.id_checkbox_level_6, visible: :all, wait: 10)
     when 7
       cms_mycases_page_comps.label_level_7.click
-      expect(page).to have_selector(:xpath, cms_mycases_page_comps.xpath_checkbox_level_7, visible: :all, wait: 5)
-      checkbox = find(:xpath, cms_mycases_page_comps.xpath_checkbox_level_7, visible: :all, wait: 2)
-      expect(checkbox.checked?).to be(true)
+      expect(page).to have_checked_field(cms_mycases_page_comps.id_checkbox_level_7, visible: :all, wait: 10)
     else
       raise ArgumentError, "Level '#{clevel}' is not a level option"
     end

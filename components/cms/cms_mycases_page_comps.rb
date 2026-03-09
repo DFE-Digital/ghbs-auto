@@ -19,8 +19,14 @@ class CmsMyCasesPageComps
     find(:xpath, xpath_link_case(case_number))
   end
 
+  ### Checkbox level all ###
+
+  def id_checkbox_level_all
+    "filter-my-cases-form-level-all-field"
+  end
+
   def xpath_checkbox_level_all
-    "//input[@id='filter-my-cases-form-level-all-field']"
+    "//input[@id='#{id_checkbox_level_all}']"
   end
 
   def checkbox_level_all
@@ -28,11 +34,17 @@ class CmsMyCasesPageComps
   end
 
   def label_level_all
-    find(:xpath, "//label[@for='filter-my-cases-form-level-all-field']")
+    find(:xpath, "//label[@for='#{id_checkbox_level_all}']")
+  end
+
+  ### Checkbox level 1 ###
+
+  def id_checkbox_level_1
+    "filter-my-cases-form-level-l1-field"
   end
 
   def xpath_checkbox_level_1
-    "//input[@id='filter-my-cases-form-level-l1-field']"
+    "//input[@id='#{id_checkbox_level_1}']"
   end
 
   def checkbox_level_1
@@ -40,11 +52,17 @@ class CmsMyCasesPageComps
   end
 
   def label_level_1
-    find(:xpath, "//label[@for='filter-my-cases-form-level-l1-field']")
+    find(:xpath, "//label[@for='#{id_checkbox_level_1}']")
+  end
+
+  ### Checkbox level 2 ###
+
+  def id_checkbox_level_2
+    "filter-my-cases-form-level-l2-field"
   end
 
   def xpath_checkbox_level_2
-    "//input[@id='filter-my-cases-form-level-l2-field']"
+    "//input[@id='#{id_checkbox_level_2}']"
   end
 
   def checkbox_level_2
@@ -52,11 +70,17 @@ class CmsMyCasesPageComps
   end
 
   def label_level_2
-    find(:xpath, "//label[@for='filter-my-cases-form-level-l2-field']")
+    find(:xpath, "//label[@for='#{id_checkbox_level_2}']")
+  end
+
+  ### Checkbox level 3 ###
+
+  def id_checkbox_level_3
+    "filter-my-cases-form-level-l3-field"
   end
 
   def xpath_checkbox_level_3
-    "//input[@id='filter-my-cases-form-level-l3-field']"
+    "//input[@id='#{id_checkbox_level_3}']"
   end
 
   def checkbox_level_3
@@ -64,11 +88,17 @@ class CmsMyCasesPageComps
   end
 
   def label_level_3
-    find(:xpath, "//label[@for='filter-my-cases-form-level-l3-field']")
+    find(:xpath, "//label[@for='#{id_checkbox_level_3}']")
+  end
+
+  ### Checkbox level 4 ###
+
+  def id_checkbox_level_4
+    "filter-my-cases-form-level-l4-field"
   end
 
   def xpath_checkbox_level_4
-    "//input[@id='filter-my-cases-form-level-l4-field']"
+    "//input[@id='#{id_checkbox_level_4}']"
   end
 
   def checkbox_level_4
@@ -76,11 +106,17 @@ class CmsMyCasesPageComps
   end
 
   def label_level_4
-    find(:xpath, "//label[@for='filter-my-cases-form-level-l4-field']")
+    find(:xpath, "//label[@for='#{id_checkbox_level_4}']")
+  end
+
+  ### Checkbox level 5 ###
+
+  def id_checkbox_level_5
+    "filter-my-cases-form-level-l5-field"
   end
 
   def xpath_checkbox_level_5
-    "//input[@id='filter-my-cases-form-level-l5-field']"
+    "//input[@id='#{id_checkbox_level_5}']"
   end
 
   def checkbox_level_5
@@ -88,11 +124,17 @@ class CmsMyCasesPageComps
   end
 
   def label_level_5
-    find(:xpath, "//label[@for='filter-my-cases-form-level-l5-field']")
+    find(:xpath, "//label[@for='#{id_checkbox_level_5}']")
+  end
+
+  ### Checkbox level 6 ###
+
+  def id_checkbox_level_6
+    "filter-my-cases-form-level-l6-field"
   end
 
   def xpath_checkbox_level_6
-    "//input[@id='filter-my-cases-form-level-l6-field']"
+    "//input[@id='#{id_checkbox_level_6}']"
   end
 
   def checkbox_level_6
@@ -100,11 +142,17 @@ class CmsMyCasesPageComps
   end
 
   def label_level_6
-    find(:xpath, "//label[@for='filter-my-cases-form-level-l6-field']")
+    find(:xpath, "//label[@for='#{id_checkbox_level_6}']")
+  end
+
+  ### Checkbox level 7 ###
+
+  def id_checkbox_level_7
+    "filter-my-cases-form-level-l7-field"
   end
 
   def xpath_checkbox_level_7
-    "//input[@id='filter-my-cases-form-level-l7-field']"
+    "//input[@id='#{id_checkbox_level_7}']"
   end
 
   def checkbox_level_7
@@ -112,6 +160,6 @@ class CmsMyCasesPageComps
   end
 
   def label_level_7
-    find(:xpath, "//label[@for='filter-my-cases-form-level-l7-field']")
+    find(:xpath, "//label[@for='#{id_checkbox_level_7}']")
   end
 end
