@@ -141,8 +141,6 @@ class CmsRbaMyCasesMethods < CmsBasePage
     validate_case_visibility_for_level_with_reload(7, "001675", level_7_case_visibility)
   end
 
-
-
 private
 
   def open_my_cases
@@ -218,6 +216,4 @@ private
     open_my_cases
     validate_case_visibility_for_level(level, case_number, expected_visibility)
   end
-
-
 end
