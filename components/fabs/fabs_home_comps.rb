@@ -23,10 +23,6 @@ class FabsHomeComps
     find(:xpath, "//a[text()='Browse a list of all DfE-approved buying options']")
   end
 
-  def link_category_banking_and_finance
-    find(:xpath, "//a[text()='Banking and finance']")
-  end
-
   def link_category_energy
     find(:xpath, "//a[text()='Energy']")
   end
@@ -49,5 +45,17 @@ class FabsHomeComps
 
   def link_category_recruitment_hr_and_training
     find(:xpath, "//a[text()='Recruitment, HR and training']")
+  end
+
+  def link_about_this_service
+    find(:xpath, "//a[contains(.,'About this service')]")
+  end
+
+  def link_agency_supply_staff
+    find(:xpath, "//a[contains(.,'Agency supply staff')]")
+  end
+
+  def link_energy_for_schools
+    find(:xpath, "//a[contains(.,'Energy for schools')]")
   end
 end

@@ -21,4 +21,8 @@ class FabsBuyingOptionComps
       }
     end
   end
+
+  def button_cta_join_energy_for_schools
+    find(:xpath, "//a[contains(.,'Join Energy for Schools')]")
+  end
 end
