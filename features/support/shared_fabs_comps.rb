@@ -19,6 +19,7 @@ require "components/fabs/contentful/contentful_cms_login_comps"
 require "components/fabs/contentful/contentful_cms_login_landing_page_comps"
 require "components/fabs/contentful/contentful_cms_search_comps"
 require "components/fabs/contentful/contentful_cms_solution_comps"
+require "components/fabs/fabs_about_this_service_comps"
 
 module SharedFabsComps
   # Error Pages
@@ -49,6 +50,9 @@ module SharedFabsComps
   def fabs_insignis_savings_platform_comps = @fabs_insignis_savings_platform_comps ||= FabsInsignisSavingsPlatformComps.new
   def fabs_current_accounts_comps = @fabs_current_accounts_comps ||= FabsCurrentAccountsComps.new
   def fabs_shared_related_content_comps = @fabs_shared_related_content_comps ||= FabsSharedRelatedContentComps.new
+
+  # About this service
+  def fabs_about_this_service_comps = @fabs_about_this_service_comps ||= FabsSharedRelatedContentComps.new
 
   # Contentful
   def contentful_cms_login_comps = @contentful_cms_login_comps ||= ContentfulCmsLoginComps.new

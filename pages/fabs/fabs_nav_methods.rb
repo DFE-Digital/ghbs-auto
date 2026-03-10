@@ -2,6 +2,7 @@
 
 require "pages/fabs/fabs_base_page"
 require "helpers/url_nav_helpers"
+require "helpers/validation_helpers"
 require "components/fabs/fabs_404_comps"
 require "components/fabs/fabs_500_comps"
 require "components/fabs/fabs_search_comps"
@@ -10,9 +11,13 @@ require "components/fabs/fabs_all_buying_options_comps"
 require "components/fabs/fabs_footer_nav_comps"
 require "components/fabs/fabs_accessibility_statement_comps"
 require "components/fabs/fabs_terms_and_conditions_comps"
+require "components/fabs/fabs_buying_category_comps"
+require "components/fabs/fabs_buying_option_comps"
+require "components/energy/pre_login/energy_before_you_start_comps"
 
 class FabsNavMethods < FabsBasePage
   include UrlHelpers
+  include ValidationHelpers
 
   # --- Error pages ---
 
@@ -46,6 +51,41 @@ class FabsNavMethods < FabsBasePage
     expect(page).to have_current_path(%r{/solutions}, url: true, wait: 10)
     expect(fabs_all_buying_options_comps.text_page_heading.text).to include("All buying options")
     axe_check! if FlagsGlobalConfig.axe_enabled?
+  end
+
+  # --- About this service page ---
+
+  def navigate_to_about_this_service
+    reset_to_homepage_via_logo
+    fabs_home_comps.link_about_this_service.click
+    expect(page).to have_current_path(%r{/about-this-service}, url: true, wait: 10)
+    expect(fabs_all_buying_options_comps.text_page_heading.text).to include("About this service Request for help")
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+  end
+
+  # DfE energy for schools
+  def navigate_to_energy_for_schools_via_category
+    reset_to_homepage_via_logo
+
+    # open energy category
+    fabs_home_comps.link_category_energy.click
+    expect(page).to have_current_path(%r{/categories/energy}, url: true, wait: 10)
+    expect(fabs_buying_category_comps.text_page_heading.text).to include("Energy")
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
+    # select and open DfE energy for Schools solution
+    fabs_buying_category_comps.link_buying_category_by_name("DfE Energy for Schools").click
+    expect(page).to have_current_path(%r{/categories/energy/energy-for-schools}, url: true, wait: 10)
+    expect(fabs_buying_option_comps.text_page_heading.text).to include("DfE Energy for Schools")
+
+    # use the cta to navigate to the before you start page of the energy flow
+    fabs_buying_option_comps.button_cta_join_energy_for_schools.click
+
+    # At this point we have a new window open and need to switch context to it
+    switch_to_window windows.last
+    expect(page).to have_current_path(%r{/energy/before-you-start}, url: true, wait: 10)
+    wait_for_element_to_include(energy_before_you_start_comps.text_page_heading, "Energy for Schools", timeout: 5)
+    wait_for_element_to_include(energy_before_you_start_comps.text_page_sub_heading, "Before you start", timeout: 5)
   end
 
   # --- Footer pages ---

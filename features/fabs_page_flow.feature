@@ -6,8 +6,7 @@ Feature: GHBS - FABS page behaviour
   @smoke
   Scenario: ES-646-1 - Check core pages are loading as expected
     Given I validate the footer pages are loading correctly
-    And I validate the category flow pages are loading correctly
-    And I validate the search and buying option pages are loading correctly
+    And I validate the core site pages are loading as expected
     Then finally I validate the error pages are loading correctly
 
   Scenario: ES-1136-1 - FABS - Simple Breadcrumbs page
