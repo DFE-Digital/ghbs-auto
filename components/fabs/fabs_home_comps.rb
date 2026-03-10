@@ -47,6 +47,10 @@ class FabsHomeComps
     find(:xpath, "//a[text()='Recruitment, HR and training']")
   end
 
+  def link_category_banking_and_finance
+    find(:xpath, "//a[text()='Banking and finance']")
+  end
+
   def link_about_this_service
     find(:xpath, "//a[contains(.,'About this service')]")
   end
