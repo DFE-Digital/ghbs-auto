@@ -51,6 +51,7 @@ require "pages/cms/rba/cms_rba_notifications_methods"
 require "pages/cms/rba/cms_role_based_access_methods"
 require "pages/cms/rba/cms_rba_top_nav_link_methods"
 require "pages/cms/rba/cms_rba_admin_agents_methods"
+require "pages/cms/case/cms_case_states_methods"
 
 module Pages
   def resolved_world
@@ -218,6 +219,10 @@ module Pages
 
   def cms_case_handover_school_user_flow_methods
     @cms_case_handover_school_user_flow_methods ||= CmsCaseHandoverSchoolUserFlowMethods.new(resolved_world)
+  end
+
+  def cms_case_states_methods
+    @cms_case_states_methods ||= CmsCaseStatesMethods.new(resolved_world)
   end
 
   ##### CMS MANAGEMENT PAGES #####
