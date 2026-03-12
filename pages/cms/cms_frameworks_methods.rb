@@ -195,18 +195,14 @@ class CmsFrameworksMethods < CmsBasePage
     current_framework_title = cms_frameworks_individual_framework_comps.text_page_heading.text
 
     # Navigate back to the main Framework Register page
-    # Note ES-1142 is a defect that is linked to the below code and why we need a
-    # double click of the back button for this to work as desired.
+    # Note ES-1142 is a defect that is linked to the below code and why we need a double click of the back button for this to
+    # work as desired. However, for efficient on the test we will go via the main nav link for now.
     expect(cms_frameworks_individual_framework_comps.link_framework_details.text).to include("Framework Details")
-    cms_frameworks_individual_framework_comps.link_back_button.click
 
-    unless page.has_current_path?(%r{/frameworks#frameworks-register}, url: true, wait: 2) ||
-        page.has_current_path?(%r{frameworks_filter}, url: true, wait: 2)
-      cms_frameworks_individual_framework_comps.link_back_button.click
-      cms_frameworks_individual_framework_comps.link_back_button.click
-    end
+    # Navigate to the Frameworks Register screen via the top link and not the back button
+    cms_top_nav_comps.link_frameworks.click
 
-    expect(page).to have_current_path(%r{frameworks_filter}, url: true, wait: 10)
+    expect(page).to have_current_path(%r{/frameworks#frameworks-register}, url: true, wait: 10)
     expect(cms_frameworks_register_comps.text_page_heading.text).to include("Frameworks Register")
 
     # Find and select our Auto Test Solution framework from the list / narrow down the options
