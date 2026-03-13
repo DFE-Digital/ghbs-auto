@@ -3,7 +3,7 @@ Feature: GHBS - CMS - Case - Tasklist Flows
   Background:
     Given we open and login to the proc ops CMS screens as an admin in the dev environment
 
-  @smoke @wip
+  @smoke
   Scenario: ES-1113: CMS - Case States
     Given we create a new case and set it to a level "4" case
     When I complete the case lifecycle actions I will see the status change:
@@ -13,7 +13,7 @@ Feature: GHBS - CMS - Case - Tasklist Flows
       | Reopen case from On Hold  | Open            |
       | Resolve case              | Resolved        |
       | Reopen case from resolved | Open            |
-#      | Reject case              | Closed          |
+      | Reject case               | Closed          |
 
 
     # 1. Create new case - New

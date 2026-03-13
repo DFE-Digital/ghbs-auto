@@ -8,6 +8,9 @@ require "components/cms/case/cms_single_case_view_page_comps"
 require "components/cms/case/actions/cms_case_actions_log_contact_with_school_comps"
 require "components/cms/case/actions/cms_case_actions_resolve_case_comps"
 require "components/cms/case/actions/cms_case_actions_reopen_case_comps"
+require "components/cms/case/actions/cms_case_actions_reject_case_comps"
+require "components/cms/case/actions/cms_case_actions_reject_case_summary_comps"
+require "components/cms/cms_mycases_page_comps"
 
 class CmsCaseStatesMethods < CmsBasePage
   include ValidationHelpers
@@ -82,6 +85,30 @@ class CmsCaseStatesMethods < CmsBasePage
 
     when "Reject case"
       # 6. Actions - Reject case - Closed
+      # Confirm were still within the case
+      wait_for_element_to_include(cms_single_case_view_page_comps.text_page_heading, case_state.case_organisation_name, timeout: 5)
+
+      # Select the reopen case action
+      cms_single_case_actions_comps.link_reject_case.click
+
+      #  Complete the reject case form
+      wait_for_element_to_include(cms_case_actions_reject_case_comps.text_page_heading, "Reject case", timeout: 5)
+      cms_case_actions_reject_case_comps.radio_reason_test_case.click
+      cms_case_actions_reject_case_comps.button_save_and_reject_case.click
+
+      # Are you sure you want to reject case summary screen
+      wait_for_element_to_include(cms_case_actions_reject_case_summary_comps.text_page_heading, "Are you sure you want to reject this case?", timeout: 5)
+      cms_case_actions_reject_case_summary_comps.button_reject_case.click
+
+      # confirm the notice
+      wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 5)
+      wait_for_element_to_include(cms_mycases_page_comps.text_flash_notice_content, "Case has been rejected", timeout: 5)
+
+      # Find rejected case to confirm the status on it
+      world.cms_top_nav_methods.nav_to_find_a_case_screen
+      world.cms_find_a_case_methods.search_for_case(case_state.case_number)
+      cms_search_results_page_comps.link_case_number(case_state.case_number).click
+
     else
       raise ArgumentError, "Unknown case action: #{action}, expected direction to trigger a case state change"
     end

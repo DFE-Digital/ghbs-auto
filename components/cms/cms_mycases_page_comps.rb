@@ -7,6 +7,10 @@ class CmsMyCasesPageComps
     find(:xpath, "//h1")
   end
 
+  def text_flash_notice_content
+    find(:xpath, "//div[@id='flash_notice']")
+  end
+
   def button_create_a_new_case
     find(:xpath, "//button[text()='Create a new case']")
   end
