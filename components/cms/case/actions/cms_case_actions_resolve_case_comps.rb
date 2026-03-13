@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CmsSingleCaseResolveCasePageComps
+class CmsCaseActionsResolveCaseComps
   include Capybara::DSL
 
   def text_page_heading

@@ -9,8 +9,12 @@ require "components/cms/cms_notifications_page_comps"
 require "components/cms/cms_case_statistics_comps"
 require "components/cms/find_a_case/cms_search_results_page_comps"
 require "components/cms/case/cms_single_case_view_page_comps"
-require "components/cms/case/actions/cms_single_case_resolve_case_page_comps"
-require "components/cms/case/actions/cms_single_case_assign_to_case_worker_comps"
+require "components/cms/case/actions/cms_case_actions_resolve_case_comps"
+require "components/cms/case/actions/cms_case_actions_assign_to_case_worker_comps"
+require "components/cms/case/actions/cms_case_actions_log_contact_with_school_comps"
+require "components/cms/case/actions/cms_case_actions_reopen_case_comps"
+require "components/cms/case/actions/cms_case_actions_reject_case_comps"
+require "components/cms/case/actions/cms_case_actions_reject_case_summary_comps"
 require "components/cms/case/cms_single_case_actions_comps"
 require "components/cms/create_a_case/cms_create_a_new_case_comps"
 require "components/cms/create_a_case/cms_create_a_new_case_check_answers_comps"
@@ -68,9 +72,13 @@ module SharedCmsComps
 
   # Single Case Actions
   def cms_single_case_view_page_comps = @cms_single_case_view_page_comps ||= CmsSingleCaseViewPageComps.new
-  def cms_single_case_resolve_case_page_comps = @cms_single_case_resolve_case_page_comps ||= CmsSingleCaseResolveCasePageComps.new
-  def cms_single_case_assign_to_case_worker_comps = @cms_single_case_assign_to_case_worker_comps ||= CmsSingleCaseAssignToCaseWorkerComps.new
+  def cms_case_actions_resolve_case_comps = @cms_case_actions_resolve_case_comps ||= CmsCaseActionsResolveCaseComps.new
+  def cms_case_actions_assign_to_case_worker_comps = @cms_case_actions_assign_to_case_worker_comps ||= CmsCaseActionsAssignToCaseWorkerComps.new
   def cms_single_case_actions_comps = @cms_single_case_actions_comps ||= CmsSingleCaseActionsComps.new
+  def cms_case_actions_log_contact_with_school_comps = @cms_case_actions_log_contact_with_school_comps ||= CmsCaseActionsLogContactWithSchoolComps.new
+  def cms_case_actions_reopen_case_comps = @cms_case_actions_reopen_case_comps ||= CmsCaseActionsReopenCaseComps.new
+  def cms_case_actions_reject_case_comps = @cms_case_actions_reject_case_comps ||= CmsCaseActionsRejectCaseComps.new
+  def cms_case_actions_reject_case_summary_comps = @cms_case_actions_reject_case_summary_comps ||= CmsCaseActionsRejectCaseSummaryComps.new
   def cms_single_case_nav_comps = @cms_single_case_nav_comps ||= CmsSingleCaseNavComps.new
   def cms_single_case_school_details_comps = @cms_single_case_school_details_comps ||= CmsSingleCaseSchoolDetailsComps.new
   def cms_single_case_onboarding_summary_comps = @cms_single_case_onboarding_summary_comps ||= CmsSingleCaseOnboardingSummaryComps.new
