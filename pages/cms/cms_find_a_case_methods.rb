@@ -64,6 +64,12 @@ class CmsFindACaseMethods < CmsBasePage
     cms_search_results_page_comps.button_apply_filter.click
   end
 
+  def set_filter_by_assignee(option)
+    cms_search_results_page_comps.dropdown_filer_by_assignee(option).click
+    case_state.search_assignee = option
+    cms_search_results_page_comps.button_apply_filter.click
+  end
+
   def validate_results_for_search_term(search_term_type)
     # confirm the page load
     expect(page).to have_current_path(%r{/cases/find-a-case}, url: true, wait: 10)

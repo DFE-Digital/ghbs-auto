@@ -35,6 +35,10 @@ class CmsSearchResultsPageComps
     find(:xpath, "//select[@id='search-case-form-state-field']/option[text()='#{option}']")
   end
 
+  def dropdown_filer_by_assignee(option)
+    find(:xpath, "//select[@id='search-case-form-agent-field']/option[text()='#{option}']")
+  end
+
   def button_apply_filter
     find(:xpath, "//input[@value='Apply filter']")
   end
