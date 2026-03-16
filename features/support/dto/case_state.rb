@@ -133,6 +133,7 @@ class CaseState
 
     # Generic info
     :search_term,
+    :search_assignee,
   ].freeze
 
   # Create getters and setters for all case attributes

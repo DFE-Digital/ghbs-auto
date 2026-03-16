@@ -32,3 +32,7 @@ end
 Then(/^we will see the correct "([^"]*)" in the returned results$/) do |search_term_type|
   cms_find_a_case_methods.validate_results_for_search_term(search_term_type)
 end
+
+When(/^we set and apply the assignee "([^"]*)" to the filter$/) do |option|
+  cms_find_a_case_methods.set_filter_by_assignee(option)
+end

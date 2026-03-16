@@ -38,6 +38,13 @@ class CmsCaseActionsMethods < CmsBasePage
   def complete_and_close_all_open_cases
     # First goal: get all "New" cases in to an "on hold" state so we can resolve them!
     world.cms_find_a_case_methods.set_filter_by_status("New")
+
+    # Apply any Filter by assignee requirements
+    if case_state.search_assignee != ""
+      cms_search_results_page_comps.dropdown_filer_by_assignee(case_state.search_assignee).click
+      cms_search_results_page_comps.button_apply_filter.click
+    end
+
     starting_count_of_new_cases = cms_search_results_page_comps.text_number_of_results.text
     rolling_count_of_cases = 0
     puts "[Info] Total #{starting_count_of_new_cases} 'New' cases identified"
@@ -66,6 +73,13 @@ class CmsCaseActionsMethods < CmsBasePage
       world.cms_top_nav_methods.nav_to_find_a_case_screen
       world.cms_find_a_case_methods.search_for_case(case_state.search_term)
       world.cms_find_a_case_methods.set_filter_by_status("New")
+
+      # Apply any Filter by assignee requirements
+      if case_state.search_assignee != ""
+        cms_search_results_page_comps.dropdown_filer_by_assignee(case_state.search_assignee).click
+        cms_search_results_page_comps.button_apply_filter.click
+      end
+
       rolling_count_of_cases += 1
       puts "[Info] #{rolling_count_of_cases} / #{starting_count_of_new_cases} 'New' cases processed"
       sleep(10) # Artificial wait to stop Azure blocking the request for too much use. TBC investigation from dev team.
@@ -125,6 +139,13 @@ private
     world.cms_top_nav_methods.nav_to_find_a_case_screen
     world.cms_find_a_case_methods.search_for_case(case_state.search_term)
     world.cms_find_a_case_methods.set_filter_by_status(status_type)
+
+    # Apply any Filter by assignee requirements
+    if case_state.search_assignee != ""
+      cms_search_results_page_comps.dropdown_filer_by_assignee(case_state.search_assignee).click
+      cms_search_results_page_comps.button_apply_filter.click
+    end
+
     sleep(1) # allows time for the field to change number of results to match the filter
     starting_count_of_new_cases = cms_search_results_page_comps.text_number_of_results.text
     rolling_count_of_cases = 0
@@ -149,6 +170,13 @@ private
       world.cms_top_nav_methods.nav_to_find_a_case_screen
       world.cms_find_a_case_methods.search_for_case(case_state.search_term)
       world.cms_find_a_case_methods.set_filter_by_status(status_type)
+
+      # Apply any Filter by assignee requirements
+      if case_state.search_assignee != ""
+        cms_search_results_page_comps.dropdown_filer_by_assignee(case_state.search_assignee).click
+        cms_search_results_page_comps.button_apply_filter.click
+      end
+
       rolling_count_of_cases += 1
       puts "[Info] #{rolling_count_of_cases} / #{starting_count_of_new_cases} with a status of '#{status_type}' have been processed"
     end

@@ -23,5 +23,7 @@ Feature: GHBS - CMS - Case - Tasklist Flows
     # 5. Actions - Reopen case - Open
     # 6. Actions - Reject case - Closed
 
-  # Action state when there is something like an email unread on it
+  # Additional states currently unmapped:
+  # "Action" state when there is something like an email unread on it
+  # "Accessibility" e.g. 001937
 
