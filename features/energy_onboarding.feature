@@ -45,8 +45,8 @@ Scenario Outline: ES-981: Energy Onboarding Flow - Electricity + Direct Debit On
       | SchoolUser | SchoolName       | Switching | VatFlow | BillingOption |
       | MAT        | Hazelwick School | both      | 20      | Direct debit  |
 
-  @wip
-  Scenario Outline: ES-1109 - Energy Onboarding Flow - Gas + VAT 5%
+
+  Scenario Outline: ES-1109 - Energy Onboarding Flow - VAT 5% + BACS
     Given we are logged in to the Energy Onboarding Flow as a <SchoolUser> School user
     And we select <SchoolName> from the bullet list and start the onboarding journey
     When the <Switching> option is selected and completed
@@ -56,5 +56,6 @@ Scenario Outline: ES-981: Energy Onboarding Flow - Electricity + Direct Debit On
     And the CYA screen info is validated
     Then we complete the form and confirm our newly created case number
     Examples:
-      | SchoolUser | SchoolName       | Switching | VatFlow | BillingOption |
-      | MAT        | Hazelwick School | gas only  | 5       | BACS          |
+      | SchoolUser | SchoolName       | Switching     | VatFlow | BillingOption |
+      | MAT        | Hazelwick School | gas only      | 5       | BACS          |
+      | MAT        | Hazelwick School | electric only | 5       | BACS          |

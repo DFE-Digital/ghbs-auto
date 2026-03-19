@@ -6,8 +6,11 @@ require "components/energy/pre_login/energy_start_comps"
 require "components/energy/pre_login/energy_before_you_start_comps"
 require "components/energy/journey_start/energy_which_school_buying_for_comps"
 require "pages/cms/cms_signin_flow_methods"
+require "helpers/login_helpers"
 
 class EnergySignInFlowMethods < EnergyBasePage
+  include LoginHelpers
+
   def continue_to_before_you_start_page
     # Navigates user from the "start" page to the "before you start" page
     energy_start_comps.button_start_now.click
@@ -45,8 +48,8 @@ class EnergySignInFlowMethods < EnergyBasePage
     # Retrieve the current url in case we need to retry login
     return_url = page.current_url
 
-    world.cms_signin_flow_methods.defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: false) do |attempt|
-      world.cms_signin_flow_methods.restore_start_state(attempt: attempt, return_url: return_url)
+    defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: false) do |attempt|
+      restore_start_state(attempt: attempt, return_url: return_url)
 
       # Navigates user through the DfE sign-in flow to the "Which school are you buying for?" page
       world.shared_global_methods.complete_dfe_signin_as(user, "dev")
