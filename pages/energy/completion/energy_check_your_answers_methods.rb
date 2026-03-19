@@ -76,13 +76,20 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
   end
 
   def validate_vat_declaration
-    validate_values_match(case_state.vat_rate, energy_check_your_answers_comps.text_vat_rate.text)
-    #  :vat_qualifying_percentage,
-    #  :vat_reg_number,
-    #  :vat_contact_name,
-    #  :vat_contact_phone,
-    #  :vat_contact_address,
-    #  :vat_certificate_confirmation,
+    case case_state.vat_rate
+    when "20%"
+      validate_values_match(case_state.vat_rate, energy_check_your_answers_comps.text_vat_rate.text)
+    when "5%"
+      validate_values_match(case_state.vat_rate, energy_check_your_answers_comps.text_vat_rate.text)
+      validate_values_match(case_state.vat_qualifying_percentage, energy_check_your_answers_comps.text_vat_qualifying_percentage.text)
+      validate_values_match(case_state.vat_reg_number, energy_check_your_answers_comps.text_vat_registration_number.text)
+      validate_values_match(case_state.vat_contact_name, energy_check_your_answers_comps.text_vat_contact_name.text)
+      validate_values_match(case_state.vat_contact_phone, energy_check_your_answers_comps.text_vat_telephone_number.text)
+      validate_values_match(case_state.vat_contact_address, energy_check_your_answers_comps.text_vat_address.text)
+      validate_values_match(case_state.vat_certificate_confirmation, energy_check_your_answers_comps.text_vat_certificate_of_declaration_agreed.text)
+    else
+      raise ArgumentError, "VAT rate of  '#{case_state.vat_rate}' does not match '20%' or '5%'"
+    end
   end
 
   def validate_billing_preferences

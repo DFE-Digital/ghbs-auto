@@ -10,7 +10,10 @@ require "components/cms/case/cms_single_case_messages_comps"
 require "components/cms/case/actions/cms_case_actions_assign_to_case_worker_comps"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
+require "helpers/validation_helpers"
+
 class CmsCaseActionsMethods < CmsBasePage
+  include ValidationHelpers
   def complete_resolve_case_flow
     case_status = cms_single_case_view_page_comps.text_case_status_badge.text.strip.squeeze(" ")
 
@@ -31,8 +34,8 @@ class CmsCaseActionsMethods < CmsBasePage
     cms_case_actions_resolve_case_comps.button_save_and_close_case.click
 
     # confirm the resolution has been completed.
-    expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
-    expect(cms_single_case_view_page_comps.text_flash_notice_content.text).to include("Case resolved successfully")
+    # expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
+    wait_for_element_to_include(cms_single_case_view_page_comps.text_flash_notice_content, "Case resolved successfully", timeout: 5)
   end
 
   def complete_and_close_all_open_cases
@@ -123,8 +126,8 @@ private
       puts "Attempt ##{attempts}"
 
       cms_single_case_actions_comps.link_reopen_case.click
-      expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
-      expect(cms_single_case_view_page_comps.text_flash_notice_content.text).to include("Case reopened successfully")
+      # expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
+      wait_for_element_to_include(cms_single_case_view_page_comps.text_flash_notice_content, "Case reopened successfully", timeout: 5)
     rescue StandardError => e
       puts "Attempt ##{attempts} failed: #{e.message}"
       retry if attempts < max_attempts

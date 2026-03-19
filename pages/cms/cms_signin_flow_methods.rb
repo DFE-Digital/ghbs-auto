@@ -115,12 +115,12 @@ class CmsSigninFlowMethods < CmsBasePage
     # start to before you start page
     energy_start_comps.button_start_now.click
     expect(page).to have_current_path(%r{/before-you-start}, url: true, wait: 2)
-    wait_for_element_to_include(energy_before_you_start_comps.text_page_heading, "Before you start", timeout: 2)
+    wait_for_element_to_include(energy_before_you_start_comps.text_page_sub_heading, "Before you start", timeout: 2)
 
     # Move from before you start to school selection
     energy_before_you_start_comps.button_continue.click
     expect(page).to have_current_path(%r{/which-school-buying-for}, url: true, wait: 2)
-    expect(energy_which_school_buying_for_comps.text_page_heading.text).to include("Which school are you buying for?")
+    expect(energy_which_school_buying_for_comps.text_page_heading.text).to include("Which school or trust are you buying for?")
   end
 
   def sign_out_of_cms

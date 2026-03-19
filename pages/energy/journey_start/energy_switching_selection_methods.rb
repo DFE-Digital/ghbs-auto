@@ -15,6 +15,8 @@ class EnergySwitchingSelectionMethods < EnergyBasePage
       energy_what_are_you_switching_comps.radio_electric_only.click
     when "both"
       energy_what_are_you_switching_comps.radio_both_electric_and_gas.click
+    else
+      raise ArgumentError, "The switching choice of '#{choice}' isn't a valid option."
     end
 
     # Add to case state

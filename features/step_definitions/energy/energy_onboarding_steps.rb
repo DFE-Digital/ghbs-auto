@@ -76,7 +76,6 @@ end
 And(/^the VAT flow is completed with a (.*) percent option selected$/) do |vat_percentage|
   # Which VAT rate are you charged?
   energy_which_vat_rate_methods.percentage_choice(vat_percentage)
-  energy_which_vat_rate_methods.continue_to_next_page_based_on_choice
 end
 
 And(/^the Billing section is completed with the (.*) option selected$/) do |billing_option|

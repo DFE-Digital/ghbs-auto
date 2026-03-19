@@ -9,15 +9,15 @@ class EnergyVatCertificateComps
 
   # VAT certificate of declaration
   def checkbox_1
-    find(:xpath, "//input[@id='vat-certificate-form-vat-certificate-declared-declaration1-field']")
+    find(:xpath, "//input[@id='vat-certificate-form-vat-certificate-declared-declaration1-field']/following-sibling::label")
   end
 
   def checkbox_2
-    find(:xpath, "//input[@id='vat-certificate-form-vat-certificate-declared-declaration2-field']")
+    find(:xpath, "//input[@id='vat-certificate-form-vat-certificate-declared-declaration2-field']/following-sibling::label")
   end
 
   def checkbox_3
-    find(:xpath, "//input[@id='vat-certificate-form-vat-certificate-declared-declaration3-field']")
+    find(:xpath, "//input[@id='vat-certificate-form-vat-certificate-declared-declaration3-field']/following-sibling::label")
   end
 
   # Form completion
