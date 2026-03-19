@@ -129,8 +129,6 @@ class CmsSigninFlowMethods < CmsBasePage
     expect(cms_login_page_comps.text_flash_notice.text).to include("You have been signed out.")
   end
 
-private
-
   def defensive_login_retry(max_attempts:, sleep_s:, reset_between: false)
     attempt = 0
     last_error = nil
