@@ -84,7 +84,7 @@ class EnergyCheckYourAnswersComps
   end
 
   def text_site_contact_name
-    find(:xpath, "//dt[text()='Contact name']/following-sibling::dd")
+    find(:xpath, "//div/h3[text()='Site contact details']/ancestor::div/following-sibling::div/dl/div/dt[text()='Contact name']/following-sibling::dd")
   end
 
   def text_site_contact_email
@@ -102,6 +102,30 @@ class EnergyCheckYourAnswersComps
 
   def text_vat_rate
     find(:xpath, "//dt[text()='VAT rate']/following-sibling::dd")
+  end
+
+  def text_vat_qualifying_percentage
+    find(:xpath, "//dt[text()='Percentage of total consumption qualifying for reduced rate of VAT']/following-sibling::dd")
+  end
+
+  def text_vat_registration_number
+    find(:xpath, "//dt[text()='VAT registration number (optional)']/following-sibling::dd")
+  end
+
+  def text_vat_contact_name
+    find(:xpath, "//div/h3[text()='VAT Declaration']/ancestor::div/following-sibling::div/dl/div/dt[text()='Contact name']/following-sibling::dd")
+  end
+
+  def text_vat_telephone_number
+    find(:xpath, "//dt[text()='Telephone number']/following-sibling::dd")
+  end
+
+  def text_vat_address
+    find(:xpath, "//dt[text()='Address']/following-sibling::dd")
+  end
+
+  def text_vat_certificate_of_declaration_agreed
+    find(:xpath, "//dt[text()='VAT certificate of declaration agreed?']/following-sibling::dd")
   end
 
   # Billing preferences

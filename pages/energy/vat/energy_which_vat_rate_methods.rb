@@ -5,6 +5,8 @@ require "pages/energy/energy_base_page"
 require "helpers/unique_content_helpers"
 require "components/energy/vat/energy_which_vat_rate_comps"
 require "components/energy/billing/energy_billing_pref_comps"
+require "components/energy/vat/energy_are_these_correct_vat_details_comps"
+require "components/energy/vat/energy_vat_certificate_comps"
 
 class EnergyWhichVatRateMethods < EnergyBasePage
   include UniqueContentHelpers
@@ -21,30 +23,61 @@ class EnergyWhichVatRateMethods < EnergyBasePage
 
   def complete_with_20_percentage_vat
     energy_which_vat_rate_comps.radio_20_percent.click
+    energy_which_vat_rate_comps.button_save_and_continue.click
+
     # Add to case state
-    case_state.vat_rate = "20"
+    case_state.vat_rate = "20%"
+
+    ### Confirm we have been sent to billing preferences
+    expect(page).to have_current_path(%r{/energy/billing-preferences/}, url: true, wait: 10)
+    expect(energy_billing_pref_comps.text_page_heading.text).to include("Billing preferences")
   end
 
   def complete_with_5_percentage_vat
+    ### Which VAT rate are you charged?
     total_consumption_percent = generate_random_number_in_range(1, 100, preserve_leading_zeros: false)
     vat_reg_number = generate_random_number(9, preserve_leading_zeros: true)
-
     energy_which_vat_rate_comps.radio_5_percent.click
     # Percentage of total consumption qualifying for reduced rate of VAT
     energy_which_vat_rate_comps.input_total_consumption_percent.set(total_consumption_percent)
     # VAT registration number (optional)
     energy_which_vat_rate_comps.input_vat_reg_number.set(vat_reg_number)
+    energy_which_vat_rate_comps.button_save_and_continue.click
 
     # Add to case state
     case_state.vat_rate = "5%"
-    case_state.vat_qualifying_percentage = total_consumption_percent
-    case_state.vat_reg_number = vat_reg_number
-  end
+    case_state.vat_qualifying_percentage = total_consumption_percent.to_s
+    case_state.vat_reg_number = vat_reg_number.to_s
 
-  def continue_to_next_page_based_on_choice
-    # Depending on their choice, 20% would take them to Billing and 5% would take them too more VAT screens
-    energy_which_vat_rate_comps.button_save_and_continue.click
+    ### Are these the correct details for VAT purposes?
+    expect(page).to have_current_path(%r{/energy/vat-contact/}, url: true, wait: 10)
+    expect(energy_are_these_correct_vat_details_comps.text_page_heading.text).to include("Are these the correct details for VAT purposes?")
+
     # Add to case state
-    case_state.vat_rate = "20%"
+    case_state.vat_contact_name = energy_are_these_correct_vat_details_comps.text_name.text
+    case_state.vat_contact_phone = energy_are_these_correct_vat_details_comps.text_phone.text
+    case_state.vat_contact_address = energy_are_these_correct_vat_details_comps.text_address.text
+
+    # Confirm the details are correct and progress to the next page
+    energy_are_these_correct_vat_details_comps.radio_yes.click
+    energy_are_these_correct_vat_details_comps.button_save_and_continue.click
+
+    ### VAT certificate of declaration
+    expect(page).to have_current_path(%r{/energy/vat-certificate/}, url: true, wait: 10)
+    expect(energy_vat_certificate_comps.text_page_heading.text).to include("VAT certificate of declaration")
+
+    # Complete the checkbox's
+    energy_vat_certificate_comps.checkbox_1.click
+    energy_vat_certificate_comps.checkbox_2.click
+    energy_vat_certificate_comps.checkbox_3.click
+
+    energy_vat_certificate_comps.button_save_and_continue.click
+
+    # Add to case state
+    case_state.vat_certificate_confirmation = "Yes"
+
+    ### Confirm we have been sent to billing preferences
+    expect(page).to have_current_path(%r{/energy/billing-preferences/}, url: true, wait: 10)
+    expect(energy_billing_pref_comps.text_page_heading.text).to include("Billing preferences")
   end
 end

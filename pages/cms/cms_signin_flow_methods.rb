@@ -9,13 +9,16 @@ require "components/energy/pre_login/energy_start_comps"
 require "components/energy/pre_login/energy_before_you_start_comps"
 require "components/energy/journey_start/energy_which_school_buying_for_comps"
 require "components/cms/cms_top_nav_comps"
-require "helpers/validation_helpers"
 require "components/cms/cms_mycases_page_comps"
 require "components/cms/cms_case_statistics_comps"
 require "components/cms/frameworks/cms_frameworks_register_comps"
+require "helpers/validation_helpers"
+require "helpers/login_helpers"
 
 class CmsSigninFlowMethods < CmsBasePage
   include ValidationHelpers
+  include LoginHelpers
+
   def open_cms_cec_homepage
     visit SECRETS["dev_cec_cms_homepage_url"]
   end
@@ -94,70 +97,21 @@ class CmsSigninFlowMethods < CmsBasePage
     end
   end
 
-  def restore_start_state(attempt:, return_url:)
-    attempt = attempt.to_i
-    return if attempt <= 1
-
-    raise ArgumentError, "return_url is required" if return_url.to_s.strip.empty?
-
-    if attempt == 2
-      puts "[INFO] Restoring start state (attempt #{attempt}): visit return_url"
-    else
-      puts "[INFO] Restoring start state (attempt #{attempt}): reset session + visit return_url"
-      Capybara.reset_sessions!
-    end
-    visit return_url
-
-    expect(page).to have_selector(:xpath, "//button[normalize-space()='Sign in']", wait: 20)
-  end
-
   def continue_as_signed_in_user_to_which_school
     # start to before you start page
     energy_start_comps.button_start_now.click
     expect(page).to have_current_path(%r{/before-you-start}, url: true, wait: 2)
-    wait_for_element_to_include(energy_before_you_start_comps.text_page_heading, "Before you start", timeout: 2)
+    wait_for_element_to_include(energy_before_you_start_comps.text_page_sub_heading, "Before you start", timeout: 2)
 
     # Move from before you start to school selection
     energy_before_you_start_comps.button_continue.click
     expect(page).to have_current_path(%r{/which-school-buying-for}, url: true, wait: 2)
-    expect(energy_which_school_buying_for_comps.text_page_heading.text).to include("Which school are you buying for?")
+    expect(energy_which_school_buying_for_comps.text_page_heading.text).to include("Which school or trust are you buying for?")
   end
 
   def sign_out_of_cms
     cms_top_nav_comps.link_sign_out.click
     expect(page).to have_current_path(%r{/cms/sign-in}, url: true, wait: 2)
     expect(cms_login_page_comps.text_flash_notice.text).to include("You have been signed out.")
-  end
-
-private
-
-  def defensive_login_retry(max_attempts:, sleep_s:, reset_between: false)
-    attempt = 0
-    last_error = nil
-
-    while attempt < max_attempts
-      attempt += 1
-
-      begin
-        yield(attempt)
-        return
-      rescue Selenium::WebDriver::Error::UnknownError,
-             Selenium::WebDriver::Error::StaleElementReferenceError,
-             Selenium::WebDriver::Error::InvalidSessionIdError,
-             Capybara::ElementNotFound,
-             Capybara::ExpectationNotMet,
-             RSpec::Expectations::ExpectationNotMetError => e
-
-        last_error = e
-        puts "[WARN] Login retry (attempt #{attempt}/#{max_attempts}) after error: #{e.class}: #{e.message}"
-        raise if attempt >= max_attempts
-
-        Capybara.reset_sessions! if reset_between
-
-        sleep sleep_s
-      end
-    end
-
-    raise last_error if last_error
   end
 end
