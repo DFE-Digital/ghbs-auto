@@ -12,6 +12,9 @@ class EnergySchoolSelectionMethods < EnergyBasePage
 
     # Add to case state
     case_state.school_name = school_name
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def continue_to_are_you_authorised_page
@@ -19,5 +22,8 @@ class EnergySchoolSelectionMethods < EnergyBasePage
     energy_which_school_buying_for_comps.button_continue.click
     # expect(page).to have_current_path(%r{/authorisation}, url: true, wait: 10)
     # expect(energy_are_you_authorised_comps.text_page_heading.text).to include("Are you authorised to switch energy suppliers for these schools?")
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 end

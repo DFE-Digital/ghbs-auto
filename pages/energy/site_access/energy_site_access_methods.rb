@@ -30,6 +30,9 @@ class EnergySiteAccessMethods < EnergyBasePage
     case_state.site_contact_last_name = site_contact_last_name
     case_state.site_contact_phone = site_contact_phone
     case_state.site_contact_email = site_contact_email
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def continue_to_which_vat_rate_page

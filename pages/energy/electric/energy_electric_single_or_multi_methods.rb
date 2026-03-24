@@ -20,6 +20,9 @@ class EnergyElectricSingleOrMultiMethods < EnergyBasePage
 
     # Add to case state
     case_state.electric_single_or_multi_meter = choice
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def continue_to_electricity_meter_details

@@ -39,6 +39,21 @@ class EnergyGasContractMethods < EnergyBasePage
                                       else
                                         supplier
                                       end
+
+    # Known accessibility-tooling exception:
+    # Axe flags `aria-expanded` on this conditional-reveal radio input under the `aria-allowed-attr` rule.
+    # This is a known limitation with GOV.UK/GDS-style conditional reveal patterns, where ARIA state is applied to control visibility.
+    #
+    # The behaviour is intentional and aligns with established GOV.UK design patterns.
+    # This selector is therefore excluded from automated axe enforcement for this page state only.
+    #
+    # NOTE: This does not replace manual accessibility validation of the user experience.
+    # Axe Check
+    axe_check!(
+      scope: 'main, [role="main"]',
+      exclude: "#gas-current-supplier-other-radio",
+      label: "Ignore known conditional reveal radio axe issue"
+    ) if FlagsGlobalConfig.axe_enabled?
   end
 
   def when_does_the_contract_end
@@ -57,6 +72,14 @@ class EnergyGasContractMethods < EnergyBasePage
 
     # Add to case state
     case_state.gas_current_contract_end_date = "#{day}-#{month}-#{year}"
+
+    # Excluding known axe false-positive for GOV.UK conditional reveal radio
+    # (`aria-expanded` flagged by `aria-allowed-attr`).
+    # Axe Check
+    axe_check!(
+      exclude: "#gas-current-supplier-other-radio",
+      label: "Known axe exception for GOV-style conditional reveal radio"
+    ) if FlagsGlobalConfig.axe_enabled?
   end
 
   def continue_to_your_chosen_selection_path

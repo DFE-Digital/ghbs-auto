@@ -54,6 +54,9 @@ class EnergyGasMeterDetailsMethods < EnergyBasePage
 
     # Add to case state
     _add_next_available_mprn(unique_number, gas_usage)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
 private

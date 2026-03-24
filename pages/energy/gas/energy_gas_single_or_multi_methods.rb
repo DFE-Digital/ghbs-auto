@@ -21,6 +21,9 @@ class EnergyGasSingleOrMultiMethods < EnergyBasePage
 
     # Add to case state
     case_state.gas_single_or_multi_meter = choice
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def continue_to_gas_meter_details
