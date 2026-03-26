@@ -39,6 +39,16 @@ class EnergyElectricContractMethods < EnergyBasePage
                                            else
                                              supplier
                                            end
+
+    # Excluding known axe false-positive for GOV.UK conditional reveal radio
+    # (`aria-expanded` flagged by `aria-allowed-attr`).
+    # Axe Check
+    if FlagsGlobalConfig.axe_enabled?
+      axe_check!(
+        exclude: "#electric-current-supplier-other-radio",
+        label: "Known axe exception for GOV-style conditional reveal radio"
+      )
+    end
   end
 
   def when_does_the_contract_end
@@ -57,6 +67,16 @@ class EnergyElectricContractMethods < EnergyBasePage
 
     # Add to case state
     case_state.electric_current_contract_end_date = "#{day}-#{month}-#{year}"
+
+    # Excluding known axe false-positive for GOV.UK conditional reveal radio
+    # (`aria-expanded` flagged by `aria-allowed-attr`).
+    # Axe Check
+    if FlagsGlobalConfig.axe_enabled?
+      axe_check!(
+        exclude: "#electric-current-supplier-other-radio",
+        label: "Known axe exception for GOV-style conditional reveal radio"
+      )
+    end
   end
 
   def continue_to_your_chosen_selection_path

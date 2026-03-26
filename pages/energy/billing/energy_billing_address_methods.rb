@@ -24,6 +24,10 @@ class EnergyBillingAddressMethods < EnergyBasePage
   end
 
   def continue_to_check_your_answers
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
+    # Proceed to CYA
     energy_billing_pref_comps.button_save_and_continue.click
     expect(page).to have_current_path(%r{/check-answers}, url: true, wait: 10)
     expect(energy_check_your_answers_comps.text_page_heading.text).to include("Check your answers")

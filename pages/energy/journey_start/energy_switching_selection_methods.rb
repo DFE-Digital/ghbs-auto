@@ -21,6 +21,9 @@ class EnergySwitchingSelectionMethods < EnergyBasePage
 
     # Add to case state
     case_state.energy_choice = choice
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def continue_to_your_chosen_selection_path

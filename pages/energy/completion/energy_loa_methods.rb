@@ -8,6 +8,9 @@ class EnergyLoaMethods < EnergyBasePage
     energy_loa_comps.checkbox_1.click
     energy_loa_comps.checkbox_2.click
     energy_loa_comps.checkbox_3.click
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def continue_to_information_submitted

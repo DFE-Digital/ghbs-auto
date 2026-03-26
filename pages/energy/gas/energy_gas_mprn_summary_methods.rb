@@ -15,5 +15,8 @@ class EnergyGasMprnSummaryMethods < EnergyBasePage
     energy_gas_mprn_summary_comps.button_save_and_continue.click
     expect(page).to have_current_path(%r{/gas-bill}, url: true, wait: 10)
     expect(energy_gas_bill_consolidated_comps.text_page_heading.text).to include("Do you want your MPRNs consolidated on one bill?")
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 end

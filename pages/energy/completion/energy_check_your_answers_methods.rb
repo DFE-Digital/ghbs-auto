@@ -36,6 +36,9 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
       validate_vat_declaration
       validate_billing_preferences
     end
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def validate_current_gas_contract_details

@@ -8,6 +8,9 @@ require "components/energy/gas/energy_gas_bill_consolidated_comps"
 class EnergyGasMprnConsolidatedMethods < EnergyBasePage
   def bills_consolidated_yes
     energy_gas_bill_consolidated_comps.radio_bill_yes.click
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def bills_consolidated_no

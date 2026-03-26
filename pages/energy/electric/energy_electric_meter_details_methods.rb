@@ -73,6 +73,9 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
     # Based on it getting this far, we should in fact be on the next page which could be one of many depending on the flow choice, For example it could be /site-contact or MPAN Summary etc.
     # Add to case state
     _add_next_available_case_state_electric_data_slot(unique_mpan_number, electric_usage_kwh, electric_usage_kva, data_aggregator, data_collector, meter_operator)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
 private
