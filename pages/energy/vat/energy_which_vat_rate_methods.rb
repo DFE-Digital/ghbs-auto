@@ -46,10 +46,12 @@ class EnergyWhichVatRateMethods < EnergyBasePage
     # Excluding known axe false-positive for GOV.UK conditional reveal radio
     # (`aria-expanded` flagged by `aria-allowed-attr`).
     # Axe Check
-    axe_check!(
-      exclude: "#vat-rate-charge-vat-rate-5-field",
-      label: "Known axe exception for GOV-style conditional reveal radio"
-    ) if FlagsGlobalConfig.axe_enabled?
+    if FlagsGlobalConfig.axe_enabled?
+      axe_check!(
+        exclude: "#vat-rate-charge-vat-rate-5-field",
+        label: "Known axe exception for GOV-style conditional reveal radio"
+      )
+    end
 
     # Percentage of total consumption qualifying for reduced rate of VAT
     energy_which_vat_rate_comps.input_total_consumption_percent.set(total_consumption_percent)
@@ -60,10 +62,12 @@ class EnergyWhichVatRateMethods < EnergyBasePage
     # Excluding known axe false-positive for GOV.UK conditional reveal radio
     # (`aria-expanded` flagged by `aria-allowed-attr`).
     # Axe Check
-    axe_check!(
-      exclude: "#vat-rate-charge-vat-rate-5-field",
-      label: "Known axe exception for GOV-style conditional reveal radio"
-    ) if FlagsGlobalConfig.axe_enabled?
+    if FlagsGlobalConfig.axe_enabled?
+      axe_check!(
+        exclude: "#vat-rate-charge-vat-rate-5-field",
+        label: "Known axe exception for GOV-style conditional reveal radio"
+      )
+    end
 
     # Add to case state
     case_state.vat_rate = "5%"

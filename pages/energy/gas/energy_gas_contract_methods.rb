@@ -49,11 +49,13 @@ class EnergyGasContractMethods < EnergyBasePage
     #
     # NOTE: This does not replace manual accessibility validation of the user experience.
     # Axe Check
-    axe_check!(
-      scope: 'main, [role="main"]',
-      exclude: "#gas-current-supplier-other-radio",
-      label: "Ignore known conditional reveal radio axe issue"
-    ) if FlagsGlobalConfig.axe_enabled?
+    if FlagsGlobalConfig.axe_enabled?
+      axe_check!(
+        scope: 'main, [role="main"]',
+        exclude: "#gas-current-supplier-other-radio",
+        label: "Ignore known conditional reveal radio axe issue"
+      )
+    end
   end
 
   def when_does_the_contract_end
@@ -76,10 +78,12 @@ class EnergyGasContractMethods < EnergyBasePage
     # Excluding known axe false-positive for GOV.UK conditional reveal radio
     # (`aria-expanded` flagged by `aria-allowed-attr`).
     # Axe Check
-    axe_check!(
-      exclude: "#gas-current-supplier-other-radio",
-      label: "Known axe exception for GOV-style conditional reveal radio"
-    ) if FlagsGlobalConfig.axe_enabled?
+    if FlagsGlobalConfig.axe_enabled?
+      axe_check!(
+        exclude: "#gas-current-supplier-other-radio",
+        label: "Known axe exception for GOV-style conditional reveal radio"
+      )
+    end
   end
 
   def continue_to_your_chosen_selection_path
