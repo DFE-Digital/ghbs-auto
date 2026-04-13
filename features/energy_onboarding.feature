@@ -64,11 +64,10 @@ Scenario Outline: ES-981: Energy Onboarding Flow - Electricity + Direct Debit On
   Scenario Outline: ES-1220 - Energy Onboarding Flow - Email and Attachment validation
     Given we confirm the state of all flags within dev flipper
     And we complete the login and school selection process with user <SchoolUser> and school <SchoolName>
-    When we complete an energy onboarding folow for both energy options
+    When we complete an energy onboarding flow for both energy options
     And we navigate to the cms system to find our energy case
     Then we validate the expected emails and attachments are present
     And we validate the expected files have been generated
     Examples:
       | SchoolUser | SchoolName       |
-      | MAT        | Hazelwick School |
       | MAT        | Hazelwick School |
