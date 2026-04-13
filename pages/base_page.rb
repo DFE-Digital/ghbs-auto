@@ -36,4 +36,12 @@ class BasePage
       @current_user_state ||= CurrentUserState.new
     end
   end
+
+  def env_state
+    if world && !world.equal?(self) && world.respond_to?(:env_state)
+      world.env_state
+    else
+      @env_state ||= EnvState.new
+    end
+  end
 end

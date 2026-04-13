@@ -2,7 +2,7 @@ Feature: GHBS - Util - Data management
   Background:
     Given we open and login to the test signin orgs management area
 
-  @add_users_to_test_orgs
+  @add_users_to_test_orgs_1
   Scenario Outline: Test User Management Util 01 - Add users to all orgs
     Given we select org <Org> to add a user too
     When we add first name "XXX" last name "XXX" email "XXXX@education.gov.uk" to associate with the org
@@ -55,7 +55,7 @@ Feature: GHBS - Util - Data management
       # THE AYLESBURY VALE ACADEMY (Open)
       | UID: 2218, UKPRN: 10058250, UPIN: 135211 |
 
-
+  @add_users_to_test_orgs_2
   Scenario Outline: Test User Management Util 02 - Add users to cut down list all orgs
     Given we select org <Org> to add a user too
     When we add first name "XXX" last name "XXXX" email "XXXX@education.gov.uk" to associate with the org

@@ -31,7 +31,7 @@ class FabsNavMethods < FabsBasePage
   def navigate_to_500_page
     go_to_fabs_path("/500")
     expect(page).to have_current_path(%r{/500}, url: true, wait: 10)
-    expect(fabs_500_comps.text_page_heading.text).to include("Sorry, there is a problem with the service")
+    expect(fabs_500_comps.text_page_heading.text).to include("Internal server error")
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 

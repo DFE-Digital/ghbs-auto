@@ -58,8 +58,12 @@ require "components/cms/frameworks/cms_frameworks_register_nav_comps"
 require "components/cms/frameworks/cms_frameworks_portal_management_activity_log_comps"
 require "components/cms/frameworks/cms_frameworks_portal_management_comps"
 require "components/cms/frameworks/cms_frameworks_portal_management_upload_fw_comps"
+require "components/cms/utils/flipper_comps"
 
 module SharedCmsComps
+  # Util pages
+  def flipper_comps = @flipper_comps ||= FlipperComps.new
+
   # Pre Flow pages
   def cms_login_page_comps = @cms_login_page_comps ||= CmsLoginPageComps.new
 

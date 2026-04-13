@@ -103,3 +103,7 @@ Then(/^we complete the form and confirm our newly created case number$/) do
   # Information submitted on 13 November 2025
   energy_info_submitted_methods.validate_information_date_is_today
 end
+
+Given(/^we confirm the state of all flags within dev flipper$/) do
+  cms_case_email_and_file_methods.validate_dev_fiddler_flag_states
+end
