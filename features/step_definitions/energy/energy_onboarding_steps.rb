@@ -166,4 +166,7 @@ When(/^we complete an energy onboarding flow for both energy options$/) do
 
   # Information submitted on 13 November 2025
   energy_info_submitted_methods.validate_information_date_is_today
+
+  # Logout of the system ready to sign in as CMS user
+  energy_signin_flow_methods.sign_out_of_the_energy_flow
 end

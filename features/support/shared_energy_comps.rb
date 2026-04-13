@@ -28,8 +28,12 @@ require "components/energy/task_list/energy_task_list_comps"
 require "components/energy/completion/energy_check_your_answers_comps"
 require "components/energy/completion/energy_info_submitted_comps"
 require "components/energy/completion/energy_loa_comps"
+require "components/energy/energy_top_nav_comps"
 
 module SharedEnergyComps
+  # Top nav
+  def energy_top_nav_comps = @energy_top_nav_comps ||= EnergyTopNavComps.new
+
   # Pre Flow pages
   def energy_start_comps = @energy_start_comps ||= EnergyStartComps.new
   def energy_before_you_start_comps = @energy_before_you_start_comps ||= EnergyBeforeYouStartComps.new

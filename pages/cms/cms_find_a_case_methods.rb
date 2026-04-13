@@ -70,6 +70,15 @@ class CmsFindACaseMethods < CmsBasePage
     cms_search_results_page_comps.button_apply_filter.click
   end
 
+  def validate_results_for_case_id(case_id, school_name)
+    # confirm the page load
+    expect(page).to have_current_path(%r{/cases/find-a-case}, url: true, wait: 10)
+    wait_for_element_to_include(cms_notifications_page_comps.text_page_heading, "Search results", timeout: 5)
+
+    # Validate content based on search term
+    wait_for_element_to_include(cms_search_results_page_comps.link_org_based_on_case_number(case_id), school_name, timeout: 5)
+  end
+
   def validate_results_for_search_term(search_term_type)
     # confirm the page load
     expect(page).to have_current_path(%r{/cases/find-a-case}, url: true, wait: 10)
