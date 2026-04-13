@@ -11,6 +11,14 @@ class CmsSingleCaseMessagesComps
     find(:xpath, "//turbo-frame[@id='messages-frame']/h2")
   end
 
+  def has_text_in_email_titles?(text)
+    has_xpath?("//details/following-sibling::table//td[2][contains(., '#{text}')]")
+  end
+
+  def text_all_email_titles
+    all(:xpath, "//details/following-sibling::table//td[2]")
+  end
+
   def link_create_a_new_message_thread
     find(:xpath, "//h2[contains(.,'Messages')]/following-sibling::details[1]//span[contains(.,'Create a new message thread')]")
   end

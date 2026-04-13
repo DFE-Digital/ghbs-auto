@@ -32,4 +32,21 @@ module ValidationHelpers
 
     value
   end
+
+  def wait_for_collection_to_include(expected, timeout: 10, interval: 0.25)
+    deadline = Time.now + timeout
+    last_actual = []
+
+    loop do
+      last_actual = Array(yield).map { |item| item.to_s.strip }
+
+      return true if last_actual.include?(expected)
+
+      break if Time.now >= deadline
+
+      sleep interval
+    end
+
+    raise "Timed out after #{timeout}s waiting for collection to include #{expected.inspect}. Last seen: #{last_actual.inspect}"
+  end
 end

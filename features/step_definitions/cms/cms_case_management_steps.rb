@@ -20,3 +20,7 @@ When(/^I complete the case lifecycle actions I will see the status change:$/) do
     cms_case_states_methods.switch_case_states(action, expected_status)
   end
 end
+
+Then(/^we validate the expected emails and attachments are present$/) do
+  cms_case_email_and_file_methods.validate_emails_for_energy_case
+end
