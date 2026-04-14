@@ -40,8 +40,6 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
     wait_for_element_to_include(cms_single_case_messages_comps.text_messages_sub_heading, "Messages", timeout: 5)
 
     # Gather all the email titles
-    # visible_email_titles = cms_single_case_messages_comps.text_all_email_titles.map { |el| el.text.strip }
-
     visible_email_titles = wait_for_collection_count_then_capture(expected_count_of_emails: 2, refresh_page_every_x_seconds: 3, last_change_for_emails_to_drop_in: 10, timeout_s: 60) do
       cms_single_case_messages_comps.text_all_email_titles
     end
@@ -59,16 +57,28 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
     end
 
     if env_state.auto_send_siteAdditions_gas == "enabled"
-      # TODO
+      require "date"
+      gas_end_date = Date.parse(case_state.gas_current_contract_end_date).to_date
+      gas_end_date += 1
+      gas_end_date = gas_end_date.strftime("%d %m %Y")
+      expect(visible_email_titles).to include("Case #{case_state.case_number} - DfE onboarding forms - #{case_state.school_name} - Gas - Start date #{gas_end_date}")
     else
-      # TODO
+      expect(visible_email_titles).not_to include("Case #{case_state.case_number} - DfE onboarding forms - #{case_state.school_name} - Gas - Start date #{gas_end_date}")
     end
 
     if env_state.auto_send_siteAdditions_power == "enabled"
-      # TODO
+      require "date"
+      electric_end_date = Date.parse(case_state.electric_current_contract_end_date).to_date
+      electric_end_date += 1
+      electric_end_date = electric_end_date.strftime("%d %m %Y")
+
+      expect(visible_email_titles).to include("Case #{case_state.case_number} - DfE onboarding forms - #{case_state.school_name} - Electricity - Start date #{electric_end_date}")
     else
-      # TODO
+      expect(visible_email_titles).not_to include("Case #{case_state.case_number} - DfE onboarding forms - #{case_state.school_name} - Electricity - Start date #{electric_end_date}")
     end
+
+    # Validate the end email as everyone has this regardless of flags
+    expect(visible_email_titles).to include("Case #{case_state.case_number} - form submitted: Energy for Schools")
   end
 
 private
