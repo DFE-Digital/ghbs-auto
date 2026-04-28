@@ -24,3 +24,7 @@ end
 Then(/^we validate the expected emails and attachments are present$/) do
   cms_case_email_and_file_methods.validate_emails_for_energy_case
 end
+
+And(/^we validate the expected files have been generated$/) do
+  cms_case_email_and_file_methods.validate_files_for_energy_case
+end

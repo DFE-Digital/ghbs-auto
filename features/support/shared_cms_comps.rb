@@ -25,6 +25,7 @@ require "components/cms/case/cms_single_case_case_details_comps"
 require "components/cms/case/cms_single_case_messages_comps"
 require "components/cms/case/cms_single_case_school_details_comps"
 require "components/cms/case/cms_single_case_onboarding_summary_comps"
+require "components/cms/case/cms_single_case_file_comps"
 require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_evaluator_details_comps"
 require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_evaluators_comps"
 require "components/cms/case/task_list/evaluation/school_view/cms_eval_school_approved_comps"
@@ -92,6 +93,7 @@ module SharedCmsComps
   def cms_single_case_case_details_case_summary_comps = @cms_single_case_case_details_case_summary_comps ||= CmsSingleCaseCaseDetailsCaseSummaryComps.new
   def cms_single_case_case_details_case_summary_check_answers_comps = @cms_single_case_case_details_case_summary_check_answers_comps ||= CmsSingleCaseCaseDetailsCaseSummaryCheckAnswersComps.new
   def cms_single_case_messages_comps = @cms_single_case_messages_comps ||= CmsSingleCaseMessagesComps.new
+  def cms_single_case_file_comps = @cms_single_case_file_comps ||= CmsSingleCaseFileComps.new
 
   # Single Case Actions - Evaluation
   def cms_eval_add_evaluator_details_comps = @cms_eval_add_evaluator_details_comps ||= CmsEvalAddEvaluatorDetailsComps.new

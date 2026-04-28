@@ -5,6 +5,7 @@ require "helpers/validation_helpers"
 require "components/cms/utils/flipper_comps"
 require "components/cms/case/cms_single_case_messages_comps"
 require "components/cms/case/cms_single_case_nav_comps"
+require "components/cms/case/cms_single_case_file_comps"
 
 class CmsCaseEmailAndFileMethods < CmsBasePage
   include ValidationHelpers
@@ -40,7 +41,7 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
     wait_for_element_to_include(cms_single_case_messages_comps.text_messages_sub_heading, "Messages", timeout: 5)
 
     # Gather all the email titles
-    visible_email_titles = wait_for_collection_count_then_capture(expected_count_of_emails: 2, refresh_page_every_x_seconds: 3, last_change_for_emails_to_drop_in: 10, timeout_s: 60) do
+    visible_email_titles = wait_for_collection_count_then_capture(expected_count_of_elements: 2, refresh_page_every_x_seconds: 3, last_change_for_elements_to_drop_in: 10, timeout_s: 60) do
       cms_single_case_messages_comps.text_all_email_titles
     end
 
@@ -81,6 +82,61 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
     expect(visible_email_titles).to include("Case #{case_state.case_number} - form submitted: Energy for Schools")
   end
 
+  def validate_files_for_energy_case
+    # NOTE: What appears is based on the feature flags
+
+    # Nav to the Files tab.
+    cms_single_case_nav_comps.link_files.click
+    wait_for_element_to_include(cms_single_case_file_comps.text_messages_sub_heading, "Case files", timeout: 5)
+
+
+    # Gather all the file names
+    visible_file_names = wait_for_collection_count_then_capture(expected_count_of_elements: 4, refresh_page_every_x_seconds: 3, last_change_for_elements_to_drop_in: 5, timeout_s: 60) do
+      cms_single_case_file_comps.text_all_file_titles
+    end
+
+    # Set date for file generation check
+    require "date"
+    today = Date.today
+    file_date_check = today.strftime("%Y-%m-%d")
+
+    # Validate expected files based on the flags.
+    ### env_state.auto_email_vat_dd == "enabled" or not it doesn't matter the files are the same
+    # EDF Vat Declaration_002547_2026-04-14.pdf
+    expect(visible_file_names).to include("EDF Vat Declaration_#{case_state.case_number}_#{file_date_check}.pdf")
+
+    # TOTAL Declaration of Use Certificate_002547_2026-04-14.pdf
+    expect(visible_file_names).to include("TOTAL Declaration of Use Certificate_#{case_state.case_number}_#{file_date_check}.pdf")
+
+    # EDF_Direct_Debit_002547_2026-04-14.pdf
+    expect(visible_file_names).to include("EDF_Direct_Debit_#{case_state.case_number}_#{file_date_check}.pdf")
+
+    # TOTAL_Direct_Debit_002547_2026-04-14.pdf
+    expect(visible_file_names).to include("TOTAL_Direct_Debit_#{case_state.case_number}_#{file_date_check}.pdf")
+
+    ###  env_state.auto_send_siteAdditions_gas == "enabled" or not it doesn't matter the files are the same
+    # TOTAL Site Addition_002547_2026-04-14.xlsx
+    expect(visible_file_names).to include("TOTAL Site Addition_#{case_state.case_number}_#{file_date_check}.xlsx")
+
+    # Total portal Access_002547_2026-04-14.xlsx
+    expect(visible_file_names).to include("Total portal Access_#{case_state.case_number}_#{file_date_check}.xlsx")
+
+    ###  env_state.auto_send_siteAdditions_power == "enabled" or not it doesn't matter the files are the same
+    # EDF Site Addition_002547_2026-04-14.xlsx
+    expect(visible_file_names).to include("EDF Site Addition_#{case_state.case_number}_#{file_date_check}.xlsx")
+
+    # EDF Power portal Access_002547_2026-04-14.xlsx
+    expect(visible_file_names).to include("EDF Power portal Access_#{case_state.case_number}_#{file_date_check}.xlsx")
+
+    ###  Generated regardless:
+    # DfE Energy for Schools Letter of Agreement_002547_2026-04-14.pdf
+    expect(visible_file_names).to include("DfE Energy for Schools Letter of Agreement_#{case_state.case_number}_#{file_date_check}.pdf")
+
+    # EFS Summary_002547_2026-04-14.pdf
+    expect(visible_file_names).to include("EFS Summary_#{case_state.case_number}_#{file_date_check}.pdf")
+
+  end
+
 private
 
   def flag_state(flag_name)
@@ -88,27 +144,5 @@ private
     return "disabled" unless page.has_xpath?(xpath, wait: 0.5)
 
     page.find(:xpath, xpath, wait: 0.5).text.include?("Fully Enabled") ? "enabled" : "disabled"
-  end
-
-  def wait_for_collection_count_then_capture(expected_count_of_emails:, refresh_page_every_x_seconds: 2, last_change_for_emails_to_drop_in: 1, timeout_s: 20)
-    deadline = Time.now + timeout_s
-    current_count = 0
-
-    loop do
-      collection = Array(yield)
-      current_count = collection.count
-
-      if current_count >= expected_count_of_emails
-        sleep last_change_for_emails_to_drop_in
-        page.driver.browser.navigate.refresh
-        sleep 1
-        return Array(yield).map { |el| el.text.strip }
-      end
-
-      raise "Timed out after #{timeout_s}s waiting for at least #{expected_count_of_emails} items. Last seen count: #{current_count}" if Time.now >= deadline
-
-      page.driver.browser.navigate.refresh
-      sleep refresh_page_every_x_seconds
-    end
   end
 end
