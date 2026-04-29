@@ -14,5 +14,4 @@ class CmsSingleCaseFileComps
   def text_all_file_titles
     all(:xpath, "//div[@id='case-files']//table//tr/th//a")
   end
-
 end

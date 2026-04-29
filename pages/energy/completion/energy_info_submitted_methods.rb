@@ -25,6 +25,8 @@ class EnergyInfoSubmittedMethods < EnergyBasePage
     # Add to case state
     case_state.case_number = energy_info_submitted_comps.text_case_number.text
 
+    puts "[INFO] Successfully Created Test Case Number: #{case_state.case_number}"
+
     # Axe Check
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end

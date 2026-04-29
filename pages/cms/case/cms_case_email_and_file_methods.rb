@@ -6,6 +6,7 @@ require "components/cms/utils/flipper_comps"
 require "components/cms/case/cms_single_case_messages_comps"
 require "components/cms/case/cms_single_case_nav_comps"
 require "components/cms/case/cms_single_case_file_comps"
+require "components/cms/case/cms_single_case_attachment_comps"
 
 class CmsCaseEmailAndFileMethods < CmsBasePage
   include ValidationHelpers
@@ -41,7 +42,7 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
     wait_for_element_to_include(cms_single_case_messages_comps.text_messages_sub_heading, "Messages", timeout: 5)
 
     # Gather all the email titles
-    visible_email_titles = wait_for_collection_count_then_capture(expected_count_of_elements: 2, refresh_page_every_x_seconds: 3, last_change_for_elements_to_drop_in: 10, timeout_s: 60) do
+    visible_email_titles = wait_for_collection_count_then_capture(expected_count_of_elements: 2, refresh_page_every_x_seconds: 3, last_change_for_elements_to_drop_in: 15, timeout_s: 60) do
       cms_single_case_messages_comps.text_all_email_titles
     end
 
@@ -89,7 +90,6 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
     cms_single_case_nav_comps.link_files.click
     wait_for_element_to_include(cms_single_case_file_comps.text_messages_sub_heading, "Case files", timeout: 5)
 
-
     # Gather all the file names
     visible_file_names = wait_for_collection_count_then_capture(expected_count_of_elements: 4, refresh_page_every_x_seconds: 3, last_change_for_elements_to_drop_in: 5, timeout_s: 60) do
       cms_single_case_file_comps.text_all_file_titles
@@ -102,39 +102,104 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
 
     # Validate expected files based on the flags.
     ### env_state.auto_email_vat_dd == "enabled" or not it doesn't matter the files are the same
-    # EDF Vat Declaration_002547_2026-04-14.pdf
+    # Example: EDF Vat Declaration_002547_2026-04-14.pdf
     expect(visible_file_names).to include("EDF Vat Declaration_#{case_state.case_number}_#{file_date_check}.pdf")
 
-    # TOTAL Declaration of Use Certificate_002547_2026-04-14.pdf
+    # Example: TOTAL Declaration of Use Certificate_002547_2026-04-14.pdf
     expect(visible_file_names).to include("TOTAL Declaration of Use Certificate_#{case_state.case_number}_#{file_date_check}.pdf")
 
-    # EDF_Direct_Debit_002547_2026-04-14.pdf
+    # Example: EDF_Direct_Debit_002547_2026-04-14.pdf
     expect(visible_file_names).to include("EDF_Direct_Debit_#{case_state.case_number}_#{file_date_check}.pdf")
 
-    # TOTAL_Direct_Debit_002547_2026-04-14.pdf
+    # Example: TOTAL_Direct_Debit_002547_2026-04-14.pdf
     expect(visible_file_names).to include("TOTAL_Direct_Debit_#{case_state.case_number}_#{file_date_check}.pdf")
 
     ###  env_state.auto_send_siteAdditions_gas == "enabled" or not it doesn't matter the files are the same
-    # TOTAL Site Addition_002547_2026-04-14.xlsx
+    # Example: TOTAL Site Addition_002547_2026-04-14.xlsx
     expect(visible_file_names).to include("TOTAL Site Addition_#{case_state.case_number}_#{file_date_check}.xlsx")
 
-    # Total portal Access_002547_2026-04-14.xlsx
+    # Example: Total portal Access_002547_2026-04-14.xlsx
     expect(visible_file_names).to include("Total portal Access_#{case_state.case_number}_#{file_date_check}.xlsx")
 
     ###  env_state.auto_send_siteAdditions_power == "enabled" or not it doesn't matter the files are the same
-    # EDF Site Addition_002547_2026-04-14.xlsx
+    # Example: EDF Site Addition_002547_2026-04-14.xlsx
     expect(visible_file_names).to include("EDF Site Addition_#{case_state.case_number}_#{file_date_check}.xlsx")
 
-    # EDF Power portal Access_002547_2026-04-14.xlsx
+    # Example: EDF Power portal Access_002547_2026-04-14.xlsx
     expect(visible_file_names).to include("EDF Power portal Access_#{case_state.case_number}_#{file_date_check}.xlsx")
 
     ###  Generated regardless:
-    # DfE Energy for Schools Letter of Agreement_002547_2026-04-14.pdf
+    # Example: DfE Energy for Schools Letter of Agreement_002547_2026-04-14.pdf
     expect(visible_file_names).to include("DfE Energy for Schools Letter of Agreement_#{case_state.case_number}_#{file_date_check}.pdf")
 
-    # EFS Summary_002547_2026-04-14.pdf
+    # Example: EFS Summary_002547_2026-04-14.pdf
     expect(visible_file_names).to include("EFS Summary_#{case_state.case_number}_#{file_date_check}.pdf")
+  end
 
+  def validate_attachments_for_energy_case
+    # NOTE: What appears is based on the feature flags
+    # Nav to the Attachments tab.
+    cms_single_case_nav_comps.link_attachments.click
+    wait_for_element_to_include(cms_single_case_attachment_comps.text_page_heading, "Email attachments", timeout: 5)
+
+    # Set date for file generation check
+    require "date"
+    today = Date.today
+    file_date_check = today.strftime("%Y-%m-%d")
+
+    # Gather all the attachment titles
+    visible_attachment_titles = wait_for_collection_count_then_capture(expected_count_of_elements: 2, refresh_page_every_x_seconds: 3, last_change_for_elements_to_drop_in: 3, timeout_s: 60) do
+      cms_single_case_attachment_comps.text_all_attachment_titles
+    end
+
+    if env_state.auto_email_vat_dd == "enabled"
+      # Example: EDF Vat Declaration_002547_2026-04-14.pdf
+      expect(visible_attachment_titles).to include("EDF Vat Declaration_#{case_state.case_number}_#{file_date_check}.pdf")
+
+      # Example: TOTAL Declaration of Use Certificate_002547_2026-04-14.pdf
+      expect(visible_attachment_titles).to include("TOTAL Declaration of Use Certificate_#{case_state.case_number}_#{file_date_check}.pdf")
+
+      # Example: EDF_Direct_Debit_002547_2026-04-14.pdf
+      expect(visible_attachment_titles).to include("EDF_Direct_Debit_#{case_state.case_number}_#{file_date_check}.pdf")
+
+      # Example: TOTAL_Direct_Debit_002547_2026-04-14.pdf
+      expect(visible_attachment_titles).to include("TOTAL_Direct_Debit_#{case_state.case_number}_#{file_date_check}.pdf")
+    end
+
+    if env_state.auto_send_siteAdditions_gas == "enabled"
+      # Example: TOTAL Site Addition_002547_2026-04-14.xlsx
+      expect(visible_attachment_titles).to include("TOTAL Site Addition_#{case_state.case_number}_#{file_date_check}.xlsx")
+
+      # Example: Total portal Access_002547_2026-04-14.xlsx
+      expect(visible_attachment_titles).to include("Total portal Access_#{case_state.case_number}_#{file_date_check}.xlsx")
+    else
+      # Example: TOTAL Site Addition_002547_2026-04-14.xlsx
+      expect(visible_attachment_titles).not_to include("TOTAL Site Addition_#{case_state.case_number}_#{file_date_check}.xlsx")
+
+      # Example: Total portal Access_002547_2026-04-14.xlsx
+      expect(visible_attachment_titles).not_to include("Total portal Access_#{case_state.case_number}_#{file_date_check}.xlsx")
+    end
+
+    if env_state.auto_send_siteAdditions_power == "enabled"
+      # Example: EDF Site Addition_002547_2026-04-14.xlsx
+      expect(visible_attachment_titles).to include("EDF Site Addition_#{case_state.case_number}_#{file_date_check}.xlsx")
+
+      # Example: EDF Power portal Access_002547_2026-04-14.xlsx
+      expect(visible_attachment_titles).to include("EDF Power portal Access_#{case_state.case_number}_#{file_date_check}.xlsx")
+    else
+      # Example: EDF Site Addition_002547_2026-04-14.xlsx
+      expect(visible_attachment_titles).not_to include("EDF Site Addition_#{case_state.case_number}_#{file_date_check}.xlsx")
+
+      # Example: EDF Power portal Access_002547_2026-04-14.xlsx
+      expect(visible_attachment_titles).not_to include("EDF Power portal Access_#{case_state.case_number}_#{file_date_check}.xlsx")
+    end
+
+    ###  Generated regardless:
+    # Example: DfE Energy for Schools Letter of Agreement_002547_2026-04-14.pdf
+    expect(visible_attachment_titles).to include("DfE Energy for Schools Letter of Agreement_#{case_state.case_number}_#{file_date_check}.pdf")
+
+    # Example: EFS Summary_002547_2026-04-14.pdf
+    expect(visible_attachment_titles).to include("EFS Summary_#{case_state.case_number}_#{file_date_check}.pdf")
   end
 
 private
