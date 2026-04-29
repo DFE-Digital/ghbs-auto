@@ -106,6 +106,7 @@ jobs:
         env:
           # URL's
           STAGING_FABS_HOMEPAGE_URL: ${{ secrets.STAGING_FABS_HOMEPAGE_URL }}
+          DEV_FABS_HOMEPAGE_URL: ${{ secrets.DEV_FABS_HOMEPAGE_URL }}
           DEV_ENERGY_ONBOARDING_HOMEPAGE_URL: ${{ secrets.DEV_ENERGY_ONBOARDING_HOMEPAGE_URL }}
           DEV_PROC_OPS_CMS_HOMEPAGE_URL: ${{ secrets.DEV_PROC_OPS_CMS_HOMEPAGE_URL }}
           DEV_CEC_CMS_HOMEPAGE_URL: ${{ secrets.DEV_CEC_CMS_HOMEPAGE_URL }}
@@ -158,6 +159,7 @@ jobs:
           cat > config/.secrets.yml <<YAML
           ci:
             staging_fabs_homepage_url: "${STAGING_FABS_HOMEPAGE_URL}"
+            dev_fabs_homepage_url: "${DEV_FABS_HOMEPAGE_URL}"
             dev_energy_onboarding_homepage_url: "${DEV_ENERGY_ONBOARDING_HOMEPAGE_URL}"
             dev_proc_ops_cms_homepage_url: "${DEV_PROC_OPS_CMS_HOMEPAGE_URL}"
             dev_cec_cms_homepage_url: "${DEV_CEC_CMS_HOMEPAGE_URL}"
@@ -205,6 +207,7 @@ jobs:
           
           required_keys = %w[
             staging_fabs_homepage_url
+            dev_fabs_homepage_url
             dev_energy_onboarding_homepage_url
             dev_proc_ops_cms_homepage_url
             dev_cec_cms_homepage_url

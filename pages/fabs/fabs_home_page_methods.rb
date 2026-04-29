@@ -8,7 +8,7 @@ require "helpers/validation_helpers"
 class FabsHomePageMethods < FabsBasePage
   include ValidationHelpers
   def open_fabs_homepage
-    visit SECRETS["staging_fabs_homepage_url"]
+    visit SECRETS["dev_fabs_homepage_url"]
   end
 
   def validate_homepage_loaded
