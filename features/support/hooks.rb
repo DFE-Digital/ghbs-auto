@@ -28,6 +28,14 @@ After do |scenario|
   end
 
   total_run_time = Time.now - (@scenario_started_at || Time.now)
+
+  puts <<~ASCII
+    ╔═════════════════════════════════════╗
+    ║         E2E TEST OUTPUT             ║
+    ║    (grab a brew, have a look )      ║
+    ╚═════════════════════════════════════╝
+  ASCII
+
   puts "RUN TIME: #{status} in #{sprintf('%0.2f', total_run_time)}s"
 
   next unless scenario.failed?
