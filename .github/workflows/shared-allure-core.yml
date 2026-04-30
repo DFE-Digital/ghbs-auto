@@ -116,6 +116,9 @@ jobs:
           CONTENTFUL_TEST_ENV: ${{ secrets.CONTENTFUL_TEST_ENV }}
           CONTENTFUL_TEST_ENV_API: ${{ secrets.CONTENTFUL_TEST_ENV_API }}
 
+          # Flipper
+          DEV_FLIPPER_URL_PRE_AUTHENTICATED: : ${{ secrets.DEV_FLIPPER_URL_PRE_AUTHENTICATED }}
+
           # Schools Colab CMS
           PROC_OPS_CMS_USERNAME: ${{ secrets.PROC_OPS_CMS_USERNAME }}
           PROC_OPS_CMS_PASSWORD: ${{ secrets.PROC_OPS_CMS_PASSWORD }}
@@ -168,6 +171,7 @@ jobs:
             contentful_signin_url: "${CONTENTFUL_SIGNIN_URL}"
             contentful_test_env: "${CONTENTFUL_TEST_ENV}"
             contentful_test_env_api: "${CONTENTFUL_TEST_ENV_API}"
+            dev_flipper_url_pre_authenticated: "${DEV_FLIPPER_URL_PRE_AUTHENTICATED}"
 
             proc_ops_cms_username: "${PROC_OPS_CMS_USERNAME}"
             proc_ops_cms_password: "${PROC_OPS_CMS_PASSWORD}"
@@ -216,6 +220,7 @@ jobs:
             contentful_signin_url
             contentful_test_env
             contentful_test_env_api
+            dev_flipper_url_pre_authenticated
             proc_ops_cms_username
             proc_ops_cms_password
             global_admin_username
