@@ -7,7 +7,6 @@ require "components/cms/case/cms_single_case_messages_comps"
 require "components/cms/case/cms_single_case_nav_comps"
 require "components/cms/case/cms_single_case_file_comps"
 require "components/cms/case/cms_single_case_attachment_comps"
-require "components/cms/utils/flipper_comps"
 
 class CmsCaseEmailAndFileMethods < CmsBasePage
   include ValidationHelpers
