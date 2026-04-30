@@ -1,0 +1,25 @@
+name: CI - E2E (Manual / WIP Runner)
+
+on:
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: "Cucumber tags to run"
+        required: true
+        default: "@ci-wip"
+      profile:
+        description: "Cucumber profile"
+        required: false
+        default: "allure_pretty"
+
+jobs:
+  e2e:
+    name: E2E (Manual WIP Run)
+    uses: ./.github/workflows/shared-allure-core.yml
+    secrets: inherit
+    with:
+      cucumber_profile: ${{ inputs.profile }}
+      cucumber_tags: ${{ inputs.tags }}
+      retention_days: 7
+      test_env: "ci"
+      history_source_workflow_file: ".github/workflows/runner-e2e-allure-nightly.yml"
