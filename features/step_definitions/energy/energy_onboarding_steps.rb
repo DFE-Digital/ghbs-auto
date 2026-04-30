@@ -103,3 +103,70 @@ Then(/^we complete the form and confirm our newly created case number$/) do
   # Information submitted on 13 November 2025
   energy_info_submitted_methods.validate_information_date_is_today
 end
+
+Given(/^we confirm the state of all flags within dev flipper$/) do
+  cms_case_email_and_file_methods.validate_dev_fiddler_flag_states
+end
+
+When(/^we complete an energy onboarding flow for both energy options$/) do
+  energy_are_you_authorised_page_methods.continue_to_what_are_switching_page
+
+  # Are you switching electric, both
+  energy_switching_selection_methods.choose_switch("both")
+  energy_switching_selection_methods.continue_to_your_chosen_selection_path
+
+  # Gas contract
+  energy_gas_contract_methods.who_currently_supplies_your_gas("Other")
+  energy_gas_contract_methods.when_does_the_contract_end
+  energy_gas_contract_methods.continue_to_your_chosen_selection_path
+
+  # Electric contract
+  energy_electric_contract_methods.who_currently_supplies_your_electricity("Other")
+  energy_electric_contract_methods.when_does_the_contract_end
+  energy_electric_contract_methods.continue_to_your_chosen_selection_path
+
+  # Is this a single or multi meter site? - gas
+  energy_gas_single_or_multi_methods.single_or_multi_option("Single meter")
+  energy_gas_single_or_multi_methods.continue_to_gas_meter_details
+
+  # Single Gas meter details
+  energy_gas_meter_details_methods.complete_and_submit_form
+
+  # Is this a single or multi meter site? - electric
+  energy_electric_single_or_multi_methods.single_or_multi_option("Single meter")
+  energy_electric_single_or_multi_methods.continue_to_electricity_meter_details
+
+  # Single Electric meter details
+  energy_electric_meter_details_methods.complete_and_submit_form("yes")
+
+  # Who manages site access and maintenance?
+  energy_site_access_methods.complete_with_unique_data
+  energy_site_access_methods.continue_to_which_vat_rate_page
+
+  # Which VAT rate are you charged?
+  energy_which_vat_rate_methods.percentage_choice("5")
+
+  # Billing preferences
+  energy_billing_pref_methods.how_bills_paid("Direct debit")
+  energy_billing_pref_methods.payment_terms("14")
+  energy_billing_pref_methods.how_to_invoice("paper")
+  energy_billing_pref_methods.continue_to_billing_address_page
+
+  # Billing address
+  energy_billing_address_methods.choose_address_in_position("1")
+  energy_billing_address_methods.continue_to_check_your_answers
+
+  # Check your answers
+  energy_check_your_answers_methods.validate_all_sections
+  energy_check_your_answers_methods.continue_to_loa_page
+
+  # Letter Of Agreement
+  energy_loa_methods.complete_loa
+  energy_loa_methods.continue_to_information_submitted
+
+  # Information submitted on 13 November 2025
+  energy_info_submitted_methods.validate_information_date_is_today
+
+  # Logout of the system ready to sign in as CMS user
+  energy_signin_flow_methods.sign_out_of_the_energy_flow
+end

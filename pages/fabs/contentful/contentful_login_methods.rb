@@ -26,7 +26,7 @@ class ContentfulLoginMethods < FabsBasePage
 
   def change_to_the_test_env
     # Choose the test env
-    visit SECRETS["contentful_test_env"]
+    visit SECRETS["contentful_dev_env"]
     expect(page).to have_current_path(%r{/environments/master/views/entries}, url: true, wait: 10)
 
     # Double check env in the top right info dropdown

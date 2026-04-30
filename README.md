@@ -192,6 +192,13 @@ TEST_ENV=local bundle exec cucumber -p allure_pretty --tags "@wip" allure genera
 ##### rubuop for code maintenance
 ```bash
 bundle exec rubocop
+bundle exec typos
+```
+
+Note: if you need to install these then:
+```bash
+brew install rubocop
+brew install typos-cli
 ```
 
 ---

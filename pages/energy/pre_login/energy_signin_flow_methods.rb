@@ -5,11 +5,14 @@ require "pages/energy/energy_base_page"
 require "components/energy/pre_login/energy_start_comps"
 require "components/energy/pre_login/energy_before_you_start_comps"
 require "components/energy/journey_start/energy_which_school_buying_for_comps"
+require "components/energy/energy_top_nav_comps"
 require "pages/cms/cms_signin_flow_methods"
 require "helpers/login_helpers"
+require "helpers/validation_helpers"
 
 class EnergySignInFlowMethods < EnergyBasePage
   include LoginHelpers
+  include ValidationHelpers
 
   def continue_to_before_you_start_page
     # Navigates user from the "start" page to the "before you start" page
@@ -60,5 +63,11 @@ class EnergySignInFlowMethods < EnergyBasePage
 
       puts "[INFO] Successfully signed in as #{user.capitalize} user"
     end
+  end
+
+  def sign_out_of_the_energy_flow
+    # We sign out and validate we have the notification before confirming this. We need to do this as the user we login to validate this is different.
+    energy_top_nav_comps.link_sign_out.click
+    wait_for_element_to_include(energy_top_nav_comps.text_flash_notice, "You have been signed out.", timeout: 5)
   end
 end

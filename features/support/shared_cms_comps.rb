@@ -25,6 +25,8 @@ require "components/cms/case/cms_single_case_case_details_comps"
 require "components/cms/case/cms_single_case_messages_comps"
 require "components/cms/case/cms_single_case_school_details_comps"
 require "components/cms/case/cms_single_case_onboarding_summary_comps"
+require "components/cms/case/cms_single_case_file_comps"
+require "components/cms/case/cms_single_case_attachment_comps"
 require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_evaluator_details_comps"
 require "components/cms/case/task_list/evaluation/add_evaluator/cms_eval_add_evaluators_comps"
 require "components/cms/case/task_list/evaluation/school_view/cms_eval_school_approved_comps"
@@ -58,8 +60,12 @@ require "components/cms/frameworks/cms_frameworks_register_nav_comps"
 require "components/cms/frameworks/cms_frameworks_portal_management_activity_log_comps"
 require "components/cms/frameworks/cms_frameworks_portal_management_comps"
 require "components/cms/frameworks/cms_frameworks_portal_management_upload_fw_comps"
+require "components/cms/utils/flipper_comps"
 
 module SharedCmsComps
+  # Util pages
+  def flipper_comps = @flipper_comps ||= FlipperComps.new
+
   # Pre Flow pages
   def cms_login_page_comps = @cms_login_page_comps ||= CmsLoginPageComps.new
 
@@ -80,6 +86,11 @@ module SharedCmsComps
   def cms_case_actions_reject_case_comps = @cms_case_actions_reject_case_comps ||= CmsCaseActionsRejectCaseComps.new
   def cms_case_actions_reject_case_summary_comps = @cms_case_actions_reject_case_summary_comps ||= CmsCaseActionsRejectCaseSummaryComps.new
   def cms_single_case_nav_comps = @cms_single_case_nav_comps ||= CmsSingleCaseNavComps.new
+
+  # Single Case - Top Nav Items
+  def cms_single_case_messages_comps = @cms_single_case_messages_comps ||= CmsSingleCaseMessagesComps.new
+  def cms_single_case_file_comps = @cms_single_case_file_comps ||= CmsSingleCaseFileComps.new
+  def cms_single_case_attachment_comps = @cms_single_case_attachment_comps ||= CmsSingleCaseAttachmentComps.new
   def cms_single_case_school_details_comps = @cms_single_case_school_details_comps ||= CmsSingleCaseSchoolDetailsComps.new
   def cms_single_case_onboarding_summary_comps = @cms_single_case_onboarding_summary_comps ||= CmsSingleCaseOnboardingSummaryComps.new
 
@@ -87,7 +98,6 @@ module SharedCmsComps
   def cms_single_case_case_details_comps = @cms_single_case_case_details_comps ||= CmsSingleCaseCaseDetailsComps.new
   def cms_single_case_case_details_case_summary_comps = @cms_single_case_case_details_case_summary_comps ||= CmsSingleCaseCaseDetailsCaseSummaryComps.new
   def cms_single_case_case_details_case_summary_check_answers_comps = @cms_single_case_case_details_case_summary_check_answers_comps ||= CmsSingleCaseCaseDetailsCaseSummaryCheckAnswersComps.new
-  def cms_single_case_messages_comps = @cms_single_case_messages_comps ||= CmsSingleCaseMessagesComps.new
 
   # Single Case Actions - Evaluation
   def cms_eval_add_evaluator_details_comps = @cms_eval_add_evaluator_details_comps ||= CmsEvalAddEvaluatorDetailsComps.new

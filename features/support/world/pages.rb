@@ -29,14 +29,15 @@ require "pages/energy/completion/energy_info_submitted_methods"
 require "pages/cms/cms_signin_flow_methods"
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
+require "pages/cms/cms_create_a_new_case_methods"
+require "pages/cms/cms_notifications_methods"
 require "pages/cms/case/cms_case_actions_methods"
 require "pages/cms/case/cms_case_evaluation_flow_methods"
-require "pages/cms/cms_create_a_new_case_methods"
 require "pages/cms/case/cms_case_evaluation_school_user_flow_methods"
 require "pages/cms/case/cms_case_handover_flow_methods"
-require "pages/user_management/test_user_management_util_methods"
-require "pages/cms/cms_notifications_methods"
 require "pages/cms/case/cms_case_handover_school_user_flow_methods"
+require "pages/cms/case/cms_case_email_and_file_methods"
+require "pages/user_management/test_user_management_util_methods"
 require "pages/fabs/contentful/contentful_login_methods"
 require "pages/fabs/contentful/contentful_edit_solution_methods"
 require "pages/fabs/contentful/contentful_api_methods"
@@ -223,6 +224,10 @@ module Pages
 
   def cms_case_states_methods
     @cms_case_states_methods ||= CmsCaseStatesMethods.new(resolved_world)
+  end
+
+  def cms_case_email_and_file_methods
+    @cms_case_email_and_file_methods ||= CmsCaseEmailAndFileMethods.new(resolved_world)
   end
 
   ##### CMS MANAGEMENT PAGES #####

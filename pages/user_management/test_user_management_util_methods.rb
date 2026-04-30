@@ -7,8 +7,11 @@ require "components/dfe_signin/user_management/dfe_signin_3_invite_user_comps"
 require "components/dfe_signin/user_management/dfe_signin_4_permission_level_comps"
 require "components/dfe_signin/user_management/dfe_signin_5_select_services_comps"
 require "components/dfe_signin/user_management/dfe_signin_6_review_invite_details_comps"
+require "helpers/validation_helpers"
 
 class TestUserManagementUtilMethods < SharedGlobalMethodsBasePage
+  include ValidationHelpers
+
   def open_test_manage_users_screen
     visit SECRETS["test_dfe_signin_org_admin_screens"]
 
@@ -43,10 +46,9 @@ class TestUserManagementUtilMethods < SharedGlobalMethodsBasePage
 
     # At this point one of two screens could be presented "This user has a DfE Sign-in account" or "Permission level"
     # We need to take action accordingly up to the permission screen.
+    sleep(3)
 
     current_page_title_name = dfe_signin_4_permission_level_comps.text_page_heading.text
-
-    sleep(1)
 
     if current_page_title_name == "This user has a DfE Sign-in account"
       dfe_signin_4_permission_level_comps.button_continue.click
@@ -72,6 +74,9 @@ class TestUserManagementUtilMethods < SharedGlobalMethodsBasePage
   end
 
   def permission_to_completion(level)
+    # Triple check were on permission level
+    wait_for_element_to_include(dfe_signin_4_permission_level_comps.text_page_heading, "Permission level", timeout: 5)
+
     # Screen 4 - Permission level
     if level == "End User"
       dfe_signin_4_permission_level_comps.radio_end_user.click
@@ -85,11 +90,11 @@ class TestUserManagementUtilMethods < SharedGlobalMethodsBasePage
 
     # Fantastic news, the user doesn't have the case, and we can gho ahead and add it!
     expect(page).to have_current_path(%r{/associate-services}, url: true, wait: 10)
-    expect(dfe_signin_5_select_services_comps.text_page_heading.text).to include("Select services")
+    wait_for_element_to_include(dfe_signin_5_select_services_comps.text_page_heading, "Select services", timeout: 5)
 
     # Screen 5 - Select services # Move on to the next page
     dfe_signin_5_select_services_comps.button_continue.click
-    expect(dfe_signin_6_review_invite_details_comps.text_page_heading.text).to include("Review invite details")
+    wait_for_element_to_include(dfe_signin_6_review_invite_details_comps.text_page_heading, "Review invite details", timeout: 5)
   end
 
   def review_details_to_completion

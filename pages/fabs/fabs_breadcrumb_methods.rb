@@ -6,9 +6,11 @@ require "components/fabs/fabs_buying_category_comps"
 require "components/fabs/fabs_buying_option_comps"
 require "components/fabs/fabs_top_nav_comps"
 require "helpers/url_nav_helpers"
+require "helpers/validation_helpers"
 
 class FabsBreadcrumbMethods < FabsBasePage
   include UrlHelpers
+  include ValidationHelpers
 
   def navigate_to_a_simple_buying_option_via_buying_category
     # Open up the Recruitment, HR and training buying category
@@ -71,8 +73,9 @@ class FabsBreadcrumbMethods < FabsBasePage
   def navigate_to_complex_buying_option_via_non_parent
     # Navigate back to the home page
     fabs_top_nav_comps.image_dfe_logo.click
+    fabs_top_nav_comps.image_dfe_logo.click
     expect(page).to have_current_path(%r{/}, url: true, wait: 10)
-    expect(fabs_home_comps.text_page_heading.text).to include("Get help buying for schools")
+    wait_for_element_to_include(fabs_home_comps.text_page_heading, "Get help buying for schools", timeout: 5)
 
     # Open up the Facilities management and estates buying category
     fabs_home_comps.link_category_facilities_management_and_estates.click

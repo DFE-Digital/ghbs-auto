@@ -15,6 +15,7 @@ Before do
   @case_state = CaseState.new
   @framework_state = FrameworkState.new
   @current_user_state = CurrentUserState.new
+  @env_state = EnvState.new
 end
 
 After do |scenario|
