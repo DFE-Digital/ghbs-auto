@@ -24,14 +24,14 @@ class FabsNavMethods < FabsBasePage
   def navigate_to_404_page
     go_to_fabs_path("/404")
     expect(page).to have_current_path(%r{/404}, url: true, wait: 10)
-    expect(fabs_404_comps.text_page_heading.text).to include("Page not found")
+    wait_for_element_to_include(fabs_404_comps.text_page_heading, "Page not found", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def navigate_to_500_page
     go_to_fabs_path("/500")
     expect(page).to have_current_path(%r{/500}, url: true, wait: 10)
-    expect(fabs_500_comps.text_page_heading.text).to include("Internal server error")
+    wait_for_element_to_include(fabs_500_comps.text_page_heading, "Internal server error", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
@@ -41,7 +41,7 @@ class FabsNavMethods < FabsBasePage
     reset_to_homepage_via_logo
     fabs_home_comps.button_main_search.click
     expect(page).to have_current_path(%r{/search}, url: true, wait: 10)
-    expect(fabs_search_comps.text_page_heading.text).to include("Search Get help buying for schools")
+    wait_for_element_to_include(fabs_search_comps.text_page_heading, "Search Get help buying for schools", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
@@ -49,7 +49,7 @@ class FabsNavMethods < FabsBasePage
     reset_to_homepage_via_logo
     fabs_home_comps.link_all_buying_options.click
     expect(page).to have_current_path(%r{/solutions}, url: true, wait: 10)
-    expect(fabs_all_buying_options_comps.text_page_heading.text).to include("All buying options")
+    wait_for_element_to_include(fabs_all_buying_options_comps.text_page_heading, "All buying options", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
@@ -59,7 +59,7 @@ class FabsNavMethods < FabsBasePage
     reset_to_homepage_via_logo
     fabs_home_comps.link_about_this_service.click
     expect(page).to have_current_path(%r{/about-this-service}, url: true, wait: 10)
-    expect(fabs_all_buying_options_comps.text_page_heading.text).to include("About this service Request for help")
+    wait_for_element_to_include(fabs_all_buying_options_comps.text_page_heading, "About this service Request for help", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
@@ -70,13 +70,13 @@ class FabsNavMethods < FabsBasePage
     # open energy category
     fabs_home_comps.link_category_energy.click
     expect(page).to have_current_path(%r{/categories/energy}, url: true, wait: 10)
-    expect(fabs_buying_category_comps.text_page_heading.text).to include("Energy")
+    wait_for_element_to_include(fabs_buying_category_comps, "Energy", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # select and open DfE energy for Schools solution
     fabs_buying_category_comps.link_buying_category_by_name("DfE Energy for Schools").click
     expect(page).to have_current_path(%r{/categories/energy/energy-for-schools}, url: true, wait: 10)
-    expect(fabs_buying_option_comps.text_page_heading.text).to include("DfE Energy for Schools")
+    wait_for_element_to_include(fabs_buying_option_comps.text_page_heading, "DfE Energy for Schools", timeout: 5)
 
     # use the cta to navigate to the before you start page of the energy flow
     fabs_buying_option_comps.button_cta_join_energy_for_schools.click
@@ -94,7 +94,7 @@ class FabsNavMethods < FabsBasePage
     reset_to_homepage_via_logo
     fabs_footer_nav_comps.link_accessibility_statement.click
     expect(page).to have_current_path(%r{/accessibility-statement}, url: true, wait: 10)
-    expect(fabs_accessibility_statement_comps.text_page_heading.text).to include("Accessibility statement for Get help buying for schools")
+    wait_for_element_to_include(fabs_accessibility_statement_comps.text_page_heading, "Accessibility statement for Get help buying for schools", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
@@ -102,7 +102,7 @@ class FabsNavMethods < FabsBasePage
     reset_to_homepage_via_logo
     fabs_footer_nav_comps.link_terms_and_conditions.click
     expect(page).to have_current_path(%r{/terms-and-conditions}, url: true, wait: 10)
-    expect(fabs_terms_and_conditions_comps.text_page_heading.text).to include("Terms and conditions")
+    wait_for_element_to_include(fabs_terms_and_conditions_comps.text_page_heading, "Terms and conditions", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
@@ -119,7 +119,7 @@ class FabsNavMethods < FabsBasePage
   def reset_to_homepage_via_logo
     fabs_top_nav_comps.image_dfe_logo.click
     expect(page).to have_current_path(%r{/}, url: true, wait: 10)
-    expect(fabs_home_comps.text_page_heading.text).to include("Get help buying for schools")
+    wait_for_element_to_include(fabs_home_comps.text_page_heading, "Get help buying for schools", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 end
