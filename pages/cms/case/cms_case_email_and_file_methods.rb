@@ -30,7 +30,7 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
     env_state.usability_surveys = flag_state("usability_surveys")
     env_state.allow_mat_flow = flag_state("allow_mat_flow")
 
-    # Return to the page we were on befoe leaving to check flipper
+    # Return to the page we were on before leaving to check flipper
     visit return_url
   end
 
