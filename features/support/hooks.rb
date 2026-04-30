@@ -30,13 +30,10 @@ After do |scenario|
   total_run_time = Time.now - (@scenario_started_at || Time.now)
 
   puts <<~ASCII
-    ╔═════════════════════════════════════╗
-    ║         E2E TEST OUTPUT             ║
-    ║    (grab a brew, have a look )      ║
-    ╚═════════════════════════════════════╝
+    ─────────────────────────────────────
+    RUN TIME: #{status} in #{sprintf('%0.2f', total_run_time)}s
+    ─────────────────────────────────────
   ASCII
-
-  puts "RUN TIME: #{status} in #{sprintf('%0.2f', total_run_time)}s"
 
   next unless scenario.failed?
 
@@ -73,5 +70,16 @@ After do |scenario|
     end
   rescue StandardError => e
     warn "Screenshot/Allure attach failed: #{e.class}: #{e.inspect}"
+  end
+
+  AfterAll do
+    puts <<~ASCII
+
+      ╔══════════════════════════════════╗
+      ║         E2E RUN COMPLETE         ║
+      ║    (grab a brew, have a look)    ║
+      ╚══════════════════════════════════╝
+
+    ASCII
   end
 end
