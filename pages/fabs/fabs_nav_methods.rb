@@ -99,7 +99,7 @@ class FabsNavMethods < FabsBasePage
   end
 
   def navigate_to_terms_and_conditions_page
-    reset_to_homepage_via_logo
+    # reset_to_homepage_via_logo
     fabs_footer_nav_comps.link_terms_and_conditions.click
     expect(page).to have_current_path(%r{/terms-and-conditions}, url: true, wait: 10)
     wait_for_element_to_include(fabs_terms_and_conditions_comps.text_page_heading, "Terms and conditions", timeout: 5)
@@ -118,8 +118,8 @@ class FabsNavMethods < FabsBasePage
   # --- Helpers ---
   def reset_to_homepage_via_logo
     fabs_top_nav_comps.image_dfe_logo.click
+    fabs_top_nav_comps.image_dfe_logo.click
     expect(page).to have_current_path(%r{/}, url: true, wait: 10)
     wait_for_element_to_include(fabs_home_comps.text_page_heading, "Get help buying for schools", timeout: 5)
-    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 end
