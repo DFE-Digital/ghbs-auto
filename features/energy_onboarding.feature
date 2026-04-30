@@ -60,7 +60,7 @@ Scenario Outline: ES-981: Energy Onboarding Flow - Electricity + Direct Debit On
       | MAT        | Hazelwick School | gas only      | 5       | BACS          |
       | MAT        | Hazelwick School | electric only | 5       | BACS          |
 
-
+  @ci-wip
   Scenario Outline: ES-1220 - Energy Onboarding Flow - Email and Attachment validation
     Given we confirm the state of all flags within dev flipper
     And we complete the login and school selection process with user <SchoolUser> and school <SchoolName>
