@@ -117,7 +117,7 @@ jobs:
           CONTENTFUL_TEST_ENV_API: ${{ secrets.CONTENTFUL_TEST_ENV_API }}
 
           # Flipper
-          DEV_FLIPPER_URL_PRE_AUTHENTICATED: : ${{ secrets.DEV_FLIPPER_URL_PRE_AUTHENTICATED }}
+          DEV_FLIPPER_URL_PRE_AUTHENTICATED: ${{ secrets.DEV_FLIPPER_URL_PRE_AUTHENTICATED }}
 
           # Schools Colab CMS
           PROC_OPS_CMS_USERNAME: ${{ secrets.PROC_OPS_CMS_USERNAME }}
