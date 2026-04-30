@@ -18,6 +18,10 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
     # Navigate to and log in to fiddler
     visit SECRETS["dev_flipper_url_pre_authenticated"]
 
+    # Page validation
+    expect(page).to have_current_path(%r{/flipper/features}, url: true, wait: 10)
+    wait_for_element_to_include(flipper_comps.text_page_heading, "Features", timeout: 5)
+
     # Log each of the flag status
     env_state.auto_email_vat_dd = flag_state("auto_email_vat_dd")
     env_state.auto_send_siteAdditions_gas = flag_state("auto_send_siteAdditions_gas")
