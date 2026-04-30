@@ -71,15 +71,15 @@ After do |scenario|
   rescue StandardError => e
     warn "Screenshot/Allure attach failed: #{e.class}: #{e.inspect}"
   end
+end
 
-  AfterAll do
-    puts <<~ASCII
+AfterAll do
+  puts <<~ASCII
 
-      ╔══════════════════════════════════╗
-      ║         E2E RUN COMPLETE         ║
-      ║    (grab a brew, have a look)    ║
-      ╚══════════════════════════════════╝
+    ╔══════════════════════════════════╗
+    ║         E2E RUN COMPLETE         ║
+    ║    (grab a brew, have a look)    ║
+    ╚══════════════════════════════════╝
 
-    ASCII
-  end
+  ASCII
 end
