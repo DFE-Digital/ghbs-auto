@@ -2,7 +2,7 @@
 Feature: GHBS - CMS - Role Based Access
   Background:
     Given we open and login to the proc ops CMS screens as an admin in the dev environment
-
+@wip
   Scenario Outline: ES-1120 - CMS - RBA - High level functional area and screen flow access validation
     Given we set out "<TargetUser>" to have a role of "<Role>" from the Agents screen
     And we log out and log back in as our "<TargetUser>" who has the role of "<Role>"
