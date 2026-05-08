@@ -7,5 +7,3 @@ class FabsPrivacyNoticeComps
     find(:xpath, "//h1")
   end
 end
-# frozen_string_literal: true
-
