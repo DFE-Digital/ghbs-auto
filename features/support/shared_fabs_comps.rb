@@ -5,6 +5,7 @@ require "components/fabs/fabs_500_comps"
 require "components/fabs/fabs_top_nav_comps"
 require "components/fabs/fabs_footer_nav_comps"
 require "components/fabs/fabs_accessibility_statement_comps"
+require "components/fabs/fabs_privacy_notice_comps"
 require "components/fabs/fabs_terms_and_conditions_comps"
 require "components/fabs/fabs_home_comps"
 require "components/fabs/fabs_buying_category_comps"
@@ -29,11 +30,8 @@ module SharedFabsComps
   # Header / Footer
   def fabs_top_nav_comps = @fabs_top_nav_comps ||= FabsTopNavComps.new
   def fabs_footer_nav_comps = @fabs_footer_nav_comps ||= FabsFooterNavComps.new
-
-  def fabs_accessibility_statement_comps
-    @fabs_accessibility_statement_comps ||= FabsAccessibilityStatementComps.new
-  end
-
+  def fabs_accessibility_statement_comps = @fabs_accessibility_statement_comps ||= FabsAccessibilityStatementComps.new
+  def fabs_privacy_notice_comps = @fabs_privacy_notice_comps ||= FabsPrivacyNoticeComps.new
   def fabs_terms_and_conditions_comps = @fabs_terms_and_conditions_comps ||= FabsTermsAndConditionsComps.new
 
   # Core Flow
@@ -52,7 +50,7 @@ module SharedFabsComps
   def fabs_shared_related_content_comps = @fabs_shared_related_content_comps ||= FabsSharedRelatedContentComps.new
 
   # About this service
-  def fabs_about_this_service_comps = @fabs_about_this_service_comps ||= FabsSharedRelatedContentComps.new
+  def fabs_about_this_service_comps = @fabs_about_this_service_comps ||= FabsAboutThisServiceComps.new
 
   # Contentful
   def contentful_cms_login_comps = @contentful_cms_login_comps ||= ContentfulCmsLoginComps.new

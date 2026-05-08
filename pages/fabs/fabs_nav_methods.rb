@@ -10,6 +10,7 @@ require "components/fabs/fabs_home_comps"
 require "components/fabs/fabs_all_buying_options_comps"
 require "components/fabs/fabs_footer_nav_comps"
 require "components/fabs/fabs_accessibility_statement_comps"
+require "components/fabs/fabs_privacy_notice_comps"
 require "components/fabs/fabs_terms_and_conditions_comps"
 require "components/fabs/fabs_buying_category_comps"
 require "components/fabs/fabs_buying_option_comps"
@@ -95,6 +96,14 @@ class FabsNavMethods < FabsBasePage
     fabs_footer_nav_comps.link_accessibility_statement.click
     expect(page).to have_current_path(%r{/accessibility-statement}, url: true, wait: 10)
     wait_for_element_to_include(fabs_accessibility_statement_comps.text_page_heading, "Accessibility statement for Get help buying for schools", timeout: 5)
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+  end
+
+  def navigate_to_privacy_notice_page
+    reset_to_homepage_via_logo
+    fabs_footer_nav_comps.link_privacy_notice.click
+    expect(page).to have_current_path(%r{/privacy}, url: true, wait: 10)
+    wait_for_element_to_include(fabs_privacy_notice_comps.text_page_heading, "Privacy notice", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
