@@ -35,14 +35,14 @@ MAX_WAIT = SETTINGS["max_wait_time"] || 5
 # Run Config / Settings (run before any cucumber is initiated )
 ########################################
 def print_run_banner
-  puts "###############################"
-  puts "     Run Config / Settings     "
-  puts "###############################"
+  puts "───────────────────────────────────"
+  puts "     Run Config / Settings         "
+  puts "───────────────────────────────────"
   puts " Env profile:   #{RUN_ENV}"
   puts " Browser:       #{BROWSER}"
   puts " Resolution:    #{WINDOW_WIDTH},#{WINDOW_HEIGHT}"
   puts " Max wait time: #{MAX_WAIT}s"
-  puts "###############################"
+  puts "───────────────────────────────────"
 end
 
 # print only once (single run or first parallel worker)

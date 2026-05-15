@@ -13,30 +13,31 @@ class FabsBreadcrumbMethods < FabsBasePage
   include ValidationHelpers
 
   def navigate_to_a_simple_buying_option_via_buying_category
-    # Open up the Recruitment, HR and training buying category
-    fabs_home_comps.link_category_recruitment_hr_and_training.click
-    expect(page).to have_current_path(%r{/categories/recruitment-hr-training}, url: true, wait: 10)
-    expect(fabs_buying_category_comps.text_page_heading.text).to include("Recruitment, HR and training")
+    # Open up the "Office and education supplies" buying category
+    fabs_home_comps.link_category_office_and_education_supplies.click
+    expect(page).to have_current_path(%r{/categories/office-education-supplies}, url: true, wait: 10)
+    expect(fabs_buying_category_comps.text_page_heading.text).to include("Office and education supplies")
 
     # Validate the breadcrumbs up to this point
     expect(fabs_buying_category_comps.breadcrumb_trail.map { |b| b.slice(:text, :href) }).to eq([
       { text: "Home", href: "/" },
     ])
-    # Open up the Temporary and permanent staffing buying option
-    fabs_buying_category_comps.link_buying_category_by_name("Temporary and permanent staffing").click
-    expect(page).to have_current_path(%r{/categories/recruitment-hr-training/temporary-and-permanent-staffing}, url: true, wait: 10)
-    expect(fabs_buying_option_comps.text_page_heading.text).to include("Temporary and permanent staffing")
+
+    # Open up the "Musical instruments, equipment and technology" buying option
+    fabs_buying_category_comps.link_buying_category_by_name("Musical instruments, equipment and technology").click
+    expect(page).to have_current_path(%r{/categories/office-education-supplies/musical-instruments-equipment-and-technology}, url: true, wait: 10)
+    expect(fabs_buying_option_comps.text_page_heading.text).to include("Musical instruments, equipment and technology")
   end
 
   def validate_the_breadcrumbs_on_the_buying_option_for_simple
     # Confirm were on the expected page
-    expect(page).to have_current_path(%r{/categories/recruitment-hr-training/temporary-and-permanent-staffing}, url: true, wait: 10)
-    expect(fabs_buying_option_comps.text_page_heading.text).to include("Temporary and permanent staffing")
+    expect(page).to have_current_path(%r{/categories/office-education-supplies/musical-instruments-equipment-and-technology}, url: true, wait: 10)
+    expect(fabs_buying_option_comps.text_page_heading.text).to include("Musical instruments, equipment and technology")
 
     # Validate the breadcrumbs up to this point
     expect(fabs_buying_category_comps.breadcrumb_trail.map { |b| b.slice(:text, :href) }).to eq([
       { text: "Home", href: "/" },
-      { text: "Recruitment, HR and training", href: "/categories/recruitment-hr-training" },
+      { text: "Office and education supplies", href: "/categories/office-education-supplies" },
     ])
   end
 
