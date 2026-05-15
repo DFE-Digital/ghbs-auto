@@ -9,10 +9,12 @@ require "components/energy/energy_top_nav_comps"
 require "pages/cms/cms_signin_flow_methods"
 require "helpers/login_helpers"
 require "helpers/validation_helpers"
+require "helpers/logger_helpers"
 
 class EnergySignInFlowMethods < EnergyBasePage
   include LoginHelpers
   include ValidationHelpers
+  include LoggerHelpers
 
   def continue_to_before_you_start_page
     # Navigates user from the "start" page to the "before you start" page
@@ -38,7 +40,7 @@ class EnergySignInFlowMethods < EnergyBasePage
     expect(page).to have_current_path(%r{/which-school-buying-for}, url: true, wait: 10)
     expect(energy_which_school_buying_for_comps.text_page_heading.text).to include("Which school or trust are you buying for?")
 
-    puts "[INFO] Successfully signed in as #{user.capitalize} user"
+    log_info("Successfully signed in as #{user.capitalize} user")
   end
 
   def continue_complete_dfe_signin_flow_v2(user, environment, role = nil)
@@ -61,7 +63,7 @@ class EnergySignInFlowMethods < EnergyBasePage
       expect(page).to have_current_path(%r{/which-school-buying-for}, url: true, wait: 10)
       expect(energy_which_school_buying_for_comps.text_page_heading.text).to include("Which school or trust are you buying for?")
 
-      puts "[INFO] Successfully signed in as #{user.capitalize} user"
+      log_info("Successfully signed in as #{user.capitalize} user")
     end
   end
 

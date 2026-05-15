@@ -12,10 +12,12 @@ $LOAD_PATH.unshift(File.expand_path("../..", __dir__))
 ########################################
 require "helpers/env_helpers"
 require "helpers/url_nav_helpers"
+require "helpers/logger_helpers"
 
 # World state (scenario-scoped DTOs like case_state, framework_state)
 require "features/support/world/world_state"
 World(WorldState)
+World(LoggerHelpers)
 
 SECRETS  = EnvHelpers.load_secrets.freeze
 SETTINGS = EnvHelpers.load_settings.freeze
@@ -35,14 +37,16 @@ MAX_WAIT = SETTINGS["max_wait_time"] || 5
 # Run Config / Settings (run before any cucumber is initiated )
 ########################################
 def print_run_banner
-  puts "───────────────────────────────────"
-  puts "     Run Config / Settings         "
-  puts "───────────────────────────────────"
-  puts " Env profile:   #{RUN_ENV}"
-  puts " Browser:       #{BROWSER}"
-  puts " Resolution:    #{WINDOW_WIDTH},#{WINDOW_HEIGHT}"
-  puts " Max wait time: #{MAX_WAIT}s"
-  puts "───────────────────────────────────"
+  LoggerHelpers::LOGGER.info(
+    "───────────────────────────────────\n" \
+      "     Run Config / Settings\n" \
+      "───────────────────────────────────\n" \
+      " Env profile:   #{RUN_ENV}\n" \
+      " Browser:       #{BROWSER}\n" \
+      " Resolution:    #{WINDOW_WIDTH},#{WINDOW_HEIGHT}\n" \
+      " Max wait time: #{MAX_WAIT}s\n" \
+      "───────────────────────────────────"
+  )
 end
 
 # print only once (single run or first parallel worker)

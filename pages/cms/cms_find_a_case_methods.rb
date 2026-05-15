@@ -8,9 +8,12 @@ require "components/cms/case/cms_single_case_nav_comps"
 require "components/cms/case/cms_single_case_school_details_comps"
 require "components/cms/case/cms_single_case_onboarding_summary_comps"
 require "helpers/validation_helpers"
+require "helpers/logger_helpers"
 
 class CmsFindACaseMethods < CmsBasePage
   include ValidationHelpers
+  include LoggerHelpers
+
   def search_for_case(term)
     # This calls the resolve_term allowing us to swap out for stored secrets when needed.
     term = resolve_term(term)
@@ -55,7 +58,7 @@ class CmsFindACaseMethods < CmsBasePage
     expect(page).to have_current_path(%r{/onboarding_cases/}, url: true, wait: 10)
     expect(cms_single_case_view_page_comps.text_page_heading_case_number.text).to include(case_number)
 
-    puts "[INFO] Opened #{status} case #{case_number}"
+    log_info("Opened #{status} case #{case_number}")
   end
 
   def set_filter_by_status(option)
@@ -116,11 +119,11 @@ class CmsFindACaseMethods < CmsBasePage
       # Validate the returned list of search results all match
       list_of_orgs = cms_search_results_page_comps.link_all_orgs_in_list
 
-      puts "Found #{list_of_orgs.size} result rows"
+      log_info("Found #{list_of_orgs.size} result rows")
 
       list_of_orgs.each_with_index do |org, index|
         text = org.text.strip
-        puts "Row #{index + 1}: #{text}"
+        log_info("Row #{index + 1}: #{text}")
 
         expect(text).to include("ABBEY ACADEMIES TRUST"), "Row #{index + 1} did not include search term"
       end
@@ -129,11 +132,11 @@ class CmsFindACaseMethods < CmsBasePage
       # Validate the returned list of search results all match
       list_of_orgs = cms_search_results_page_comps.link_all_orgs_in_list
 
-      puts "Found #{list_of_orgs.size} result rows"
+      log_info("Found #{list_of_orgs.size} result rows")
 
       list_of_orgs.each_with_index do |org, index|
         text = org.text.strip
-        puts "Row #{index + 1}: #{text}"
+        log_info("Row #{index + 1}: #{text}")
 
         expect(text).to include("Bourne Abbey Church of England Primary Academy"), "Row #{index + 1} did not include search term"
       end

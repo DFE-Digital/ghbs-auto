@@ -2,7 +2,11 @@
 
 require "pages/energy/energy_base_page"
 require "components/energy/completion/energy_info_submitted_comps"
+require "helpers/logger_helpers"
+
 class EnergyInfoSubmittedMethods < EnergyBasePage
+  include LoggerHelpers
+
   def validate_information_date_is_today
     # validate the page has loaded
     expect(page).to have_current_path(%r{/information-submitted}, url: true, wait: 10)
@@ -20,12 +24,12 @@ class EnergyInfoSubmittedMethods < EnergyBasePage
       raise "AUTO ERROR: Expected '#{expected_string}' but got '#{info_string}'"
     end
 
-    puts "[INFO] Validated date successfully: #{info_string}"
+    log_info("Validated date successfully: #{info_string}")
 
     # Add to case state
     case_state.case_number = energy_info_submitted_comps.text_case_number.text
 
-    puts "[INFO] Successfully Created Test Case Number: #{case_state.case_number}"
+    log_info("Successfully Created Test Case Number: #{case_state.case_number}")
 
     # Axe Check
     axe_check! if FlagsGlobalConfig.axe_enabled?

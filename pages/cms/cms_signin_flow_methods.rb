@@ -14,10 +14,12 @@ require "components/cms/cms_case_statistics_comps"
 require "components/cms/frameworks/cms_frameworks_register_comps"
 require "helpers/validation_helpers"
 require "helpers/login_helpers"
+require "helpers/logger_helpers"
 
 class CmsSigninFlowMethods < CmsBasePage
   include ValidationHelpers
   include LoginHelpers
+  include LoggerHelpers
 
   def open_cms_cec_homepage
     visit SECRETS["dev_cec_cms_homepage_url"]
@@ -46,7 +48,7 @@ class CmsSigninFlowMethods < CmsBasePage
     expect(page).to have_current_path(%r{/cec#my-cases}, url: true, wait: 10)
     expect(dfe_signin_enter_your_password_page_comps.text_page_heading.text).to include("My cases")
 
-    puts "[INFO] Successfully signed in as CEC Admin user"
+    log_info("Successfully signed in as CEC Admin user")
   end
 
   def continue_and_complete_dfe_signin_as_any_cms_user_type(user, environment, role = nil)
@@ -93,7 +95,7 @@ class CmsSigninFlowMethods < CmsBasePage
         wait_for_element_to_include(cms_mycases_page_comps.text_page_heading, "My cases", timeout: 10)
       end
 
-      puts "[INFO] Successfully signed in as #{role} user"
+      log_info("Successfully signed in as #{role} user")
     end
   end
 

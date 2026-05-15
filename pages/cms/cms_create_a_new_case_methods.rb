@@ -13,12 +13,14 @@ require "helpers/unique_content_helpers"
 require "helpers/validation_helpers"
 require "helpers/content_format_helpers"
 require "helpers/interaction_helpers"
+require "helpers/logger_helpers"
 
 class CmsCreateANewCaseMethods < CmsBasePage
   include UniqueContentHelpers
   include ValidationHelpers
   include ContentFormatHelpers
   include InteractionHelpers
+  include LoggerHelpers
 
   def create_a_new_case_with_unique_data
     complete_create_a_new_case_page
@@ -41,7 +43,7 @@ class CmsCreateANewCaseMethods < CmsBasePage
     # In CI we occasionally select Hazeldene School instead of Hazelwick, I believe this to be a resource issue.
     # So the below is some defensive code to retry if it's not correctly selected the school.
     if cms_create_a_new_case_comps.input_organisation_name.value != case_org_name
-      puts "THE ELEMENT TEXT: #{cms_create_a_new_case_comps.input_organisation_name.value}"
+      log_info("THE ELEMENT TEXT: #{cms_create_a_new_case_comps.input_organisation_name.value}")
       clear_input(cms_create_a_new_case_comps.input_organisation_name, and_type: case_org_name)
       sleep(2)
       cms_create_a_new_case_comps.dropdown_select_org_based_on_ukprn("10034642").click
@@ -221,6 +223,6 @@ class CmsCreateANewCaseMethods < CmsBasePage
       raise ArgumentError, "Case level '#{case_level}' hasn't been implemented yet."
     end
 
-    puts("[INFO] Case has been successfully set to level #{case_level}")
+    log_info("Case has been successfully set to level #{case_level}")
   end
 end

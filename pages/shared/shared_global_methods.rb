@@ -7,9 +7,11 @@ require "components/dfe_signin/dfe_signin_enter_code_comps"
 require "components/dfe_signin/dfe_signin_verify_your_identity_comps"
 require "components/dfe_signin/user_management/dfe_signin_1_manage_users_comps"
 require "helpers/validation_helpers"
+require "helpers/logger_helpers"
 
 class SharedGlobalMethods < SharedGlobalMethodsBasePage
   include ValidationHelpers
+  include LoggerHelpers
 
   def set_axe_enabled(axe_status)
     ENV["AXE"] = axe_status ? "true" : "false"
@@ -84,7 +86,7 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
       # dfe_signin_enter_code_comps.button_verify.click
     end
 
-    # puts "[INFO] Successfully signed in as #{user.capitalize} user"
+    # log_info("Successfully signed in as #{user.capitalize} user")
   end
 
   def complete_dfe_signin_org_management_as(user)
@@ -123,7 +125,7 @@ private
 
     # We give Capybara a moment to sync
     unless field.value == email
-      puts "[WARN] Username did not persist, retrying input..."
+      log_warn("Username did not persist, retrying input...")
       field.set(email)
     end
 

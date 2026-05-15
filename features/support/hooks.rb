@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 require "helpers/screenshot_helper"
-require "pp"
+require "helpers/logger_helpers"
+
 World(ScreenshotHelper)
 
 Before do
@@ -24,18 +25,19 @@ After do |scenario|
 
   # Manage debugging options for local dev
   if SECRETS["local_debug_case_state"] == true
-    puts "[CASE_STATE]"
+    log_info("[CASE_STATE]")
     pp case_state.to_h
   end
 
   total_run_time = Time.now - (@scenario_started_at || Time.now)
 
-  puts <<~ASCII
-    ─────────────────────────────────────
-    SCENARIO: #{scenario_name}
-    RUN TIME: #{status} in #{sprintf('%0.2f', total_run_time)}s
-    ─────────────────────────────────────
-  ASCII
+  log_info(
+    "\n" \
+      "─────────────────────────────────────\n" \
+      "SCENARIO: #{scenario_name}\n" \
+      "RUN TIME: #{status} in #{sprintf('%0.2f', total_run_time)}s\n" \
+      "─────────────────────────────────────"
+  )
 
   next unless scenario.failed?
 
@@ -71,17 +73,16 @@ After do |scenario|
       allure_attach("Page HTML", page.html.to_s, "text/html")
     end
   rescue StandardError => e
-    warn "Screenshot/Allure attach failed: #{e.class}: #{e.inspect}"
+    log_warn("Screenshot/Allure attach failed: #{e.class}: #{e.inspect}")
   end
 end
 
 AfterAll do
-  puts <<~ASCII
-
-    ╔══════════════════════════════════╗
-    ║         E2E RUN COMPLETE         ║
-    ║    (grab a brew, have a look)    ║
-    ╚══════════════════════════════════╝
-
-  ASCII
+  LoggerHelpers::LOGGER.info(
+    "\n" \
+      "╔══════════════════════════════════╗\n" \
+      "║         E2E RUN COMPLETE         ║\n" \
+      "║    (grab a brew, have a look)    ║\n" \
+      "╚══════════════════════════════════╝"
+  )
 end

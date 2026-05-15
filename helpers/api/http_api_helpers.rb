@@ -2,8 +2,11 @@
 
 require "net/http"
 require "uri"
+require "helpers/logger_helpers"
 
 module HttpApiHelpers
+  include LoggerHelpers
+
   def http_response_for(url, base_url: nil, limit: 5)
     raise "Too many redirects" if limit <= 0
 
@@ -64,7 +67,7 @@ module HttpApiHelpers
     current_env = SECRETS["test_environment"]
 
     if only_run_in && current_env != only_run_in
-      puts "Skipping external link validation for #{url} (test_environment=#{current_env})"
+      log_info("Skipping external link validation for #{url} (test_environment=#{current_env})")
       return true
     end
 
@@ -80,7 +83,7 @@ module HttpApiHelpers
     end
 
     if fallback_on.include?(code)
-      puts "HTTP returned #{code} for #{url}; falling back to browser check"
+      log_info("HTTP returned #{code} for #{url}; falling back to browser check")
       validate_in_browser(url, expected_title: expected_title)
       return true
     end
@@ -104,12 +107,12 @@ private
 
       unless ok
         # Debugging for CI
-        puts "BROWSER FALLBACK FAILED"
-        puts "Requested URL: #{url}"
-        puts "Current URL:   #{page.current_url}"
-        puts "Title:         #{page.title.inspect}"
+        log_debug("BROWSER FALLBACK FAILED")
+        log_debug("Requested URL: #{url}")
+        log_debug("Current URL:   #{page.current_url}")
+        log_debug("Title:         #{page.title.inspect}")
         html = page.html.to_s
-        puts "HTML SNIP:     #{html[0, 500]}"
+        log_debug("HTML SNIP:     #{html[0, 500]}")
 
         raise "Expected title to include #{expected_title.inspect} but got #{page.title.inspect} for #{page.current_url}"
       end
