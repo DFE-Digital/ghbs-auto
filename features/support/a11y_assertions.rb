@@ -2,8 +2,10 @@
 
 require "rspec/expectations"
 require "axe-rspec"
+require "helpers/logger_helpers"
 
 module A11yAssertions
+  include LoggerHelpers
   # This method runs an axe-core accessibility scan against the current Capybara page and
   # prints a structured, multi-line log (Title, URL, scope, rules, excludes, duration).
   #
@@ -124,7 +126,7 @@ private
     lines << "  Label      : #{label}"                     if label && !label.to_s.strip.empty?
     lines << "  Reason     : #{reason}"                    if reason
 
-    puts lines.join("\n")
+    log_info(lines.join("\n"))
   end
 end
 

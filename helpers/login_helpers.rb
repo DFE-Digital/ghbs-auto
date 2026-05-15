@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "helpers/logger_helpers"
+
 # Helper methods to make login flows more resilient in unstable environments
 # (e.g. Test DfE Sign-In intermittently returning stale elements or broken sessions).
 #
@@ -12,6 +14,7 @@
 # It exists to stabilise CI where external auth services are flaky.
 
 module LoginHelpers
+  include LoggerHelpers
   # Wraps a login flow in retry logic to handle transient Selenium/Capybara failures.
   # Retries the provided block up to `max_attempts`, catching common flaky errors
   # such as stale elements, detached nodes, or unexpected navigation failures.
@@ -37,7 +40,7 @@ module LoginHelpers
              RSpec::Expectations::ExpectationNotMetError => e
 
         last_error = e
-        puts "[WARN] Login retry (attempt #{attempt}/#{max_attempts}) after error: #{e.class}: #{e.message}"
+        log_warn("Login retry (attempt #{attempt}/#{max_attempts}) after error: #{e.class}: #{e.message}")
         # If we've exhausted retries, bubble up the failure
         raise if attempt >= max_attempts
 
@@ -70,9 +73,9 @@ module LoginHelpers
     raise ArgumentError, "return_url is required" if return_url.to_s.strip.empty?
 
     if attempt == 2
-      puts "[INFO] Restoring start state (attempt #{attempt}): visit return_url"
+      log_info("Restoring start state (attempt #{attempt}): visit return_url")
     else
-      puts "[INFO] Restoring start state (attempt #{attempt}): reset session + visit return_url"
+      log_info("Restoring start state (attempt #{attempt}): reset session + visit return_url")
       Capybara.reset_sessions!
     end
     visit return_url

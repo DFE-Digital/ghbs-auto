@@ -16,12 +16,11 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
 
     while attempt < 10
       attempt += 1
-      puts "[INFO] Attempt #{attempt}/#{max_attempts} to generate and submit a unique MPAN number"
+      log_info("Attempt #{attempt}/#{max_attempts} to generate and submit a unique MPAN number")
 
       # Generate and fill form data
       unique_mpan_number = _add_unique_mpan_number
       electric_usage_kwh = _add_random_annual_electric_usage_kwh
-      puts("")
       electric_usage_kva = ""
       data_aggregator = ""
       data_collector = ""
@@ -56,12 +55,12 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
 
       # Check if the duplicate MPAN error has been triggered!
       if energy_electric_meter_detail_comps.error_summary_present?(wait: 0.5)
-        puts "[WARN] MPAN #{unique_mpan_number} already in use. Retrying..."
+        log_warn("MPAN #{unique_mpan_number} already in use. Retrying...")
         next
       end
 
       # If no error, success — break out of the loop
-      puts "[INFO] MPAN #{unique_mpan_number} accepted"
+      log_info("MPAN #{unique_mpan_number} accepted")
       break
     end
 

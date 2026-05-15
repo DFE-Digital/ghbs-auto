@@ -11,9 +11,12 @@ require "components/cms/case/actions/cms_case_actions_assign_to_case_worker_comp
 require "pages/cms/cms_find_a_case_methods"
 require "pages/cms/cms_top_nav_methods"
 require "helpers/validation_helpers"
+require "helpers/logger_helpers"
 
 class CmsCaseActionsMethods < CmsBasePage
   include ValidationHelpers
+  include LoggerHelpers
+
   def complete_resolve_case_flow
     case_status = cms_single_case_view_page_comps.text_case_status_badge.text.strip.squeeze(" ")
 
@@ -50,7 +53,7 @@ class CmsCaseActionsMethods < CmsBasePage
 
     starting_count_of_new_cases = cms_search_results_page_comps.text_number_of_results.text
     rolling_count_of_cases = 0
-    puts "[Info] Total #{starting_count_of_new_cases} 'New' cases identified"
+    log_info("Total #{starting_count_of_new_cases} 'New' cases identified")
 
     loop do
       # Search for "New" cases
@@ -84,12 +87,12 @@ class CmsCaseActionsMethods < CmsBasePage
       end
 
       rolling_count_of_cases += 1
-      puts "[Info] #{rolling_count_of_cases} / #{starting_count_of_new_cases} 'New' cases processed"
+      log_info("#{rolling_count_of_cases} / #{starting_count_of_new_cases} 'New' cases processed")
       sleep(10) # Artificial wait to stop Azure blocking the request for too much use. TBC investigation from dev team.
     end
 
     # Now all the cases are in a resolvable state, we can start processing them.
-    puts "[Info] All 'New' records processed. No more found."
+    log_info("All 'New' records processed. No more found.")
 
     # Now we have all the records in a state we can do something about!
     # First on the list is any "On Hold" cases!
@@ -123,20 +126,20 @@ private
 
     begin
       attempts += 1
-      puts "Attempt ##{attempts}"
+      log_info("Attempt ##{attempts}")
 
       cms_single_case_actions_comps.link_reopen_case.click
       # expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
       wait_for_element_to_include(cms_single_case_view_page_comps.text_flash_notice_content, "Case reopened successfully", timeout: 5)
     rescue StandardError => e
-      puts "Attempt ##{attempts} failed: #{e.message}"
+      log_warn("Attempt ##{attempts} failed: #{e.message}")
       retry if attempts < max_attempts
       raise "Failed after #{attempts} attempts"
     end
   end
 
   def _resolve_case(status_type)
-    puts "[Info] Starting processing of '#{status_type}' cases"
+    log_info("Starting processing of '#{status_type}' cases")
 
     # Next up is "status_type" cases!
     world.cms_top_nav_methods.nav_to_find_a_case_screen
@@ -152,7 +155,7 @@ private
     sleep(1) # allows time for the field to change number of results to match the filter
     starting_count_of_new_cases = cms_search_results_page_comps.text_number_of_results.text
     rolling_count_of_cases = 0
-    puts "[Info] Total #{starting_count_of_new_cases} of '#{status_type}' cases identified"
+    log_info("Total #{starting_count_of_new_cases} of '#{status_type}' cases identified")
 
     loop do
       # Search for "status_type" cases
@@ -181,9 +184,9 @@ private
       end
 
       rolling_count_of_cases += 1
-      puts "[Info] #{rolling_count_of_cases} / #{starting_count_of_new_cases} with a status of '#{status_type}' have been processed"
+      log_info("#{rolling_count_of_cases} / #{starting_count_of_new_cases} with a status of '#{status_type}' have been processed")
     end
 
-    puts "[Info] All '#{status_type}' records processed. No more found."
+    log_info("All '#{status_type}' records processed. No more found.")
   end
 end

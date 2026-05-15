@@ -6,9 +6,11 @@ require "helpers/unique_content_helpers"
 require "components/energy/gas/energy_gas_meter_detail_comps"
 require "components/energy/gas/energy_gas_mprn_summary_comps"
 require "components/energy/electric/energy_electric_single_or_multi_meter_comps"
+require "helpers/logger_helpers"
 
 class EnergyGasMeterDetailsMethods < EnergyBasePage
   include UniqueContentHelpers
+  include LoggerHelpers
 
   def complete_and_submit_form
     max_attempts = 10
@@ -18,7 +20,7 @@ class EnergyGasMeterDetailsMethods < EnergyBasePage
 
     while attempt < 10
       attempt += 1
-      puts "[INFO] Attempt #{attempt}/#{max_attempts} to generate and submit a unique MPRN number"
+      log_info("Attempt #{attempt}/#{max_attempts} to generate and submit a unique MPRN number")
 
       # Generate and fill data
       unique_number = _add_unique_mprn_number
@@ -27,12 +29,12 @@ class EnergyGasMeterDetailsMethods < EnergyBasePage
 
       # Check if the duplicate MPRN error has been triggered!
       if energy_gas_meter_detail_comps.error_summary_present?(wait: 0.5)
-        puts "[WARN] MPRN #{unique_number} already in use. Retrying..."
+        log_warn("MPRN #{unique_number} already in use. Retrying...")
         next
       end
 
       # If no error, success — break out of the loop
-      puts "[INFO] MPRN #{unique_number} accepted"
+      log_info("MPRN #{unique_number} accepted")
       break
     end
 
@@ -85,7 +87,7 @@ private
 
       case_state.send("#{number_field}=", mprn_number)
       case_state.send("gas_mprn_usage_#{i}=", usage)
-      puts "[INFO] Added MPRN #{mprn_number} (#{usage} kWh) to slot #{i}"
+      log_info("Added MPRN #{mprn_number} (#{usage} kWh) to slot #{i}")
       return i
     end
 

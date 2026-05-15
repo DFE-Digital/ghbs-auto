@@ -7,10 +7,12 @@ require "components/cms/cms_top_nav_comps"
 require "components/cms/frameworks/cms_frameworks_register_comps"
 require "components/cms/frameworks/cms_frameworks_individual_framework_comps"
 require "components/cms/frameworks/cms_frameworks_individual_fw_categories_comps"
+require "helpers/logger_helpers"
 
 class CmsFrameworksMethods < CmsBasePage
   include ValidationHelpers
   include InteractionHelpers
+  include LoggerHelpers
 
   def validate_the_contentful_framework_has_been_updated
     # Navigate to the Frameworks Register screen
@@ -66,7 +68,7 @@ class CmsFrameworksMethods < CmsBasePage
         marker_change_timeout: 2 # “hot second” window, bounded
       )
       expect(exists).to be(true)
-      puts "Something went wrong: #{e.message}"
+      log_warn("Something went wrong: #{e.message}")
     end
 
     cms_frameworks_individual_framework_comps.link_framework_created_see_details.click

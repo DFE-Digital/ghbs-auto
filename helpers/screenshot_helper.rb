@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+require "helpers/logger_helpers"
+
 module ScreenshotHelper
+  include LoggerHelpers
   def capture_screenshot(scenario)
     Dir.mkdir("screenshots") unless Dir.exist?("screenshots")
 
@@ -9,7 +12,7 @@ module ScreenshotHelper
     path      = File.join("screenshots", "#{filename}_#{timestamp}.png")
 
     Capybara.page.save_screenshot(path)
-    puts "📸 Screenshot saved: #{path}"
+    log_info("Screenshot saved: #{path}")
     path
   end
 
@@ -27,7 +30,7 @@ module ScreenshotHelper
 
     # 1) Capture the "current viewport view" (whatever scroll position we are at on failure)
     Capybara.page.save_screenshot(view_path)
-    puts "## Failure - Current viewport screenshot saved: #{view_path}"
+    log_info("## Failure - Current viewport screenshot saved: #{view_path}")
     tile_paths = []
 
     begin
@@ -62,7 +65,7 @@ module ScreenshotHelper
       num_tiles = (doc_height.to_f / viewport_height).ceil
       num_tiles = 1 if num_tiles < 1
 
-      puts "# Tiling page into #{num_tiles} viewport-height screenshot(s) to give us a full page view even on older browsers. ##"
+      log_info("# Tiling page into #{num_tiles} viewport-height screenshot(s) to give us a full page view even on older browsers. ##")
 
       # 3) Scroll from top in viewport-sized steps and capture each tile
       (0...num_tiles).each do |index|
@@ -77,7 +80,7 @@ module ScreenshotHelper
         Capybara.page.save_screenshot(tile_path)
         tile_paths << tile_path
 
-        puts "# Tile #{index + 1}/#{num_tiles} screenshot saved: #{tile_path}"
+        log_info("# Tile #{index + 1}/#{num_tiles} screenshot saved: #{tile_path}")
       end
     rescue StandardError => e
       warn "# Tiled screenshots failed: #{e.class}: #{e.inspect}"
