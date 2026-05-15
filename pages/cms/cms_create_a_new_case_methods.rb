@@ -42,7 +42,7 @@ class CmsCreateANewCaseMethods < CmsBasePage
     # So the below is some defensive code to retry if it's not correctly selected the school.
     if cms_create_a_new_case_comps.input_organisation_name.value != case_org_name
       puts "THE ELEMENT TEXT: #{cms_create_a_new_case_comps.input_organisation_name.value}"
-      interaction_helpers.clear_input(cms_create_a_new_case_comps.input_organisation_name, and_type: case_org_name)
+      clear_input(cms_create_a_new_case_comps.input_organisation_name, and_type: case_org_name)
       sleep(2)
       cms_create_a_new_case_comps.dropdown_select_org_based_on_ukprn("10034642").click
     end
@@ -105,7 +105,7 @@ class CmsCreateANewCaseMethods < CmsBasePage
 
     # Validate page move
     expect(page).to have_current_path(%r{/support/case_requests}, url: true, wait: 10)
-    expect(cms_create_a_new_case_check_answers_comps.text_page_heading.text).to include("Check your answers before creating a new case")
+    wait_for_element_to_include(cms_create_a_new_case_check_answers_comps.text_page_heading, "Check your answers before creating a new case", timeout: 5)
   end
 
   def complete_and_validate_check_your_answers_page
