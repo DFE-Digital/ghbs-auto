@@ -20,6 +20,7 @@ end
 
 After do |scenario|
   status = scenario.failed? ? "FAILED" : "PASSED"
+  scenario_name = scenario.name
 
   # Manage debugging options for local dev
   if SECRETS["local_debug_case_state"] == true
@@ -31,6 +32,7 @@ After do |scenario|
 
   puts <<~ASCII
     ─────────────────────────────────────
+    SCENARIO: #{scenario_name}
     RUN TIME: #{status} in #{sprintf('%0.2f', total_run_time)}s
     ─────────────────────────────────────
   ASCII
