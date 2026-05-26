@@ -29,4 +29,17 @@ class EnergyGasMPRNSummaryComps
   def link_go_to_task_list
     find(:xpath, "//a[text()='Discard and go to task list']")
   end
+
+  def text_count_of_mprns
+    all(:xpath, "//h1/following-sibling::table//tbody/tr")
+  end
+
+  def link_reject_specific_mprn(mprn)
+    find(:xpath, "//tr/td[text()='#{mprn}']/following-sibling::td/a[text()='Remove']")
+  end
+
+  def text_flash_notice
+    find(:xpath, "//div[@id='flash_notice']")
+  end
+
 end

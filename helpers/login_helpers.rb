@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+require "components/dfe_signin/dfe_signin_access_the_service_page_comps"
 require "helpers/logger_helpers"
+require "helpers/validation_helpers"
 
 # Helper methods to make login flows more resilient in unstable environments
 # (e.g. Test DfE Sign-In intermittently returning stale elements or broken sessions).
@@ -15,6 +17,7 @@ require "helpers/logger_helpers"
 
 module LoginHelpers
   include LoggerHelpers
+  include ValidationHelpers
   # Wraps a login flow in retry logic to handle transient Selenium/Capybara failures.
   # Retries the provided block up to `max_attempts`, catching common flaky errors
   # such as stale elements, detached nodes, or unexpected navigation failures.
@@ -57,9 +60,6 @@ module LoginHelpers
 
   # Restores the browser to a known login start state between retry attempts.
   # Behaviour differs slightly depending on attempt number:
-  # - Attempt 1: No action (assumes clean start)
-  # - Attempt 2: Revisit the login entry point
-  # - Attempt 3+: Reset session + revisit entry point
   # This progressive approach avoids unnecessary session resets while still recovering from deeper failures when needed.
   # @param attempt [Integer] Current retry attempt number
   # @param return_url [String] URL to return to (must be the login entry point)
@@ -67,20 +67,29 @@ module LoginHelpers
   # Ensures the page is ready for login by waiting for the "Sign in" button.
   def restore_start_state(attempt:, return_url:)
     attempt = attempt.to_i
-    # First attempt assumes clean state so no recovery needed
     return if attempt <= 1
 
     raise ArgumentError, "return_url is required" if return_url.to_s.strip.empty?
 
-    if attempt == 2
+    case attempt
+    when 2
       log_info("Restoring start state (attempt #{attempt}): visit return_url")
-    else
+
+    when 3
+      log_info("Restoring start state (attempt #{attempt}): refresh + visit return_url")
+      page.refresh
+
+    when 4
       log_info("Restoring start state (attempt #{attempt}): reset session + visit return_url")
       Capybara.reset_sessions!
+
+    else
+      log_info("Restoring start state (attempt #{attempt}): hard reset + visit return_url")
+      Capybara.reset_sessions!
+      page.driver.browser.manage.delete_all_cookies
     end
     visit return_url
-
-    # Basic assertion to confirm page is ready for interaction
-    expect(page).to have_selector(:xpath, "//button[normalize-space()='Sign in']", wait: 20)
+    expect(page).to have_selector(:xpath, dfe_signin_access_the_service_page_comps.input_username_xpath, wait: 10)
   end
+
 end
