@@ -2,14 +2,49 @@
 
 require "date"
 require "pages/energy/energy_base_page"
-require "helpers/unique_content_helpers"
 require "components/energy/electric/energy_electric_meter_detail_comps"
 require "components/energy/electric/energy_electric_mpan_summary_comps"
+require "components/energy/electric/energy_electric_bill_consolidated_comps"
+require "components/energy/site_access/energy_site_access_comps"
+require "components/energy/electric/energy_electric_remove_mpan_comps"
+require "helpers/unique_content_helpers"
+require "helpers/validation_helpers"
 
 class EnergyElectricMeterDetailsMethods < EnergyBasePage
   include UniqueContentHelpers
+  include ValidationHelpers
 
   def complete_and_submit_form(half_hourly)
+    add_x_number_of_mpans_to_list(1, half_hourly)
+  end
+
+  def add_x_number_of_mpans_to_list(number_of_mpans, half_hourly)
+    # Generate the first mpan number
+    generate_unique_mpan_number(half_hourly)
+
+    # Now keep adding them till we hit our desired total
+    (1..number_of_mpans).each do |_i|
+      count_of_mprns = energy_electric_mpan_summary_comps.text_count_of_mpans.count
+
+      if count_of_mprns < number_of_mpans
+        energy_electric_mpan_summary_comps.button_add_another_mpan.click
+        generate_unique_mpan_number(half_hourly)
+      end
+    end
+
+    # Based on it getting this far, we should in fact be on the next page, however this page may vary based on the route chosen
+    if case_state.energy_choice == "electric only"
+      expect(page).to have_current_path(%r{/site-contact}, url: true, wait: 10)
+      expect(energy_site_access_comps.text_page_heading.text).to include("Who manages site access and maintenance?")
+    end
+
+    if case_state.energy_choice == "both"
+      expect(page).to have_current_path(%r{/electricity-multi-single}, url: true, wait: 10)
+      expect(energy_electric_bill_consolidated_comps.text_page_heading.text).to include("Do you want your MPANs consolidated on one bill?")
+    end
+  end
+
+  def generate_unique_mpan_number(half_hourly)
     max_attempts = 10
     attempt = 0
     unique_mpan_number = nil
@@ -75,6 +110,61 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
 
     # Axe Check
     axe_check! if FlagsGlobalConfig.axe_enabled?
+  end
+
+  def complete_the_reject_flow_for_the_last_mprn
+    reject_the_latest_mprn
+  end
+
+  def reject_the_latest_mpan
+    # Click remove on the last created MPAN
+    latest_mpan = case_state.electric_mpan_number_2
+    energy_electric_mpan_summary_comps.link_reject_specific_mprn(latest_mpan).click
+
+    # Validate the correct reject screen has been loaded.
+    expect(page).to have_current_path(%r{/remove-mpan/}, url: true, wait: 10)
+    wait_for_element_to_include(energy_electric_remove_mpan_comps.text_page_heading, "Are you sure you want to remove the MPAN #{latest_mpan}?", timeout: 5)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
+    # Remove the MPRN
+    energy_electric_remove_mpan_comps.button_remove_mpan.click
+    expect(page).to have_current_path(%r{/electricity-meter-summary}, url: true, wait: 10)
+    expect(energy_electric_mpan_summary_comps.text_page_heading.text).to include("MPAN summary")
+
+    # Confirm notice is showing
+    wait_for_element_to_include(energy_electric_mpan_summary_comps.text_flash_notice, "MPAN successfully removed", timeout: 5)
+
+    # Set the second mpan case state to removed to allow handling later on in the flow
+    case_state.electric_mpan_number_2 = "removed"
+    case_state.electric_mpan_half_hourly_meter_2 = "removed"
+    case_state.electric_mpan_half_hourly_meter_kva_2 = "removed"
+    case_state.electric_mpan_half_hourly_meter_data_aggregator_2 = "removed"
+    case_state.electric_mpan_half_hourly_meter_data_collector_2 = "removed"
+    case_state.electric_mpan_half_hourly_meter_meter_operator_2 = "removed"
+    case_state.electric_mpan_usage_kwh_2 = "removed"
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+  end
+
+  def continue_the_flow_after_rejecting_an_mpan
+    # Validate were on the MPRN summary screen
+    expect(page).to have_current_path(%r{/electricity-meter-summary}, url: true, wait: 10)
+    expect(energy_electric_mpan_summary_comps.text_page_heading.text).to include("MPAN summary")
+
+    # continue the flow through the "Do you want your MPANs consolidated on one bill?" screen
+    energy_electric_mpan_summary_comps.button_save_and_continue.click
+    expect(page).to have_current_path(%r{/electricity-bill}, url: true, wait: 10)
+    wait_for_element_to_include(energy_electric_bill_consolidated_comps.text_page_heading, "Do you want your MPANs consolidated on one bill?", timeout: 5)
+
+    # continue on to the site access screen
+    energy_electric_bill_consolidated_comps.radio_bill_yes.click
+    energy_electric_bill_consolidated_comps.button_save_and_continue.click
+    expect(page).to have_current_path(%r{/site-contact}, url: true, wait: 10)
+    wait_for_element_to_include(energy_site_access_comps.text_page_heading, "Who manages site access and maintenance?", timeout: 5)
+
   end
 
 private

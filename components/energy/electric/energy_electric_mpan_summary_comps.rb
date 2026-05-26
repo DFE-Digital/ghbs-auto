@@ -7,6 +7,10 @@ class EnergyElectricMpanSummaryComps
     find(:xpath, "//h1")
   end
 
+  def text_count_of_mpans
+    all(:xpath, "//h1/following-sibling::table//tbody/tr")
+  end
+
   # Add another MPAN
   def link_change(mpan)
     find(:xpath, "//span[contains(.,'#{mpan}')]/parent::a[contains(.,'Change')]")
@@ -15,6 +19,14 @@ class EnergyElectricMpanSummaryComps
 
   def link_remove(mpan)
     find(:xpath, "//span[contains(.,'#{mpan}')]/parent::a[contains(.,'Remove')]")
+  end
+
+  def link_reject_specific_mprn(mpan)
+    find(:xpath, "//tr/td[text()='#{mpan}']/following-sibling::td/a[text()='Remove']")
+  end
+
+  def text_flash_notice
+    find(:xpath, "//div[@id='flash_notice']")
   end
 
   def button_add_another_mpan

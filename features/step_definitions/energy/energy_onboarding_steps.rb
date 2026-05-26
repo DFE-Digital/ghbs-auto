@@ -92,26 +92,18 @@ When(/^the (.*) option is selected and completed$/) do |switching_method|
     energy_gas_single_or_multi_methods.continue_to_gas_meter_details
 
     # Gas meter details
-    # energy_gas_meter_details_methods.complete_and_submit_form
     energy_gas_meter_details_methods.add_x_number_of_mprns_to_list(2)
     energy_gas_meter_details_methods.complete_the_reject_flow_for_the_last_mprn
     energy_gas_meter_details_methods.continue_the_flow_after_rejecting_an_mprn
-
 
     # Is this a single or multi meter site? - electric
     energy_electric_single_or_multi_methods.single_or_multi_option("Multi meter")
     energy_electric_single_or_multi_methods.continue_to_electricity_meter_details
 
     # Electric meter details
-    energy_electric_meter_details_methods.complete_and_submit_form("yes")
-
-    # Add another MPAN - TODO
-
-    # Electric meter details - TODO: possibly add in a count to the Gas meter details step to indicate how many steps you can add and move the logic in to there.
-
-    # Remove logic - TODO
-
-
+    energy_electric_meter_details_methods.add_x_number_of_mpans_to_list(2, "yes")
+    energy_electric_meter_details_methods.reject_the_latest_mpan
+    energy_electric_meter_details_methods.continue_the_flow_after_rejecting_an_mpan
   else
     raise ArgumentError, "Was expecting 'gas only', 'electric only' or 'both' to be chosen but got '#{switching_method}'"
   end
