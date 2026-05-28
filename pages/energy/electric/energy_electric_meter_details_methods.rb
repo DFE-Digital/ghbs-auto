@@ -44,7 +44,7 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
     end
   end
 
-  def generate_unique_mpan_number(half_hourly)
+  def generate_unique_mpan_number(half_hourly_meter)
     max_attempts = 10
     attempt = 0
     unique_mpan_number = nil
@@ -61,7 +61,7 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
       data_collector = ""
       meter_operator = ""
 
-      if half_hourly == "yes"
+      if half_hourly_meter == "yes"
         # Select option Yes
         energy_electric_meter_detail_comps.radio_half_hour_yes.click
         case_state.electric_mpan_half_hourly_meter_1 = "Yes"
@@ -106,7 +106,7 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
 
     # Based on it getting this far, we should in fact be on the next page which could be one of many depending on the flow choice, For example it could be /site-contact or MPAN Summary etc.
     # Add to case state
-    _add_next_available_case_state_electric_data_slot(unique_mpan_number, electric_usage_kwh, electric_usage_kva, data_aggregator, data_collector, meter_operator)
+    _add_next_available_case_state_electric_data_slot(unique_mpan_number, half_hourly_meter, electric_usage_kwh, electric_usage_kva, data_aggregator, data_collector, meter_operator)
 
     # Axe Check
     axe_check! if FlagsGlobalConfig.axe_enabled?
@@ -161,10 +161,10 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
 
     # continue on to the site access screen
     energy_electric_bill_consolidated_comps.radio_bill_yes.click
+    case_state.electric_mpan_consolidated_bill = "Yes"
     energy_electric_bill_consolidated_comps.button_save_and_continue.click
     expect(page).to have_current_path(%r{/site-contact}, url: true, wait: 10)
     wait_for_element_to_include(energy_site_access_comps.text_page_heading, "Who manages site access and maintenance?", timeout: 5)
-
   end
 
 private
@@ -194,14 +194,15 @@ private
   end
 
   # Add an MPAN/usage pair into the first available slot (1–5)
-  def _add_next_available_case_state_electric_data_slot(mpan_number, kwh, kva, data_aggregator, data_collector, meter_operator)
+  def _add_next_available_case_state_electric_data_slot(unique_mpan_number, half_hourly_meter, electric_usage_kwh, electric_usage_kva, data_aggregator, data_collector, meter_operator)
     (1..5).each do |i|
       number_field = :"electric_mpan_number_#{i}"
       next unless case_state.send(number_field).to_s.strip.empty?
 
-      case_state.send("#{number_field}=", mpan_number)
-      case_state.send("electric_mpan_usage_kwh_#{i}=", kwh)
-      case_state.send("electric_mpan_half_hourly_meter_kva_#{i}=", kva)
+      case_state.send("#{number_field}=", unique_mpan_number)
+      case_state.send("electric_mpan_half_hourly_meter_#{i}=", half_hourly_meter)
+      case_state.send("electric_mpan_usage_kwh_#{i}=", electric_usage_kwh)
+      case_state.send("electric_mpan_half_hourly_meter_kva_#{i}=", electric_usage_kva)
       case_state.send("electric_mpan_half_hourly_meter_data_aggregator_#{i}=", data_aggregator)
       case_state.send("electric_mpan_half_hourly_meter_data_collector_#{i}=", data_collector)
       case_state.send("electric_mpan_half_hourly_meter_meter_operator_#{i}=", meter_operator)

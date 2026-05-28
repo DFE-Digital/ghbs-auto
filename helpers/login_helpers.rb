@@ -91,5 +91,4 @@ module LoginHelpers
     visit return_url
     expect(page).to have_selector(:xpath, dfe_signin_access_the_service_page_comps.input_username_xpath, wait: 10)
   end
-
 end

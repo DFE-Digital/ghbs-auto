@@ -41,5 +41,4 @@ class EnergyGasMPRNSummaryComps
   def text_flash_notice
     find(:xpath, "//div[@id='flash_notice']")
   end
-
 end

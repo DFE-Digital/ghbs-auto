@@ -105,6 +105,7 @@ class EnergyGasMeterDetailsMethods < EnergyBasePage
     expect(page).to have_current_path(%r{/gas-bill}, url: true, wait: 10)
     wait_for_element_to_include(energy_gas_bill_consolidated_comps.text_page_heading, "Do you want your MPRNs consolidated on one bill?", timeout: 5)
     energy_gas_bill_consolidated_comps.radio_bill_yes.click
+    case_state.gas_mprn_consolidated_bill = "Yes"
     energy_gas_bill_consolidated_comps.button_save_and_continue.click
 
     # Based on it getting this far, we should in fact be on the next page, however this page may vary based on the route chosen
