@@ -12,7 +12,7 @@ class FabsCurrentAccountsComps
   end
 
   def link_lloyds_banking_group
-    find(:xpath, "//a[text()='Lloyds Banking Group (opens in new tab)']")
+    find(:xpath, "//a[text()='Lloyds (opens in new tab)']")
   end
 
   def link_natwest
