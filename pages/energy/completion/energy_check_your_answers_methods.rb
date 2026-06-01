@@ -60,7 +60,9 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
     validate_individual_mprns_and_usage(case_state.gas_mprn_number_5, case_state.gas_mprn_usage_5)
 
     # Do you want your MPRNs consolidated on one bill?
-    validate_values_match(case_state.gas_mprn_consolidated_bill, energy_check_your_answers_comps.text_gas_do_you_want_your_mprns_consolidated.text)
+    if case_state.gas_single_or_multi_meter == "Multi meter"
+      validate_values_match(case_state.gas_mprn_consolidated_bill, energy_check_your_answers_comps.text_gas_do_you_want_your_mprns_consolidated.text)
+    end
   end
 
   def validate_individual_mprns_and_usage(mprn_number, mprn_usage)
@@ -82,7 +84,9 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
     validate_individual_mpans_and_usage(case_state.electric_mpan_number_5, case_state.electric_mpan_half_hourly_meter_5, case_state.electric_mpan_usage_kwh_5, case_state.electric_mpan_half_hourly_meter_kva_5, case_state.electric_mpan_half_hourly_meter_data_aggregator_5, case_state.electric_mpan_half_hourly_meter_data_collector_5, case_state.electric_mpan_half_hourly_meter_meter_operator_5)
 
     # Do you want your MPANs consolidated on one bill?
-    validate_values_match(case_state.electric_mpan_consolidated_bill, energy_check_your_answers_comps.text_electric_do_you_want_your_mpans_consolidated.text)
+    if case_state.electric_single_or_multi_meter == "Multi meter"
+      validate_values_match(case_state.electric_mpan_consolidated_bill, energy_check_your_answers_comps.text_electric_do_you_want_your_mpans_consolidated.text)
+    end
   end
 
   def validate_individual_mpans_and_usage(mpan_number, mpan_half_hourly_meter, mpan_usage_kwh, mpan_half_hourly_meter_kva, mpan_half_hourly_meter_data_aggregator, mpan_half_hourly_meter_data_collector, mpan_half_hourly_meter_meter_operator)

@@ -2,7 +2,7 @@
 Feature: GHBS - FABS page accessibility checks
   Background:
     Given we open and validate the start of the energy onboarding flow
-    # And we enable the selenium axe checks on each page
+    And we enable the selenium axe checks on each page
 
   Scenario Outline: ES-1116: Energy Onboarding Flow - Accessibility - Electricity and Gas + Direct Debit Only
     Given we are logged in to the Energy Onboarding Flow as a <SchoolUser> School user
@@ -17,7 +17,6 @@ Feature: GHBS - FABS page accessibility checks
       | SchoolUser | SchoolName       | Switching | VatFlow | BillingOption |
       | MAT        | Hazelwick School | both      | 5       | Direct debit  |
 
-  @wip
   Scenario Outline: CORE-109: Energy Onboarding Flow - Accessibility - Rejecting MPRN and MPAN
     Given we are logged in to the Energy Onboarding Flow as a <SchoolUser> School user
     And we select <SchoolName> from the bullet list and start the onboarding journey

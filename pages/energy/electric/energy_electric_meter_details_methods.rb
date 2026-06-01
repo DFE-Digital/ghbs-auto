@@ -19,28 +19,26 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
   end
 
   def add_x_number_of_mpans_to_list(number_of_mpans, half_hourly)
-    # Generate the first mpan number
+    # Generate the first mpan number, we always need at least 1
     generate_unique_mpan_number(half_hourly)
 
-    # Now keep adding them till we hit our desired total
-    (1..number_of_mpans).each do |_i|
-      count_of_mprns = energy_electric_mpan_summary_comps.text_count_of_mpans.count
+    # Now it gets more complicated. Dependent on single or multi will completely change the flow.
+    if case_state.electric_single_or_multi_meter == "Multi meter"
+      # Now keep adding them till we hit our desired total
+      (1..number_of_mpans).each do |_i|
+        count_of_mprns = energy_electric_mpan_summary_comps.text_count_of_mpans.count
 
-      if count_of_mprns < number_of_mpans
-        energy_electric_mpan_summary_comps.button_add_another_mpan.click
-        generate_unique_mpan_number(half_hourly)
+        if count_of_mprns < number_of_mpans
+          energy_electric_mpan_summary_comps.button_add_another_mpan.click
+          generate_unique_mpan_number(half_hourly)
+        end
       end
     end
 
-    # Based on it getting this far, we should in fact be on the next page, however this page may vary based on the route chosen
-    if case_state.energy_choice == "electric only"
+    if case_state.electric_single_or_multi_meter == "Single meter"
+      # Based on it getting this far, we should in fact be on the next page, however this page may vary based on the route chosen
       expect(page).to have_current_path(%r{/site-contact}, url: true, wait: 10)
       expect(energy_site_access_comps.text_page_heading.text).to include("Who manages site access and maintenance?")
-    end
-
-    if case_state.energy_choice == "both"
-      expect(page).to have_current_path(%r{/electricity-multi-single}, url: true, wait: 10)
-      expect(energy_electric_bill_consolidated_comps.text_page_heading.text).to include("Do you want your MPANs consolidated on one bill?")
     end
   end
 
