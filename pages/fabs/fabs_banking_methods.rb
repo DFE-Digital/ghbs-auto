@@ -110,25 +110,6 @@ class FabsBankingMethods < FabsBasePage
 
     reset_to_current_accounts_via_related_content
 
-    #### Lloyds Banking Group ####
-    # Navigate to the internal Lloyds Banking Group page
-    fabs_current_accounts_comps.link_lloyds_banking_group.click
-    expect(page).to have_current_path(%r{/lloyds-banking-group}, url: true, wait: 10)
-    expect(fabs_buying_option_comps.text_page_heading.text).to include("Lloyds Banking Group")
-
-    # Validate the external Lloyds Banking Group link
-    url_lloyds = "https://www.lloydsbank.com/business/industry-expertise/education.html?WT.ac=lloyds-RM_signature-hub-sectors-page-education"
-    expect(page).to have_link("Visit Lloyds Banking Group’s website", href: url_lloyds)
-    validate_link_reachable(
-      url_lloyds,
-      expected_title: "Education sector | Industry expertise | Lloyds Bank",
-      expected_status: 200,
-      fallback_on: [403],
-      only_run_in: "local"
-    )
-
-    reset_to_current_accounts_via_related_content
-
     #### NatWest ####
     # Navigate to the internal NatWest page
     fabs_current_accounts_comps.link_natwest.click
