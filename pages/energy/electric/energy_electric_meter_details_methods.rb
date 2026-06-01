@@ -2,14 +2,47 @@
 
 require "date"
 require "pages/energy/energy_base_page"
-require "helpers/unique_content_helpers"
 require "components/energy/electric/energy_electric_meter_detail_comps"
 require "components/energy/electric/energy_electric_mpan_summary_comps"
+require "components/energy/electric/energy_electric_bill_consolidated_comps"
+require "components/energy/site_access/energy_site_access_comps"
+require "components/energy/electric/energy_electric_remove_mpan_comps"
+require "helpers/unique_content_helpers"
+require "helpers/validation_helpers"
 
 class EnergyElectricMeterDetailsMethods < EnergyBasePage
   include UniqueContentHelpers
+  include ValidationHelpers
 
   def complete_and_submit_form(half_hourly)
+    add_x_number_of_mpans_to_list(1, half_hourly)
+  end
+
+  def add_x_number_of_mpans_to_list(number_of_mpans, half_hourly)
+    # Generate the first mpan number, we always need at least 1
+    generate_unique_mpan_number(half_hourly)
+
+    # Now it gets more complicated. Dependent on single or multi will completely change the flow.
+    if case_state.electric_single_or_multi_meter == "Multi meter"
+      # Now keep adding them till we hit our desired total
+      (1..number_of_mpans).each do |_i|
+        count_of_mprns = energy_electric_mpan_summary_comps.text_count_of_mpans.count
+
+        if count_of_mprns < number_of_mpans
+          energy_electric_mpan_summary_comps.button_add_another_mpan.click
+          generate_unique_mpan_number(half_hourly)
+        end
+      end
+    end
+
+    if case_state.electric_single_or_multi_meter == "Single meter"
+      # Based on it getting this far, we should in fact be on the next page, however this page may vary based on the route chosen
+      expect(page).to have_current_path(%r{/site-contact}, url: true, wait: 10)
+      expect(energy_site_access_comps.text_page_heading.text).to include("Who manages site access and maintenance?")
+    end
+  end
+
+  def generate_unique_mpan_number(half_hourly_meter)
     max_attempts = 10
     attempt = 0
     unique_mpan_number = nil
@@ -26,7 +59,7 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
       data_collector = ""
       meter_operator = ""
 
-      if half_hourly == "yes"
+      if half_hourly_meter == "yes"
         # Select option Yes
         energy_electric_meter_detail_comps.radio_half_hour_yes.click
         case_state.electric_mpan_half_hourly_meter_1 = "Yes"
@@ -71,10 +104,65 @@ class EnergyElectricMeterDetailsMethods < EnergyBasePage
 
     # Based on it getting this far, we should in fact be on the next page which could be one of many depending on the flow choice, For example it could be /site-contact or MPAN Summary etc.
     # Add to case state
-    _add_next_available_case_state_electric_data_slot(unique_mpan_number, electric_usage_kwh, electric_usage_kva, data_aggregator, data_collector, meter_operator)
+    _add_next_available_case_state_electric_data_slot(unique_mpan_number, half_hourly_meter, electric_usage_kwh, electric_usage_kva, data_aggregator, data_collector, meter_operator)
 
     # Axe Check
     axe_check! if FlagsGlobalConfig.axe_enabled?
+  end
+
+  def complete_the_reject_flow_for_the_last_mprn
+    reject_the_latest_mprn
+  end
+
+  def reject_the_latest_mpan
+    # Click remove on the last created MPAN
+    latest_mpan = case_state.electric_mpan_number_2
+    energy_electric_mpan_summary_comps.link_reject_specific_mprn(latest_mpan).click
+
+    # Validate the correct reject screen has been loaded.
+    expect(page).to have_current_path(%r{/remove-mpan/}, url: true, wait: 10)
+    wait_for_element_to_include(energy_electric_remove_mpan_comps.text_page_heading, "Are you sure you want to remove the MPAN #{latest_mpan}?", timeout: 5)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
+    # Remove the MPRN
+    energy_electric_remove_mpan_comps.button_remove_mpan.click
+    expect(page).to have_current_path(%r{/electricity-meter-summary}, url: true, wait: 10)
+    expect(energy_electric_mpan_summary_comps.text_page_heading.text).to include("MPAN summary")
+
+    # Confirm notice is showing
+    wait_for_element_to_include(energy_electric_mpan_summary_comps.text_flash_notice, "MPAN successfully removed", timeout: 5)
+
+    # Set the second mpan case state to removed to allow handling later on in the flow
+    case_state.electric_mpan_number_2 = "removed"
+    case_state.electric_mpan_half_hourly_meter_2 = "removed"
+    case_state.electric_mpan_half_hourly_meter_kva_2 = "removed"
+    case_state.electric_mpan_half_hourly_meter_data_aggregator_2 = "removed"
+    case_state.electric_mpan_half_hourly_meter_data_collector_2 = "removed"
+    case_state.electric_mpan_half_hourly_meter_meter_operator_2 = "removed"
+    case_state.electric_mpan_usage_kwh_2 = "removed"
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+  end
+
+  def continue_the_flow_after_rejecting_an_mpan
+    # Validate were on the MPRN summary screen
+    expect(page).to have_current_path(%r{/electricity-meter-summary}, url: true, wait: 10)
+    expect(energy_electric_mpan_summary_comps.text_page_heading.text).to include("MPAN summary")
+
+    # continue the flow through the "Do you want your MPANs consolidated on one bill?" screen
+    energy_electric_mpan_summary_comps.button_save_and_continue.click
+    expect(page).to have_current_path(%r{/electricity-bill}, url: true, wait: 10)
+    wait_for_element_to_include(energy_electric_bill_consolidated_comps.text_page_heading, "Do you want your MPANs consolidated on one bill?", timeout: 5)
+
+    # continue on to the site access screen
+    energy_electric_bill_consolidated_comps.radio_bill_yes.click
+    case_state.electric_mpan_consolidated_bill = "Yes"
+    energy_electric_bill_consolidated_comps.button_save_and_continue.click
+    expect(page).to have_current_path(%r{/site-contact}, url: true, wait: 10)
+    wait_for_element_to_include(energy_site_access_comps.text_page_heading, "Who manages site access and maintenance?", timeout: 5)
   end
 
 private
@@ -104,14 +192,15 @@ private
   end
 
   # Add an MPAN/usage pair into the first available slot (1–5)
-  def _add_next_available_case_state_electric_data_slot(mpan_number, kwh, kva, data_aggregator, data_collector, meter_operator)
+  def _add_next_available_case_state_electric_data_slot(unique_mpan_number, half_hourly_meter, electric_usage_kwh, electric_usage_kva, data_aggregator, data_collector, meter_operator)
     (1..5).each do |i|
       number_field = :"electric_mpan_number_#{i}"
       next unless case_state.send(number_field).to_s.strip.empty?
 
-      case_state.send("#{number_field}=", mpan_number)
-      case_state.send("electric_mpan_usage_kwh_#{i}=", kwh)
-      case_state.send("electric_mpan_half_hourly_meter_kva_#{i}=", kva)
+      case_state.send("#{number_field}=", unique_mpan_number)
+      case_state.send("electric_mpan_half_hourly_meter_#{i}=", half_hourly_meter)
+      case_state.send("electric_mpan_usage_kwh_#{i}=", electric_usage_kwh)
+      case_state.send("electric_mpan_half_hourly_meter_kva_#{i}=", electric_usage_kva)
       case_state.send("electric_mpan_half_hourly_meter_data_aggregator_#{i}=", data_aggregator)
       case_state.send("electric_mpan_half_hourly_meter_data_collector_#{i}=", data_collector)
       case_state.send("electric_mpan_half_hourly_meter_meter_operator_#{i}=", meter_operator)

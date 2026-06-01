@@ -24,12 +24,9 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
       validate_billing_preferences
     end
 
-    if case_state.energy_choice == "both"
+    if %w[both both_with_reject].include?(case_state.energy_choice)
       validate_current_electric_contract_details
       validate_electric_meters_and_usage
-      validate_site_contact_details
-      validate_vat_declaration
-      validate_billing_preferences
       validate_current_gas_contract_details
       validate_gas_meters_and_usage
       validate_site_contact_details
@@ -52,22 +49,61 @@ class EnergyCheckYourAnswersMethods < EnergyBasePage
   end
 
   def validate_gas_meters_and_usage
+    # Is this a single meter or multi meter site?
     validate_values_match(case_state.gas_single_or_multi_meter, energy_check_your_answers_comps.text_gas_single_or_multi_meter.text)
-    validate_values_match(case_state.gas_mprn_number_1, energy_check_your_answers_comps.text_gas_meter_point_reference_number_1.text)
-    validate_values_match(case_state.gas_mprn_usage_1, energy_check_your_answers_comps.text_gas_estimated_annual_gas_usage_1.text)
+
+    # MPRN specific info
+    validate_individual_mprns_and_usage(case_state.gas_mprn_number_1, case_state.gas_mprn_usage_1)
+    validate_individual_mprns_and_usage(case_state.gas_mprn_number_2, case_state.gas_mprn_usage_2)
+    validate_individual_mprns_and_usage(case_state.gas_mprn_number_3, case_state.gas_mprn_usage_3)
+    validate_individual_mprns_and_usage(case_state.gas_mprn_number_4, case_state.gas_mprn_usage_4)
+    validate_individual_mprns_and_usage(case_state.gas_mprn_number_5, case_state.gas_mprn_usage_5)
+
+    # Do you want your MPRNs consolidated on one bill?
+    if case_state.gas_single_or_multi_meter == "Multi meter"
+      validate_values_match(case_state.gas_mprn_consolidated_bill, energy_check_your_answers_comps.text_gas_do_you_want_your_mprns_consolidated.text)
+    end
+  end
+
+  def validate_individual_mprns_and_usage(mprn_number, mprn_usage)
+    return if removed_or_blank?(mprn_number)
+
+    validate_values_match(mprn_number, energy_check_your_answers_comps.text_gas_meter_point_reference_number(mprn_number).text)
+    validate_values_match(mprn_usage, energy_check_your_answers_comps.text_gas_estimated_annual_gas_usage(mprn_number).text)
   end
 
   def validate_electric_meters_and_usage
+    # Is this a single meter or multi meter site?
     validate_values_match(case_state.electric_single_or_multi_meter, energy_check_your_answers_comps.text_electric_single_or_multi_meter.text)
 
-    validate_values_match(case_state.electric_mpan_number_1, energy_check_your_answers_comps.text_electric_mpan_number_1.text)
-    validate_values_match(case_state.electric_mpan_half_hourly_meter_1, energy_check_your_answers_comps.text_electric_is_this_half_hour_1.text)
-    validate_values_match(case_state.electric_mpan_usage_kwh_1, energy_check_your_answers_comps.text_electric_estimated_annual_usage_kwh_1.text)
+    # MPAN specific info
+    validate_individual_mpans_and_usage(case_state.electric_mpan_number_1, case_state.electric_mpan_half_hourly_meter_1, case_state.electric_mpan_usage_kwh_1, case_state.electric_mpan_half_hourly_meter_kva_1, case_state.electric_mpan_half_hourly_meter_data_aggregator_1, case_state.electric_mpan_half_hourly_meter_data_collector_1, case_state.electric_mpan_half_hourly_meter_meter_operator_1)
+    validate_individual_mpans_and_usage(case_state.electric_mpan_number_2, case_state.electric_mpan_half_hourly_meter_2, case_state.electric_mpan_usage_kwh_2, case_state.electric_mpan_half_hourly_meter_kva_2, case_state.electric_mpan_half_hourly_meter_data_aggregator_2, case_state.electric_mpan_half_hourly_meter_data_collector_2, case_state.electric_mpan_half_hourly_meter_meter_operator_2)
+    validate_individual_mpans_and_usage(case_state.electric_mpan_number_3, case_state.electric_mpan_half_hourly_meter_3, case_state.electric_mpan_usage_kwh_3, case_state.electric_mpan_half_hourly_meter_kva_3, case_state.electric_mpan_half_hourly_meter_data_aggregator_3, case_state.electric_mpan_half_hourly_meter_data_collector_3, case_state.electric_mpan_half_hourly_meter_meter_operator_3)
+    validate_individual_mpans_and_usage(case_state.electric_mpan_number_4, case_state.electric_mpan_half_hourly_meter_4, case_state.electric_mpan_usage_kwh_4, case_state.electric_mpan_half_hourly_meter_kva_4, case_state.electric_mpan_half_hourly_meter_data_aggregator_4, case_state.electric_mpan_half_hourly_meter_data_collector_4, case_state.electric_mpan_half_hourly_meter_meter_operator_4)
+    validate_individual_mpans_and_usage(case_state.electric_mpan_number_5, case_state.electric_mpan_half_hourly_meter_5, case_state.electric_mpan_usage_kwh_5, case_state.electric_mpan_half_hourly_meter_kva_5, case_state.electric_mpan_half_hourly_meter_data_aggregator_5, case_state.electric_mpan_half_hourly_meter_data_collector_5, case_state.electric_mpan_half_hourly_meter_meter_operator_5)
 
-    validate_values_match(case_state.electric_mpan_half_hourly_meter_kva_1, energy_check_your_answers_comps.text_electric_supply_capacity_1.text)
-    validate_values_match(case_state.electric_mpan_half_hourly_meter_data_aggregator_1, energy_check_your_answers_comps.text_electric_data_aggregator_1.text)
-    validate_values_match(case_state.electric_mpan_half_hourly_meter_data_collector_1, energy_check_your_answers_comps.text_electric_data_collector_1.text)
-    validate_values_match(case_state.electric_mpan_half_hourly_meter_meter_operator_1, energy_check_your_answers_comps.text_electric_meter_operator_1.text)
+    # Do you want your MPANs consolidated on one bill?
+    if case_state.electric_single_or_multi_meter == "Multi meter"
+      validate_values_match(case_state.electric_mpan_consolidated_bill, energy_check_your_answers_comps.text_electric_do_you_want_your_mpans_consolidated.text)
+    end
+  end
+
+  def validate_individual_mpans_and_usage(mpan_number, mpan_half_hourly_meter, mpan_usage_kwh, mpan_half_hourly_meter_kva, mpan_half_hourly_meter_data_aggregator, mpan_half_hourly_meter_data_collector, mpan_half_hourly_meter_meter_operator)
+    return if removed_or_blank?(mpan_number)
+
+    validate_values_match(mpan_number, energy_check_your_answers_comps.text_electric_mpan_number(mpan_number).text)
+    validate_values_match(mpan_half_hourly_meter.to_s.strip.upcase, energy_check_your_answers_comps.text_electric_is_this_half_hour_for_mpan(mpan_number).text.to_s.strip.upcase)
+
+    validate_values_match(mpan_usage_kwh, energy_check_your_answers_comps.text_electric_estimated_annual_usage_kwh_for_mpan(mpan_number).text)
+    validate_values_match(mpan_half_hourly_meter_kva, energy_check_your_answers_comps.text_electric_supply_capacity_for_mpan(mpan_number).text)
+    validate_values_match(mpan_half_hourly_meter_data_aggregator, energy_check_your_answers_comps.text_electric_data_aggregator_for_mpan(mpan_number).text)
+    validate_values_match(mpan_half_hourly_meter_data_collector, energy_check_your_answers_comps.text_electric_data_collector_for_mpan(mpan_number).text)
+    validate_values_match(mpan_half_hourly_meter_meter_operator, energy_check_your_answers_comps.text_electric_meter_operator_for_mpan(mpan_number).text)
+  end
+
+  def removed_or_blank?(value)
+    value.to_s.strip.empty? || value.to_s.strip.casecmp("removed").zero?
   end
 
   def validate_site_contact_details

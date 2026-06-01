@@ -41,8 +41,20 @@ class EnergyCheckYourAnswersComps
     find(:xpath, "//dt[text()='Meter Point Reference Number']/following-sibling::dd")
   end
 
+  def text_gas_meter_point_reference_number(mprn_number)
+    find(:xpath, "//dt[text()='Meter Point Reference Number']/following-sibling::dd[contains(.,'#{mprn_number}')]")
+  end
+
   def text_gas_estimated_annual_gas_usage_1
     find(:xpath, "//dt[text()='Estimated annual gas usage']/following-sibling::dd")
+  end
+
+  def text_gas_estimated_annual_gas_usage(mpan_number)
+    find(:xpath, "//dt[normalize-space()='Meter Point Reference Number']/following-sibling::dd[normalize-space()='#{mpan_number}']/parent::div/following-sibling::div[.//dt[normalize-space()='Estimated annual gas usage']][1]/dd")
+  end
+
+  def text_gas_do_you_want_your_mprns_consolidated
+    find(:xpath, "//dt[text()='Do you want your MPRNs consolidated on one bill?']/following-sibling::dd")
   end
 
   # Electricity meters and usage
@@ -54,28 +66,60 @@ class EnergyCheckYourAnswersComps
     find(:xpath, "//dt[text()='MPAN']/following-sibling::dd")
   end
 
+  def text_electric_mpan_number(mpan_number)
+    find(:xpath, "//dt[text()='MPAN']/following-sibling::dd[contains(.,'#{mpan_number}')]")
+  end
+
   def text_electric_is_this_half_hour_1
     find(:xpath, "//dt[text()='Is this a half-hourly MPAN?']/following-sibling::dd")
+  end
+
+  def text_electric_is_this_half_hour_for_mpan(mpan_number)
+    find(:xpath, "//dt[normalize-space()='MPAN']/following-sibling::dd[normalize-space()='#{mpan_number}']/parent::div/following-sibling::div[.//dt[normalize-space()='Is this a half-hourly MPAN?']][1]/dd")
   end
 
   def text_electric_estimated_annual_usage_kwh_1
     find(:xpath, "//dt[text()='Estimated annual electricity usage, in kilowatt hours (kWh)']/following-sibling::dd")
   end
 
+  def text_electric_estimated_annual_usage_kwh_for_mpan(mpan_number)
+    find(:xpath, "//dt[normalize-space()='MPAN']/following-sibling::dd[normalize-space()='#{mpan_number}']/parent::div/following-sibling::div[.//dt[normalize-space()='Estimated annual electricity usage, in kilowatt hours (kWh)']][1]/dd")
+  end
+
   def text_electric_supply_capacity_1
     find(:xpath, "//dt[text()='What is the supply capacity?']/following-sibling::dd")
+  end
+
+  def text_electric_supply_capacity_for_mpan(mpan_number)
+    find(:xpath, "//dt[normalize-space()='MPAN']/following-sibling::dd[normalize-space()='#{mpan_number}']/parent::div/following-sibling::div[.//dt[normalize-space()='What is the supply capacity?']][1]/dd")
   end
 
   def text_electric_data_aggregator_1
     find(:xpath, "//dt[text()='Data aggregator']/following-sibling::dd")
   end
 
+  def text_electric_data_aggregator_for_mpan(mpan_number)
+    find(:xpath, "//dt[normalize-space()='MPAN']/following-sibling::dd[normalize-space()='#{mpan_number}']/parent::div/following-sibling::div[.//dt[normalize-space()='Data aggregator']][1]/dd")
+  end
+
   def text_electric_data_collector_1
     find(:xpath, "//dt[text()='Data collector']/following-sibling::dd")
   end
 
+  def text_electric_data_collector_for_mpan(mpan_number)
+    find(:xpath, "//dt[normalize-space()='MPAN']/following-sibling::dd[normalize-space()='#{mpan_number}']/parent::div/following-sibling::div[.//dt[normalize-space()='Data collector']][1]/dd")
+  end
+
   def text_electric_meter_operator_1
     find(:xpath, "//dt[text()='Meter operator']/following-sibling::dd")
+  end
+
+  def text_electric_meter_operator_for_mpan(mpan_number)
+    find(:xpath, "//dt[normalize-space()='MPAN']/following-sibling::dd[normalize-space()='#{mpan_number}']/parent::div/following-sibling::div[.//dt[normalize-space()='Meter operator']][1]/dd")
+  end
+
+  def text_electric_do_you_want_your_mpans_consolidated
+    find(:xpath, "//dt[text()='Do you want your MPANs consolidated on one bill?']/following-sibling::dd")
   end
 
   # Site contact details

@@ -7,6 +7,10 @@ class DfeSigninAccessTheServicePageComps
     find(:xpath, "//h1")
   end
 
+  def input_username_xpath
+    "//input[@id = 'username']"
+  end
+
   def input_username
     find(:xpath, "//input[@id = 'username']")
   end
