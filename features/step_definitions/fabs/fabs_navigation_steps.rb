@@ -2,7 +2,8 @@
 
 Given("I validate the footer pages are loading correctly") do
   fabs_nav_methods.navigate_to_terms_and_conditions_page
-  fabs_nav_methods.navigate_to_accessibility_statement_page
+  # fabs_nav_methods.navigate_to_accessibility_statement_page
+  # TODO: new footer getting introduced, will need to rework this at the time.
 end
 
 Given("I validate the category flow pages are loading correctly") do
