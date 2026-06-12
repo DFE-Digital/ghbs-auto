@@ -113,9 +113,12 @@ class CmsCaseActionsMethods < CmsBasePage
     sleep(2) # allow time for the dropdown list to populate / render with correct content
     cms_case_actions_assign_to_case_worker_comps.dropdown_select_case_worker_name("Auto 1 Test User 1").click
 
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
     # Assign caseworker
     cms_case_actions_assign_to_case_worker_comps.button_assign.click
-    cms_single_case_nav_comps.text_notice_agent_assigned
+    wait_for_element_to_include(cms_single_case_nav_comps.text_notice_agent_assigned, "Agent assigned to case successfully", timeout: 5)
   end
 
 private

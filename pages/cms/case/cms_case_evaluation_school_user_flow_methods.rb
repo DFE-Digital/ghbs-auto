@@ -16,6 +16,9 @@ class CmsCaseEvaluationSchoolUserFlowMethods < CmsBasePage
     visit case_state.case_eval_case_specific_link
     expect(page).to have_current_path(%r{/evaluation/tasks/}, url: true, wait: 10)
     expect(cms_eval_school_task_list_comps.text_page_heading.text).to include("Evaluator task list")
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def complete_download_documents
@@ -26,6 +29,9 @@ class CmsCaseEvaluationSchoolUserFlowMethods < CmsBasePage
 
     # Select "Yes, I have downloaded all documents" radio
     cms_eval_school_download_docs_comps.radio_downloaded_docs_yes.click
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # Complete and leave the form
     cms_eval_school_download_docs_comps.button_continue.click
@@ -48,6 +54,9 @@ class CmsCaseEvaluationSchoolUserFlowMethods < CmsBasePage
 
     # Validate the document is uploaded
     wait_for_element_to_include(cms_eval_school_upload_eval_scoring_comps.text_uploaded_file_name("evaluation_school_upload_doc.txt"), "evaluation_school_upload_doc.txt", timeout: 5)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # Complete and leave the form
     cms_eval_school_upload_eval_scoring_comps.radio_uploaded_docs_yes.click

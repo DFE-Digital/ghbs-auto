@@ -115,6 +115,14 @@ class CmsCreateANewCaseMethods < CmsBasePage
     case_state.case_case_source = case_source_option
     cms_create_a_new_case_comps.dropdown_case_source(case_source_option).click
 
+    # Axe Check
+    if FlagsGlobalConfig.axe_enabled?
+      axe_check!(
+        exclude: %w[#case-request-request-type-field #case-request-discovery-method-8-field #case-request-request-type-true-field],
+        label: "Known GOV.UK Frontend conditional reveal radio aria-expanded exception"
+      )
+    end
+
     # Complete page
     cms_create_a_new_case_comps.button_save_and_continue.click
 
@@ -155,6 +163,9 @@ class CmsCreateANewCaseMethods < CmsBasePage
     # Case details
     validate_values_match(case_state.case_procurement_value, cms_create_a_new_case_check_answers_comps.text_procurement_value.text)
 
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
     # Complete page
     cms_create_a_new_case_check_answers_comps.button_create_case.click
 
@@ -170,7 +181,10 @@ class CmsCreateANewCaseMethods < CmsBasePage
     # Open Case Details tab and select to "Change" Case Summary
     cms_single_case_nav_comps.link_case_details.click
     expect(cms_single_case_case_details_comps.text_page_heading.text).to include("Case details")
-    # wait_for_heading_includes(cms_single_case_case_details_comps.text_page_heading, "Case details", timeout: 5)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
     cms_single_case_case_details_comps.link_change_case_summary.click
     expect(cms_single_case_case_details_case_summary_comps.text_page_heading.text).to include("Update case summary")
 
@@ -193,6 +207,15 @@ class CmsCreateANewCaseMethods < CmsBasePage
       raise ArgumentError, "Case level '#{case_level}' hasn't been implemented yet."
     end
 
+    # Axe Check
+    if FlagsGlobalConfig.axe_enabled?
+      axe_check!(
+        exclude: "#case-request-request-type-field, #case-request-discovery-method-8-field, #case-request-request-type-true-field, #case-summary-request-type-true-field, #case-summary-request-type-field",
+        label: "Known GOV.UK Frontend conditional reveal radio aria-expanded exception"
+      )
+    end
+
+    # Continue to the Check your answers before updating case summary screen
     cms_single_case_case_details_case_summary_comps.button_continue.click
     expect(cms_single_case_case_details_case_summary_check_answers_comps.text_page_heading.text).to include("Check your answers before updating case summary")
 
@@ -235,6 +258,9 @@ class CmsCreateANewCaseMethods < CmsBasePage
     else
       raise ArgumentError, "Case level '#{case_level}' hasn't been implemented yet."
     end
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     log_info("Case has been successfully set to level #{case_level}")
   end
