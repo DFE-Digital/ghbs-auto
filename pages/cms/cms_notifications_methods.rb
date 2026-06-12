@@ -22,5 +22,8 @@ class CmsNotificationsMethods < CmsBasePage
 
     # Confirm notification has been received
     cms_notifications_page_comps.text_evaluation_notification_school_evaluated(case_state.case_number)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 end

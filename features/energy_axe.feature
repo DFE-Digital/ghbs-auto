@@ -1,5 +1,5 @@
 @selenium-axe @energy
-Feature: GHBS - FABS page accessibility checks
+Feature: GHBS - Energy page accessibility checks
   Background:
     Given we open and validate the start of the energy onboarding flow
     And we enable the selenium axe checks on each page

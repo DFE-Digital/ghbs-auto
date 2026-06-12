@@ -22,6 +22,9 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     expect(cms_task_list_comps.text_section_heading.text).to include("Procurement task list")
     expect(cms_task_list_comps.text_evaluation_heading.text).to include("Complete evaluation")
 
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
     complete_add_evaluators
     complete_set_due_date
     complete_upload_documents
@@ -40,6 +43,9 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     cms_task_list_comps.link_add_evaluators.click
     wait_for_element_to_include(cms_eval_add_evaluators_comps.text_page_heading, "Evaluators", timeout: 5)
 
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
     # Complete the "Add" process to add a new evaluator
     cms_eval_add_evaluators_comps.button_add.click
     wait_for_element_to_include(cms_eval_add_evaluator_details_comps.text_page_heading, "Add evaluator details", timeout: 5)
@@ -51,6 +57,10 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     case_state.case_evaluator_1_email = SECRETS["proc_ops_cms_username"]
     cms_eval_add_evaluator_details_comps.input_email_address.set(case_state.case_evaluator_1_email)
 
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
+    # Complete adding our specific evaluator
     cms_eval_add_evaluator_details_comps.button_save_changes.click
     wait_for_element_to_include(cms_eval_add_evaluators_comps.text_page_heading, "Evaluators", timeout: 5)
 
@@ -96,6 +106,9 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     # Add to case state
     case_state.case_evaluation_due_date = "#{day}-#{month}-#{year}"
 
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
     # Return to the main menu
     cms_eval_set_due_date_comps.button_continue.click
     expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
@@ -124,6 +137,9 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
 
     # Confirm all docs are uploaded
     cms_eval_upload_documents_comps.radio_yes.click
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # Return to the main menu
     cms_eval_upload_documents_comps.button_continue.click
@@ -155,6 +171,14 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
 
     # Ensure the "GHBS Participation Agreement Inc FOI.pdf" is attached
     cms_eval_email_evaluators_comps.link_attachments_added("GHBS Participation Agreement Inc FOI.pdf")
+
+    # Axe Check
+    if FlagsGlobalConfig.axe_enabled?
+      axe_check!(
+        exclude: ".draft-email__attachment-progress",
+        label: "Known file upload progress indicator aria-valuenow exception"
+      )
+    end
 
     # Send the email. / Return to the main menu
     cms_eval_email_evaluators_comps.button_send_email_and_continue.click
@@ -195,6 +219,9 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     cms_eval_review_evaluations_comps.text_evaluator_email_address(case_state.case_evaluator_1_email)
     cms_eval_review_evaluations_comps.dropdown_evaluators_files(case_state.case_evaluator_1_email).click
     expect(cms_eval_review_evaluations_comps.individual_evaluators_files_list(case_state.case_evaluator_1_email).text).to include(case_state.case_school_eval_uploaded_file_name_1)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # Check the box to say the file is there and complete the screen.
     cms_eval_review_evaluations_comps.checkbox_completed_eval(case_state.case_evaluator_1_email).click
