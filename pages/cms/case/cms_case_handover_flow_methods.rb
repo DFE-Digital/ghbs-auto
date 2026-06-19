@@ -26,6 +26,7 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
   end
 
   def complete_add_contract_recipients
+    log_info("Adding contract recipients")
     # Handover State Check
     expect(cms_task_list_comps.text_add_contract_recipients_status.text).to include("To do")
     expect(cms_task_list_comps.text_upload_contract_and_handover_document_status.text).to include("To do")
@@ -63,6 +64,7 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
   end
 
   def complete_upload_contract
+    log_info("Completing the uploading contract docs")
     # Handover State Check
     expect(cms_task_list_comps.text_add_contract_recipients_status.text).to include("Complete")
     expect(cms_task_list_comps.text_upload_contract_and_handover_document_status.text).to include("To do")
@@ -91,6 +93,7 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
   end
 
   def complete_share_contract_and_handover_doc
+    log_info("Completing the sharing of contract and handover docs")
     # Handover State Check
     expect(cms_task_list_comps.text_add_contract_recipients_status.text).to include("Complete")
     expect(cms_task_list_comps.text_upload_contract_and_handover_document_status.text).to include("Complete")

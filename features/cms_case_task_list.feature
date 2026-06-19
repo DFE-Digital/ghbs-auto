@@ -11,7 +11,7 @@ Feature: GHBS - CMS - Case - Tasklist Flows
     And login and complete the school facing evaluation flow as the school user
     Then we confirm the notification to the proc ops user has been sent
     And the ProcOps user will be able to validate school users evaluation
-  @wip
+
   Scenario: ES-983: CMS - Case - Full Handover Flow
     Given we create a new case and set it to a level "4" case
     And we assign our current case worker to the case
