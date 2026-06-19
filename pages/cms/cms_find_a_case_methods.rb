@@ -15,6 +15,7 @@ class CmsFindACaseMethods < CmsBasePage
   include LoggerHelpers
 
   def search_for_case(term)
+    log_info("Search for '#{term}'")
     # This calls the resolve_term allowing us to swap out for stored secrets when needed.
     term = resolve_term(term)
 
