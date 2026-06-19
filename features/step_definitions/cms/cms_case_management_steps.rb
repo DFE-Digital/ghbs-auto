@@ -18,7 +18,6 @@ When(/^I complete the case lifecycle actions I will see the status change:$/) do
     expected_status = row["expected_status"]
 
     cms_case_states_methods.switch_case_states(action, expected_status)
-    log_info("Confirming expected status is '#{expected_status}'")
   end
 end
 

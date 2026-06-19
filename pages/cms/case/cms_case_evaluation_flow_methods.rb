@@ -16,7 +16,6 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   include ValidationHelpers
   include UploadFileHelpers
   def complete_initial_eval_setup_proc_ops_side
-    log_info("Starting the evaluation flow")
     # At this point we assume the user has already set the case to a level 4 and has the "Task list" tab available to them
     cms_single_case_nav_comps.link_task_list.click
     expect(page).to have_current_path(%r{/support/cases/}, url: true, wait: 10)
@@ -33,7 +32,6 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   end
 
   def complete_add_evaluators
-    log_info("Adding evaluators")
     # Evaluation State Check
     expect(cms_task_list_comps.text_add_evaluators_status.text).to include("To do")
     expect(cms_task_list_comps.text_set_due_date_status.text).to include("To do")
@@ -79,7 +77,6 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   end
 
   def complete_set_due_date
-    log_info("Setting the due date")
     # Evaluation State Check
     expect(cms_task_list_comps.text_add_evaluators_status.text).to include("Complete")
     expect(cms_task_list_comps.text_set_due_date_status.text).to include("To do")
@@ -120,7 +117,6 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   end
 
   def complete_upload_documents
-    log_info("Completing the Uploading of the docs")
     # Evaluation State Check
     expect(cms_task_list_comps.text_add_evaluators_status.text).to include("Complete")
     expect(cms_task_list_comps.text_set_due_date_status.text).to include("Complete")
@@ -153,7 +149,6 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
   end
 
   def complete_email_evaluators
-    log_info("Emailing evaluators")
     # Evaluation State Check
     expect(cms_task_list_comps.text_add_evaluators_status.text).to include("Complete")
     expect(cms_task_list_comps.text_set_due_date_status.text).to include("Complete")

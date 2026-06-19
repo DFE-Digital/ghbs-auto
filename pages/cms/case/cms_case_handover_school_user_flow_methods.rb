@@ -11,7 +11,6 @@ class CmsCaseHandoverSchoolUserFlowMethods < CmsBasePage
   include UploadFileHelpers
 
   def open_current_case_handover_for_school_user
-    log_info("Nav to the unique handover link for current user")
     visit case_state.case_handover_case_specific_link
     expect(page).to have_current_path(%r{/my_procurements/tasks/}, url: true, wait: 10)
     expect(cms_handover_proc_task_list_comps.text_page_heading.text).to include("Procurement task list")
@@ -19,7 +18,6 @@ class CmsCaseHandoverSchoolUserFlowMethods < CmsBasePage
   end
 
   def complete_download_documents
-    log_info("Complete download documents")
     # Open 'Download contract handover pack' screen
     cms_handover_proc_task_list_comps.link_download_contract_handover_pack.click
     expect(page).to have_current_path(%r{/my_procurements/download_handover_packs/}, url: true, wait: 10)

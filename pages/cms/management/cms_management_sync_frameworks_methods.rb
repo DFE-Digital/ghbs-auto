@@ -16,13 +16,11 @@ class CmsManagementSyncFrameworksMethods < CmsBasePage
     expect(cms_management_comps.text_page_heading.text).to include("CMS Management")
 
     # Navigate to the Sync job page
-    log_info("Navigating to the Sync job page")
     cms_management_comps.link_tasks_sync_frameworks.click
     expect(page).to have_current_path(%r{/support/management/sync_frameworks}, url: true, wait: 10)
     expect(cms_man_sync_framework_comps.text_page_heading.text).to include("Synchronise frameworks")
 
     # Run the sync job and confirm the task is triggered
-    log_info("Running the sync job")
     cms_man_sync_framework_comps.button_synchronise.click
     expect(cms_man_sync_framework_comps.text_notice.text).to include("Task triggered")
   end

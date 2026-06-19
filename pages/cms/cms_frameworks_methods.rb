@@ -15,7 +15,6 @@ class CmsFrameworksMethods < CmsBasePage
   include LoggerHelpers
 
   def validate_the_contentful_framework_has_been_updated
-    log_info("Switching to test environment")
     # Navigate to the Frameworks Register screen
     cms_top_nav_comps.link_frameworks.click
     expect(page).to have_current_path(%r{/frameworks#frameworks-register}, url: true, wait: 10)

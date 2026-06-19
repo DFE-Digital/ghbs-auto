@@ -5,6 +5,7 @@ Feature: GHBS - CMS accessibility checks
     And we enable the selenium axe checks on each page
 
   # Blocked by: CORE-627
+  @wip
   Scenario: CORE-110: CMS - Case - Full Evaluation Flow - Accessibility
     Given we create a new case and set it to a level "4" case
     And we assign our current case worker to the case

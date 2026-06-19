@@ -22,7 +22,6 @@ class CmsCaseStatesMethods < CmsBasePage
     when "Create a new case"
       # 1. Create new case - New, no action needed as prev steps should have us in this state.
     when "Log contact with school"
-      log_info("Logging contact with school")
       # 2. Actions - Log contact with school - On Hold
       # Select "log contact with school" from the actions list
       cms_single_case_actions_comps.link_log_contact_with_school.click
@@ -42,7 +41,6 @@ class CmsCaseStatesMethods < CmsBasePage
       wait_for_element_to_include(cms_single_case_view_page_comps.text_flash_notice_content, "Phone call added to case", timeout: 5)
 
     when "Reopen case from On Hold"
-      log_info("Reopening case from On Hold")
       # 3. Actions - Reopen case - Open
       # Confirm were still within the case
       wait_for_element_to_include(cms_single_case_view_page_comps.text_page_heading, case_state.case_organisation_name, timeout: 5)
@@ -54,7 +52,6 @@ class CmsCaseStatesMethods < CmsBasePage
       wait_for_element_to_include(cms_single_case_view_page_comps.text_flash_notice_content, "Case reopened successfully", timeout: 5)
 
     when "Reopen case from resolved"
-      log_info("Reopening case from resolved")
       # 5. Actions - Reopen case - Open
 
       # Confirm were still within the case
@@ -71,7 +68,6 @@ class CmsCaseStatesMethods < CmsBasePage
       wait_for_element_to_include(cms_single_case_view_page_comps.text_flash_notice_content, "Case reopened successfully", timeout: 5)
 
     when "Resolve case"
-      log_info("Resolving case")
       # 4. Actions - Resolve Case - Resolved
       # Confirm were still within the case
       wait_for_element_to_include(cms_single_case_view_page_comps.text_page_heading, case_state.case_organisation_name, timeout: 5)
@@ -88,7 +84,6 @@ class CmsCaseStatesMethods < CmsBasePage
       wait_for_element_to_include(cms_single_case_view_page_comps.text_flash_notice_content, "Case resolved successfully", timeout: 5)
 
     when "Reject case"
-      log_info("Rejecting case")
       # 6. Actions - Reject case - Closed
       # Confirm were still within the case
       wait_for_element_to_include(cms_single_case_view_page_comps.text_page_heading, case_state.case_organisation_name, timeout: 5)

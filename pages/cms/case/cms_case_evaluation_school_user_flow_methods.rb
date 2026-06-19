@@ -13,7 +13,6 @@ class CmsCaseEvaluationSchoolUserFlowMethods < CmsBasePage
   include UploadFileHelpers
 
   def open_current_case_evaluation_for_school_user
-    log_info("Nav to specific evaluation link for current user")
     visit case_state.case_eval_case_specific_link
     expect(page).to have_current_path(%r{/evaluation/tasks/}, url: true, wait: 10)
     expect(cms_eval_school_task_list_comps.text_page_heading.text).to include("Evaluator task list")
@@ -23,7 +22,6 @@ class CmsCaseEvaluationSchoolUserFlowMethods < CmsBasePage
   end
 
   def complete_download_documents
-    log_info("Complete the download documents screen")
     # Open Download documents screen
     cms_eval_school_task_list_comps.link_download_documents.click
     expect(page).to have_current_path(%r{/evaluation/download_documents/}, url: true, wait: 10)
@@ -45,7 +43,6 @@ class CmsCaseEvaluationSchoolUserFlowMethods < CmsBasePage
   end
 
   def complete_upload_evaluation_scoring_docs
-    log_info("Complete the upload evaluation scoring screen")
     # Open Upload evaluation scoring document screen
     cms_eval_school_task_list_comps.link_upload_evaluation_scoring_document.click
     expect(page).to have_current_path(%r{/evaluation/upload_completed_documents/}, url: true, wait: 10)
