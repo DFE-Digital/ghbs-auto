@@ -9,6 +9,7 @@ class ContentfulLoginMethods < FabsBasePage
   include UrlHelpers
 
   def login_to_contentful
+    log_info("Logging in to Contentful")
     # Navigate to the contentful homepage
     visit SECRETS["contentful_signin_url"]
     expect(page).to have_current_path(%r{/login}, url: true, wait: 10)
@@ -25,6 +26,7 @@ class ContentfulLoginMethods < FabsBasePage
   end
 
   def change_to_the_test_env
+    log_info("Switching to test environment")
     # Choose the test env
     visit SECRETS["contentful_dev_env"]
     expect(page).to have_current_path(%r{/environments/master/views/entries}, url: true, wait: 10)

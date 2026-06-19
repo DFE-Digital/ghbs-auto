@@ -36,6 +36,7 @@ class ContentfulEditSolutionMethods < FabsBasePage
 
     # Update and store  Provider Reference
     framework_state.provider_ref = "Auto Test Solution - Provider Ref - #{Time.now.strftime('%m-%d-%Y-%H-%M-%S')}"
+    log_info("Updated Provider Reference to: #{framework_state.provider_ref}")
     contentful_cms_solution_comps.input_provider_reference.set(framework_state.provider_ref)
 
     # We are instantly asserting the value of the field, as we have had issues with submitting the form before its realized data has been entered.
