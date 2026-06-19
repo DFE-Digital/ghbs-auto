@@ -28,6 +28,7 @@ class CmsCreateANewCaseMethods < CmsBasePage
   end
 
   def complete_create_a_new_case_page
+    log_info("Completing the 'Create a new case' flow")
     cms_mycases_page_comps.button_create_a_new_case.click
     expect(page).to have_current_path(%r{/support/case_requests/}, url: true, wait: 10)
     expect(cms_create_a_new_case_comps.text_page_heading.text).to include("Create a new case")
@@ -132,6 +133,7 @@ class CmsCreateANewCaseMethods < CmsBasePage
   end
 
   def complete_and_validate_check_your_answers_page
+    log_info("Validating the 'Check your answers' page to ensure its all valid")
     # Validate Organisation details
     validate_values_match(case_state.case_organisation_name.upcase, cms_create_a_new_case_check_answers_comps.text_organisation_name.text.upcase)
     # TODO: These 3 below, will be checked by directly calling the db to validate the data. However at this point in time the auto pack lacks this access.
@@ -177,6 +179,7 @@ class CmsCreateANewCaseMethods < CmsBasePage
   def change_case_level_to(case_level)
     # Log the case number
     case_state.case_number = cms_single_case_view_page_comps.text_page_heading_case_number.text
+    log_info("Updating our case '#{case_state.case_number}' to be a level #{case_level}")
 
     # Open Case Details tab and select to "Change" Case Summary
     cms_single_case_nav_comps.link_case_details.click
