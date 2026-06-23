@@ -29,3 +29,15 @@ Feature: GHBS - Energy page accessibility checks
     Examples:
       | SchoolUser | SchoolName       | Switching        | VatFlow | BillingOption |
       | MAT        | Hazelwick School | both_with_reject | 5       | Direct debit  |
+
+  @wip
+  Scenario Outline: CORE-176 - Energy Onboarding Flow - Email and Attachment validation
+    Given we confirm the state of all flags within dev flipper
+    And we complete the login and school selection process with user <SchoolUser> and school <SchoolName>
+    When we complete an energy onboarding flow for both energy options
+    And we navigate to the cms system to find our energy case
+    Then we validate the expected emails and attachments are present
+    And we validate the expected files have been generated
+    Examples:
+      | SchoolUser | SchoolName       |
+      | MAT        | Hazelwick School |
