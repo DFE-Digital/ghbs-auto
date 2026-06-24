@@ -30,7 +30,7 @@ Feature: GHBS - Energy page accessibility checks
       | SchoolUser | SchoolName       | Switching        | VatFlow | BillingOption |
       | MAT        | Hazelwick School | both_with_reject | 5       | Direct debit  |
 
-  Scenario Outline: CORE-176 - Energy Onboarding Flow - Email and Attachment validation
+  Scenario Outline: CORE-176 - Energy Onboarding Flow - Accessibility - Email and Attachment validation
     Given we confirm the state of all flags within dev flipper
     And we complete the login and school selection process with user <SchoolUser> and school <SchoolName>
     When we complete an energy onboarding flow for both energy options
