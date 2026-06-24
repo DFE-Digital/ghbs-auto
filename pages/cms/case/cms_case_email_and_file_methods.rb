@@ -45,6 +45,9 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
     cms_single_case_nav_comps.link_messages.click
     wait_for_element_to_include(cms_single_case_messages_comps.text_messages_sub_heading, "Messages", timeout: 5)
 
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
     # Gather all the email titles
     visible_email_titles = wait_for_collection_count_then_capture(expected_count_of_elements: 2, refresh_page_every_x_seconds: 3, last_change_for_elements_to_drop_in: 15, timeout_s: 60) do
       cms_single_case_messages_comps.text_all_email_titles
@@ -93,6 +96,9 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
     # Nav to the Files tab.
     cms_single_case_nav_comps.link_files.click
     wait_for_element_to_include(cms_single_case_file_comps.text_messages_sub_heading, "Case files", timeout: 5)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # Gather all the file names
     visible_file_names = wait_for_collection_count_then_capture(expected_count_of_elements: 4, refresh_page_every_x_seconds: 3, last_change_for_elements_to_drop_in: 5, timeout_s: 60) do
@@ -145,6 +151,9 @@ class CmsCaseEmailAndFileMethods < CmsBasePage
     # Nav to the Attachments tab.
     cms_single_case_nav_comps.link_attachments.click
     wait_for_element_to_include(cms_single_case_attachment_comps.text_page_heading, "Email attachments", timeout: 5)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # Set date for file generation check
     require "date"

@@ -34,6 +34,9 @@ class CmsFindACaseMethods < CmsBasePage
 
     # confirm the page load
     wait_for_element_to_include(cms_single_case_view_page_comps.text_page_heading_case_number, term, timeout: 5)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def open_first_active_status_result_with_case_number_for_current_user
