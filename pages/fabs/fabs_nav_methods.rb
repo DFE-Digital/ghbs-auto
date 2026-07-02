@@ -15,6 +15,7 @@ require "components/fabs/fabs_terms_and_conditions_comps"
 require "components/fabs/fabs_buying_category_comps"
 require "components/fabs/fabs_buying_option_comps"
 require "components/energy/pre_login/energy_before_you_start_comps"
+require "components/fabs/fabs_main_menu_dropdown_comps"
 
 class FabsNavMethods < FabsBasePage
   include UrlHelpers
@@ -57,10 +58,13 @@ class FabsNavMethods < FabsBasePage
   # --- About this service page ---
 
   def navigate_to_about_this_service
-    reset_to_homepage_via_logo
-    fabs_home_comps.button_main_dropdown_menu.click
+    # Open main menu and wait for it to render
+    fabs_main_menu_dropdown_comps.button_main_dropdown_menu.click
+    wait_for_element_to_include(fabs_main_menu_dropdown_comps.div_super_nav_menu, "Guidance and support", timeout: 5)
+
     fabs_home_comps.link_expanded_top_menu_about_this_service.click
     expect(page).to have_current_path(%r{/about-this-service}, url: true, wait: 10)
+
     wait_for_element_to_include(fabs_all_buying_options_comps.text_page_heading, "About this service Request for help", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end

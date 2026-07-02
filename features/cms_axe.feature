@@ -1,4 +1,4 @@
-#@cms @selenium-axe
+@cms @selenium-axe
 Feature: GHBS - CMS accessibility checks
   Background:
     Given we open and login to the proc ops CMS screens as an admin in the dev environment
