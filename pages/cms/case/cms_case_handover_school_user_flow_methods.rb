@@ -15,6 +15,9 @@ class CmsCaseHandoverSchoolUserFlowMethods < CmsBasePage
     expect(page).to have_current_path(%r{/my_procurements/tasks/}, url: true, wait: 10)
     expect(cms_handover_proc_task_list_comps.text_page_heading.text).to include("Procurement task list")
     expect(cms_handover_proc_task_list_comps.text_download_contract_handover_pack_status.text).to include("To do")
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
   def complete_download_documents
@@ -25,6 +28,9 @@ class CmsCaseHandoverSchoolUserFlowMethods < CmsBasePage
 
     # Select "Yes, I have downloaded all documents" radio
     cms_handover_download_contract_comps.radio_downloaded_docs_yes.click
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # Complete and leave the form
     cms_handover_download_contract_comps.button_continue.click

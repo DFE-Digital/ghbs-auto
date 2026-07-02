@@ -13,3 +13,10 @@ Feature: GHBS - CMS accessibility checks
     Then we confirm the notification to the proc ops user has been sent
     And the ProcOps user will be able to validate school users evaluation
 
+  # Blocked by: CORE-627
+  Scenario: CORE-113: CMS - Case - Full Handover Flow - Accessibility
+    Given we create a new case and set it to a level "4" case
+    And we assign our current case worker to the case
+    When we complete the handover flow upto and including the email sending
+    And login and complete the school facing handover flow as the school user
+    Then we validate the completion of the Download contract section in the cms

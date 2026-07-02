@@ -20,6 +20,9 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
     expect(cms_task_list_comps.text_section_heading.text).to include("Procurement task list")
     expect(cms_task_list_comps.text_handover_heading.text).to include("Share contract and handover document")
 
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
     complete_add_contract_recipients
     complete_upload_contract
     complete_share_contract_and_handover_doc
@@ -32,9 +35,15 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
     expect(cms_task_list_comps.text_inactive_share_contract_and_handover_document_status.text).to include("Cannot start")
     expect(cms_task_list_comps.text_inactive_download_contract_and_handover_document_status.text).to include("Cannot start")
 
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
     # Open the "Add contract recipients" page
     cms_task_list_comps.link_add_contract_recipients.click
     wait_for_element_to_include(cms_handover_add_contract_recipients_comps.text_page_heading, "Contract Recipients", timeout: 5)
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # Complete the "Add" process to add a new recipient
     cms_handover_add_contract_recipients_comps.button_add.click
@@ -47,12 +56,18 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
     case_state.case_handover_1_email = SECRETS["proc_ops_cms_username"]
     cms_handover_add_contract_recipient_details_comps.input_email_address.set(case_state.case_handover_1_email)
 
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
     cms_handover_add_contract_recipient_details_comps.button_save_changes.click
     wait_for_element_to_include(cms_handover_add_contract_recipients_comps.text_page_heading, "Contract Recipients", timeout: 5)
 
     # Confirm our user has been added
     cms_handover_add_contract_recipients_comps.text_recipient_email_address(case_state.case_handover_1_email)
     cms_handover_add_contract_recipients_comps.text_recipient_name("#{user_first_name} #{user_last_name}")
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # Return to the main menu
     cms_handover_add_contract_recipients_comps.button_back.click
@@ -73,6 +88,9 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
     cms_task_list_comps.link_upload_contract_and_handover_document.click
     wait_for_element_to_include(cms_handover_upload_contract_comps.text_page_heading, "Upload handover pack", timeout: 5)
 
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
+
     # Upload the test file via Dropzone
     upload_file_via_dropzone("resources/test_data/handover_doc.txt", input_selector: 'input[type="file"].dz-hidden-input')
     case_state.case_proc_ops_handover_uploaded_file_name_1 = "handover_doc.txt"
@@ -82,6 +100,9 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
 
     # Confirm all docs are uploaded
     cms_handover_upload_contract_comps.radio_yes.click
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # Return to the main menu
     cms_handover_upload_contract_comps.button_continue.click
@@ -109,6 +130,11 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
 
     # Retrieve the "unique-case-specific-link" from the email template
     case_state.case_handover_case_specific_link = cms_handover_share_contract_comps.unique_case_specific_link_href
+
+    # Validate handover recipients email addresses are visible in the "sharing with" section
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # Send the email. / Return to the main menu
     cms_handover_share_contract_comps.button_send_email_and_continue.click
@@ -141,5 +167,8 @@ class CmsCaseHandoverFlowMethods < CmsBasePage
     expect(cms_task_list_comps.text_upload_contract_and_handover_document_status.text).to include("Complete")
     expect(cms_task_list_comps.text_share_contract_and_handover_document_status.text).to include("Complete")
     expect(cms_task_list_comps.text_inactive_download_contract_and_handover_document_status.text).to include("Complete")
+
+    # Axe Check
+    axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 end
