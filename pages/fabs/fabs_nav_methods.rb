@@ -58,7 +58,8 @@ class FabsNavMethods < FabsBasePage
 
   def navigate_to_about_this_service
     reset_to_homepage_via_logo
-    fabs_home_comps.link_about_this_service.click
+    fabs_home_comps.button_main_dropdown_menu.click
+    fabs_home_comps.link_expanded_top_menu_about_this_service.click
     expect(page).to have_current_path(%r{/about-this-service}, url: true, wait: 10)
     wait_for_element_to_include(fabs_all_buying_options_comps.text_page_heading, "About this service Request for help", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?

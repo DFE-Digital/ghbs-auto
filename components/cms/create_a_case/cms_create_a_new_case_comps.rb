@@ -72,7 +72,7 @@ class CmsCreateANewCaseComps
   end
 
   def input_case_origin_other
-    find(:xpath, "//input[@id='discovery_method_other_text']")
+    find(:xpath, "//input[@id='case-request-discovery-method-other-text-field']")
   end
 
   def radio_request_type_procurement
