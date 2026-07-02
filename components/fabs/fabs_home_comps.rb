@@ -10,12 +10,12 @@ class FabsHomeComps
 
   # Inputs
   def input_search_field
-    find(:xpath, "//input[@id='homepage-search-field']")
+    find(:xpath, "//form[@id='homepage-search']//input")
   end
 
   # Buttons
   def button_main_search
-    find(:xpath, "//input[@id = 'homepage-search-field']/following-sibling::button")
+    find(:xpath, "//form[@id='homepage-search']//following-sibling::button")
   end
 
   # Links
@@ -53,6 +53,10 @@ class FabsHomeComps
 
   def link_about_this_service
     find(:xpath, "//a[contains(.,'About this service')]")
+  end
+
+  def link_expanded_top_menu_about_this_service
+    find(:xpath, "//h3[contains(.,'Guidance and support')]/following-sibling::ul//a[text()='About this service']")
   end
 
   def link_agency_supply_staff

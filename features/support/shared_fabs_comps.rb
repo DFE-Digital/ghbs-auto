@@ -21,6 +21,7 @@ require "components/fabs/contentful/contentful_cms_login_landing_page_comps"
 require "components/fabs/contentful/contentful_cms_search_comps"
 require "components/fabs/contentful/contentful_cms_solution_comps"
 require "components/fabs/fabs_about_this_service_comps"
+require "components/fabs/fabs_main_menu_dropdown_comps"
 
 module SharedFabsComps
   # Error Pages
@@ -33,6 +34,7 @@ module SharedFabsComps
   def fabs_accessibility_statement_comps = @fabs_accessibility_statement_comps ||= FabsAccessibilityStatementComps.new
   def fabs_privacy_notice_comps = @fabs_privacy_notice_comps ||= FabsPrivacyNoticeComps.new
   def fabs_terms_and_conditions_comps = @fabs_terms_and_conditions_comps ||= FabsTermsAndConditionsComps.new
+  def fabs_main_menu_dropdown_comps = @fabs_main_menu_dropdown_comps ||= FabsMainMenuDropdownComps.new
 
   # Core Flow
   def fabs_home_comps = @fabs_home_comps ||= FabsHomeComps.new

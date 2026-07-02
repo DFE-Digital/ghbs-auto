@@ -4,6 +4,6 @@ class FabsTopNavComps
   include Capybara::DSL
 
   def image_dfe_logo
-    find(:xpath, "//a[@aria-label='DfE homepage']")
+    find(:xpath, "//img[@alt='Department for Education']")
   end
 end
