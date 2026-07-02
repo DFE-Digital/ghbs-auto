@@ -60,7 +60,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Marker
         run: |
@@ -262,7 +262,7 @@ jobs:
       # ---- Restore history before generating report ----
       - name: Download previous Allure history (same branch)
         if: ${{ inputs.history_source_workflow_file != '' }}
-        uses: dawidd6/action-download-artifact@v12
+        uses: dawidd6/action-download-artifact@v13
         with:
           name: allure-history
           path: history
@@ -312,7 +312,7 @@ jobs:
 
       - name: Upload Allure history for next run
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: allure-history
           path: reports/allure-report/history
@@ -321,7 +321,7 @@ jobs:
 
       - name: Upload raw Allure results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: allure-results
           path: reports/allure-results
@@ -330,7 +330,7 @@ jobs:
 
       - name: Upload Allure HTML report
         if: always() && steps.check_report.outputs.exists == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: allure-report
           path: reports/allure-report

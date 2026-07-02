@@ -2,7 +2,7 @@ name: CI - Weekly Accessibility (Axe)
 
 on:
   schedule:
-    - cron: "0 4 * * 6"  # 04:00 UTC Saturday
+    - cron: "0 2 * * 6"  # 02:00 UTC Saturday
   workflow_dispatch: {}
 
 jobs:
