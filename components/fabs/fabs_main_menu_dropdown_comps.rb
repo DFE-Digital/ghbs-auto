@@ -16,6 +16,4 @@ class FabsMainMenuDropdownComps
   def div_super_nav_menu
     find(:xpath, "//div[@id='super-navigation-menu']")
   end
-
-
 end
