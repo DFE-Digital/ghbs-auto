@@ -116,6 +116,12 @@ jobs:
             done
           fi
 
+      - name: Verify publish folder before Pages upload
+        run: |
+          test -f ./publish/index.html
+          test -f ./publish/${{ inputs.suite }}/${{ github.ref_name }}/latest/index.html
+          sleep 10
+
       - name: Setup Pages
         uses: actions/configure-pages@v6
 
