@@ -124,12 +124,6 @@ jobs:
         with:
           path: ./publish
 
-      - name: Debug publish folder
-        run: |
-          du -sh ./publish
-          find ./publish -type l -o -type f | head -100
-          find ./publish -type l
-
       - name: Deploy to GitHub Pages
         id: deploy
         uses: actions/deploy-pages@v5
