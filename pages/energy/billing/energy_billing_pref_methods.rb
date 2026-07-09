@@ -44,10 +44,10 @@ class EnergyBillingPrefMethods < EnergyBasePage
   def how_to_invoice(type)
     # How do you want to be invoiced?
     case type
-    when "email"
+    when "Email"
       energy_billing_pref_comps.radio_invoice_email.click
       energy_billing_pref_comps.input_invoice_email_address.set(SECRETS["test_user_2"])
-    when "paper"
+    when "Paper"
       energy_billing_pref_comps.radio_invoice_paper.click
     else
       raise ArgumentError, "Unknown invoice type: #{type.inspect}, expected email or paper"

@@ -124,7 +124,7 @@ And(/^the Billing section is completed with the (.*) option selected$/) do |bill
   # Billing preferences
   energy_billing_pref_methods.how_bills_paid(billing_option)
   energy_billing_pref_methods.payment_terms("14")
-  energy_billing_pref_methods.how_to_invoice("paper")
+  energy_billing_pref_methods.how_to_invoice("Paper")
   energy_billing_pref_methods.continue_to_billing_address_page
   # Billing address
   energy_billing_address_methods.choose_address_in_position("1")
@@ -191,7 +191,7 @@ When(/^we complete an energy onboarding flow for both energy options$/) do
   # Billing preferences
   energy_billing_pref_methods.how_bills_paid("Direct debit")
   energy_billing_pref_methods.payment_terms("14")
-  energy_billing_pref_methods.how_to_invoice("paper")
+  energy_billing_pref_methods.how_to_invoice("Paper")
   energy_billing_pref_methods.continue_to_billing_address_page
 
   # Billing address
