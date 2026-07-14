@@ -5,7 +5,7 @@ Feature: GHBS - Util - Data management
   @add_users_to_test_orgs_1
   Scenario Outline: Test User Management Util 01 - Add users to all orgs
     Given we select org <Org> to add a user too
-    When we add first name "Paul" last name "Custance" email "Paul.CUSTANCE@education.gov.uk" to associate with the org
+    When we add first name "XXXX" last name "XXXX" email "XXX.XXXXX@education.gov.uk" to associate with the org
     And we set their permission level to "End User"
     Then we see the confirmation message showing the user has been added to the org
     Examples:
