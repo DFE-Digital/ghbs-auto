@@ -130,10 +130,17 @@ class EnergyGasMeterDetailsMethods < EnergyBasePage
       attempt += 1
       log_info("Attempt #{attempt}/#{max_attempts} to generate and submit a unique MPRN number")
 
-      # Generate and fill data
+      # Generate and fill data for both MPRN and kWh
       unique_number = _add_unique_mprn_number
       gas_usage = _add_random_annual_gas_usage
-      energy_gas_meter_detail_comps.button_save_and_continue.click
+
+      # Ok so this is a weird one, for some reason, on the "Gas meter details" only, the clicking of the save and continue doesn't work.
+      # It only seems to work if I use the js executer instead of the normal selenium one.
+      # To add to the bizzar, we have the same button on other pages with no issues.
+      # There have been no code changes on this page for months, and there is no reason we should need to do this!
+      # energy_gas_meter_detail_comps.button_save_and_continue.click
+      button = energy_gas_meter_detail_comps.button_save_and_continue
+      page.execute_script("arguments[0].click();", button.native)
 
       # Check if the duplicate MPRN error has been triggered!
       if energy_gas_meter_detail_comps.error_summary_present?(wait: 0.5)

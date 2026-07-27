@@ -63,9 +63,9 @@ class FabsNavMethods < FabsBasePage
     wait_for_element_to_include(fabs_main_menu_dropdown_comps.div_super_nav_menu, "Guidance and support", timeout: 5)
 
     fabs_home_comps.link_expanded_top_menu_about_this_service.click
-    expect(page).to have_current_path(%r{/about-this-service}, url: true, wait: 10)
+    expect(page).to have_current_path(%r{/about-our-service}, url: true, wait: 10)
 
-    wait_for_element_to_include(fabs_all_buying_options_comps.text_page_heading, "About this service Request for help", timeout: 5)
+    wait_for_element_to_include(fabs_all_buying_options_comps.text_page_heading, "About our service", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
