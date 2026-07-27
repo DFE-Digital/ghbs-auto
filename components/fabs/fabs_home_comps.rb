@@ -56,7 +56,7 @@ class FabsHomeComps
   end
 
   def link_expanded_top_menu_about_this_service
-    find(:xpath, "//h3[contains(.,'Guidance and support')]/following-sibling::ul//a[text()='About this service']")
+    find(:xpath, "//h3[contains(.,'Guidance and support')]/following-sibling::ul//a[text()='About our service']")
   end
 
   def link_agency_supply_staff
