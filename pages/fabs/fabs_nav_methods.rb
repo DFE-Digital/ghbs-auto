@@ -81,7 +81,7 @@ class FabsNavMethods < FabsBasePage
 
     # select and open DfE energy for Schools solution
     fabs_buying_category_comps.link_buying_category_by_name("DfE Energy for Schools").click
-    expect(page).to have_current_path(%r{/categories/energy/energy-for-schools}, url: true, wait: 10)
+    expect(page).to have_current_path(%r{/categories/energy-utilities/energy-for-schools}, url: true, wait: 10)
     wait_for_element_to_include(fabs_buying_option_comps.text_page_heading, "DfE Energy for Schools", timeout: 5)
 
     # use the cta to navigate to the before you start page of the energy flow
