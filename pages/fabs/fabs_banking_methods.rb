@@ -17,10 +17,10 @@ class FabsBankingMethods < FabsBasePage
   include HttpApiHelpers
 
   def open_the_banking_and_finance_category
-    # Open up the Recruitment, HR and training buying category
-    fabs_home_comps.link_category_banking_and_finance.click
-    expect(page).to have_current_path(%r{/categories/banking-finance}, url: true, wait: 10)
-    expect(fabs_buying_category_comps.text_page_heading.text).to include("Banking and finance")
+    # Open up the Finance, legal and insurance
+    fabs_home_comps.link_category_finance_legal_and_insurance.click
+    expect(page).to have_current_path(%r{/categories/finance-legal-insurance}, url: true, wait: 10)
+    expect(fabs_buying_category_comps.text_page_heading.text).to include("Finance, legal and insurance")
 
     # Open up the Current accounts and savings staffing buying option
     fabs_buying_category_comps.link_buying_category_by_name("Current accounts and savings").click
