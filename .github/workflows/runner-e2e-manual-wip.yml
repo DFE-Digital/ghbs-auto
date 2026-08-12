@@ -12,9 +12,9 @@ on:
         required: false
         default: "allure_pretty"
 
-  permissions:
-    contents: read
-    actions: read
+permissions:
+  contents: read
+  actions: read
 
 jobs:
   e2e:
