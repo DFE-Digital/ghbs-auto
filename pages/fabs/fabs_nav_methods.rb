@@ -74,9 +74,9 @@ class FabsNavMethods < FabsBasePage
     reset_to_homepage_via_logo
 
     # open energy category
-    fabs_home_comps.link_category_energy.click
-    expect(page).to have_current_path(%r{/categories/energy}, url: true, wait: 10)
-    wait_for_element_to_include(fabs_buying_category_comps, "Energy", timeout: 5)
+    fabs_home_comps.link_category_energy_and_utilities.click
+    expect(page).to have_current_path(%r{/categories/energy-utilities}, url: true, wait: 10)
+    wait_for_element_to_include(fabs_buying_category_comps, "Energy and utilities", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
 
     # select and open DfE energy for Schools solution

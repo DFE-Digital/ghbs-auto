@@ -23,20 +23,20 @@ class FabsHomeComps
     find(:xpath, "//a[text()='Browse a list of all DfE-approved buying options']")
   end
 
-  def link_category_energy
-    find(:xpath, "//a[text()='Energy']")
+  def link_category_energy_and_utilities
+    find(:xpath, "//a[text()='Energy and utilities']")
   end
 
-  def link_category_facilities_management_and_estates
-    find(:xpath, "//a[text()='Facilities management and estates']")
+  def link_category_buildings_and_maintenance
+    find(:xpath, "//a[text()='Buildings and maintenance']")
   end
 
   def link_category_it
     find(:xpath, "//a[text()='IT']")
   end
 
-  def link_category_office_and_education_supplies
-    find(:xpath, "//a[text()='Office and education supplies']")
+  def link_category_classroom_curriculum_and_office_supplies
+    find(:xpath, "//a[text()='Classroom, curriculum and office supplies']")
   end
 
   def link_category_professional_services
@@ -47,8 +47,8 @@ class FabsHomeComps
     find(:xpath, "//a[text()='Recruitment, HR and training']")
   end
 
-  def link_category_banking_and_finance
-    find(:xpath, "//a[text()='Banking and finance']")
+  def link_category_finance_legal_and_insurance
+    find(:xpath, "//a[text()='Finance, legal and insurance']")
   end
 
   def link_about_this_service
