@@ -5,6 +5,12 @@ on:
     - cron: "30 18 * * *" # 18:30 UTC daily
   workflow_dispatch: {}
 
+  permissions:
+    contents: read
+    actions: read
+    pages: write
+    id-token: write
+
 jobs:
   e2e:
     name: E2E (Allure) - Nightly Regression

@@ -5,6 +5,10 @@ on:
     - cron: "0 4 * * 6"  # 04:00 UTC Saturday
   workflow_dispatch: {}
 
+  permissions:
+    contents: read
+    actions: read
+
 jobs:
   e2e:
     name: Weekly Data Cleanup
