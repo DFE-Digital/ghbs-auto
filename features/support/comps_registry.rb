@@ -14,10 +14,10 @@
 module CompsRegistry
   # To start with we walk up from this file until a directory containing components/ if found, rather than assuming a fixed depth etc.
   COMPS_ROOT_PATH = begin
-                      dir = __dir__
-                      dir = File.dirname(dir) until File.directory?(File.join(dir, "components")) || File.dirname(dir) == dir
-                      File.join(dir, "components")
-                    end
+    dir = __dir__
+    dir = File.dirname(dir) until File.directory?(File.join(dir, "components")) || File.dirname(dir) == dir
+    File.join(dir, "components")
+  end
 
   # Requires every *_comps.rb under components/<subdir>/ and defines a cached reader on +mod+ named after each file.
   def self.register(mod, subdir)
@@ -60,7 +60,7 @@ module CompsRegistry
   }.freeze
 
   # Finally we map the comp file name to the class it defines
-  def self.resolve_const(file_name, path) 
+  def self.resolve_const(file_name, path)
     const_name = INFLECTIONS[file_name] || file_name.split("_").map(&:capitalize).join
 
     unless Object.const_defined?(const_name, false)
@@ -74,4 +74,3 @@ module CompsRegistry
   end
   private_class_method :resolve_const
 end
-
