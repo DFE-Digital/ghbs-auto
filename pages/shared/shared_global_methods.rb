@@ -8,10 +8,12 @@ require "components/dfe_signin/dfe_signin_verify_your_identity_comps"
 require "components/dfe_signin/user_management/dfe_signin_1_manage_users_comps"
 require "helpers/validation_helpers"
 require "helpers/logger_helpers"
+require "helpers/browser_helpers"
 
 class SharedGlobalMethods < SharedGlobalMethodsBasePage
   include ValidationHelpers
   include LoggerHelpers
+  include BrowserHelpers
 
   def set_axe_enabled(axe_status)
     ENV["AXE"] = axe_status ? "true" : "false"
@@ -114,6 +116,10 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
     # Validate we have arrived in the correct Manage Users screen
     expect(page).to have_current_path(%r{/approvals/users}, url: true, wait: 10)
     wait_for_element_to_include(dfe_signin_1_manage_users_comps.text_page_heading, "Manage users", timeout: 5)
+  end
+
+  def completely_restart_browser(reason)
+    restart_browser!(reason: reason)
   end
 
 private

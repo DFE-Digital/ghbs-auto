@@ -53,8 +53,8 @@ class EnergySignInFlowMethods < EnergyBasePage
     # Retrieve the current url in case we need to retry login
     return_url = page.current_url
 
-    defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: false) do |attempt|
-      restore_start_state(attempt: attempt, return_url: return_url)
+    defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: false) do |attempt, last_error|
+      restore_start_state(attempt: attempt, return_url: return_url, last_error: last_error)
 
       # Navigates user through the DfE sign-in flow to the "Which school are you buying for?" page
       world.shared_global_methods.complete_dfe_signin_as(user, "dev")

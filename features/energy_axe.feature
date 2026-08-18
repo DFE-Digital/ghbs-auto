@@ -1,7 +1,8 @@
 @selenium-axe @energy
 Feature: GHBS - Energy page accessibility checks
   Background:
-    Given we open and validate the start of the energy onboarding flow
+    Given we ensure we are in a completely browser between tests
+    And we open and validate the start of the energy onboarding flow
     And we enable the selenium axe checks on each page
 
   Scenario Outline: ES-1116: Energy Onboarding Flow - Accessibility - Electricity and Gas + Direct Debit Only
