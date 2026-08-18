@@ -33,6 +33,10 @@ WINDOW_WIDTH = SETTINGS["window_width"]   || 1920
 WINDOW_HEIGHT = SETTINGS["window_height"] || 1080
 MAX_WAIT = SETTINGS["max_wait_time"] || 5
 
+PAGE_LOAD_TIMEOUT = SETTINGS["page_load_timeout"]     || 45
+DRIVER_READ_TIMEOUT = SETTINGS["driver_read_timeout"] || 120
+DRIVER_OPEN_TIMEOUT = SETTINGS["driver_open_timeout"] || 30
+
 ########################################
 # Run Config / Settings (run before any cucumber is initiated )
 ########################################
@@ -45,6 +49,9 @@ def print_run_banner
       " Browser:       #{BROWSER}\n" \
       " Resolution:    #{WINDOW_WIDTH},#{WINDOW_HEIGHT}\n" \
       " Max wait time: #{MAX_WAIT}s\n" \
+      " Page load:     #{PAGE_LOAD_TIMEOUT}s\n" \
+      " Driver read:   #{DRIVER_READ_TIMEOUT}s\n" \
+      " Driver open:   #{DRIVER_OPEN_TIMEOUT}s\n" \
       "───────────────────────────────────"
   )
 end
@@ -75,6 +82,9 @@ AllureCucumber.configure do |config|
     browser: BROWSER,
     resolution: "#{WINDOW_WIDTH}x#{WINDOW_HEIGHT}",
     max_wait_time: "#{MAX_WAIT}s",
+    page_load_timeout: "#{PAGE_LOAD_TIMEOUT}s",
+    driver_read_timeout: "#{DRIVER_READ_TIMEOUT}s",
+    driver_open_timeout: "#{DRIVER_OPEN_TIMEOUT}s",
     os_platform: RbConfig::CONFIG["host_os"],
     ruby_version: RUBY_VERSION,
   }
@@ -108,11 +118,14 @@ Capybara.register_driver :custom_selenium do |app|
       opts
     end
 
-  Capybara::Selenium::Driver.new(
-    app,
-    browser: (BROWSER == "headless_chrome" ? :chrome : BROWSER.to_sym),
-    options: options
-  )
+  # NOTE: W3C timeouts are in ms
+  # Capping page_load here is hopefully what will prevent a stalled nav from running past the ruby HTTP read timeout!
+  # and killing our chromedriver socket.
+  options.timeouts = { page_load: PAGE_LOAD_TIMEOUT * 1000, script: 30_000 }
+
+  http_client = Selenium::WebDriver::Remote::Http::Default.new(open_timeout: DRIVER_OPEN_TIMEOUT, read_timeout: DRIVER_READ_TIMEOUT)
+
+  Capybara::Selenium::Driver.new(app, browser: (BROWSER == "headless_chrome" ? :chrome : BROWSER.to_sym), options: options, http_client: http_client)
 end
 
 ########################################

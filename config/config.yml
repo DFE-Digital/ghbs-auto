@@ -1,3 +1,12 @@
+# Important: on the new timeouts below the (page_load_timeout, driver_read_timeout, driver_open_timeout)
+# page_load_timeout MUST stay well below the driver_read_timeout.
+# Byt why you ask? Well the ChromeDriver blocks navigation until the page load completes, while Ruby's HTTP client
+# is waiting on that same command. If the page load timeout exceeds the read timeout, Ruby gives
+# up first and closes the socket, resulting in a Net::ReadTimeout with #<TCPSocket:(closed)>
+# instead of a Selenium timeout error!
+#
+# NOTE: These driver/nav timeouts are separate from max_wait_time, which controls how long Capybara waits for elements on the page.
+
 default:
   browser: chrome
   # browser: firefox
@@ -7,16 +16,25 @@ default:
   window_width: 1920
   window_height: 1080
   max_wait_time: 5
+  page_load_timeout: 45
+  driver_read_timeout: 120
+  driver_open_timeout: 30
 
 local:
   browser: chrome
   window_width: 1920
   window_height: 1080
   max_wait_time: 3
+  page_load_timeout: 45
+  driver_read_timeout: 120
+  driver_open_timeout: 30
 
 ci:
   browser: headless_chrome
   window_width: 1920
   window_height: 1080
   max_wait_time: 5
+  page_load_timeout: 45
+  driver_read_timeout: 120
+  driver_open_timeout: 30
 
