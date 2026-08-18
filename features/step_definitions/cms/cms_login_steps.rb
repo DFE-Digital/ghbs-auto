@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+Given(/^we ensure we are in a completely browser between tests$/) do
+  shared_global_methods.completely_restart_browser("Initiating a fresh browser at the start of the test")
+end
+
 Given(/^we open and login to the cec screens as an admin in the dev environment$/) do
   cms_signin_flow_methods.open_cms_cec_homepage
   cms_signin_flow_methods.validate_cms_homepage_loaded

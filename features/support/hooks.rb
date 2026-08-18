@@ -2,8 +2,10 @@
 
 require "helpers/screenshot_helper"
 require "helpers/logger_helpers"
+require "helpers/browser_helpers"
 
 World(ScreenshotHelper)
+World(BrowserHelpers)
 
 Before do
   # Start individual scenario timer

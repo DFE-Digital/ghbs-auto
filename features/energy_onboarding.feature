@@ -1,7 +1,8 @@
 @energy @regression
 Feature: GHBS - Energy - Onboarding Flow
   Background:
-    Given we open and validate the start of the energy onboarding flow
+    Given we ensure we are in a completely browser between tests
+    And we open and validate the start of the energy onboarding flow
 
   @smoke
   Scenario Outline: ES-890 - Energy Onboarding Flow - Gas + Direct Debit Only

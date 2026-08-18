@@ -1,7 +1,8 @@
 @cms @regression @rba
 Feature: GHBS - CMS - Role Based Access
   Background:
-    Given we open and login to the proc ops CMS screens as an admin in the dev environment
+    Given we ensure we are in a completely browser between tests
+    And we open and login to the proc ops CMS screens as an admin in the dev environment
 
   Scenario Outline: ES-1120 - CMS - RBA - High level functional area and screen flow access validation
     Given we set out "<TargetUser>" to have a role of "<Role>" from the Agents screen

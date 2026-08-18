@@ -1,7 +1,8 @@
 @cms @regression
 Feature: GHBS - CMS - Case - Tasklist Flows
   Background:
-    Given we open and login to the proc ops CMS screens as an admin in the dev environment
+    Given we ensure we are in a completely browser between tests
+    And we open and login to the proc ops CMS screens as an admin in the dev environment
 
   @smoke
   Scenario: ES-982: CMS - Case - Full Evaluation Flow

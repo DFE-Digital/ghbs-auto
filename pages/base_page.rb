@@ -2,10 +2,12 @@
 
 require "capybara/dsl"
 require "rspec/expectations"
+require "helpers/browser_helpers"
 
 class BasePage
   include Capybara::DSL
   include RSpec::Matchers
+  include BrowserHelpers
 
   attr_reader :world
 

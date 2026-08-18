@@ -4,6 +4,7 @@ require "net/http"
 require "components/dfe_signin/dfe_signin_access_the_service_page_comps"
 require "helpers/logger_helpers"
 require "helpers/validation_helpers"
+require "helpers/browser_helpers"
 
 # Helper methods to make login flows more resilient in unstable environments
 # (e.g. Test DfE Sign-In intermittently returning stale elements or broken sessions).
@@ -20,6 +21,7 @@ require "helpers/validation_helpers"
 module LoginHelpers
   include LoggerHelpers
   include ValidationHelpers
+  include BrowserHelpers
 
   # Net::ReadTimeout with #<TCPSocket:(closed)> is a Timeout::Error and NOT a Selenium::WebDriver::Error
   # So in simple terms Errors that mean "the ruby connection to th chromedriver broke" as apposed to "the page was in the wrong state etc"
@@ -159,6 +161,9 @@ private
       log_info("Browser session survived the transport failure - reloading in the same session")
       nil
     end
+
+    log_warn("Browser is unresponsive - So lets restart it!")
+    restart_browser!(reason: "unresponsive browser after transport failure")
   end
 
   # Forces the new WebDriver command onto a fresh TCP connection.
