@@ -1,6 +1,6 @@
 # Important: on the new timeouts below the (page_load_timeout, driver_read_timeout, driver_open_timeout)
 # page_load_timeout MUST stay well below the driver_read_timeout.
-# Byt why you ask? Well the ChromeDriver blocks navigation until the page load completes, while Ruby's HTTP client
+# But why you ask? Well the ChromeDriver blocks navigation until the page load completes, while Ruby's HTTP client
 # is waiting on that same command. If the page load timeout exceeds the read timeout, Ruby gives
 # up first and closes the socket, resulting in a Net::ReadTimeout with #<TCPSocket:(closed)>
 # instead of a Selenium timeout error!
