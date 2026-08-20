@@ -66,4 +66,8 @@ class FabsHomeComps
   def link_energy_for_schools
     find(:xpath, "//a[contains(.,'Energy for schools')]")
   end
+
+  def button_get_expert_buying_help
+    find(:xpath, "//a[text()='Get expert buying help']")
+  end
 end

@@ -53,6 +53,7 @@ require "pages/cms/rba/cms_role_based_access_methods"
 require "pages/cms/rba/cms_rba_top_nav_link_methods"
 require "pages/cms/rba/cms_rba_admin_agents_methods"
 require "pages/cms/case/cms_case_states_methods"
+require "pages/rfh/sign_in/rfh_sign_in_methods"
 
 module Pages
   def resolved_world
@@ -276,6 +277,11 @@ module Pages
 
   def cms_rba_admin_agents_methods
     @cms_rba_admin_agents_methods ||= CmsRbaAdminAgentsMethods.new(resolved_world)
+  end
+
+  ##### RFH PAGES #####
+  def rfh_sign_in_methods
+    @rfh_sign_in_methods ||= RfhSignInMethods.new(resolved_world)
   end
 
   ##### SHARED PAGES #####
