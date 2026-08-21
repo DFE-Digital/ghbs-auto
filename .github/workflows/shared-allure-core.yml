@@ -149,11 +149,18 @@ jobs:
           RBA_TEST_USER_LOGIN: ${{ secrets.RBA_TEST_USER_LOGIN }}
           RBA_TEST_USER_PASSWORD: ${{ secrets.RBA_TEST_USER_PASSWORD }}
 
+          # RFH User
+          RFH_TEST_USER_LOGIN: ${{ secrets.RFH_TEST_USER_LOGIN }}
+          RFH_TEST_USER_PASSWORD: ${{ secrets.RFH_TEST_USER_PASSWORD }}
+
           # Test Users
           TEST_USER_1: ${{ secrets.TEST_USER_1 }}
           TEST_USER_2: ${{ secrets.TEST_USER_2 }}
           TEST_USER_3: ${{ secrets.TEST_USER_3 }}
           TEST_USER_4: ${{ secrets.TEST_USER_4 }}
+          TEST_USER_5: ${{ secrets.TEST_USER_5 }}
+          TEST_USER_6: ${{ secrets.TEST_USER_6 }}
+          TEST_USER_7: ${{ secrets.TEST_USER_7 }}
 
           LOCAL_DEBUG_CASE_STATE: ${{ secrets.LOCAL_DEBUG_CASE_STATE }}
         run: |
@@ -195,11 +202,17 @@ jobs:
           
             rba_test_user_login: "${RBA_TEST_USER_LOGIN}"
             rba_test_user_password: "${RBA_TEST_USER_PASSWORD}"
+          
+            rfh_test_user_login: "${RFH_TEST_USER_LOGIN}"
+            rfh_test_user_password: "${RFH_TEST_USER_PASSWORD}"
 
             test_user_1: "${TEST_USER_1}"
             test_user_2: "${TEST_USER_2}"
             test_user_3: "${TEST_USER_3}"
             test_user_4: "${TEST_USER_4}"
+            test_user_5: "${TEST_USER_5}"
+            test_user_6: "${TEST_USER_6}"
+            test_user_7: "${TEST_USER_7}"
 
             local_debug_case_state: "${LOCAL_DEBUG_CASE_STATE}"
           YAML
@@ -237,10 +250,15 @@ jobs:
             contentful_test_user_password
             rba_test_user_login
             rba_test_user_password
+            rfh_test_user_login
+            rfh_test_user_password
             test_user_1
             test_user_2
             test_user_3
             test_user_4
+            test_user_5
+            test_user_6
+            test_user_7
           ]
           
           required_keys.each do |k|

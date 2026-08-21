@@ -4,6 +4,7 @@ require "features/support/dto/case_state"
 require "features/support/dto/framework_state"
 require "features/support/dto/current_user_state"
 require "features/support/dto/env_state"
+require "features/support/dto/rfh_state"
 
 module WorldState
   # One shared instance per scenario
@@ -21,5 +22,9 @@ module WorldState
 
   def env_state
     @env_state ||= EnvState.new
+  end
+
+  def rfh_state
+    @rfh_state ||= RfhState.new
   end
 end

@@ -16,7 +16,7 @@ class RfhSearchForYourSchoolComps
   end
 
   def dropdown_select_org_based_on_ukprn(ukprn)
-    find(:xpath, "//ul[@id='framework-support-form-org-id-field__listbox]/li[contains(.,'#{ukprn}')]")
+    find(:xpath, "//ul[@id='framework-support-form-org-id-field__listbox']/li[contains(.,'#{ukprn}')]")
   end
 
   def button_continue

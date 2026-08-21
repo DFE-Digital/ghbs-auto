@@ -7,7 +7,7 @@ Feature: GHBS - RFH - Core Flows
   @wip
   Scenario: CORE-747: RFH - Flow 1 - Not Signed In - Single School - Goods
     Given I complete the RFH login as a user type of "unverified"
-    #And I select a school with the type of "Single School"
+    And I select a school with the type of "Single School"
     #When I confirm I have a need for "goods" and complete the associated flow
     #And I handle any associated document uploads for the RFH
     #And I verify the data is correct on the final "Send your request" screen

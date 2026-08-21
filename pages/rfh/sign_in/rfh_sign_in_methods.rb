@@ -35,6 +35,8 @@ class RfhSignInMethods < RfhBasePage
       rfh_do_you_have_a_dfe_signin_account_comps.button_continue.click
       expect(page).to have_current_path(%r{/procurement-support/organisation_type}, url: true, wait: 10)
       expect(rfh_what_type_of_org_comps.text_page_heading.text).to include("What type of organisation are you buying for?")
+
+      rfh_state.signed_in_state = user_type
     else
       rfh_do_you_have_a_dfe_signin_account_comps.radio_yes_use_dfe_sign_in.click
       expect(page).to have_current_path(%r{/signin/username}, url: true, wait: 10)
