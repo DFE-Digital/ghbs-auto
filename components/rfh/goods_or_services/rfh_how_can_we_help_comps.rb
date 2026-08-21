@@ -4,7 +4,7 @@ class RfhHowCanWeHelpComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "//h1")
+    find(:xpath, "//label")
   end
 
   def link_back
