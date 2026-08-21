@@ -44,7 +44,11 @@ class RfhHowDidYouFindUsComps
   end
 
   def radio_other
-    find(:xpath, "//label[text()='Please specify']/input[@id='framework-support-form-origin-other-field']/following-sibling::label")
+    find(:xpath, "//input[@id='framework-support-form-origin-other-field']/following-sibling::label")
+  end
+
+  def button_other_specify
+    find(:xpath, "//input[@id='framework-support-form-origin-other-field']")
   end
 
   def button_continue

@@ -83,7 +83,8 @@ class RfhSchoolSelectionMethods < RfhBasePage
     rfh_state.local_authority = "West Sussex"
     rfh_state.head_teacher = "Mr David Leadbitter"
     rfh_state.plase_of_education = "Secondary"
-    rfh_state.school_type = "Academy converter"
+    rfh_state.school_type_1 = "Academy converter"
+    rfh_state.school_type_2 = "Single" # Not sure why but the same reference is used on 2 screens with different meaning.
     rfh_state.ids_urn = "137263"
     rfh_state.ids_dfe_num = "4029"
     rfh_state.ids_ukprn = "10034642"
@@ -103,7 +104,7 @@ class RfhSchoolSelectionMethods < RfhBasePage
     validate_value_contains(rfh_state.local_authority, rfh_is_this_the_school_your_buying_for_comps.text_local_authority.text)
     validate_value_contains(rfh_state.head_teacher, rfh_is_this_the_school_your_buying_for_comps.text_headteacher_or_principal.text)
     validate_value_contains(rfh_state.plase_of_education, rfh_is_this_the_school_your_buying_for_comps.text_phase_of_education.text)
-    validate_value_contains(rfh_state.school_type, rfh_is_this_the_school_your_buying_for_comps.text_school_type.text)
+    validate_value_contains(rfh_state.school_type_1, rfh_is_this_the_school_your_buying_for_comps.text_school_type.text)
     validate_value_contains(rfh_state.ids_urn, rfh_is_this_the_school_your_buying_for_comps.text_ids.text)
     validate_value_contains(rfh_state.ids_dfe_num, rfh_is_this_the_school_your_buying_for_comps.text_ids.text)
     validate_value_contains(rfh_state.ids_ukprn, rfh_is_this_the_school_your_buying_for_comps.text_ids.text)
@@ -120,8 +121,13 @@ class RfhSchoolSelectionMethods < RfhBasePage
 
     # Enter in a name associated with this auto test
     random_num_for_name = generate_random_number(9, preserve_leading_zeros: true)
-    rfh_what_is_your_name_comps.input_first_name.set("Auto-Test-Fn-#{random_num_for_name}")
-    rfh_what_is_your_name_comps.input_last_name.set("Auto-Test-Ln-#{random_num_for_name}")
+    first_name = "Auto-Test-Fn-#{random_num_for_name}"
+    last_name = "Auto-Test-Ln-#{random_num_for_name}"
+    rfh_what_is_your_name_comps.input_first_name.set(first_name)
+    rfh_what_is_your_name_comps.input_last_name.set(last_name)
+
+    # Store our info so far in the rfh_state dto to be validated against as we move through the app
+    rfh_state.your_name = "#{first_name} #{last_name}"
 
     # Move on to the email screen
     rfh_what_is_your_name_comps.button_continue.click
@@ -133,7 +139,11 @@ class RfhSchoolSelectionMethods < RfhBasePage
     expect(rfh_what_is_your_email_comps.text_page_heading.text).to include("What is your email address?")
 
     # Enter the email address
-    rfh_what_is_your_email_comps.input_email.set(SECRETS["test_user_5"])
+    email_address = SECRETS["test_user_5"]
+    rfh_what_is_your_email_comps.input_email.set(email_address)
+
+    # Store our info so far in the rfh_state dto to be validated against as we move through the app
+    rfh_state.your_email_address = email_address
 
     # Move on to the next screen
     rfh_what_is_your_email_comps.button_continue.click

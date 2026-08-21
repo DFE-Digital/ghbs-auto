@@ -27,6 +27,9 @@ class RfhGoodsAndServiceMethods < RfhBasePage
       rfh_what_type_of_goods_and_services_comps.radio_furniture.click
       rfh_what_type_of_goods_and_services_comps.button_continue.click
 
+      # Store our info so far in the rfh_state dto to be validated against as we move through the app
+      rfh_state.type_of_goods_or_service = "Furniture"
+
       complete_approx_how_much_screen
       complete_how_can_we_help_screen
     when "service"
@@ -42,7 +45,11 @@ class RfhGoodsAndServiceMethods < RfhBasePage
     expect(rfh_approx_how_much_comps.text_page_heading.text).to include("Approximately how much will the school be spending on this procurement in total?")
 
     # Enter an amount and continue on to the next screen
-    rfh_approx_how_much_comps.input_amount.set("20000")
+    proc_ammount = "20000"
+    rfh_approx_how_much_comps.input_amount.set(proc_ammount)
+
+    # Store our info so far in the rfh_state dto to be validated against as we move through the app
+    rfh_state.procurement_ammount = proc_ammount
 
     # Move on to the next screen
     rfh_approx_how_much_comps.button_continue.click
@@ -54,7 +61,11 @@ class RfhGoodsAndServiceMethods < RfhBasePage
     expect(rfh_how_can_we_help_comps.text_page_heading.text).to include("How can we help?")
 
     # Enter an amount and continue on to the next screen
-    rfh_how_can_we_help_comps.input_info_text.set("This is an auto test at #{Time.now}")
+    how_can_we_help_message = "How help: This is an auto test at #{Time.now}"
+    rfh_how_can_we_help_comps.input_info_text.set(how_can_we_help_message)
+
+    # Store our info so far in the rfh_state dto to be validated against as we move through the app
+    rfh_state.description_of_request = how_can_we_help_message
 
     # Move on to the next screen
     rfh_how_can_we_help_comps.button_continue.click

@@ -4,7 +4,7 @@ class RfhAccessNeedsComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "//h1")
+    find(:xpath, "//legend")
   end
 
   def link_back

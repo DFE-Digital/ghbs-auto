@@ -9,6 +9,5 @@ Feature: GHBS - RFH - Core Flows
     Given I complete the RFH login as a user type of "unverified"
     And I select a school with the type of "Single School"
     When I confirm I have a need for "goods" and complete the associated flow
-    #And I handle any associated document uploads for the RFH
-    #And I verify the data is correct on the final "Send your request" screen
+    And I complete the remaining screens up to and including the Send your request screen
     #Then I successfully arrive on the "Request sent" screen

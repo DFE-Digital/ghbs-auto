@@ -9,10 +9,18 @@ class RfhState
     local_authority
     head_teacher
     plase_of_education
-    school_type
+    school_type_1
+    school_type_2
     ids_urn
     ids_dfe_num
     ids_ukprn
+    your_name
+    your_email_address
+    type_of_goods_or_service
+    procurement_ammount
+    description_of_request
+    accessibility
+    origin
   ].freeze
 
   # Create getters and setters for all current user attributes
