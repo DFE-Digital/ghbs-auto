@@ -17,7 +17,7 @@ class RfhState
     your_name
     your_email_address
     type_of_goods_or_service
-    procurement_ammount
+    procurement_amount
     description_of_request
     accessibility
     origin

@@ -47,7 +47,7 @@ class RfhSendYourRequestComps
     find(:xpath, "//dt[contains(.,'Origin')]/following-sibling::dd[1]")
   end
 
-  def button_continue
-    find(:xpath, "//input[@value='Continue']")
+  def button_send_request
+    find(:xpath, "//button[text()='Send request']")
   end
 end

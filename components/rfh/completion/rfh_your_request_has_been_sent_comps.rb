@@ -4,7 +4,11 @@ class RfhYourRequestHasBeenSentComps
   include Capybara::DSL
 
   def text_page_heading
-    find(:xpath, "//h1")
+    find(:xpath, "//div[@class = 'govuk-panel govuk-panel--confirmation']/h1")
+  end
+
+  def text_page_heading_before_you_go
+    find(:xpath, "//turbo-frame[@id='end-of-journey-feedback-frame']/h2")
   end
 
   def link_create_another_request

@@ -45,11 +45,11 @@ class RfhGoodsAndServiceMethods < RfhBasePage
     expect(rfh_approx_how_much_comps.text_page_heading.text).to include("Approximately how much will the school be spending on this procurement in total?")
 
     # Enter an amount and continue on to the next screen
-    proc_ammount = "20000"
-    rfh_approx_how_much_comps.input_amount.set(proc_ammount)
+    proc_amount = "20000"
+    rfh_approx_how_much_comps.input_amount.set(proc_amount)
 
     # Store our info so far in the rfh_state dto to be validated against as we move through the app
-    rfh_state.procurement_ammount = proc_ammount
+    rfh_state.procurement_amount = proc_amount
 
     # Move on to the next screen
     rfh_approx_how_much_comps.button_continue.click
