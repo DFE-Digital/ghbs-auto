@@ -19,6 +19,7 @@ Before do
   @framework_state = FrameworkState.new
   @current_user_state = CurrentUserState.new
   @env_state = EnvState.new
+  @rfh_state = RfhState.new
 end
 
 After do |scenario|

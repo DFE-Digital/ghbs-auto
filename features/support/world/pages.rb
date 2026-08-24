@@ -53,6 +53,10 @@ require "pages/cms/rba/cms_role_based_access_methods"
 require "pages/cms/rba/cms_rba_top_nav_link_methods"
 require "pages/cms/rba/cms_rba_admin_agents_methods"
 require "pages/cms/case/cms_case_states_methods"
+require "pages/rfh/sign_in/rfh_sign_in_methods"
+require "pages/rfh/school_selection/rfh_school_selection_methods"
+require "pages/rfh/goods_and_service/rfh_goods_and_service_methods"
+require "pages/rfh/completion/rfh_completion_methods"
 
 module Pages
   def resolved_world
@@ -276,6 +280,23 @@ module Pages
 
   def cms_rba_admin_agents_methods
     @cms_rba_admin_agents_methods ||= CmsRbaAdminAgentsMethods.new(resolved_world)
+  end
+
+  ##### RFH PAGES #####
+  def rfh_sign_in_methods
+    @rfh_sign_in_methods ||= RfhSignInMethods.new(resolved_world)
+  end
+
+  def rfh_school_selection_methods
+    @rfh_school_selection_methods ||= RfhSchoolSelectionMethods.new(resolved_world)
+  end
+
+  def rfh_goods_and_service_methods
+    @rfh_goods_and_service_methods ||= RfhGoodsAndServiceMethods.new(resolved_world)
+  end
+
+  def rfh_completion_methods
+    @rfh_completion_methods ||= RfhCompletionMethods.new(resolved_world)
   end
 
   ##### SHARED PAGES #####

@@ -44,6 +44,7 @@ class CmsCreateANewCaseMethods < CmsBasePage
       cms_create_a_new_case_comps.dropdown_select_org_based_on_ukprn("10034642").click
     rescue StandardError
       begin
+        cms_create_a_new_case_comps.input_organisation_name.clear
         cms_create_a_new_case_comps.input_organisation_name.set("")
         cms_create_a_new_case_comps.input_organisation_name.send_keys(case_org_name)
         sleep(2) # allow time for the dropdown list to populate / render with correct content

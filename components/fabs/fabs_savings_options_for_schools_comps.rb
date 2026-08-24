@@ -10,6 +10,6 @@ class FabsSavingsOptionsForSchoolsComps
 
   # Inputs
   def link_find_out_more_about_insignis
-    find(:xpath, "//a[text()='Find out more about Insignis (opens in new tab)']")
+    find(:xpath, "//a[text()='Find out more about Insignis']")
   end
 end

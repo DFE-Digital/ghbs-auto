@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Given(/^we open the Savings options for schools buying option via the Banking and finance category$/) do
-  fabs_banking_methods.open_the_banking_and_finance_category
+Given(/^we open the Savings options for schools buying option via the homepage$/) do
+  fabs_banking_methods.open_the_dfe_featured_savings_options_for_schools
 end
 
 When(/^we open and validate the links out of the saving options page$/) do

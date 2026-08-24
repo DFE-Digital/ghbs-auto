@@ -46,4 +46,12 @@ class BasePage
       @env_state ||= EnvState.new
     end
   end
+
+  def rfh_state
+    if world && !world.equal?(self) && world.respond_to?(:rfh_state)
+      world.rfh_state
+    else
+      @rfh_state ||= RfhState.new
+    end
+  end
 end

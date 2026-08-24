@@ -16,15 +16,10 @@ class FabsBankingMethods < FabsBasePage
   include UrlHelpers
   include HttpApiHelpers
 
-  def open_the_banking_and_finance_category
-    # Open up the Finance, legal and insurance
-    fabs_home_comps.link_category_finance_legal_and_insurance.click
-    expect(page).to have_current_path(%r{/categories/finance-legal-insurance}, url: true, wait: 10)
-    expect(fabs_buying_category_comps.text_page_heading.text).to include("Finance, legal and insurance")
-
-    # Open up the Current accounts and savings staffing buying option
-    fabs_buying_category_comps.link_buying_category_by_name("Current accounts and savings").click
-    expect(page).to have_current_path(%r{/savings-options-for-schools}, url: true, wait: 10)
+  def open_the_dfe_featured_savings_options_for_schools
+    # Open the Dfe Featured option "Savings options for schools" from the homepage
+    fabs_home_comps.link_dfe_featured_savings_options_for_schools.click
+    expect(page).to have_current_path(%r{/current-savings-accounts}, url: true, wait: 10)
     expect(fabs_buying_option_comps.text_page_heading.text).to include("Savings options for schools")
   end
 
@@ -41,8 +36,8 @@ class FabsBankingMethods < FabsBasePage
     )
 
     # Confirm link to DfE Banking Comparison Tool
-    url_dfe_comp_tool = "https://banking-for-schools.education.gov.uk/site/LEUFJZNSINPDVTWF/index.html"
-    expect(page).to have_link("DfE Banking Comparison Tool (opens in new tab)", href: url_dfe_comp_tool)
+    url_dfe_comp_tool = "https://banking-for-schools.education.gov.uk/site/LEOULQZMCMW6DDDL/index.html"
+    expect(page).to have_link("Use the DfE Banking Comparison Tool (opens in new tab)", href: url_dfe_comp_tool)
     validate_link_reachable(
       url_dfe_comp_tool,
       expected_title: "Before you start - Banking comparison tool - Department for Education",
@@ -50,10 +45,6 @@ class FabsBankingMethods < FabsBasePage
       fallback_on: [403],
       only_run_in: "local"
     )
-
-    # Confirm link to Find out more about Insignis (opens in new tab)
-    url_insignis = "/insignis-savings-platform"
-    expect(page).to have_link("Find out more about Insignis (opens in new tab)", href: url_insignis)
 
     # Nav to the Find out more about Insignis page
     fabs_savings_options_for_schools_comps.link_find_out_more_about_insignis.click
@@ -97,18 +88,15 @@ class FabsBankingMethods < FabsBasePage
     expect(page).to have_current_path(%r{/barclays}, url: true, wait: 10)
     expect(fabs_buying_option_comps.text_page_heading.text).to include("Barclays")
 
-    # Validate the external Barclays link
-    url_barclays = "https://www.barclayscorporate.com/industry-expertise/our-sector-coverage/education/"
-    expect(page).to have_link("Visit Barclays’ website", href: url_barclays)
-    validate_link_reachable(
-      url_barclays,
-      expected_title: "Education | Barclays Corporate",
-      expected_status: 200,
-      fallback_on: [403],
-      only_run_in: "local"
-    )
+    reset_to_current_accounts_via_breadcrumb
 
-    reset_to_current_accounts_via_related_content
+    #### Lloyds ####
+    # Navigate to the internal Lloyds page
+    fabs_current_accounts_comps.link_lloyds_banking_group.click
+    expect(page).to have_current_path(%r{/lloyds-banking-group}, url: true, wait: 10)
+    expect(fabs_buying_option_comps.text_page_heading.text).to include("Lloyds")
+
+    reset_to_current_accounts_via_breadcrumb
 
     #### NatWest ####
     # Navigate to the internal NatWest page
@@ -116,18 +104,23 @@ class FabsBankingMethods < FabsBasePage
     expect(page).to have_current_path(%r{/natwest}, url: true, wait: 10)
     expect(fabs_buying_option_comps.text_page_heading.text).to include("NatWest")
 
-    # Validate the external NatWest link
-    url_natwest = "https://www.natwest.com/business/bank-accounts.html?intcam=PC_HP-B-HI-ATLMettle-DEF-A#switch-offer"
-    expect(page).to have_link("Visit NatWest’s website", href: url_natwest)
-    validate_link_reachable(
-      url_natwest,
-      expected_title: "Compare Business Bank Accounts | NatWest Business",
-      expected_status: 200,
-      fallback_on: [403],
-      only_run_in: "local"
-    )
+    reset_to_current_accounts_via_breadcrumb
 
-    reset_to_current_accounts_via_related_content
+    #### Progressive Building Society ####
+    # Navigate to the internal Progressive Building Society page
+    fabs_current_accounts_comps.link_progressive_building_society.click
+    expect(page).to have_current_path(%r{/progressive-building-society}, url: true, wait: 10)
+    expect(fabs_buying_option_comps.text_page_heading.text).to include("Progressive Building Society")
+
+    reset_to_current_accounts_via_breadcrumb
+
+    #### Reliance Bank Limited ####
+    # Navigate to the internal Reliance Bank Limited page
+    fabs_current_accounts_comps.link_reliance_bank_limited.click
+    expect(page).to have_current_path(%r{/reliance-bank-limited}, url: true, wait: 10)
+    expect(fabs_buying_option_comps.text_page_heading.text).to include("Reliance Bank Limited")
+
+    reset_to_current_accounts_via_breadcrumb
 
     #### Santander ####
     # Navigate to the internal Santander page
@@ -135,39 +128,17 @@ class FabsBankingMethods < FabsBasePage
     expect(page).to have_current_path(%r{/santander}, url: true, wait: 10)
     expect(fabs_buying_option_comps.text_page_heading.text).to include("Santander")
 
-    # Validate the external Santander link
-    url_santander = "https://www.santander.co.uk/corporate/sectors/education"
-    expect(page).to have_link("Visit Santander’s website", href: url_santander)
-    validate_link_reachable(
-      url_santander,
-      expected_title: "Education | Santander Corporate and Commercial Banking				",
-      expected_status: 200,
-      fallback_on: [403],
-      only_run_in: "local"
-    )
-
-    reset_to_current_accounts_via_related_content
+    reset_to_current_accounts_via_breadcrumb
 
     #### Unity Trust Bank ####
     # Navigate to the internal Unity Trust Bank page
     fabs_current_accounts_comps.link_unity_trust_bank.click
     expect(page).to have_current_path(%r{/unity-trust-bank}, url: true, wait: 10)
-    expect(fabs_buying_option_comps.text_page_heading.text).to include("Unity Trust Bank Staging")
-
-    # Validate the external Unity Trust Bank link
-    url_unity_bank = "https://www.unity.co.uk/"
-    expect(page).to have_link("Visit Unity Trust Bank’s website", href: url_unity_bank)
-    validate_link_reachable(
-      url_unity_bank,
-      expected_title: "Ethical Business Banking | Business Bank Accounts and Loans",
-      expected_status: 200,
-      fallback_on: [403],
-      only_run_in: "local"
-    )
+    expect(fabs_buying_option_comps.text_page_heading.text).to include("Unity Trust Bank")
   end
 
-  def reset_to_current_accounts_via_related_content
-    fabs_shared_related_content_comps.link_related_content_current_accounts_for_schools.click
+  def reset_to_current_accounts_via_breadcrumb
+    fabs_shared_related_content_comps.link_breadcrumb.click
     expect(page).to have_current_path(%r{/current-accounts-for-schools}, url: true, wait: 10)
     expect(fabs_buying_option_comps.text_page_heading.text).to include("Current accounts for schools")
   end

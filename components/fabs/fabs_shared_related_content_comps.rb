@@ -12,4 +12,8 @@ class FabsSharedRelatedContentComps
   def link_related_content_current_accounts_for_schools
     find(:xpath, "//h2[text()='Related reading']/following-sibling::ul/li/a[text()='Current accounts for schools']")
   end
+
+  def link_breadcrumb
+    find(:xpath, "//a[text()='Current accounts for schools']")
+  end
 end

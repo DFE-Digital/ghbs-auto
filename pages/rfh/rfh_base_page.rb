@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+require_relative "../base_page"
+require "capybara/dsl"
+require "rspec/expectations"
+require "features/support/shared_fabs_comps"
+require "features/support/a11y_assertions"
+require "features/support/shared_energy_comps"
+
+class RfhBasePage < BasePage
+  include Capybara::DSL
+  include RSpec::Matchers
+  include SharedFabsComps
+  include A11yAssertions
+  include SharedEnergyComps
+end
