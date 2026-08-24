@@ -18,6 +18,19 @@ class FabsHomeComps
     find(:xpath, "//form[@id='homepage-search']//following-sibling::button")
   end
 
+  # DfE featured tiles
+  def link_dfe_featured_savings_options_for_schools
+    find(:xpath, "//a[text()='Savings options for schools']")
+  end
+
+  def link_dfe_featured_energy_for_schools
+    find(:xpath, "//a[text()='Energy for Schools']")
+  end
+
+  def link_dfe_featured_agency_supply_staff
+    find(:xpath, "//a[text()='Agency supply staff']")
+  end
+
   # Links
   def link_all_buying_options
     find(:xpath, "//a[text()='Browse a list of all DfE-approved buying options']")
