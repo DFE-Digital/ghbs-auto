@@ -76,6 +76,5 @@ class RfhCompletionMethods < RfhBasePage
     # Validate before you go + options
     validate_value_contains("Before you go", rfh_your_request_has_been_sent_comps.text_page_heading_before_you_go.text)
     validate_value_contains("Strongly agree", rfh_your_request_has_been_sent_comps.radio_strongly_agree.text)
-
   end
 end

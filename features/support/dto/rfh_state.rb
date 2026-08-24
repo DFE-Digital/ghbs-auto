@@ -8,7 +8,7 @@ class RfhState
     name_and_address
     local_authority
     head_teacher
-    plase_of_education
+    phase_of_education
     school_type_1
     school_type_2
     ids_urn

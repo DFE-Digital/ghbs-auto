@@ -82,7 +82,7 @@ class RfhSchoolSelectionMethods < RfhBasePage
     rfh_state.name_and_address = "Hazelwick School Close, Three Bridges, Crawley, West Sussex, RH10 1SX"
     rfh_state.local_authority = "West Sussex"
     rfh_state.head_teacher = "Mr David Leadbitter"
-    rfh_state.plase_of_education = "Secondary"
+    rfh_state.phase_of_education = "Secondary"
     rfh_state.school_type_1 = "Academy converter"
     rfh_state.school_type_2 = "Single" # Not sure why but the same reference is used on 2 screens with different meaning.
     rfh_state.ids_urn = "137263"
@@ -103,7 +103,7 @@ class RfhSchoolSelectionMethods < RfhBasePage
     validate_value_contains(rfh_state.name_and_address, rfh_is_this_the_school_your_buying_for_comps.text_name_and_address.text)
     validate_value_contains(rfh_state.local_authority, rfh_is_this_the_school_your_buying_for_comps.text_local_authority.text)
     validate_value_contains(rfh_state.head_teacher, rfh_is_this_the_school_your_buying_for_comps.text_headteacher_or_principal.text)
-    validate_value_contains(rfh_state.plase_of_education, rfh_is_this_the_school_your_buying_for_comps.text_phase_of_education.text)
+    validate_value_contains(rfh_state.phase_of_education, rfh_is_this_the_school_your_buying_for_comps.text_phase_of_education.text)
     validate_value_contains(rfh_state.school_type_1, rfh_is_this_the_school_your_buying_for_comps.text_school_type.text)
     validate_value_contains(rfh_state.ids_urn, rfh_is_this_the_school_your_buying_for_comps.text_ids.text)
     validate_value_contains(rfh_state.ids_dfe_num, rfh_is_this_the_school_your_buying_for_comps.text_ids.text)
