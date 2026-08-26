@@ -5,15 +5,19 @@ class RfhState
   ATTRS = %i[
     signed_in_state
     org_name
+    school_name
+    group_name
     name_and_address
     local_authority
     head_teacher
     phase_of_education
     school_type_1
     school_type_2
+    group_type
     ids_urn
     ids_dfe_num
     ids_ukprn
+    ids_uid
     your_name
     your_email_address
     type_of_goods_or_service
