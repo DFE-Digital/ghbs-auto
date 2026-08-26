@@ -31,4 +31,28 @@ module UniqueContentHelpers
     chars = ("A".."Z").to_a + ("a".."z").to_a
     Array.new(length) { chars.sample }.join
   end
+
+  def generate_dd_x_days_in_the_future(number_of_days_in_the_future)
+    # get today's date + number_of_days_in_the_future
+    future_date = Date.today + number_of_days_in_the_future
+
+    # extract 'dd' individual parts with leading zeros
+    future_date.day.to_s
+  end
+
+  def generate_mm_x_days_in_the_future(number_of_days_in_the_future)
+    # get today's date + number_of_days_in_the_future
+    future_date = Date.today + number_of_days_in_the_future
+
+    # extract 'mm' individual parts with leading zeros
+    future_date.month.to_s
+  end
+
+  def generate_yyyy_x_days_in_the_future(number_of_days_in_the_future)
+    # get today's date + number_of_days_in_the_future
+    future_date = Date.today + number_of_days_in_the_future
+
+    # extract 'yyyy' individual parts with leading zeros
+    future_date.year.to_s
+  end
 end

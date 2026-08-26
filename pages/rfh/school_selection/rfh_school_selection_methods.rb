@@ -208,7 +208,7 @@ class RfhSchoolSelectionMethods < RfhBasePage
     # Move on to the next screen
     rfh_what_is_your_email_comps.button_continue.click
   end
-  
+
   def complete_selection_of_school_in_your_trust
     # Confirm we are on the "Which schools in your academy trust or federation will be involved in this procurement?" screen
     expect(page).to have_current_path(%r{/procurement-support/school_picker}, url: true, wait: 10)
