@@ -13,9 +13,13 @@ Feature: GHBS - Util - Data management
     Then we complete the actions to either Close or Resolve the case
 
   @close-case-proc-ops @weekly-data-cleanup @data-reset-03
-  Scenario: Data Reset Util 03 - Close or Resolve all in flight cases for specific location
-    Given we find and search for any cases for "Hazelwick School"
+  Scenario Outline: Data Reset Util 03 - Close or Resolve all in flight cases for specific location
+    Given we find and search for any cases for "<SchoolSearchTerm>"
     Then we complete the actions to either Close or Resolve any open cases
+    Examples:
+      | SchoolSearchTerm    |
+      | Hazelwick School    |
+      | E-ACT               |
 
   @data-reset-04
   Scenario: Data Reset Util 04 - Close or Resolve all in flight cases for specific assignee
