@@ -11,13 +11,11 @@ require "components/rfh/school_selection/rfh_which_school_in_your_academy_comps"
 require "components/rfh/school_selection/rfh_are_these_the_schools_your_buying_for_comps"
 require "components/rfh/about_you/rfh_what_is_your_name_comps"
 require "components/rfh/about_you/rfh_what_is_your_email_comps"
-require "helpers/login_helpers"
 require "helpers/validation_helpers"
 require "helpers/logger_helpers"
 require "helpers/unique_content_helpers"
 
 class RfhSchoolSelectionMethods < RfhBasePage
-  include LoginHelpers
   include ValidationHelpers
   include LoggerHelpers
   include UniqueContentHelpers
@@ -45,9 +43,11 @@ class RfhSchoolSelectionMethods < RfhBasePage
     case org_type
     when "Single School"
       single_school_org_selection
+      rfh_state.single_or_multi = "single"
       verify_school_details_cya_single_school
     when "Multi School"
       multi_school_org_selection
+      rfh_state.single_or_multi = "multi"
       verify_school_details_cya_multi_school
       complete_selection_of_school_in_your_trust
     else
@@ -109,6 +109,7 @@ class RfhSchoolSelectionMethods < RfhBasePage
     # There are sometimes issues with this loading the school correctly, the below is a complete retry attempt before we fail the test.
     case_group_name = "E-ACT"
     rfh_state.group_name = "E-ACT"
+    rfh_state.org_name = "E-ACT"
 
     begin
       rfh_search_for_an_academy_trust_comps.input_organisation_name.send_keys(case_group_name)
@@ -129,6 +130,7 @@ class RfhSchoolSelectionMethods < RfhBasePage
     # Store our info so far in the rfh_state dto to be validated against as we move through the app.
     rfh_state.name_and_address = "The Orangery, 28 Headlands, Kettering, NN15 7HP"
     rfh_state.group_type = "Multi-academy Trust"
+    rfh_state.school_type_1 = "Multi-academy Trust"
     rfh_state.ids_ukprn = "10058234"
     rfh_state.ids_uid = "2974"
 
@@ -217,6 +219,12 @@ class RfhSchoolSelectionMethods < RfhBasePage
     # Pick a school from the list.
     rfh_which_school_in_your_academy_comps.text_first_school_from_the_list.click
 
+    # Set schools_your_buying_for
+    number_of_selected_schools = rfh_which_school_in_your_academy_comps.text_number_of_selected_schools.text
+    cleaned_string = number_of_selected_schools.gsub("**", "").gsub("\u00A0", " ").sub(" selected", "").sub(/ from .*/, "")
+    rfh_state.schools_your_buying_for = cleaned_string
+
+    # 1 of 37 schools
     # Move on to the next screen
     rfh_which_school_in_your_academy_comps.button_continue.click
 

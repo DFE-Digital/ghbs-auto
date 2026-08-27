@@ -19,6 +19,10 @@ class RfhWhichSchoolInYourAcademyComps
     find(:xpath, "//table[@aria-label='Available schools']/tbody[1]//tr[1]//label")
   end
 
+  def text_number_of_selected_schools
+    find(:xpath, "//div[@data-controller = 'school-picker']/p")
+  end
+
   def button_continue
     find(:xpath, "//input[@value='Continue']")
   end

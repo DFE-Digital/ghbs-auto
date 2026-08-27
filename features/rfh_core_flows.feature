@@ -16,5 +16,5 @@ Feature: GHBS - RFH - Core Flows
     Given I complete the RFH login as a user type of "unverified"
     And I select a school with the type of "Multi School"
     When I confirm I have a need for "service" and complete the associated flow
-    # And I complete the remaining screens up to and including the Send your request screen
+    And I complete the upload screens up to and including the Send your request screen
     # Then I successfully arrive on the Request sent screen
