@@ -27,8 +27,20 @@ class RfhSendYourRequestComps
     find(:xpath, "//dt[contains(.,'School type')]/following-sibling::dd[1]")
   end
 
+  def text_schools_your_buying_for
+    find(:xpath, '//dt[contains(.,"Schools you\'re buying for")]/following-sibling::dd[1]')
+  end
+
   def text_type_of_goods_or_service
     find(:xpath, "//dt[contains(.,'Type of goods or service')]/following-sibling::dd[1]")
+  end
+
+  def text_contract_length
+    find(:xpath, "//dt[contains(.,'Contract length')]/following-sibling::dd[1]")
+  end
+
+  def text_contract_start_date
+    find(:xpath, "//dt[contains(.,'Contract start date')]/following-sibling::dd[1]")
   end
 
   def text_procurement_amount
@@ -37,6 +49,10 @@ class RfhSendYourRequestComps
 
   def text_description_of_request
     find(:xpath, "//dt[contains(.,'Description of request')]/following-sibling::dd[1]")
+  end
+
+  def text_documents_attached
+    find(:xpath, "//dt[contains(.,'Documents attached')]/following-sibling::dd[1]")
   end
 
   def text_accessibility

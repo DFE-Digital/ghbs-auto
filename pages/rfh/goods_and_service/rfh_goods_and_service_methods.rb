@@ -5,13 +5,15 @@ require "pages/rfh/rfh_base_page"
 require "components/rfh/goods_or_services/rfh_what_type_of_goods_and_services_comps"
 require "components/rfh/goods_or_services/rfh_approx_how_much_comps"
 require "components/rfh/goods_or_services/rfh_how_can_we_help_comps"
-require "helpers/login_helpers"
+require "components/rfh/goods_or_services/rfh_what_do_you_need_in_cleaning_comps"
+require "components/rfh/goods_or_services/rfh_how_long_do_you_want_contract_comps"
+require "components/rfh/goods_or_services/rfh_when_contract_start_comps"
 require "helpers/validation_helpers"
 require "helpers/logger_helpers"
 require "helpers/unique_content_helpers"
+require "date"
 
 class RfhGoodsAndServiceMethods < RfhBasePage
-  include LoginHelpers
   include ValidationHelpers
   include LoggerHelpers
   include UniqueContentHelpers
@@ -33,7 +35,25 @@ class RfhGoodsAndServiceMethods < RfhBasePage
       complete_approx_how_much_screen
       complete_how_can_we_help_screen
     when "service"
-      # TODO
+      # Select the "Cleaning" option.
+      rfh_what_type_of_goods_and_services_comps.radio_cleaning.click
+      rfh_what_type_of_goods_and_services_comps.button_continue.click
+
+      # Confirm we are on the "What do you need in cleaning?" screen
+      expect(page).to have_current_path(%r{/procurement-support/categories/cleaning}, url: true, wait: 10)
+      expect(rfh_what_do_you_need_in_cleaning_comps.text_page_heading.text).to include("What do you need in cleaning?")
+
+      # Select the "Cleaning services" option and proceed
+      rfh_what_do_you_need_in_cleaning_comps.radio_cleaning_services.click
+      rfh_what_do_you_need_in_cleaning_comps.button_continue.click
+
+      # Store our info so far in the rfh_state dto to be validated against as we move through the app
+      rfh_state.type_of_goods_or_service = "Cleaning services"
+
+      complete_how_long_contract_screen
+      complete_when_contract_start_screen
+      complete_approx_how_much_screen
+      complete_how_can_we_help_screen
     else
       log.error "Your step is lacking a 'goods' or 'service' definition in its step!"
     end
@@ -69,5 +89,38 @@ class RfhGoodsAndServiceMethods < RfhBasePage
 
     # Move on to the next screen
     rfh_how_can_we_help_comps.button_continue.click
+  end
+
+  def complete_how_long_contract_screen
+    # Confirm we are on the "How long do you want the contract for including any extensions?" screen
+    expect(page).to have_current_path(%r{/procurement-support/contract_length}, url: true, wait: 10)
+    expect(rfh_how_long_do_you_want_contract_comps.text_page_heading.text).to include("How long do you want the contract for including any extensions?")
+
+    # Select 2 years, log it in the state and progress to the next screen
+    rfh_how_long_do_you_want_contract_comps.radio_2_year.click
+    rfh_state.contract_length = "2 years"
+    rfh_how_long_do_you_want_contract_comps.button_continue.click
+  end
+
+  def complete_when_contract_start_screen
+    # Confirm we are on the "Do you know when you want the contract to start?" screen
+    expect(page).to have_current_path(%r{/procurement-support/contract_start_date}, url: true, wait: 10)
+    expect(rfh_when_contract_start_comps.text_page_heading.text).to include("Do you know when you want the contract to start?")
+
+    # Select yes option and enter date
+    day = generate_dd_x_days_in_the_future(60)
+    month = generate_mm_x_days_in_the_future(60)
+    year = generate_yyyy_x_days_in_the_future(60)
+
+    rfh_when_contract_start_comps.radio_yes.click
+    rfh_when_contract_start_comps.input_day.set(day)
+    rfh_when_contract_start_comps.input_month.set(month)
+    rfh_when_contract_start_comps.input_year.set(year)
+
+    # Log case state in format "22 November 2027"
+    rfh_state.contract_start_date = "#{day} #{Date::MONTHNAMES[month.to_i]} #{year}"
+
+    # Continue to the next page
+    rfh_when_contract_start_comps.button_continue.click
   end
 end

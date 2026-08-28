@@ -3,17 +3,22 @@
 class RfhState
   # NOTE: This list is the single source of truth for what this state holds.
   ATTRS = %i[
+    single_or_multi
     signed_in_state
     org_name
+    school_name
+    group_name
     name_and_address
     local_authority
     head_teacher
     phase_of_education
     school_type_1
     school_type_2
+    group_type
     ids_urn
     ids_dfe_num
     ids_ukprn
+    ids_uid
     your_name
     your_email_address
     type_of_goods_or_service
@@ -21,6 +26,10 @@ class RfhState
     description_of_request
     accessibility
     origin
+    schools_your_buying_for
+    contract_length
+    contract_start_date
+    documents_attached
   ].freeze
 
   # Create getters and setters for all current user attributes

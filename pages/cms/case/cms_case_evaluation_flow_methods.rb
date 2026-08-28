@@ -11,10 +11,13 @@ require "components/cms/case/task_list/evaluation/cms_eval_email_evaluators_comp
 require "components/cms/case/task_list/evaluation/cms_eval_review_evaluations_comps"
 require "helpers/validation_helpers"
 require "helpers/upload_file_helpers"
+require "helpers/unique_content_helpers"
 
 class CmsCaseEvaluationFlowMethods < CmsBasePage
   include ValidationHelpers
   include UploadFileHelpers
+  include UniqueContentHelpers
+
   def complete_initial_eval_setup_proc_ops_side
     # At this point we assume the user has already set the case to a level 4 and has the "Task list" tab available to them
     cms_single_case_nav_comps.link_task_list.click
@@ -90,13 +93,10 @@ class CmsCaseEvaluationFlowMethods < CmsBasePage
     # Complete the "Set due date" process
     wait_for_element_to_include(cms_eval_set_due_date_comps.text_page_heading, "Set due date", timeout: 5)
 
-    # get today's date + 60 days
-    future_date = Date.today + 60
-
-    # extract individual parts with leading zeros
-    day   = sprintf("%02d", future_date.day)
-    month = sprintf("%02d", future_date.month)
-    year  = future_date.year.to_s
+    # set each of the dd/mm/yyyy 60 days in the future
+    day   = generate_dd_x_days_in_the_future(60)
+    month = generate_mm_x_days_in_the_future(60)
+    year  = generate_yyyy_x_days_in_the_future(60)
 
     # set each field on the page
     cms_eval_set_due_date_comps.input_day.set(day)

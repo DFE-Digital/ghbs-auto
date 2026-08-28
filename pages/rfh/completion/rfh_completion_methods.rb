@@ -3,13 +3,11 @@
 require "pages/shared/shared_global_methods"
 require "pages/rfh/rfh_base_page"
 require "components/rfh/completion/rfh_your_request_has_been_sent_comps"
-require "helpers/login_helpers"
 require "helpers/validation_helpers"
 require "helpers/logger_helpers"
 require "helpers/content_format_helpers"
 
 class RfhCompletionMethods < RfhBasePage
-  include LoginHelpers
   include ValidationHelpers
   include LoggerHelpers
   include ContentFormatHelpers
@@ -26,6 +24,7 @@ class RfhCompletionMethods < RfhBasePage
 
     # Store our info so far in the rfh_state dto to be validated against as we move through the app
     rfh_state.origin = access_info
+    rfh_state.accessibility = access_info
 
     # Move on to the next screen
     rfh_how_can_we_help_comps.button_continue.click
@@ -53,11 +52,25 @@ class RfhCompletionMethods < RfhBasePage
     expect(page).to have_current_path(%r{/procurement-support/}, url: true, wait: 10)
     expect(rfh_send_your_request_comps.text_page_heading.text).to include("Send your request")
 
-    # Validate all of the info from the previous screens
+    case rfh_state.single_or_multi
+    when "single"
+      validate_value_contains(rfh_state.school_type_2, rfh_send_your_request_comps.text_school_type.text)
+    when "multi"
+      # Validate multi specific details
+      validate_value_contains(rfh_state.schools_your_buying_for, rfh_send_your_request_comps.text_schools_your_buying_for.text)
+      validate_value_contains(rfh_state.contract_length, rfh_send_your_request_comps.text_contract_length.text)
+      validate_value_contains(rfh_state.contract_start_date, rfh_send_your_request_comps.text_contract_start_date.text)
+      validate_value_contains(rfh_state.documents_attached, rfh_send_your_request_comps.text_documents_attached.text)
+      validate_value_contains(rfh_state.school_type_1, rfh_send_your_request_comps.text_school_type.text)
+    else
+      log.error "you haven't defined rfh_state.single_or_multi"
+    end
+
+    # Validate all shared info from the previous screens
     validate_value_contains(rfh_state.your_name, rfh_send_your_request_comps.text_your_name.text)
     validate_value_contains(rfh_state.your_email_address, rfh_send_your_request_comps.text_your_email_address.text)
     validate_value_contains(rfh_state.org_name, rfh_send_your_request_comps.text_your_school.text)
-    validate_value_contains(rfh_state.school_type_2, rfh_send_your_request_comps.text_school_type.text)
+
     validate_value_contains(rfh_state.type_of_goods_or_service, rfh_send_your_request_comps.text_type_of_goods_or_service.text)
     validate_value_contains(format_currency(rfh_state.procurement_amount), rfh_send_your_request_comps.text_procurement_amount.text)
     validate_value_contains(rfh_state.description_of_request, rfh_send_your_request_comps.text_description_of_request.text)

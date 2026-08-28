@@ -3,8 +3,11 @@
 require "date"
 require "pages/energy/energy_base_page"
 require "components/energy/gas/energy_gas_contract_comps"
+require "helpers/unique_content_helpers"
 
 class EnergyGasContractMethods < EnergyBasePage
+  include UniqueContentHelpers
+
   def who_currently_supplies_your_gas(supplier)
     # Confirm we are on the page as we couldn't do this on the prev screen
     expect(page).to have_current_path(%r{/gas-contract}, url: true, wait: 10)
@@ -59,13 +62,10 @@ class EnergyGasContractMethods < EnergyBasePage
   end
 
   def when_does_the_contract_end
-    # get today's date + 60 days
-    future_date = Date.today + 60
-
-    # extract individual parts with leading zeros
-    day   = sprintf("%02d", future_date.day)
-    month = sprintf("%02d", future_date.month)
-    year  = future_date.year.to_s
+    # set each of the dd/mm/yyyy 60 days in the future
+    day   = generate_dd_x_days_in_the_future(60)
+    month = generate_mm_x_days_in_the_future(60)
+    year  = generate_yyyy_x_days_in_the_future(60)
 
     # set each field on the page
     energy_gas_contract_comps.input_contract_end_day.set(day)

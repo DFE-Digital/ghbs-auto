@@ -8,6 +8,10 @@ module ValidationHelpers
   end
 
   def validate_value_contains(expected, actual)
+    expected_blank = expected.to_s.strip.empty?
+    actual_blank = actual.to_s.strip.empty?
+
+    expect(actual_blank).to eq(expected_blank), "Expected both values to be blank or both populated. Expected: #{expected.inspect}, Actual: #{actual.inspect}"
     expect(actual).to include(expected), "Expected #{actual.inspect} to include #{expected.inspect}"
   end
 
