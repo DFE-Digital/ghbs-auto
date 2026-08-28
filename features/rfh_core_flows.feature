@@ -1,10 +1,10 @@
-@rfh @regression @smoke
+@rfh @regression
 Feature: GHBS - RFH - Core Flows
   Background:
     Given we ensure we are in a completely browser between tests
     And we open and validate the fabs homepage
     And we navigate to the RFH start page
-
+  @smoke
   Scenario: CORE-747: RFH - Flow 1 - Not Signed In - Single School - Goods
     Given I complete the RFH login as a user type of "unverified"
     And I select a school with the type of "Single School"
