@@ -58,5 +58,4 @@ class RfhUploadMethods < RfhBasePage
     # Confirm all docs are uploaded and proceed to upload page
     rfh_your_files_have_been_uploaded_comps.button_continue.click
   end
-
 end
