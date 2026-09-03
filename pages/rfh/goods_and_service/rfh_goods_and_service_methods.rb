@@ -108,7 +108,7 @@ class RfhGoodsAndServiceMethods < RfhBasePage
     expect(rfh_when_contract_start_comps.text_page_heading.text).to include("Do you know when you want the contract to start?")
 
     # Select yes option and enter date
-    day = generate_dd_x_days_in_the_future(60)
+    day = generate_dd_x_days_in_the_future(60, leading_zero: false)
     month = generate_mm_x_days_in_the_future(60)
     year = generate_yyyy_x_days_in_the_future(60)
 
