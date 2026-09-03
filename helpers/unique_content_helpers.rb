@@ -34,20 +34,28 @@ module UniqueContentHelpers
     Array.new(length) { chars.sample }.join
   end
 
-  def generate_dd_x_days_in_the_future(number_of_days_in_the_future)
+  def generate_dd_x_days_in_the_future(number_of_days_in_the_future, leading_zero: true)
     # get today's date + number_of_days_in_the_future
     future_date = Date.today + number_of_days_in_the_future.days
 
-    # extract 'dd' individual parts with leading zeros
-    future_date.strftime("%d")
+    # extract 'dd' individual parts and depending on the users choice either include / exclude the leading 0
+    if leading_zero
+      future_date.strftime("%d")
+    else
+      future_date.day.to_s
+    end
   end
 
-  def generate_mm_x_days_in_the_future(number_of_days_in_the_future)
+  def generate_mm_x_days_in_the_future(number_of_days_in_the_future, leading_zero: true)
     # get today's date + number_of_days_in_the_future
     future_date = Date.today + number_of_days_in_the_future.days
 
-    # extract 'mm' individual parts with leading zeros
-    future_date.strftime("%m")
+    # extract 'mm' individual parts and depending on the users choice either include / exclude the leading 0
+    if leading_zero
+      future_date.strftime("%m")
+    else
+      future_date.day.to_s
+    end
   end
 
   def generate_yyyy_x_days_in_the_future(number_of_days_in_the_future)
