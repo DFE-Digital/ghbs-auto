@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "active_support/core_ext/integer/time"
+
 module UniqueContentHelpers
   include Capybara::DSL
 
@@ -34,25 +36,25 @@ module UniqueContentHelpers
 
   def generate_dd_x_days_in_the_future(number_of_days_in_the_future)
     # get today's date + number_of_days_in_the_future
-    future_date = Date.today + number_of_days_in_the_future
+    future_date = Date.today + number_of_days_in_the_future.days
 
     # extract 'dd' individual parts with leading zeros
-    future_date.day.to_s
+    future_date.strftime("%d")
   end
 
   def generate_mm_x_days_in_the_future(number_of_days_in_the_future)
     # get today's date + number_of_days_in_the_future
-    future_date = Date.today + number_of_days_in_the_future
+    future_date = Date.today + number_of_days_in_the_future.days
 
     # extract 'mm' individual parts with leading zeros
-    future_date.month.to_s
+    future_date.strftime("%m")
   end
 
   def generate_yyyy_x_days_in_the_future(number_of_days_in_the_future)
     # get today's date + number_of_days_in_the_future
-    future_date = Date.today + number_of_days_in_the_future
+    future_date = Date.today + number_of_days_in_the_future.days
 
     # extract 'yyyy' individual parts with leading zeros
-    future_date.year.to_s
+    future_date.strftime("%Y")
   end
 end
