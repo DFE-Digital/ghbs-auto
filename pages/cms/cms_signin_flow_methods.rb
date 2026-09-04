@@ -61,7 +61,7 @@ class CmsSigninFlowMethods < CmsBasePage
     # Retrieve the current url in case we need to retry login
     return_url = page.current_url
 
-    defensive_login_retry(max_attempts: 3, sleep_s: 10, reset_between: false) do |attempt, last_error|
+    defensive_login_retry(max_attempts: 4, sleep_s: 10, reset_between: false) do |attempt, last_error|
       restore_start_state(attempt: attempt, return_url: return_url, last_error: last_error, ready_selector: cms_login_page_comps.button_signin_xpath)
 
       cms_login_page_comps.button_signin.click
