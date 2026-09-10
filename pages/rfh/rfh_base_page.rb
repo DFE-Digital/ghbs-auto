@@ -6,6 +6,7 @@ require "rspec/expectations"
 require "features/support/shared_fabs_comps"
 require "features/support/a11y_assertions"
 require "features/support/shared_energy_comps"
+require "features/support/shared_signin_comps"
 
 class RfhBasePage < BasePage
   include Capybara::DSL
@@ -13,4 +14,5 @@ class RfhBasePage < BasePage
   include SharedFabsComps
   include A11yAssertions
   include SharedEnergyComps
+  include SharedDfeSignInComps
 end

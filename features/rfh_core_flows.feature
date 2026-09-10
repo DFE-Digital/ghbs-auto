@@ -14,7 +14,14 @@ Feature: GHBS - RFH - Core Flows
 
   Scenario: CORE-748: RFH - Flow 2 - Not Signed In - MAT - Service (None Energy)
     Given I complete the RFH login as a user type of "unverified"
-    And I select a school with the type of "Multi School"
+    And I select a school with the type of "Multi Academy Trust School"
     When I confirm I have a need for "service" and complete the associated flow
     And I complete the upload screens up to and including the Send your request screen
     Then I successfully arrive on the Request sent screen
+  @wip
+  Scenario: CORE-752: RFH - Flow 3 - Signed In - SAT - Service (Energy)
+    Given I complete the RFH login as a user type of "verified"
+    And as a logged in user I confirm our "Single Academy Trust" school is correct
+    #When I confirm I have a need for "service" and complete the associated flow
+    #And I complete the upload screens up to and including the Send your request screen
+    #Then I successfully arrive on the Request sent screen

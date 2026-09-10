@@ -26,8 +26,8 @@ class SharedGlobalMethods < SharedGlobalMethodsBasePage
                     { email: fetch_secret!("school_energy_mat_username"),
                       password: fetch_secret!("school_energy_mat_password") }
                   when "sat"
-                    { email: fetch_secret!("school_energy_sat_username"),
-                      password: fetch_secret!("school_energy_sat_password") }
+                    { email: fetch_secret!("rfh_test_user_login"),
+                      password: fetch_secret!("rfh_test_user_password") }
                   when "proc ops"
                     { email: fetch_secret!("proc_ops_cms_username"),
                       password: fetch_secret!("proc_ops_cms_password") }

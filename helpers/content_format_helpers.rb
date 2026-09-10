@@ -7,4 +7,10 @@ module ContentFormatHelpers
     num = value.to_f
     sprintf("£%0.2f", num).gsub(/(\d)(?=(\d{3})+\.)/, '\1,')
   end
+
+  def email_to_display_name(email)
+    email
+      .split("@").first
+      .tr(".", " ")
+  end
 end
