@@ -58,6 +58,7 @@ require "pages/rfh/school_selection/rfh_school_selection_methods"
 require "pages/rfh/goods_and_service/rfh_goods_and_service_methods"
 require "pages/rfh/completion/rfh_completion_methods"
 require "pages/rfh/completion/rfh_upload_methods"
+require "pages/rfh/school_selection/rfh_logged_in_school_selection_methods"
 
 module Pages
   def resolved_world
@@ -302,6 +303,10 @@ module Pages
 
   def rfh_upload_methods
     @rfh_upload_methods ||= RfhUploadMethods.new(resolved_world)
+  end
+
+  def rfh_logged_in_school_selection_methods
+    @rfh_logged_in_school_selection_methods ||= RfhLoggedInSchoolSelectionMethods.new(resolved_world)
   end
 
   ##### SHARED PAGES #####

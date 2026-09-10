@@ -9,7 +9,6 @@ require "components/rfh/sign_in/rfh_do_you_have_a_dfe_signin_account_comps"
 require "components/rfh/school_selection/rfh_what_type_of_org_comps"
 require "components/rfh/sign_in/rfh_is_this_your_contact_info_comps"
 require "components/dfe_signin/dfe_signin_access_the_service_page_comps"
-require "pages/shared/shared_global_methods"
 require "pages/cms/cms_signin_flow_methods"
 require "helpers/login_helpers"
 require "helpers/validation_helpers"
@@ -77,9 +76,6 @@ class RfhSignInMethods < RfhBasePage
 
       # move on to the next page
       rfh_is_this_your_contact_info_comps.button_yes_continue.click
-    else
-      # TODO: logged in mat journey
     end
-
   end
 end

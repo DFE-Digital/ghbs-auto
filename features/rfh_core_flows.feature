@@ -22,6 +22,6 @@ Feature: GHBS - RFH - Core Flows
   Scenario: CORE-752: RFH - Flow 3 - Signed In - SAT - Service (Energy)
     Given I complete the RFH login as a user type of "verified"
     And as a logged in user I confirm our "Single Academy Trust" school is correct
-    #When I confirm I have a need for "service" and complete the associated flow
+    When I confirm I have a need for "service-energy" and complete the associated flow
     #And I complete the upload screens up to and including the Send your request screen
     #Then I successfully arrive on the Request sent screen

@@ -19,5 +19,3 @@ class RfhIsThisYourContactInfoComps
     find(:xpath, "//button[contains(.,'Yes, continue')]")
   end
 end
-
-

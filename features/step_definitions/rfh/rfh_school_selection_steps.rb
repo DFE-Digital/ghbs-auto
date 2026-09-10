@@ -7,4 +7,5 @@ end
 
 And(/^as a logged in user I confirm our "([^"]*)" school is correct$/) do |user_type|
   rfh_sign_in_methods.validate_logged_in_user_details(user_type)
+  rfh_logged_in_school_selection_methods.complete_which_school_are_you_buying_for(user_type)
 end
