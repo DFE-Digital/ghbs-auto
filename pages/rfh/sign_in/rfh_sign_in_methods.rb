@@ -44,8 +44,9 @@ class RfhSignInMethods < RfhBasePage
       rfh_do_you_have_a_dfe_signin_account_comps.radio_yes_use_dfe_sign_in.click
       rfh_do_you_have_a_dfe_signin_account_comps.button_continue.click
 
-      # Sign in to RFH
+      # Sign in to RFH as a SAT
       complete_dfe_signin
+
     end
 
     rfh_state.signed_in_state = user_type
@@ -58,6 +59,11 @@ class RfhSignInMethods < RfhBasePage
 
     # Complete signin as a SAT
     world.shared_global_methods.complete_dfe_signin_as("sat", "dev")
+
+    # Set email
+    email = fetch_secret!("rfh_test_user_login")
+    rfh_state.your_email_address = email
+    rfh_state.your_name = email_to_display_name(email)
 
     # Confirm were on the "Is this your contact information?" page
     expect(page).to have_current_path(%r{/procurement-support/confirm_sign_in}, url: true, wait: 10)

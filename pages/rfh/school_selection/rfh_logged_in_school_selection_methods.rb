@@ -22,6 +22,12 @@ class RfhLoggedInSchoolSelectionMethods < RfhBasePage
       rfh_which_school_are_you_buying_for_comps.radio_org_name("ALCESTER GRAMMAR SCHOOL").click
     end
 
+    rfh_state.single_or_multi = "single"
+    rfh_state.school_name = "ALCESTER GRAMMAR SCHOOL"
+    rfh_state.org_name = "ALCESTER GRAMMAR SCHOOL"
+    rfh_state.school_type_1 = "Single-academy Trust"
+    rfh_state.schools_your_buying_for = "1 of 1 schools" # normally we would calculate this for a MAT but this is a SAT hence is locked.
+
     # Move on to the next screen
     rfh_which_school_are_you_buying_for_comps.button_continue.click
   end

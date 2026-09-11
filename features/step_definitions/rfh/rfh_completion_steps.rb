@@ -18,3 +18,12 @@ And(/^I complete the upload screens up to and including the Send your request sc
   rfh_completion_methods.complete_how_did_you_find_screen
   rfh_completion_methods.complete_and_validate_send_your_request_screen
 end
+
+And(/^I complete the energy specific upload screens including the Send your request screen$/) do
+  rfh_energy_methods.complete_recent_energy_bill_upload_screen
+  rfh_energy_methods.complete_upload_your_energy_info
+  rfh_energy_methods.complete_your_energy_files_have_been_uploaded
+  rfh_completion_methods.complete_access_needs_screen
+  rfh_completion_methods.complete_how_did_you_find_screen
+  rfh_completion_methods.complete_and_validate_send_your_request_screen
+end

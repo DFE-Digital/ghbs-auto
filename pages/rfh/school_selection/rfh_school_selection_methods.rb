@@ -45,7 +45,7 @@ class RfhSchoolSelectionMethods < RfhBasePage
       single_school_org_selection
       rfh_state.single_or_multi = "single"
       verify_school_details_cya_single_school
-    when "Multi School"
+    when "Multi Academy Trust School"
       multi_school_org_selection
       rfh_state.single_or_multi = "multi"
       verify_school_details_cya_multi_school

@@ -63,6 +63,10 @@ class RfhSendYourRequestComps
     find(:xpath, "//dt[contains(.,'Origin')]/following-sibling::dd[1]")
   end
 
+  def text_bills_attached
+    find(:xpath, "//dt[contains(.,'Bills attached')]/following-sibling::dd[1]")
+  end
+
   def button_send_request
     find(:xpath, "//button[text()='Send request']")
   end
