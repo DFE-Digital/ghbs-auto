@@ -37,7 +37,8 @@ require "pages/cms/case/cms_case_evaluation_school_user_flow_methods"
 require "pages/cms/case/cms_case_handover_flow_methods"
 require "pages/cms/case/cms_case_handover_school_user_flow_methods"
 require "pages/cms/case/cms_case_email_and_file_methods"
-require "pages/user_management/test_user_management_util_methods"
+require "pages/utils/test_user_management_util_methods"
+require "pages/utils/manual_support_tools_methods"
 require "pages/fabs/contentful/contentful_login_methods"
 require "pages/fabs/contentful/contentful_edit_solution_methods"
 require "pages/fabs/contentful/contentful_api_methods"
@@ -321,6 +322,10 @@ module Pages
 
   def test_user_management_util_methods
     @test_user_management_util_methods ||= TestUserManagementUtilMethods.new(resolved_world)
+  end
+
+  def manual_support_tools_methods
+    @manual_support_tools_methods ||= ManualSupportToolsMethods.new(resolved_world)
   end
 end
 

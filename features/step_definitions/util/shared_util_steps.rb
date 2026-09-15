@@ -19,3 +19,7 @@ end
 Then(/^we see the confirmation message showing the user has been added to the org$/) do
   test_user_management_util_methods.review_details_to_completion
 end
+
+Given(/^we open and log all buying options to the console$/) do
+  manual_support_tools_methods.log_urls_from_all_buying_options
+end
