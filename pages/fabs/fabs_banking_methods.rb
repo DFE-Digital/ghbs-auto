@@ -17,8 +17,13 @@ class FabsBankingMethods < FabsBasePage
   include HttpApiHelpers
 
   def open_the_dfe_featured_savings_options_for_schools
-    # Open the Dfe Featured option "Savings options for schools" from the homepage
-    fabs_home_comps.link_dfe_featured_savings_options_for_schools.click
+    # Open Finance, legal and insurance from the homepage
+    fabs_home_comps.link_category_finance_legal_and_insurance.click
+    expect(page).to have_current_path(%r{/categories/finance-legal-insurance}, url: true, wait: 10)
+    expect(fabs_buying_option_comps.text_page_heading.text).to include("Finance, legal and insurance")
+
+    # Open the Related reading of "Savings options for schools"
+    fabs_shared_related_content_comps.link_savings_options_for_schools.click
     expect(page).to have_current_path(%r{/current-savings-accounts}, url: true, wait: 10)
     expect(fabs_buying_option_comps.text_page_heading.text).to include("Savings options for schools")
   end
