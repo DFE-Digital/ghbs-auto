@@ -31,7 +31,6 @@ And(/^I validate the core site pages are loading as expected$/) do
   fabs_nav_methods.navigate_to_first_available_buying_option_page
 
   # Search and buying option pages
-  fabs_nav_methods.navigate_to_all_buying_options_page
   fabs_nav_methods.navigate_to_search_page
 
   # About this service page

@@ -18,7 +18,11 @@ class RfhSignInMethods < RfhBasePage
   include LoggerHelpers
 
   def nav_to_rfh_start_page
-    fabs_home_comps.button_get_expert_buying_help.click
+    # Expand request help / start your request
+    fabs_home_comps.dropdown_start_your_request.click
+
+    # Click on the link in the "Fill in our short form and get help from our team of buying experts" text
+    fabs_home_comps.link_short_form_rfh.click
     expect(page).to have_current_path(%r{/procurement-support}, url: true, wait: 10)
     expect(rfh_start_comps.text_page_heading.text).to include("Request help and support for your procurement")
   end
