@@ -12,7 +12,6 @@ Given("I validate the category flow pages are loading correctly") do
 end
 
 Given("I validate the search and buying option pages are loading correctly") do
-  fabs_nav_methods.navigate_to_all_buying_options_page
   fabs_nav_methods.navigate_to_search_page
 end
 
