@@ -9,7 +9,7 @@ inherit_mode:
     - Exclude
 
 AllCops:
-  TargetRubyVersion: 3.4.5
+  TargetRubyVersion: 3.4
 
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: no_comma
