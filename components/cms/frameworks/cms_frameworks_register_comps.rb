@@ -7,6 +7,14 @@ class CmsFrameworksRegisterComps
     find(:xpath, "//a[text()='Frameworks Register']")
   end
 
+  def button_add_framework_xpath
+    "//a[@class='govuk-button' and text()='Add Framework']"
+  end
+
+  def button_add_framework
+    find(:xpath, button_add_framework_xpath)
+  end
+
   def input_search
     find(:xpath, "//input[@id='frameworks-filter-omnisearch-field']")
   end

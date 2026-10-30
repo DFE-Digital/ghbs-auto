@@ -15,8 +15,8 @@ class ContentfulLoginMethods < FabsBasePage
     expect(contentful_cms_login_comps.text_page_heading.text).to include("Welcome back")
 
     # Enter auto test user details
-    contentful_cms_login_comps.input_email_address.set(SECRETS["contentful_test_user_login"])
-    contentful_cms_login_comps.input_password.set(SECRETS["contentful_test_user_password"])
+    contentful_cms_login_comps.input_email_address.set(SECRETS["contentful_test_user_login_2"])
+    contentful_cms_login_comps.input_password.set(SECRETS["contentful_test_user_password_2"])
     contentful_cms_login_comps.button_login.click
 
     # Confirm you have landed in the GHBS space
@@ -27,7 +27,7 @@ class ContentfulLoginMethods < FabsBasePage
   def change_to_the_test_env
     # Choose the test env
     visit SECRETS["contentful_dev_env"]
-    expect(page).to have_current_path(%r{/environments/master/views/entries}, url: true, wait: 10)
+    expect(page).to have_current_path(%r{/environments/development/views/entries}, url: true, wait: 10)
 
     # Double check env in the top right info dropdown
     contentful_cms_login_landing_page_comps.text_current_environment_part_1

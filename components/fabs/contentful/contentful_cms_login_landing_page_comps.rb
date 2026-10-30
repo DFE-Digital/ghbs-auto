@@ -24,6 +24,6 @@ class ContentfulCmsLoginLandingPageComps
   end
 
   def text_current_environment_part_2
-    find(:xpath, "//button[@data-test-id='cf-ui-space-nav-space-trigger']//span[text()='master']")
+    find(:xpath, "//button[@data-test-id='cf-ui-space-nav-space-trigger']//span[text()='development']")
   end
 end
