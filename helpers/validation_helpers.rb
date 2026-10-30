@@ -28,6 +28,14 @@ module ValidationHelpers
     page.has_selector?(:xpath, xpath, wait: wait, **options)
   end
 
+  # Probably the simplest of the lot, when you just want a configurable is this element here over x time.
+  # Waits for 10 seconds by default, add more if needed. (note wants an xpath)
+  def wait_for_element(xpath, timeout: 10, visible: true)
+    find(:xpath, xpath, wait: timeout, visible: visible)
+  rescue Capybara::ElementNotFound
+    raise "Timed out after #{timeout}s waiting for element: #{xpath}"
+  end
+
   def fetch_secret!(key)
     value = SECRETS[key]
     if value.nil? || value.to_s.strip.empty?

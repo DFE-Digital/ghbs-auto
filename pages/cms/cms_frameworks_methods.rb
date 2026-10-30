@@ -20,6 +20,10 @@ class CmsFrameworksMethods < CmsBasePage
     expect(page).to have_current_path(%r{/frameworks#frameworks-register}, url: true, wait: 10)
     expect(cms_frameworks_register_comps.text_page_heading.text).to include("Frameworks Register")
 
+    # The Frameworks register is particularly slow at loading. As such we need an additional content check to ensure the page has loaded.
+    # Confirm the Add Framework button has appeared!
+    wait_for_element(cms_frameworks_register_comps.button_add_framework_xpath, timeout: 15, visible: true)
+
     # Find and select our framework from the list / narrow down the options
     cms_frameworks_register_comps.input_search.set(framework_state.title)
     cms_frameworks_register_comps.input_search.send_keys(:enter)
