@@ -8,7 +8,7 @@ class EnergyBeforeYouStartComps
   end
 
   def text_page_sub_heading
-    find(:xpath, "//h1/following-sibling::h2")
+    find(:xpath, "//h1/following-sibling::div/h2")
   end
 
   # Form completion
