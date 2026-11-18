@@ -16,4 +16,8 @@ class FabsSharedRelatedContentComps
   def link_breadcrumb
     find(:xpath, "//a[text()='Current accounts for schools']")
   end
+
+  def link_savings_options_for_schools
+    find(:xpath, "//a[text()='Savings options for schools']")
+  end
 end

@@ -41,17 +41,9 @@ class FabsNavMethods < FabsBasePage
 
   def navigate_to_search_page
     reset_to_homepage_via_logo
-    fabs_home_comps.button_main_search.click
+    world.fabs_home_page_methods.search_for("")
     expect(page).to have_current_path(%r{/search}, url: true, wait: 10)
     wait_for_element_to_include(fabs_search_comps.text_page_heading, "Search Get help buying for schools", timeout: 5)
-    axe_check! if FlagsGlobalConfig.axe_enabled?
-  end
-
-  def navigate_to_all_buying_options_page
-    reset_to_homepage_via_logo
-    fabs_home_comps.link_all_buying_options.click
-    expect(page).to have_current_path(%r{/solutions}, url: true, wait: 10)
-    wait_for_element_to_include(fabs_all_buying_options_comps.text_page_heading, "All buying options", timeout: 5)
     axe_check! if FlagsGlobalConfig.axe_enabled?
   end
 
@@ -62,7 +54,7 @@ class FabsNavMethods < FabsBasePage
     fabs_main_menu_dropdown_comps.button_main_dropdown_menu.click
     wait_for_element_to_include(fabs_main_menu_dropdown_comps.div_super_nav_menu, "Guidance and support", timeout: 5)
 
-    fabs_home_comps.link_expanded_top_menu_about_this_service.click
+    fabs_home_comps.link_mega_menu_about_our_service.click
     expect(page).to have_current_path(%r{/about-our-service}, url: true, wait: 10)
 
     wait_for_element_to_include(fabs_all_buying_options_comps.text_page_heading, "About our service", timeout: 5)

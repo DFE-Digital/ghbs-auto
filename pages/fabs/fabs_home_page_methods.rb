@@ -3,6 +3,7 @@
 require "pages/fabs/fabs_base_page"
 require "components/fabs/fabs_home_comps"
 require "components/fabs/fabs_search_comps"
+require "components/fabs/fabs_top_nav_comps"
 require "helpers/validation_helpers"
 
 class FabsHomePageMethods < FabsBasePage
@@ -17,8 +18,9 @@ class FabsHomePageMethods < FabsBasePage
 
   def search_for(term)
     # Search the term
-    fabs_home_comps.input_search_field.set(term)
-    fabs_home_comps.button_main_search.click
+    fabs_top_nav_comps.button_search.click
+    fabs_top_nav_comps.input_top_search.set(term)
+    fabs_top_nav_comps.button_top_search.click
 
     # confirm the page load
     wait_for_element_to_include(fabs_search_comps.text_page_heading, "Search Get help buying for schools", timeout: 5)
