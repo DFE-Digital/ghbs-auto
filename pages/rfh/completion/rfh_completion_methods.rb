@@ -52,18 +52,27 @@ class RfhCompletionMethods < RfhBasePage
     expect(page).to have_current_path(%r{/procurement-support/}, url: true, wait: 10)
     expect(rfh_send_your_request_comps.text_page_heading.text).to include("Send your request")
 
-    case rfh_state.single_or_multi
-    when "single"
-      validate_value_contains(rfh_state.school_type_2, rfh_send_your_request_comps.text_school_type.text)
-    when "multi"
-      # Validate multi specific details
+    # Energy override
+    if rfh_state.type_of_goods_or_service == "Electricity"
+      validate_value_contains(rfh_state.school_type_1, rfh_send_your_request_comps.text_school_type.text)
       validate_value_contains(rfh_state.schools_your_buying_for, rfh_send_your_request_comps.text_schools_your_buying_for.text)
       validate_value_contains(rfh_state.contract_length, rfh_send_your_request_comps.text_contract_length.text)
       validate_value_contains(rfh_state.contract_start_date, rfh_send_your_request_comps.text_contract_start_date.text)
-      validate_value_contains(rfh_state.documents_attached, rfh_send_your_request_comps.text_documents_attached.text)
-      validate_value_contains(rfh_state.school_type_1, rfh_send_your_request_comps.text_school_type.text)
+      validate_value_contains(rfh_state.bills_attached, rfh_send_your_request_comps.text_bills_attached.text)
     else
-      log.error "you haven't defined rfh_state.single_or_multi"
+      case rfh_state.single_or_multi
+      when "single"
+        validate_value_contains(rfh_state.school_type_2, rfh_send_your_request_comps.text_school_type.text)
+      when "multi"
+        # Validate multi specific details
+        validate_value_contains(rfh_state.schools_your_buying_for, rfh_send_your_request_comps.text_schools_your_buying_for.text)
+        validate_value_contains(rfh_state.contract_length, rfh_send_your_request_comps.text_contract_length.text)
+        validate_value_contains(rfh_state.contract_start_date, rfh_send_your_request_comps.text_contract_start_date.text)
+        validate_value_contains(rfh_state.documents_attached, rfh_send_your_request_comps.text_documents_attached.text)
+        validate_value_contains(rfh_state.school_type_1, rfh_send_your_request_comps.text_school_type.text)
+      else
+        log.error "you haven't defined rfh_state.single_or_multi"
+      end
     end
 
     # Validate all shared info from the previous screens

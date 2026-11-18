@@ -30,6 +30,7 @@ class RfhState
     contract_length
     contract_start_date
     documents_attached
+    bills_attached
   ].freeze
 
   # Create getters and setters for all current user attributes

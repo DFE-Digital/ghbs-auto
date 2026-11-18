@@ -8,6 +8,7 @@ require "components/rfh/goods_or_services/rfh_how_can_we_help_comps"
 require "components/rfh/goods_or_services/rfh_what_do_you_need_in_cleaning_comps"
 require "components/rfh/goods_or_services/rfh_how_long_do_you_want_contract_comps"
 require "components/rfh/goods_or_services/rfh_when_contract_start_comps"
+require "components/rfh/goods_or_services/rfh_what_do_you_need_in_energy_comps"
 require "helpers/validation_helpers"
 require "helpers/logger_helpers"
 require "helpers/unique_content_helpers"
@@ -32,8 +33,10 @@ class RfhGoodsAndServiceMethods < RfhBasePage
       # Store our info so far in the rfh_state dto to be validated against as we move through the app
       rfh_state.type_of_goods_or_service = "Furniture"
 
+      # Complete the remaining screens in this part of the flow up to the "how can we help" screen
       complete_approx_how_much_screen
       complete_how_can_we_help_screen
+
     when "service"
       # Select the "Cleaning" option.
       rfh_what_type_of_goods_and_services_comps.radio_cleaning.click
@@ -50,6 +53,29 @@ class RfhGoodsAndServiceMethods < RfhBasePage
       # Store our info so far in the rfh_state dto to be validated against as we move through the app
       rfh_state.type_of_goods_or_service = "Cleaning services"
 
+      # Complete the remaining screens in this part of the flow up to the "how can we help" screen
+      complete_how_long_contract_screen
+      complete_when_contract_start_screen
+      complete_approx_how_much_screen
+      complete_how_can_we_help_screen
+
+    when "service-energy"
+      # Select the "Energy and utilities" option
+      rfh_what_type_of_goods_and_services_comps.radio_energy_and_utilities.click
+      rfh_what_type_of_goods_and_services_comps.button_continue.click
+
+      # Confirm we are on the "What do you need in energy and utilities?" screen
+      expect(page).to have_current_path(%r{/procurement-support/categories/energy-and-utilities}, url: true, wait: 10)
+      expect(rfh_what_do_you_need_in_energy_comps.text_page_heading.text).to include("What do you need in energy and utilities?")
+
+      # Select the "Electricity" option and proceed
+      rfh_what_do_you_need_in_energy_comps.radio_electricity.click
+      rfh_what_do_you_need_in_energy_comps.button_continue.click
+
+      # Store our info so far in the rfh_state dto to be validated against as we move through the app
+      rfh_state.type_of_goods_or_service = "Electricity"
+
+      # Complete the remaining screens in this part of the flow up to the "how can we help" screen
       complete_how_long_contract_screen
       complete_when_contract_start_screen
       complete_approx_how_much_screen

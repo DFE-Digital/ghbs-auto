@@ -29,7 +29,7 @@ class RfhSchoolSelectionMethods < RfhBasePage
     case org_type
     when "Single School"
       rfh_what_type_of_org_comps.radio_a_single_school.click
-    when "Multi School"
+    when "Multi Academy Trust School"
       rfh_what_type_of_org_comps.radio_an_academy_trust_or_federation.click
     else
       log.error "Your step has the incorrect org type defined. Please set 'Single School' or 'Multi-School'"
@@ -45,7 +45,7 @@ class RfhSchoolSelectionMethods < RfhBasePage
       single_school_org_selection
       rfh_state.single_or_multi = "single"
       verify_school_details_cya_single_school
-    when "Multi School"
+    when "Multi Academy Trust School"
       multi_school_org_selection
       rfh_state.single_or_multi = "multi"
       verify_school_details_cya_multi_school

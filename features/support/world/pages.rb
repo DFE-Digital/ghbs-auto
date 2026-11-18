@@ -37,7 +37,8 @@ require "pages/cms/case/cms_case_evaluation_school_user_flow_methods"
 require "pages/cms/case/cms_case_handover_flow_methods"
 require "pages/cms/case/cms_case_handover_school_user_flow_methods"
 require "pages/cms/case/cms_case_email_and_file_methods"
-require "pages/user_management/test_user_management_util_methods"
+require "pages/utils/test_user_management_util_methods"
+require "pages/utils/manual_support_tools_methods"
 require "pages/fabs/contentful/contentful_login_methods"
 require "pages/fabs/contentful/contentful_edit_solution_methods"
 require "pages/fabs/contentful/contentful_api_methods"
@@ -58,6 +59,8 @@ require "pages/rfh/school_selection/rfh_school_selection_methods"
 require "pages/rfh/goods_and_service/rfh_goods_and_service_methods"
 require "pages/rfh/completion/rfh_completion_methods"
 require "pages/rfh/completion/rfh_upload_methods"
+require "pages/rfh/school_selection/rfh_logged_in_school_selection_methods"
+require "pages/rfh/completion/rfh_energy_methods"
 
 module Pages
   def resolved_world
@@ -304,6 +307,14 @@ module Pages
     @rfh_upload_methods ||= RfhUploadMethods.new(resolved_world)
   end
 
+  def rfh_logged_in_school_selection_methods
+    @rfh_logged_in_school_selection_methods ||= RfhLoggedInSchoolSelectionMethods.new(resolved_world)
+  end
+
+  def rfh_energy_methods
+    @rfh_energy_methods ||= RfhEnergyMethods.new(resolved_world)
+  end
+
   ##### SHARED PAGES #####
   def shared_global_methods
     @shared_global_methods ||= SharedGlobalMethods.new(resolved_world)
@@ -311,6 +322,10 @@ module Pages
 
   def test_user_management_util_methods
     @test_user_management_util_methods ||= TestUserManagementUtilMethods.new(resolved_world)
+  end
+
+  def manual_support_tools_methods
+    @manual_support_tools_methods ||= ManualSupportToolsMethods.new(resolved_world)
   end
 end
 
