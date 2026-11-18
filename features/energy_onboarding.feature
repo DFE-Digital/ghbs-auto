@@ -72,3 +72,11 @@ Feature: GHBS - Energy - Onboarding Flow
     Examples:
       | SchoolUser | SchoolName       |
       | MAT        | Hazelwick School |
+
+  Scenario Outline: CORE-977 - Energy Onboarding - MAT Journey - Blocked by RYI - Happy Path
+    Given we are logged in to the Energy Onboarding Flow as a <SchoolUser> School user
+    And we select <SchoolName> from the bullet list and start the onboarding journey
+    Then we are told to use the RYI flow and not complete the EFS flow
+    Examples:
+      | SchoolUser | SchoolName                |
+      | MAT        | ABBEY MULTI ACADEMY TRUST |
