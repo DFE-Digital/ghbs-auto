@@ -11,6 +11,7 @@ require "pages/energy/pre_login/energy_signin_flow_methods"
 require "pages/energy/journey_start/energy_school_selection_methods"
 require "pages/energy/journey_start/energy_are_you_authorised_page_methods"
 require "pages/energy/journey_start/energy_switching_selection_methods"
+require "pages/energy/journey_start/energy_school_selection_unavailable_methods"
 require "pages/energy/gas/energy_gas_contract_methods"
 require "pages/energy/gas/energy_gas_single_or_multi_methods"
 require "pages/energy/gas/energy_gas_meter_details_methods"
@@ -121,6 +122,10 @@ module Pages
 
   def energy_switching_selection_methods
     @energy_switching_selection_methods ||= EnergySwitchingSelectionMethods.new(resolved_world)
+  end
+
+  def energy_school_selection_unavailable_methods
+    @energy_school_selection_unavailable_methods ||= EnergySchoolSelectionUnavailableMethods.new(resolved_world)
   end
 
   ##### ENERGY PAGES: Gas #####

@@ -212,3 +212,7 @@ When(/^we complete an energy onboarding flow for both energy options$/) do
   # Logout of the system ready to sign in as CMS user
   energy_signin_flow_methods.sign_out_of_the_energy_flow
 end
+
+Then(/^we are told to use the RYI flow and not complete the EFS flow$/) do
+  energy_school_selection_unavailable_methods.confirm_individual_schools_only_page
+end
