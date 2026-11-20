@@ -15,4 +15,8 @@ class FabsFooterNavComps
   def link_privacy_notice
     find(:xpath, "//a[text()='Privacy notice']")
   end
+
+  def link_feedback
+    find(:xpath, "//a[text()='Feedback']")
+  end
 end
