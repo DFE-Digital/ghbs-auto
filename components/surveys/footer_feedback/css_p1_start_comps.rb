@@ -11,5 +11,4 @@ class CssP1StartComps
   def button_continue
     find(:xpath, "//button[text()='Continue']")
   end
-
 end

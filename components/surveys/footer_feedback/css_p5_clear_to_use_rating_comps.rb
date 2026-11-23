@@ -25,11 +25,10 @@ class CssP5ClearToUseRatingComps
   end
 
   def strongly_disagree
-  find(:xpath, "//input[@id='customer-satisfaction-survey-clear-to-use-rating-strongly-disagree-field']/following-sibling::label")
+    find(:xpath, "//input[@id='customer-satisfaction-survey-clear-to-use-rating-strongly-disagree-field']/following-sibling::label")
   end
 
   def button_continue
     find(:xpath, "//input[@value='Continue' and @name = 'commit']")
   end
-
 end

@@ -31,5 +31,4 @@ class CssP3EasyToUseRatingComps
   def button_continue
     find(:xpath, "//input[@value='Continue' and @name = 'commit']")
   end
-
 end

@@ -44,9 +44,7 @@ class CssP4HelpedHowComps
     find(:xpath, "//textarea[@id='customer-satisfaction-survey-helped-how-other-field']")
   end
 
-
   def button_continue
     find(:xpath, "//input[@value='Continue' and @name = 'commit']")
   end
-
 end
