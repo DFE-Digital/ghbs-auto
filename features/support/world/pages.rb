@@ -62,6 +62,7 @@ require "pages/rfh/completion/rfh_completion_methods"
 require "pages/rfh/completion/rfh_upload_methods"
 require "pages/rfh/school_selection/rfh_logged_in_school_selection_methods"
 require "pages/rfh/completion/rfh_energy_methods"
+require "pages/surveys/footer_feedback/css_methods"
 
 module Pages
   def resolved_world
@@ -318,6 +319,12 @@ module Pages
 
   def rfh_energy_methods
     @rfh_energy_methods ||= RfhEnergyMethods.new(resolved_world)
+  end
+
+  ##### SURVEY - CSS: Customer Satisfaction Survey PAGES #####
+
+  def css_methods
+    @css_methods ||= CssMethods.new(resolved_world)
   end
 
   ##### SHARED PAGES #####
