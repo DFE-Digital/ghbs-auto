@@ -5,8 +5,8 @@ Feature: GHBS - Surveys
 
   @wip
   Scenario: CORE-760-1: FABS - Customer Satisfaction Survey - Via the footer link
-    Given I access the Feedback Survay via the footer link
-    And complete the feedback survay screens with standard responses
+    Given I access the Feedback Survey via the footer link
+    And complete the feedback survey screens with standard responses
     #Then I successfully arrive on the Thank you screen
 
 
