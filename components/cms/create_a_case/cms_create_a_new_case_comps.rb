@@ -12,7 +12,7 @@ class CmsCreateANewCaseComps
   end
 
   def dropdown_select_org_based_on_ukprn(ukprn)
-    find(:xpath, "//ul[@id='school-urn-autocomplete__listbox']/li[contains(.,'#{ukprn}')]")
+    find(:xpath, "//ul[@id='case_request_organisation_name__listbox']/li[contains(.,'#{ukprn}')]")
   end
 
   def input_contact_first_name
