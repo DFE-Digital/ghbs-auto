@@ -49,5 +49,5 @@ module CapybaraChromeResetPatch
 end
 
 Capybara::Selenium::Driver::ChromeDriver.prepend(
-  CapybaraChromeResetPatch,
+  CapybaraChromeResetPatch
 )
